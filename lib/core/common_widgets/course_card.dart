@@ -12,6 +12,7 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var textTh = Theme.of(context).textTheme;
     return Container(
       width: double.infinity,
       height: 140,
@@ -41,7 +42,13 @@ class CourseCard extends StatelessWidget {
           const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(course.title),
+            child: Text(
+              course.title,
+              style: const TextStyle(
+                color: AppColors.mainBlue,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
           const SizedBox(height: 5),
           Padding(
@@ -52,11 +59,28 @@ class CourseCard extends StatelessWidget {
                   "assets/svgs/topics.svg",
                   width: 12,
                   height: 12,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.mainBlue,
+                    BlendMode.srcIn,
+                  ),
                 ),
                 const SizedBox(width: 4),
                 Text("${course.topics} Topics"),
                 const Spacer(),
-                Text("${course.saves} Saves"),
+                SizedBox(
+                    child: Column(
+                  children: [
+                    const Icon(
+                      Icons.bookmark,
+                      color: AppColors.mainBlue,
+                      size: 20,
+                    ),
+                    Text(
+                      "${course.saves} Saves",
+                      style: textTh.labelSmall,
+                    ),
+                  ],
+                )),
               ],
             ),
           )

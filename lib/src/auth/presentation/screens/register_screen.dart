@@ -43,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 25),
               SizedBox(
-                height: size.height * .57,
+                height: size.height * .5,
                 width: size.width * .75,
                 child: Form(
                   key: _key,
@@ -102,45 +102,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 12),
-                      InputWidget(
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'enter correct name';
-                          }
-                          return null;
-                        },
-                        hintText: 'Password',
-                        obscure: true,
-                        onSaved: (value) {
-                          setState(() {
-                            password = value;
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        'Confirm Password',
-                        style: textTh.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      InputWidget(
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'enter correct name';
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.phone,
-                        hintText: 'Phone Number',
-                        onSaved: (value) {
-                          setState(() {
-                            phone = value;
-                          });
-                        },
-                      ),
+                      // const SizedBox(height: 12),
+                      // InputWidget(
+                      //   validator: (value) {
+                      //     if (value.isEmpty) {
+                      //       return 'enter correct name';
+                      //     }
+                      //     return null;
+                      //   },
+                      //   hintText: 'Password',
+                      //   obscure: true,
+                      //   onSaved: (value) {
+                      //     setState(() {
+                      //       password = value;
+                      //     });
+                      //   },
+                      // ),
+                      // const SizedBox(height: 20),
+                      // Text(
+                      //   'Confirm Password',
+                      //   style: textTh.bodyLarge!.copyWith(
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
+                      // const SizedBox(height: 12),
+                      // InputWidget(
+                      //   validator: (value) {
+                      //     if (value.isEmpty) {
+                      //       return 'enter correct name';
+                      //     }
+                      //     return null;
+                      //   },
+                      //   keyboardType: TextInputType.phone,
+                      //   hintText: 'Phone Number',
+                      //   onSaved: (value) {
+                      //     setState(() {
+                      //       phone = value;
+                      //     });
+                      //   },
+                      // ),
                       const SizedBox(height: 15),
                       Align(
                         alignment: Alignment.centerRight,
@@ -174,6 +174,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           onPressed: () {
                             //if (_key.currentState!.validate()) {}
+                            print("hhh");
                             Navigator.of(context)
                                 .pushReplacementNamed(Routes.profileAdd);
                           },

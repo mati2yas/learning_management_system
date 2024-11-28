@@ -108,40 +108,10 @@ class _ProfileAddScreenState extends State<ProfileAddScreen> {
                         ),
                       ),
                       const SizedBox(height: 35),
-                      Center(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            //backgroundColor: Colors.black,
-                            backgroundColor: AppColors.mainBlue,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 50,
-                              vertical: 15,
-                            ),
-                            fixedSize: Size(size.width * 0.7, 60),
-                            minimumSize: Size(size.width * 0.55, 45),
-                            maximumSize: Size(size.width * 0.75, 80),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          onPressed: () {
-                            if (_key.currentState!.validate()) {}
-                          },
-                          child: Text(
-                            'Profile',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: size.width * 0.04,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
               ),
-              //const SizedBox(height: 30),
               SizedBox(
                 width: double.infinity,
                 child: Row(
