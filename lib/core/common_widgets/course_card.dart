@@ -5,9 +5,12 @@ import 'package:lms_system/features/shared_course/model/shared_course_model.dart
 
 class CourseCard extends StatelessWidget {
   final Course course;
-  const CourseCard({
+  Function? onBookmark;
+
+  CourseCard({
     super.key,
     required this.course,
+    this.onBookmark,
   });
 
   @override
@@ -27,17 +30,38 @@ class CourseCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-            child: Image.asset(
-              "assets/images/${course.image}",
-              height: 100,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+                child: Image.asset(
+                  "assets/images/${course.image}",
+                  height: 100,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                top: -13,
+                right: 10,
+                child: IconButton(
+                  onPressed: () {
+                    print("press?");
+                    if (onBookmark != null) {
+                      onBookmark!();
+                    }
+                  },
+                  icon: Icon(
+                    course.saved ? Icons.bookmark : Icons.bookmark_outline,
+                    color: AppColors.mainBlue,
+                    size: 35,
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 8),
           Padding(
@@ -67,20 +91,39 @@ class CourseCard extends StatelessWidget {
                 const SizedBox(width: 4),
                 Text("${course.topics} Topics"),
                 const Spacer(),
-                SizedBox(
-                    child: Column(
-                  children: [
-                    const Icon(
-                      Icons.bookmark,
-                      color: AppColors.mainBlue,
-                      size: 20,
+                if (!course.subscribed)
+                  FilledButton(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.mainBlue,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          10,
+                        ),
+                      ),
                     ),
-                    Text(
-                      "${course.saves} Saves",
-                      style: textTh.labelSmall,
+                    onPressed: () {
+                      print("course subbed? ${course.subscribed}");
+                    },
+                    child: const Row(
+                      children: [
+                        Text("Buy"),
+                        Icon(
+                          Icons.lock,
+                        ),
+                      ],
                     ),
-                  ],
-                )),
+                  )
+                // SizedBox(
+                //   child: Column(
+                //     children: [
+                //       Text(
+                //         "${course.saves} Saves",
+                //         style: textTh.labelSmall,
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           )

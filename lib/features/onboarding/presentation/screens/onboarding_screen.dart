@@ -50,59 +50,87 @@ class _OnboardingPageState extends State<OnboardingPage> {
             bottom: 30,
             left: 0,
             right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (_currentPage != 2)
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   TextButton(
                     onPressed: () {
-                      setState(() {
-                        _currentPage = 2;
-                        _pageController.jumpToPage(2);
-                      });
+                      if (_currentPage < 2) {
+                        setState(() {
+                          _currentPage = 2;
+                          _pageController.jumpToPage(2);
+                        });
+                      } else {
+                        Navigator.of(context)
+                            .pushReplacementNamed(Routes.signup);
+                      }
                     },
-                    child: const Text(
+                    child: Text(
                       "Skip",
                       style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
+                        color: _currentPage == 2
+                            ? AppColors.mainBlue
+                            : Colors.black,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                const Spacer(),
-                // the three dots
-                ...List.generate(3, (index) {
-                  return AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
-                    height: _currentPage == index ? 25 : 18,
-                    width: _currentPage == index ? 10 : 8,
-                    decoration: BoxDecoration(
-                      color: AppColors.mainBlue,
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                  );
-                }),
-                const Spacer(),
-                if (_currentPage == 2)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.mainBlue,
-                      child: IconButton(
-                        color: Colors.white,
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(Routes.signup);
-                        },
-                        icon: const Icon(
-                          Icons.arrow_forward,
+
+                  const Spacer(),
+                  // the three dots
+                  ...List.generate(3, (index) {
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                      height: _currentPage == index ? 25 : 18,
+                      width: _currentPage == index ? 10 : 8,
+                      decoration: BoxDecoration(
+                        color: AppColors.mainBlue,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    );
+                  }),
+                  const Spacer(),
+                  if (_currentPage == 2)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: CircleAvatar(
+                        backgroundColor: AppColors.mainBlue,
+                        child: IconButton(
                           color: Colors.white,
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(Routes.signup);
+                          },
+                          icon: const Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-              ],
+                    )
+                  else
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: CircleAvatar(
+                        backgroundColor: AppColors.mainBlue,
+                        child: IconButton(
+                          color: Colors.white,
+                          onPressed: () {
+                            _currentPage = _currentPage + 1;
+                            _pageController.jumpToPage(_currentPage);
+                          },
+                          icon: const Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
+                ],
+              ),
             ),
           ),
         ],

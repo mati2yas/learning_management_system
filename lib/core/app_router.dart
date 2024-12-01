@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lms_system/features/auth/presentation/screens/login_screen.dart';
 import 'package:lms_system/features/auth/presentation/screens/profile_add.dart';
 import 'package:lms_system/features/auth/presentation/screens/register_screen.dart';
+import 'package:lms_system/features/courses/presentation/screens/course_detail.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:lms_system/features/profile/presentation/screens/profile_screen.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
+import 'package:lms_system/features/shared_course/model/shared_course_model.dart';
 import 'package:lms_system/features/wrapper/presentation/screens/wrapper_screen.dart';
 
 import '../features/courses/presentation/screens/courses_screen.dart';
@@ -30,8 +32,17 @@ class Approuter {
 
       case Routes.profileAdd:
         return MaterialPageRoute(builder: (_) => const ProfileAddScreen());
+
       case Routes.courses:
         return MaterialPageRoute(builder: (_) => const CoursePage());
+
+      case Routes.courseDetails:
+        final course = settings.arguments as Course;
+        return MaterialPageRoute(
+          builder: (_) => CourseDetailPage(
+            course: course,
+          ),
+        );
 
       case Routes.saved:
         return MaterialPageRoute(builder: (_) => const SavedCoursesPage());
@@ -67,6 +78,7 @@ class Routes {
   static const String profileAdd = "profile_add";
   static const String signup = "signup";
   static const String courses = "courses";
+  static const String courseDetails = "courseDetails";
   static const String saved = "saved";
   static const String profile = "profile";
 }
