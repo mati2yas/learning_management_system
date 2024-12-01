@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/src/shared_course/model/shared_course_model.dart';
+import 'package:lms_system/features/shared_course/model/shared_course_model.dart';
 
 class ListTilewidget extends StatelessWidget {
   final Course course;

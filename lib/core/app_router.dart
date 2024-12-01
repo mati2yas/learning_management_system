@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/src/auth/presentation/screens/login_screen.dart';
-import 'package:lms_system/src/auth/presentation/screens/profile_add.dart';
-import 'package:lms_system/src/auth/presentation/screens/register_screen.dart';
-import 'package:lms_system/src/home/presentation/screens/home_screen.dart';
-import 'package:lms_system/src/onboarding/presentation/screens/onboarding_screen.dart';
-import 'package:lms_system/src/profile/presentation/screens/profile_screen.dart';
-import 'package:lms_system/src/saved/presentation/screens/saved_screen.dart';
-import 'package:lms_system/src/wrapper/presentation/screens/wrapper_screen.dart';
+import 'package:lms_system/features/auth/presentation/screens/login_screen.dart';
+import 'package:lms_system/features/auth/presentation/screens/profile_add.dart';
+import 'package:lms_system/features/auth/presentation/screens/register_screen.dart';
+import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
+import 'package:lms_system/features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:lms_system/features/profile/presentation/screens/profile_screen.dart';
+import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
+import 'package:lms_system/features/wrapper/presentation/screens/wrapper_screen.dart';
 
-import '../src/courses/presentation/screens/courses_screen.dart';
+import '../features/courses/presentation/screens/courses_screen.dart';
 
 class Approuter {
   static Route<dynamic> generateRoute(RouteSettings settings) {

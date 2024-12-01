@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/src/home/presentation/widgets/carousel.dart';
-import 'package:lms_system/src/home/presentation/widgets/category_indicator.dart';
-import 'package:lms_system/src/shared_course/model/shared_course_model.dart';
-import 'package:lms_system/src/shared_course/model/shared_user.dart';
+import 'package:lms_system/features/home/presentation/widgets/carousel.dart';
+import 'package:lms_system/features/home/presentation/widgets/category_indicator.dart';
+import 'package:lms_system/features/shared_course/model/shared_course_model.dart';
+import 'package:lms_system/features/shared_course/model/shared_user.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

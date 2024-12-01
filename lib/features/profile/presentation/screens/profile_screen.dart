@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/src/shared_course/model/shared_user.dart';
+import 'package:lms_system/features/shared_course/model/shared_user.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

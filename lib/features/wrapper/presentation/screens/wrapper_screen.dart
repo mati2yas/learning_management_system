@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/src/courses/presentation/screens/courses_screen.dart';
-import 'package:lms_system/src/home/presentation/screens/home_screen.dart';
-import 'package:lms_system/src/profile/presentation/screens/profile_screen.dart';
-import 'package:lms_system/src/saved/presentation/screens/saved_screen.dart';
+import 'package:lms_system/features/courses/presentation/screens/courses_screen.dart';
+import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
+import 'package:lms_system/features/profile/presentation/screens/profile_screen.dart';
+import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
 
 import '../../provider/drawer_provider.dart';
 import '../../provider/wrapper_provider.dart';

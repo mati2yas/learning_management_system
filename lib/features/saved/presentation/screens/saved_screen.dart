@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/src/shared_course/model/shared_course_model.dart';
+import 'package:lms_system/features/shared_course/model/shared_course_model.dart';
 
 import '../widgets/courses_list.dart';
 class SavedCoursesPage extends StatefulWidget {
