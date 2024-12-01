@@ -96,9 +96,10 @@ class CourseCard extends StatelessWidget {
                     style: FilledButton.styleFrom(
                       backgroundColor: AppColors.mainBlue,
                       foregroundColor: Colors.white,
+                      fixedSize: const Size(50, 30),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                          10,
+                          8,
                         ),
                       ),
                     ),

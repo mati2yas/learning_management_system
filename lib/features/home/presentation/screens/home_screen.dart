@@ -1,139 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/home/presentation/widgets/carousel.dart';
 import 'package:lms_system/features/home/presentation/widgets/category_indicator.dart';
-import 'package:lms_system/features/shared_course/model/shared_course_model.dart';
-import 'package:lms_system/features/shared_course/model/shared_user.dart';
 
-import '../../../shared_course/model/chapter.dart';
+import '../../provider/home_provider.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  PageController ctrl = PageController();
-  User user = User(
-    name: "Biruk",
-    lastName: "Lemma",
-    email: "Biruk@gmail.com",
-    password: "123",
-    bio: "mi casa es tu casa",
-    image: "image.png",
-  );
-  List<Course> courses = [
-    Course(
-      title: "Web Design",
-      desc: "web design",
-      topics: 21,
-      saves: 7,
-      image: "web_design.png",
-      chapters: [
-        Chapter(
-          name: "Chapter 2",
-          title: "Introduction to Web Design",
-          videos: [
-            Video(title: "What is Web Design?", duration: "10:23"),
-            Video(title: "Tools for Web Design", duration: "15:45"),
-          ],
-        ),
-        Chapter(
-          name: "Chapter 2",
-          title: "HTML Basics",
-          videos: [
-            Video(title: "HTML Structure", duration: "12:34"),
-            Video(title: "HTML Tags", duration: "18:50"),
-          ],
-        ),
-      ],
-    ),
-    Course(
-      title: "Marketing",
-      desc: "web design",
-      topics: 21,
-      saves: 7,
-      image: "marketing_course.png",
-      chapters: [
-        Chapter(
-          name: "Chapter 2",
-          title: "Introduction to Web Design",
-          videos: [
-            Video(title: "What is Web Design?", duration: "10:23"),
-            Video(title: "Tools for Web Design", duration: "15:45"),
-          ],
-        ),
-        Chapter(
-          name: "Chapter 2",
-          title: "HTML Basics",
-          videos: [
-            Video(title: "HTML Structure", duration: "12:34"),
-            Video(title: "HTML Tags", duration: "18:50"),
-          ],
-        ),
-      ],
-    ),
-    Course(
-      title: "Applied Mathematics",
-      desc: "web design",
-      topics: 21,
-      saves: 7,
-      image: "applied_math.png",
-      chapters: [
-        Chapter(
-          name: "Chapter 2",
-          title: "Introduction to Web Design",
-          videos: [
-            Video(title: "What is Web Design?", duration: "10:23"),
-            Video(title: "Tools for Web Design", duration: "15:45"),
-          ],
-        ),
-        Chapter(
-          name: "Chapter 2",
-          title: "HTML Basics",
-          videos: [
-            Video(title: "HTML Structure", duration: "12:34"),
-            Video(title: "HTML Tags", duration: "18:50"),
-          ],
-        ),
-      ],
-    ),
-    Course(
-      title: "Accounting",
-      desc: "web design",
-      topics: 21,
-      saves: 7,
-      image: "accounting_course.png",
-      chapters: [
-        Chapter(
-          name: "Chapter 2",
-          title: "Introduction to Web Design",
-          videos: [
-            Video(title: "What is Web Design?", duration: "10:23"),
-            Video(title: "Tools for Web Design", duration: "15:45"),
-          ],
-        ),
-        Chapter(
-          name: "Chapter 2",
-          title: "HTML Basics",
-          videos: [
-            Video(title: "HTML Structure", duration: "12:34"),
-            Video(title: "HTML Tags", duration: "18:50"),
-          ],
-        ),
-      ],
-    ),
-  ];
-  Map<String, String> pageviewParts = {
-    "tag": "What would you like to learn today ?",
-    "img": "university.png",
-  };
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider);
+    final courses = ref.watch(coursesProvider);
+    final pageviewParts = ref.watch(pageviewPartsProvider);
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
     return Scaffold(
@@ -222,7 +104,6 @@ class _HomePageState extends State<HomePage> {
               width: size.width * 0.8,
               height: 140,
               child: PageView.builder(
-                controller: ctrl,
                 itemBuilder: (_, index) {
                   return CarouselPage(
                     tag: pageviewParts["tag"]!,
@@ -289,6 +170,7 @@ class _HomePageState extends State<HomePage> {
               height: size.height * 0.5,
               width: double.infinity,
               child: GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 10,

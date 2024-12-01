@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
 
 import '../../../shared_course/model/chapter.dart';
@@ -22,7 +23,7 @@ class ChapterTile extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
       ),
       child: SizedBox(
-        height: 120,
+        height: 100,
         child: Row(
           children: <Widget>[
             ClipRRect(
@@ -31,8 +32,8 @@ class ChapterTile extends StatelessWidget {
                   bottomLeft: Radius.circular(10.0),
                 ),
                 child: SizedBox(
-                  width: 120,
-                  height: 120,
+                  width: 100,
+                  height: 100,
                   child: Image.asset(
                     "assets/images/applied_math.png",
                     fit: BoxFit.cover,
@@ -40,7 +41,7 @@ class ChapterTile extends StatelessWidget {
                 )),
             Expanded(
                 child: Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 12.0, 18, 8.0),
+              padding: const EdgeInsets.fromLTRB(6.0, 10.0, 15, 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -89,13 +90,19 @@ class ChapterTile extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: CircleAvatar(
-                      radius: 18,
+                      radius: 16,
                       backgroundColor: AppColors.mainBlue,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.arrow_forward,
-                          color: Colors.white,
+                      child: Center(
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(
+                                Routes.chapterDetails,
+                                arguments: chapter);
+                          },
+                          icon: const Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),

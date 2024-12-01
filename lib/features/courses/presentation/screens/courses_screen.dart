@@ -197,6 +197,7 @@ class CoursePage extends ConsumerWidget {
             height: 266,
             width: double.infinity,
             child: GridView(
+              physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 mainAxisExtent: 125,
                 crossAxisCount: 2,
@@ -235,6 +236,7 @@ class CoursePage extends ConsumerWidget {
             height: size.height * 0.5,
             width: double.infinity,
             child: GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,

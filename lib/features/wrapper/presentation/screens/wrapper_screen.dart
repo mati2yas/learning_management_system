@@ -124,7 +124,7 @@ class WrapperScreen extends ConsumerWidget {
         backgroundColor: Colors.white,
         key: drKey,
         drawer: const Drawer(
-          child: DrawerW(),
+          child: CustomDrawer(),
         ),
         body: Stack(
           children: [

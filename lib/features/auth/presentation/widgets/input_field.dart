@@ -21,7 +21,7 @@ class InputWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 50,
+      height: 40,
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.grey.shade300,
@@ -43,7 +43,8 @@ class InputWidget extends StatelessWidget {
             hintText: hintText,
             hintStyle: const TextStyle(
               color: AppColors.darkerGrey,
-              fontWeight: FontWeight.w600,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
