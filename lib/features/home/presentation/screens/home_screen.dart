@@ -6,6 +6,7 @@ import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/home/presentation/widgets/carousel.dart';
 import 'package:lms_system/features/home/presentation/widgets/category_indicator.dart';
 
+import '../../../courses/provider/courses_provider.dart';
 import '../../provider/home_provider.dart';
 
 class HomePage extends ConsumerWidget {
@@ -14,7 +15,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider);
-    final courses = ref.watch(coursesProvider);
+    final courses = ref.watch(courseProvider);
     final pageviewParts = ref.watch(pageviewPartsProvider);
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
@@ -177,7 +178,13 @@ class HomePage extends ConsumerWidget {
                   crossAxisSpacing: 10,
                 ),
                 itemBuilder: (_, index) {
-                  return CourseCard(course: courses[index]);
+                  return CourseCard(
+                      onBookmark: () {
+                        ref
+                            .read(courseProvider.notifier)
+                            .toggleSaved(courses[index]);
+                      },
+                      course: courses[index]);
                 },
                 itemCount: courses.length,
               ),
