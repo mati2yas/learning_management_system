@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/features/courses/presentation/screens/course_detail.dart';
+import 'package:lms_system/core/app_router.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../model/categories_sub_categories.dart';
@@ -18,10 +18,9 @@ class CategoryShow extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => CourseDetailPage(category: category),
-          ),
+        Navigator.of(context).pushNamed(
+          Routes.courseDetails,
+          arguments: category,
         );
       },
       child: Container(

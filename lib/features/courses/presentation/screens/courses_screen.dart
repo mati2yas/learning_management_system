@@ -145,7 +145,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
-import 'package:lms_system/features/courses/data_source/category_sub_category_ds.dart';
+import 'package:lms_system/features/courses/data_source/course_detail_data_source.dart';
 
 import '../../../../core/app_router.dart';
 import '../../provider/courses_provider.dart';
@@ -205,27 +205,11 @@ class CoursePage extends ConsumerWidget {
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 15,
               ),
-              children: [
-                ...categoriesData.map(
-                  (e) => CategoryShow(category: e),
-                ),
-                // const CategoryShow(
-                //   label: "For High School",
-                //   image: "high_school.png",
-                // ),
-                // const CategoryShow(
-                //   label: "For University",
-                //   image: "university.png",
-                // ),
-                // const CategoryShow(
-                //   label: "For Lower Grades",
-                //   image: "lower_grades.png",
-                // ),
-                // const CategoryShow(
-                //   label: "For High School",
-                //   image: "high_school.png",
-                // ),
-              ],
+              children: categoriesData
+                  .map(
+                    (e) => CategoryShow(category: e),
+                  )
+                  .toList(),
             ),
           ),
           const SizedBox(height: 25),

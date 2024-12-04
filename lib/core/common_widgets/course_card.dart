@@ -48,6 +48,9 @@ class CourseCard extends StatelessWidget {
                 top: -13,
                 right: 10,
                 child: IconButton(
+                  style: IconButton.styleFrom(
+                    fixedSize: const Size(40, 20),
+                  ),
                   onPressed: () {
                     print("press?");
                     if (onBookmark != null) {
