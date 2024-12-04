@@ -1,32 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/features/courses/presentation/widgets/capter_tile.dart';
 
-import '../../../shared_course/model/shared_course_model.dart';
-import '../../provider/courses_provider.dart';
+import '../../model/categories_sub_categories.dart';
 
 class CourseDetailPage extends ConsumerWidget {
-  final Course course;
+  final CourseCategory category;
 
-  const CourseDetailPage({super.key, required this.course});
+  const CourseDetailPage({
+    super.key,
+    required this.category,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final courseNotifier = ref.read(courseProvider.notifier);
+    //final courseNotifier = ref.read(courseProvider.notifier);
+    var size = MediaQuery.of(context).size;
+    var textTh = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(course.title),
+        title: Text(category.name),
         centerTitle: true,
+        elevation: 3,
+        backgroundColor: Colors.white,
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-        itemCount: course.chapters.length,
-        itemBuilder: (BuildContext context, int index) {
-          var chapter = course.chapters[index];
-          return ChapterTile(chapter: chapter);
-        },
-        separatorBuilder: (context, index) => const SizedBox(height: 20),
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Categories",
+                  style: textTh.bodyLarge!.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: size.height * 0.8,
+              width: double.infinity,
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemBuilder: (_, index) {
+                  return null;
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
