@@ -285,20 +285,6 @@ final lowerGrades = [
       ),
     ],
   ),
-  CourseCategory(
-    id: 'lower_grades',
-    name: 'Lower Grades',
-    categoryType: CategoryType.lowerGrade,
-    grades: [
-      Grade(
-        id: '1st',
-        name: '1st Grade',
-        courses: [
-          //Course(title: title, desc: desc, topics: topics, saves: saves, image: image, chapters: chapters)
-        ],
-      ),
-    ],
-  ),
 ];
 
 final university = [

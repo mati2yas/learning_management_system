@@ -7,11 +7,16 @@ final pageNavigationProvider =
 });
 
 class PageNavigationController extends StateNotifier<int> {
+  Map<int, dynamic> pageArguments = {};
+
   PageNavigationController() : super(0);
 
-  void goBackToPreviousPage(int previousPage) => state = previousPage;
+  dynamic getArgumentsForPage(int index) => pageArguments[index];
 
-  void navigatePage(int page) => state = page;
-
-  void resetToHome() => state = 0;
+  void navigatePage(int index, {dynamic arguments}) {
+    if (arguments != null) {
+      pageArguments[index] = arguments;
+    }
+    state = index;
+  }
 }

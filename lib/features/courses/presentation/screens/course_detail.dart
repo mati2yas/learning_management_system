@@ -23,6 +23,7 @@ class _CourseDetailPageState extends ConsumerState<CourseDetailPage> {
   @override
   Widget build(BuildContext context) {
     var category = widget.category;
+    print("{name: ${category.name}, type: ${category.categoryType.name}}");
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
 
@@ -38,7 +39,7 @@ class _CourseDetailPageState extends ConsumerState<CourseDetailPage> {
             preferredSize: Size(size.width, 120),
             child: SizedBox(
               width: size.width,
-              height: 120,
+              height: 140,
               child: Column(
                 children: [
                   SearchBar(

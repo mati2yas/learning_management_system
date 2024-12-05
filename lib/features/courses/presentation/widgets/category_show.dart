@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/core/app_router.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../model/categories_sub_categories.dart';
 
 class CategoryShow extends StatelessWidget {
   final CourseCategory category; // Accept the Category model
+  final Function onTap;
 
   const CategoryShow({
     super.key,
     required this.category,
+    required this.onTap,
   });
 
   @override
@@ -18,10 +19,7 @@ class CategoryShow extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          Routes.courseDetails,
-          arguments: category,
-        );
+        onTap();
       },
       child: Container(
         width: double.infinity,
