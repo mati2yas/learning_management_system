@@ -1,7 +1,20 @@
+import 'package:lms_system/features/courses/data_source/course_detail_data_source.dart';
+
 import '../../shared_course/model/chapter.dart';
 import '../../shared_course/model/shared_course_model.dart';
+import '../model/categories_sub_categories.dart';
 
 class CourseDataSource {
+  List<CourseCategory> fetchCourseFromGrade(
+    CategoryType categoryType,
+    Grade grade,
+  ) {
+    return categoriesData.where((catData) {
+      return catData.grades.contains(grade) &&
+          catData.categoryType == categoryType;
+    }).toList();
+  }
+
   List<Course> fetchCourses() {
     return [
       Course(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
 
+import '../../../wrapper/provider/wrapper_provider.dart';
 import '../../model/categories_sub_categories.dart';
 
 class CoursesPerCategoryListPage extends ConsumerStatefulWidget {
@@ -27,6 +28,7 @@ class _CourseDetailPageState extends ConsumerState<CoursesPerCategoryListPage>
     var category = widget.category;
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
+    final pageController = ref.read(pageNavigationProvider.notifier);
 
     // Determine dropdown items dynamically
     List<String> dropdownItems = [];
@@ -43,6 +45,12 @@ class _CourseDetailPageState extends ConsumerState<CoursesPerCategoryListPage>
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            pageController.navigatePage(1);
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: Text(category.name),
         centerTitle: true,
         elevation: 3,
@@ -130,10 +138,16 @@ class _CourseDetailPageState extends ConsumerState<CoursesPerCategoryListPage>
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
+                childAspectRatio: 0.8,
               ),
               itemCount: selectedCourses.length,
               itemBuilder: (_, index) {
-                return CourseCard(course: selectedCourses[index]);
+                return GestureDetector(
+                  onTap: () {
+                    pageController.navigatePage(5, arguments: category);
+                  },
+                  child: CourseCard(course: selectedCourses[index]),
+                );
               },
             );
           }).toList(),

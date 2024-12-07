@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
 
 // Riverpod provider for the controller
 final pageNavigationProvider =
@@ -11,7 +12,12 @@ class PageNavigationController extends StateNotifier<int> {
 
   PageNavigationController() : super(0);
 
-  dynamic getArgumentsForPage(int index) => pageArguments[index];
+  CourseCategory? getArgumentsForPage(int index) {
+    if (pageArguments.containsKey(index)) {
+      return pageArguments[index] as CourseCategory?;
+    }
+    return null;
+  }
 
   void navigatePage(int index, {dynamic arguments}) {
     if (arguments != null) {

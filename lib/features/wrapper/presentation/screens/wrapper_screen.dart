@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/features/courses/presentation/screens/course_content_page.dart';
 import 'package:lms_system/features/courses/presentation/screens/courses_per_category_list.dart';
 import 'package:lms_system/features/courses/presentation/screens/courses_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
@@ -92,6 +93,7 @@ class WrapperScreen extends ConsumerWidget {
       CoursesPerCategoryListPage(
         category: currentCategory,
       ),
+      const CourseContentPage(),
     ];
     return SafeArea(
       child: Scaffold(
@@ -132,7 +134,7 @@ class WrapperScreen extends ConsumerWidget {
                             icon: Icons.school_outlined,
                             onTap: () => pageController.navigatePage(1),
                             label: "Courses",
-                            isCurr: [1, 4].contains(currentPage),
+                            isCurr: [1, 4, 5].contains(currentPage),
                             ref: ref,
                           ),
                           NavItem(
