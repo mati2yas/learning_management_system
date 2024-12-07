@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/features/courses/presentation/screens/course_detail.dart';
+import 'package:lms_system/features/courses/presentation/screens/courses_per_category_list.dart';
 import 'package:lms_system/features/courses/presentation/screens/courses_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/profile/presentation/screens/profile_screen.dart';
@@ -89,7 +89,7 @@ class WrapperScreen extends ConsumerWidget {
       const CoursePage(),
       const SavedCoursesPage(),
       const ProfilePage(),
-      CourseDetailPage(
+      CoursesPerCategoryListPage(
         category: currentCategory,
       ),
     ];
@@ -104,7 +104,7 @@ class WrapperScreen extends ConsumerWidget {
           children: [
             pages[currentPage],
             Positioned(
-              bottom: 10,
+              bottom: 5,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Card(

@@ -4,7 +4,7 @@ import 'package:lms_system/features/auth/presentation/screens/profile_add.dart';
 import 'package:lms_system/features/auth/presentation/screens/register_screen.dart';
 import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
 import 'package:lms_system/features/courses/presentation/screens/chapter_detail.dart';
-import 'package:lms_system/features/courses/presentation/screens/course_detail.dart';
+import 'package:lms_system/features/courses/presentation/screens/courses_per_category_list.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:lms_system/features/profile/presentation/screens/profile_screen.dart';
@@ -41,7 +41,7 @@ class Approuter {
       case Routes.courseDetails:
         final category = settings.arguments as CourseCategory;
         return MaterialPageRoute(
-          builder: (_) => CourseDetailPage(
+          builder: (_) => CoursesPerCategoryListPage(
             category: category,
           ),
         );
