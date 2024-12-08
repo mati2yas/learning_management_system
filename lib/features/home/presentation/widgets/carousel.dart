@@ -14,13 +14,14 @@ class CarouselPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
-      width: 160,
-      height: 120,
+      width: 305,
+      height: 106,
       decoration: BoxDecoration(
         border: Border.all(
           color: AppColors.mainGrey,
           width: 2,
         ),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(

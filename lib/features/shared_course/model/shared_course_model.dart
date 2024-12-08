@@ -5,6 +5,7 @@ class Course {
   final int topics, saves;
   final double progress;
   final List<Chapter> chapters;
+  String? streamOrDepartment;
   bool subscribed;
   bool saved;
   Course({
@@ -17,5 +18,6 @@ class Course {
     this.subscribed = false,
     this.saved = false,
     required this.chapters,
+    this.streamOrDepartment,
   });
 }

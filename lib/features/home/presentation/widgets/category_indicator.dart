@@ -14,18 +14,18 @@ class CategoryIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 110,
-      width: 90,
+      height: 85,
+      width: 75,
       child: Stack(
         children: [
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: 90,
-              width: 90,
-              padding: const EdgeInsets.only(bottom: 10),
+              height: 75,
+              width: 75,
+              padding: const EdgeInsets.only(bottom: 6),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
                 color: color,
               ),
               child: Align(
@@ -43,15 +43,15 @@ class CategoryIndicator extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 0,
-            left: 10,
+            top: -5,
+            left: 11,
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(35),
-                border: Border.all(width: 5, color: Colors.white),
+                borderRadius: BorderRadius.circular(27),
+                border: Border.all(width: 3, color: Colors.white),
               ),
               child: CircleAvatar(
-                radius: 30,
+                radius: 24,
                 backgroundColor: Colors.white,
                 foregroundImage: AssetImage(
                   "assets/images/$image",
