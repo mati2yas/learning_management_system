@@ -12,9 +12,13 @@ class PageNavigationController extends StateNotifier<int> {
 
   PageNavigationController() : super(0);
 
-  CourseCategory? getArgumentsForPage(int index) {
-    if (pageArguments.containsKey(index)) {
+  dynamic getArgumentsForPage(int index) {
+    if (index == 5) {
       return pageArguments[index] as CourseCategory?;
+    }
+
+    if (index == 6) {
+      return pageArguments[index] as Map<String, dynamic>;
     }
     return null;
   }

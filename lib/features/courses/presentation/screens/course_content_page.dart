@@ -28,7 +28,15 @@ class _CourseContentPageState extends ConsumerState<CourseContentPage> {
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        title: Text("${course.name ?? ""} -- ${course.grades[0].name}"),
+        surfaceTintColor: Colors.transparent,
+        title: Text(
+          "${course.name ?? ""} -- ${course.grades[0].name}",
+          style: textTh.titleLarge!.copyWith(
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
+        ),
+        shadowColor: Colors.black87,
       ),
       body: ListView.separated(
         itemCount: courseChapters.length,

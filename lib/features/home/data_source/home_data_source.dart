@@ -9,6 +9,8 @@ class HomeDataSource {
         desc: "web design",
         topics: 21,
         saves: 7,
+        likes: 12,
+        liked: false,
         image: "web_design.png",
         chapters: [
           Chapter(
@@ -34,6 +36,8 @@ class HomeDataSource {
         desc: "web design",
         topics: 21,
         saves: 7,
+        likes: 7,
+        liked: true,
         image: "marketing_course.png",
         chapters: [
           Chapter(
@@ -59,6 +63,8 @@ class HomeDataSource {
         desc: "web design",
         topics: 21,
         saves: 7,
+        likes: 21,
+        liked: true,
         image: "applied_math.png",
         chapters: [
           Chapter(
@@ -84,6 +90,8 @@ class HomeDataSource {
         desc: "web design",
         topics: 21,
         saves: 7,
+        likes: 9,
+        liked: false,
         image: "accounting_course.png",
         chapters: [
           Chapter(
