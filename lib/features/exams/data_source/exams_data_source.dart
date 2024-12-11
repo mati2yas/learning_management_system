@@ -12,7 +12,42 @@ class ExamsDataSource {
           id: "1",
           title: "Mathematics",
           years: [
-            ExamYear(title: "2012", grades: generateMatricGrades()),
+            ExamYear(
+              title: "2012",
+              grades: generateMatricGrades(),
+              questions: [
+                Question(
+                  question: "If 3x+5=20, what is the value of x?",
+                  options: ["3", "5", "6", "7"],
+                  answer: "5",
+                  explanation: "simple substition",
+                ),
+                Question(
+                  question:
+                      "In a triangle, the sum of two angles is 90∘, and the third angle is 60∘. What type of triangle is this?",
+                  options: [
+                    "Acute-Agled Triangle",
+                    "Righ-Angled Triangle",
+                    "Obtuse-Angled Triangle",
+                    "Isosceles Triangle"
+                  ],
+                  answer: "Acute Angled Triangle",
+                  explanation: "Acute Agled triangle",
+                ),
+                Question(
+                  question: "If 3x+5=20, what is the value of x?",
+                  options: ["3", "5", "6", "7"],
+                  answer: "5",
+                  explanation: "simple substition",
+                ),
+                Question(
+                  question: "If 3x+5=20, what is the value of x?",
+                  options: ["3", "5", "6", "7"],
+                  answer: "5",
+                  explanation: "simple substition",
+                ),
+              ],
+            ),
             ExamYear(title: "2013", grades: generateMatricGrades()),
             ExamYear(title: "2014", grades: generateMatricGrades()),
           ],

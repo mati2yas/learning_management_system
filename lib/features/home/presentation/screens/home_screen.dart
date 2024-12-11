@@ -212,7 +212,7 @@ class HomePage extends ConsumerWidget {
               ),
               const SizedBox(height: 9),
               SizedBox(
-                height: size.height * 0.9,
+                height: size.height * 1.4,
                 width: double.infinity,
                 child: GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
@@ -221,16 +221,22 @@ class HomePage extends ConsumerWidget {
                     crossAxisCount: 2,
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
-                    childAspectRatio: 0.95,
+                    childAspectRatio: 0.9,
                   ),
                   itemBuilder: (_, index) {
                     return CourseCard(
-                        onBookmark: () {
-                          ref
-                              .read(courseProvider.notifier)
-                              .toggleSaved(courses[index]);
-                        },
-                        course: courses[index]);
+                      onBookmark: () {
+                        ref
+                            .read(courseProvider.notifier)
+                            .toggleSaved(courses[index]);
+                      },
+                      onLike: () {
+                        ref
+                            .read(courseProvider.notifier)
+                            .toggleLiked(courses[index]);
+                      },
+                      course: courses[index],
+                    );
                   },
                   itemCount: courses.length,
                 ),

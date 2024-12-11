@@ -4,6 +4,7 @@ import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/courses/presentation/screens/course_content_page.dart';
 import 'package:lms_system/features/courses/presentation/screens/courses_per_category_list.dart';
 import 'package:lms_system/features/courses/presentation/screens/courses_screen.dart';
+import 'package:lms_system/features/exams/presentation/screens/exam_questions_page.dart';
 import 'package:lms_system/features/exams/presentation/screens/exams_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
@@ -95,6 +96,7 @@ class WrapperScreen extends ConsumerWidget {
         category: currentCategory,
       ),
       const CourseContentPage(), // 5
+      const ExamQuestionsPage(), // 6
     ];
     return SafeArea(
       child: Scaffold(
@@ -149,7 +151,7 @@ class WrapperScreen extends ConsumerWidget {
                             icon: Icons.quiz,
                             onTap: () => pageController.navigatePage(3),
                             label: "Exams",
-                            isCurr: currentPage == 3,
+                            isCurr: [3, 6].contains(currentPage),
                             ref: ref,
                           ),
                         ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/exams/provider/exams_provider.dart';
+import 'package:lms_system/features/shared_course/presentation/widgets/custom_search_bar.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class ExamsScreen extends ConsumerStatefulWidget {
@@ -25,7 +26,7 @@ class _CourseDetailPageState extends ConsumerState<ExamsScreen>
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
-    final pageController = ref.read(pageNavigationProvider.notifier);
+    final pageNavController = ref.read(pageNavigationProvider.notifier);
     final examsController = ref.watch(examsProvider.notifier);
     final exams = ref.watch(examsProvider);
 
@@ -34,32 +35,21 @@ class _CourseDetailPageState extends ConsumerState<ExamsScreen>
     print("course dropdowns: ${courseDropdowns.join(",")}");
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            pageController.navigatePage(1);
-          },
-          icon: const Icon(Icons.arrow_back),
-        ),
         title: const Text("Exam Simulator"),
         centerTitle: true,
-        elevation: 3,
+        elevation: 5,
+        shadowColor: Colors.black87,
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
         bottom: PreferredSize(
-          preferredSize: Size(size.width, 120),
-          child: SizedBox(
+          preferredSize: Size(size.width, 116),
+          child: Container(
             width: size.width,
-            height: 140,
+            color: Colors.white,
+            height: 116,
             child: Column(
               children: [
-                SearchBar(
-                  backgroundColor: const WidgetStatePropertyAll(Colors.white),
-                  constraints: BoxConstraints.tightFor(
-                    width: size.width * 0.8,
-                    height: 40,
-                  ),
-                  leading: const Icon(Icons.search),
-                  hintText: "Search Course",
-                ),
+                CustomSearchBar(hintText: "Search Courses", size: size),
                 const SizedBox(height: 5),
                 SizedBox(
                   width: size.width * 0.9,
@@ -109,12 +99,18 @@ class _CourseDetailPageState extends ConsumerState<ExamsScreen>
                   ),
                 ),
                 const SizedBox(height: 5),
-                TabBar(
-                  tabAlignment: TabAlignment.start,
-                  isScrollable: true,
-                  tabs: tabsList.map((ex) => Text(ex)).toList(),
-                  controller: tabController,
-                ),
+                if (tabController.length != 0)
+                  TabBar(
+                    tabAlignment: TabAlignment.start,
+                    isScrollable: true,
+                    tabs: tabsList
+                        .map((ex) => Text(
+                              ex,
+                              style: textTh.titleMedium,
+                            ))
+                        .toList(),
+                    controller: tabController,
+                  ),
               ],
             ),
           ),
@@ -122,46 +118,79 @@ class _CourseDetailPageState extends ConsumerState<ExamsScreen>
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: TabBarView(
-          controller: tabController,
-          children: exams.map((exam) {
-            final selectedCourses = exams.where((exam) {
-              return exam.examType.name == currentTab.toLowerCase() &&
-                  (yearDropDownValue.isEmpty ||
-                      exam.course.years
-                          .any((year) => year.title == yearDropDownValue)) &&
-                  (courseDropDownValue.isEmpty ||
-                      exam.course.title == courseDropDownValue);
-            }).toList();
-            print("selected courses len: ${selectedCourses.length}");
-
-            return ListView.separated(
-              itemCount: selectedCourses.length,
-              itemBuilder: (_, index) {
-                final currentExam = selectedCourses[index];
-                return ListTile(
-                  onTap: () {
-                    //pageController.navigatePage(5, arguments: category);
-                  },
-                  title: Text(currentExam.title),
-                  subtitle: Text(currentExam.course.title),
-                  trailing: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.mainBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      fixedSize: const Size(84, 27),
-                    ),
-                    onPressed: () {},
-                    child: const Text("Retake"),
+        child: (tabController.length == 0 ||
+                tabsList.isEmpty ||
+                yearDropdowns.isEmpty)
+            ? const Center(
+                child: SizedBox(
+                  height: 40,
+                  width: 40,
+                  child: CircularProgressIndicator(
+                    color: AppColors.mainBlue,
                   ),
-                );
-              },
-              separatorBuilder: (_, index) => const SizedBox(height: 15),
-            );
-          }).toList(),
-        ),
+                ),
+              )
+            : TabBarView(
+                controller: tabController,
+                children: exams.map((exam) {
+                  final selectedCourses = exams.where((exam) {
+                    return exam.examType.name == currentTab.toLowerCase() &&
+                        (yearDropDownValue.isEmpty ||
+                            exam.course.years.any(
+                                (year) => year.title == yearDropDownValue)) &&
+                        (courseDropDownValue.isEmpty ||
+                            exam.course.title == courseDropDownValue);
+                  }).toList();
+
+                  print("selected courses len: ${selectedCourses.length}");
+
+                  return ListView.separated(
+                    itemCount: selectedCourses.length,
+                    itemBuilder: (_, index) {
+                      final currentExam = selectedCourses[index];
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        color: Colors.white,
+                        child: ListTile(
+                          onTap: () {
+                            var examData = {
+                              "exam year": exam.course.years[0].title,
+                              "exam title": exam.course.title,
+                              "questions": exam.course.years[0].questions,
+                            };
+
+                            pageNavController.navigatePage(6,
+                                arguments: examData);
+                          },
+                          title: Text(currentExam.title),
+                          subtitle: Text(currentExam.course.title),
+                          trailing: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.mainBlue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              fixedSize: const Size(90, 27),
+                            ),
+                            onPressed: () {},
+                            child: const Text(
+                              "Retake",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (_, index) => const SizedBox(height: 15),
+                  );
+                }).toList(),
+              ),
       ),
     );
   }

@@ -23,10 +23,126 @@ class CourseDataSource {
         topics: 21,
         saves: 9,
         image: "web_design.png",
-        saved: false,
+        saved: true,
         likes: 12,
         liked: false,
         subscribed: true,
+        chapters: [
+          Chapter(
+            name: "Chapter 2",
+            title: "Introduction to Web Design",
+            videos: [
+              Video(title: "What is Web Design?", duration: "10:23"),
+              Video(title: "Tools for Web Design", duration: "15:45"),
+            ],
+          ),
+          Chapter(
+            name: "Chapter 2",
+            title: "HTML Basics",
+            videos: [
+              Video(title: "HTML Structure", duration: "12:34"),
+              Video(title: "HTML Tags", duration: "18:50"),
+            ],
+          ),
+        ],
+      ),
+      Course(
+        title: "Accounting",
+        desc: "web design",
+        topics: 21,
+        saves: 7,
+        image: "accounting_course.png",
+        saved: false,
+        subscribed: true,
+        likes: 12,
+        liked: false,
+        chapters: [
+          Chapter(
+            name: "Chapter 2",
+            title: "Introduction to Web Design",
+            videos: [
+              Video(title: "What is Web Design?", duration: "10:23"),
+              Video(title: "Tools for Web Design", duration: "15:45"),
+            ],
+          ),
+          Chapter(
+            name: "Chapter 2",
+            title: "HTML Basics",
+            videos: [
+              Video(title: "HTML Structure", duration: "12:34"),
+              Video(title: "HTML Tags", duration: "18:50"),
+            ],
+          ),
+        ],
+      ),
+      Course(
+        title: "Marketing",
+        desc: "web design",
+        topics: 21,
+        saves: 12,
+        image: "marketing_course.png",
+        saved: true,
+        likes: 12,
+        liked: false,
+        subscribed: false,
+        chapters: [
+          Chapter(
+            name: "Chapter 2",
+            title: "Introduction to Web Design",
+            videos: [
+              Video(title: "What is Web Design?", duration: "10:23"),
+              Video(title: "Tools for Web Design", duration: "15:45"),
+            ],
+          ),
+          Chapter(
+            name: "Chapter 2",
+            title: "HTML Basics",
+            videos: [
+              Video(title: "HTML Structure", duration: "12:34"),
+              Video(title: "HTML Tags", duration: "18:50"),
+            ],
+          ),
+        ],
+      ),
+      Course(
+        title: "Applied Mathematics",
+        desc: "web design",
+        topics: 21,
+        likes: 12,
+        liked: false,
+        saves: 7,
+        image: "applied_math.png",
+        saved: true,
+        subscribed: true,
+        chapters: [
+          Chapter(
+            name: "Chapter 2",
+            title: "Introduction to Web Design",
+            videos: [
+              Video(title: "What is Web Design?", duration: "10:23"),
+              Video(title: "Tools for Web Design", duration: "15:45"),
+            ],
+          ),
+          Chapter(
+            name: "Chapter 2",
+            title: "HTML Basics",
+            videos: [
+              Video(title: "HTML Structure", duration: "12:34"),
+              Video(title: "HTML Tags", duration: "18:50"),
+            ],
+          ),
+        ],
+      ),
+      Course(
+        title: "Accounting",
+        desc: "web design",
+        topics: 21,
+        saves: 7,
+        image: "accounting_course.png",
+        saved: false,
+        subscribed: true,
+        likes: 12,
+        liked: false,
         chapters: [
           Chapter(
             name: "Chapter 2",

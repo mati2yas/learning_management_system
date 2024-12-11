@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/features/shared_course/model/shared_course_model.dart';
+import 'package:lms_system/features/shared_course/presentation/widgets/custom_search_bar.dart';
 
 import '../../../shared_course/model/chapter.dart';
 import '../widgets/courses_list.dart';
@@ -140,6 +141,9 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
           backgroundColor: Colors.white,
           title: const Text("Saved"),
           centerTitle: true,
+          shadowColor: Colors.black87,
+          surfaceTintColor: Colors.transparent,
+          elevation: 4,
           bottom: PreferredSize(
             preferredSize: Size(
               MediaQuery.of(context).size.width,
@@ -149,16 +153,7 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
               color: Colors.white,
               child: Column(
                 children: [
-                  SearchBar(
-                    //shape: WidgetStatePropertyAll<OutlinedBorder>(OutlineInputBorder()),
-                    backgroundColor: const WidgetStatePropertyAll(Colors.white),
-                    constraints: BoxConstraints.tightFor(
-                      width: size.width * 0.8,
-                      height: 40,
-                    ),
-                    leading: const Icon(Icons.search),
-                    hintText: "Search Course",
-                  ),
+                  CustomSearchBar(hintText: "Search Courses", size: size),
                   const SizedBox(height: 10),
                   TabBar(
                     tabs: categories.map((e) => Tab(text: e)).toList(),
