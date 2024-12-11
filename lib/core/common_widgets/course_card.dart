@@ -123,57 +123,50 @@ class CourseCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                      )
-                    else
-                      GestureDetector(
-                        onTap: () {
-                          if (onBookmark != null) {
-                            onBookmark!();
-                          }
-                        },
-                        child: SizedBox(
-                          height: 58,
-                          child: Stack(
-                            children: [
-                              Icon(
-                                course.saved
-                                    ? Icons.bookmark
-                                    : Icons.bookmark_outline,
-                                color: AppColors.mainBlue,
-                                size: 30,
-                              ),
-                              Positioned(
-                                top: -2,
-                                right: -1,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.mainBlue,
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 2,
-                                    ),
-                                    borderRadius: BorderRadius.circular(22),
-                                  ),
-                                  child: Text(
-                                    "${course.saves}",
-                                    style: textTh.labelSmall!.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
                   ],
                 ),
               ),
-            )
+            ),
+            if (course.subscribed)
+              Flexible(
+                child: SizedBox(
+                  height: 20,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      TextButton.icon(
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.only(left: 8)),
+                          onPressed: () {
+                            if (onBookmark != null) {
+                              onBookmark!();
+                            }
+                          },
+                          icon: Icon(
+                            course.saved
+                                ? Icons.bookmark
+                                : Icons.bookmark_outlined,
+                            color: AppColors.mainBlue,
+                          ),
+                          label: Text("${course.saves}")),
+                      TextButton.icon(
+                          onPressed: () {
+                            if (onBookmark != null) {
+                              onBookmark!();
+                            }
+                          },
+                          icon: Icon(
+                            course.liked
+                                ? Icons.thumb_up
+                                : Icons.thumb_up_outlined,
+                            color: AppColors.mainBlue,
+                          ),
+                          label: Text("${course.likes}")),
+                    ],
+                  ),
+                ),
+              )
           ],
         ),
       ),

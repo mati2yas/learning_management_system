@@ -38,6 +38,7 @@ dependencies:
   flutter_riverpod: ^2.6.1
   dio: ^5.7.0
   smooth_page_indicator: ^1.2.0+3
+  flutter_windowmanager: ^0.2.0
 
 dev_dependencies:
   flutter_test:

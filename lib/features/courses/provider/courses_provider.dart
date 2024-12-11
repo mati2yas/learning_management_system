@@ -28,6 +28,26 @@ class CourseNotifier extends StateNotifier<List<Course>> {
     state = dataSource.fetchCourses();
   }
 
+  void toggleLiked(Course course) {
+    state = state.map((c) {
+      if (c == course) {
+        return Course(
+          title: c.title,
+          desc: c.desc,
+          topics: c.topics,
+          saves: c.saves + (c.saved ? -1 : 1),
+          likes: c.likes + (c.liked ? -1 : 1),
+          image: c.image,
+          saved: !c.saved,
+          liked: !c.liked,
+          subscribed: c.subscribed,
+          chapters: c.chapters,
+        );
+      }
+      return c;
+    }).toList();
+  }
+
   void toggleSaved(Course course) {
     state = state.map((c) {
       if (c == course) {
@@ -36,6 +56,7 @@ class CourseNotifier extends StateNotifier<List<Course>> {
           desc: c.desc,
           topics: c.topics,
           saves: c.saves + (c.saved ? -1 : 1),
+          likes: c.likes,
           image: c.image,
           saved: !c.saved,
           subscribed: c.subscribed,
@@ -54,6 +75,7 @@ class CourseNotifier extends StateNotifier<List<Course>> {
           desc: c.desc,
           topics: c.topics,
           saves: c.saves,
+          likes: c.likes,
           image: c.image,
           saved: c.saved,
           subscribed: !c.subscribed,

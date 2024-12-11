@@ -24,6 +24,8 @@ class CourseDataSource {
         saves: 9,
         image: "web_design.png",
         saved: false,
+        likes: 12,
+        liked: false,
         subscribed: true,
         chapters: [
           Chapter(
@@ -51,6 +53,8 @@ class CourseDataSource {
         saves: 12,
         image: "marketing_course.png",
         saved: true,
+        likes: 12,
+        liked: false,
         subscribed: false,
         chapters: [
           Chapter(
@@ -75,6 +79,8 @@ class CourseDataSource {
         title: "Applied Mathematics",
         desc: "web design",
         topics: 21,
+        likes: 12,
+        liked: false,
         saves: 4,
         image: "applied_math.png",
         saved: true,
@@ -103,6 +109,8 @@ class CourseDataSource {
         desc: "web design",
         topics: 21,
         saves: 7,
+        likes: 12,
+        liked: false,
         image: "accounting_course.png",
         saved: false,
         subscribed: true,
@@ -129,6 +137,8 @@ class CourseDataSource {
         title: "Applied Mathematics",
         desc: "web design",
         topics: 21,
+        likes: 12,
+        liked: false,
         saves: 7,
         image: "applied_math.png",
         saved: true,
@@ -160,6 +170,8 @@ class CourseDataSource {
         image: "accounting_course.png",
         saved: false,
         subscribed: true,
+        likes: 12,
+        liked: false,
         chapters: [
           Chapter(
             name: "Chapter 2",

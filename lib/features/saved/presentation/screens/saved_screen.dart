@@ -19,6 +19,8 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
       desc: "Marketing Course",
       topics: 12,
       saves: 15,
+      likes: 12,
+      liked: false,
       image: "marketing_course.png",
       progress: 13,
       chapters: [
@@ -45,6 +47,8 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
       desc: "Marketing Course",
       topics: 12,
       saves: 15,
+      likes: 8,
+      liked: false,
       image: "web_design.png",
       progress: 28,
       chapters: [
@@ -71,6 +75,8 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
       desc: "Marketing Course",
       topics: 12,
       saves: 15,
+      likes: 4,
+      liked: true,
       image: "marketing_course.png",
       progress: 13,
       chapters: [
@@ -97,6 +103,8 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
       desc: "Marketing Course",
       topics: 12,
       saves: 15,
+      likes: 2,
+      liked: false,
       image: "marketing_course.png",
       progress: 13,
       chapters: [

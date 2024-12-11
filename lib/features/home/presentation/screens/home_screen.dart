@@ -107,6 +107,7 @@ class HomePage extends ConsumerWidget {
         ),
       ),
       body: Container(
+        height: double.infinity,
         padding: const EdgeInsets.fromLTRB(
           12, // left
           14, // top
@@ -120,118 +121,122 @@ class HomePage extends ConsumerWidget {
           ),
           color: Colors.white,
         ),
-        child: Column(
-          children: [
-            Container(
-              height: 115,
-              width: size.width * 0.8,
-              decoration: const BoxDecoration(
-                color: AppColors.mainBlue,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(18),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: 115,
+                width: size.width * 0.8,
+                decoration: const BoxDecoration(
+                  color: AppColors.mainBlue,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(18),
+                  ),
+                ),
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 75,
+                      width: size.width * 0.7,
+                      child: PageView.builder(
+                        controller: pageController,
+                        itemBuilder: (_, index) {
+                          return CarouselPage(
+                            tag: pageviewParts["tag"]!,
+                            img: pageviewParts["img"]!,
+                          );
+                        },
+                        itemCount: 2,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    SmoothPageIndicator(
+                      controller: pageController,
+                      count: 2,
+                    ),
+                  ],
                 ),
               ),
-              padding: const EdgeInsets.all(8),
-              child: Column(
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    height: 75,
-                    width: size.width * 0.7,
-                    child: PageView.builder(
-                      controller: pageController,
-                      itemBuilder: (_, index) {
-                        return CarouselPage(
-                          tag: pageviewParts["tag"]!,
-                          img: pageviewParts["img"]!,
-                        );
-                      },
-                      itemCount: 2,
+                  Text(
+                    "Top Category",
+                    style: textTh.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 5),
-                  SmoothPageIndicator(
-                    controller: pageController,
-                    count: 2,
+                  Text(
+                    "See All",
+                    style: textTh.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.mainGrey,
+                    ),
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Top Category",
-                  style: textTh.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 90,
+                width: double.infinity,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    CategoryIndicator(
+                      title: "Marketing",
+                      color: AppColors.courseCategoryColors[0],
+                      image: "marketing_course.png",
+                    ),
+                    const SizedBox(width: 5),
+                    CategoryIndicator(
+                      title: "Web Design",
+                      color: AppColors.courseCategoryColors[1],
+                      image: "web_design.png",
+                    ),
+                    const SizedBox(width: 5),
+                    CategoryIndicator(
+                      title: "Freshman Courses",
+                      color: AppColors.courseCategoryColors[2],
+                      image: "marketing_course.png",
+                    ),
+                    const SizedBox(width: 5),
+                    CategoryIndicator(
+                      title: "Lower Grades",
+                      color: AppColors.courseCategoryColors[3],
+                      image: "marketing_course.png",
+                    ),
+                  ],
                 ),
-                Text(
-                  "See All",
-                  style: textTh.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.mainGrey,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 90,
-              width: double.infinity,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  CategoryIndicator(
-                    title: "Marketing",
-                    color: AppColors.courseCategoryColors[0],
-                    image: "marketing_course.png",
-                  ),
-                  const SizedBox(width: 5),
-                  CategoryIndicator(
-                    title: "Web Design",
-                    color: AppColors.courseCategoryColors[1],
-                    image: "web_design.png",
-                  ),
-                  const SizedBox(width: 5),
-                  CategoryIndicator(
-                    title: "Freshman Courses",
-                    color: AppColors.courseCategoryColors[2],
-                    image: "marketing_course.png",
-                  ),
-                  const SizedBox(width: 5),
-                  CategoryIndicator(
-                    title: "Lower Grades",
-                    color: AppColors.courseCategoryColors[3],
-                    image: "marketing_course.png",
-                  ),
-                ],
               ),
-            ),
-            const SizedBox(height: 9),
-            SizedBox(
-              height: size.height * 0.43,
-              width: double.infinity,
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 0.95,
+              const SizedBox(height: 9),
+              SizedBox(
+                height: size.height * 0.9,
+                width: double.infinity,
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.only(bottom: 30),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: 0.95,
+                  ),
+                  itemBuilder: (_, index) {
+                    return CourseCard(
+                        onBookmark: () {
+                          ref
+                              .read(courseProvider.notifier)
+                              .toggleSaved(courses[index]);
+                        },
+                        course: courses[index]);
+                  },
+                  itemCount: courses.length,
                 ),
-                itemBuilder: (_, index) {
-                  return CourseCard(
-                      onBookmark: () {
-                        ref
-                            .read(courseProvider.notifier)
-                            .toggleSaved(courses[index]);
-                      },
-                      course: courses[index]);
-                },
-                itemCount: courses.length,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
