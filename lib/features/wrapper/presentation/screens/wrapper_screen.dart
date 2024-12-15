@@ -36,23 +36,25 @@ class NavItem extends StatelessWidget {
         onTap();
       },
       child: Container(
-        width: 80,
-        height: 45,
-        decoration: BoxDecoration(
-          color: isCurr ? Colors.white : AppColors.mainBlue,
-          borderRadius: BorderRadius.circular(45),
-        ),
+        height: 40,
         child: isCurr
             ? Column(
                 children: [
-                  Icon(
-                    icon,
-                    color: AppColors.mainBlue,
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: isCurr ? 12 : 0),
+                    decoration: BoxDecoration(
+                      color: isCurr ? Colors.white : AppColors.mainBlue,
+                      borderRadius: BorderRadius.circular(45),
+                    ),
+                    child: Icon(
+                      icon,
+                      color: AppColors.mainBlue,
+                    ),
                   ),
                   Text(
                     label,
                     style: textTh.labelSmall!.copyWith(
-                      color: AppColors.mainBlue,
+                      color: Colors.white,
                     ),
                   ),
                 ],
@@ -109,7 +111,7 @@ class WrapperScreen extends ConsumerWidget {
           children: [
             pages[currentPage],
             Positioned(
-              bottom: 5,
+              bottom: 10,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Card(
@@ -122,7 +124,7 @@ class WrapperScreen extends ConsumerWidget {
                     width: size.width - 24,
                     height: 58,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
