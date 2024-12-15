@@ -108,12 +108,7 @@ class HomePage extends ConsumerWidget {
       ),
       body: Container(
         height: double.infinity,
-        padding: const EdgeInsets.fromLTRB(
-          12, // left
-          14, // top
-          12, // right
-          0, // bottom
-        ),
+        padding: const EdgeInsets.fromLTRB(12, 14, 12, 0),
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30),
@@ -125,7 +120,7 @@ class HomePage extends ConsumerWidget {
           child: Column(
             children: [
               Container(
-                height: 115,
+                height: 150,
                 width: size.width * 0.8,
                 decoration: const BoxDecoration(
                   color: AppColors.mainBlue,
@@ -137,7 +132,7 @@ class HomePage extends ConsumerWidget {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 75,
+                      height: 105,
                       width: size.width * 0.7,
                       child: PageView.builder(
                         controller: pageController,
@@ -150,8 +145,13 @@ class HomePage extends ConsumerWidget {
                         itemCount: 2,
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 10),
                     SmoothPageIndicator(
+                      effect: const WormEffect(
+                          dotHeight: 8,
+                          dotWidth: 8,
+                          dotColor: AppColors.darkerGrey,
+                          activeDotColor: Colors.white),
                       controller: pageController,
                       count: 2,
                     ),
@@ -164,15 +164,14 @@ class HomePage extends ConsumerWidget {
                 children: [
                   Text(
                     "Top Category",
-                    style: textTh.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: textTh.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w600, letterSpacing: 0.7),
                   ),
                   Text(
                     "See All",
-                    style: textTh.bodyMedium!.copyWith(
+                    style: textTh.titleMedium!.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: AppColors.mainGrey,
+                      color: AppColors.mainBlue,
                     ),
                   ),
                 ],
@@ -211,17 +210,28 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 9),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Popular courses for you",
+                  style: textTh.titleMedium!.copyWith(
+                      fontWeight: FontWeight.w600, letterSpacing: 0.7),
+                ),
+              ),
               SizedBox(
-                height: size.height * 1.4,
+                height: 5,
+              ),
+              SizedBox(
                 width: double.infinity,
                 child: GridView.builder(
+                  shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.only(bottom: 30),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
-                    childAspectRatio: 0.9,
+                    childAspectRatio: 0.85,
                   ),
                   itemBuilder: (_, index) {
                     return CourseCard(
