@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/home/presentation/widgets/carousel.dart';
 import 'package:lms_system/features/home/presentation/widgets/category_indicator.dart';
+import 'package:lms_system/features/home/presentation/widgets/custom_home_app_bar_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../courses/provider/courses_provider.dart';
@@ -24,236 +24,168 @@ class HomePage extends ConsumerWidget {
     final PageController pageController = PageController();
     return Scaffold(
       backgroundColor: AppColors.mainBlue,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(
-            kToolbarHeight + 76), // Adjust for AppBar height + bottom
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 12.0, vertical: 8.0), // Adjust the margins
-          child: AppBar(
-            leading: Builder(builder: (context) {
-              return SizedBox(
-                width: 47,
-                child: GestureDetector(
-                  onTap: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  child: SvgPicture.asset(
-                    "assets/svgs/hamburger_menu.svg",
-                  ),
+      body: Column(
+        children: [
+          CustomHomeAppBar(user: user),
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+            child: Container(
+              // height: double.infinity,
+              height: size.height - 160,
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
                 ),
-              );
-            }),
-            backgroundColor: AppColors.mainBlue,
-            actions: const [
-              CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Center(
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                ),
+                color: Colors.white,
               ),
-              SizedBox(width: 10),
-              CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Center(
-                  child: Icon(
-                    Icons.notifications,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                ),
-              ),
-            ],
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(75),
-              child: SizedBox(
-                width: double.infinity,
-                height: 75,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 8.0,
-                    right: 16.0,
-                    top: 20,
-                  ), // Add horizontal padding to the bottom section
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "👋 Hello",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      height: 150,
+                      margin: EdgeInsets.only(top: 8),
+                      width: size.width * 0.8,
+                      decoration: const BoxDecoration(
+                        color: AppColors.mainBlue,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(18),
                         ),
                       ),
-                      Text(
-                        "${user.name} ${user.lastName}",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 105,
+                            width: size.width * 0.7,
+                            child: PageView.builder(
+                              controller: pageController,
+                              itemBuilder: (_, index) {
+                                return CarouselPage(
+                                  tag: pageviewParts["tag"]!,
+                                  img: pageviewParts["img"]!,
+                                );
+                              },
+                              itemCount: 2,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          SmoothPageIndicator(
+                            effect: const WormEffect(
+                                dotHeight: 8,
+                                dotWidth: 8,
+                                dotColor: AppColors.darkerGrey,
+                                activeDotColor: Colors.white),
+                            controller: pageController,
+                            count: 2,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Top Category",
+                          style: textTh.titleMedium!.copyWith(
+                              fontWeight: FontWeight.w600, letterSpacing: 0.7),
+                        ),
+                        Text(
+                          "See All",
+                          style: textTh.titleMedium!.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.mainBlue,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 90,
+                      width: double.infinity,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          CategoryIndicator(
+                            title: "Marketing",
+                            color: AppColors.courseCategoryColors[0],
+                            image: "marketing_course.png",
+                          ),
+                          const SizedBox(width: 5),
+                          CategoryIndicator(
+                            title: "Web Design",
+                            color: AppColors.courseCategoryColors[1],
+                            image: "web_design.png",
+                          ),
+                          const SizedBox(width: 5),
+                          CategoryIndicator(
+                            title: "Freshman Courses",
+                            color: AppColors.courseCategoryColors[2],
+                            image: "marketing_course.png",
+                          ),
+                          const SizedBox(width: 5),
+                          CategoryIndicator(
+                            title: "Lower Grades",
+                            color: AppColors.courseCategoryColors[3],
+                            image: "marketing_course.png",
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 9),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Popular courses for you",
+                        style: textTh.titleMedium!.copyWith(
+                            fontWeight: FontWeight.w600, letterSpacing: 0.7),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.only(bottom: 30),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: 0.85,
+                        ),
+                        itemBuilder: (_, index) {
+                          return CourseCard(
+                            onBookmark: () {
+                              ref
+                                  .read(courseProvider.notifier)
+                                  .toggleSaved(courses[index]);
+                            },
+                            onLike: () {
+                              ref
+                                  .read(courseProvider.notifier)
+                                  .toggleLiked(courses[index]);
+                            },
+                            course: courses[index],
+                          );
+                        },
+                        itemCount: courses.length,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-        ),
-      ),
-      body: Container(
-        height: double.infinity,
-        padding: const EdgeInsets.fromLTRB(12, 14, 12, 0),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
-          color: Colors.white,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: 150,
-                width: size.width * 0.8,
-                decoration: const BoxDecoration(
-                  color: AppColors.mainBlue,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(18),
-                  ),
-                ),
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 105,
-                      width: size.width * 0.7,
-                      child: PageView.builder(
-                        controller: pageController,
-                        itemBuilder: (_, index) {
-                          return CarouselPage(
-                            tag: pageviewParts["tag"]!,
-                            img: pageviewParts["img"]!,
-                          );
-                        },
-                        itemCount: 2,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    SmoothPageIndicator(
-                      effect: const WormEffect(
-                          dotHeight: 8,
-                          dotWidth: 8,
-                          dotColor: AppColors.darkerGrey,
-                          activeDotColor: Colors.white),
-                      controller: pageController,
-                      count: 2,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Top Category",
-                    style: textTh.titleMedium!.copyWith(
-                        fontWeight: FontWeight.w600, letterSpacing: 0.7),
-                  ),
-                  Text(
-                    "See All",
-                    style: textTh.titleMedium!.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.mainBlue,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 90,
-                width: double.infinity,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    CategoryIndicator(
-                      title: "Marketing",
-                      color: AppColors.courseCategoryColors[0],
-                      image: "marketing_course.png",
-                    ),
-                    const SizedBox(width: 5),
-                    CategoryIndicator(
-                      title: "Web Design",
-                      color: AppColors.courseCategoryColors[1],
-                      image: "web_design.png",
-                    ),
-                    const SizedBox(width: 5),
-                    CategoryIndicator(
-                      title: "Freshman Courses",
-                      color: AppColors.courseCategoryColors[2],
-                      image: "marketing_course.png",
-                    ),
-                    const SizedBox(width: 5),
-                    CategoryIndicator(
-                      title: "Lower Grades",
-                      color: AppColors.courseCategoryColors[3],
-                      image: "marketing_course.png",
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 9),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Popular courses for you",
-                  style: textTh.titleMedium!.copyWith(
-                      fontWeight: FontWeight.w600, letterSpacing: 0.7),
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.only(bottom: 30),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    childAspectRatio: 0.85,
-                  ),
-                  itemBuilder: (_, index) {
-                    return CourseCard(
-                      onBookmark: () {
-                        ref
-                            .read(courseProvider.notifier)
-                            .toggleSaved(courses[index]);
-                      },
-                      onLike: () {
-                        ref
-                            .read(courseProvider.notifier)
-                            .toggleLiked(courses[index]);
-                      },
-                      course: courses[index],
-                    );
-                  },
-                  itemCount: courses.length,
-                ),
-              ),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }
