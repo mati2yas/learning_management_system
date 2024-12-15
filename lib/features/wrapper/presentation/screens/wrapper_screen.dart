@@ -4,8 +4,9 @@ import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/courses/presentation/screens/course_content_page.dart';
 import 'package:lms_system/features/courses/presentation/screens/courses_per_category_list.dart';
 import 'package:lms_system/features/courses/presentation/screens/courses_screen.dart';
+import 'package:lms_system/features/exams/presentation/screens/exam_questions_page.dart';
+import 'package:lms_system/features/exams/presentation/screens/exams_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
-import 'package:lms_system/features/profile/presentation/screens/profile_screen.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 
@@ -86,14 +87,16 @@ class WrapperScreen extends ConsumerWidget {
     var size = MediaQuery.of(context).size;
     final currentCategory = ref.watch(currentCategoryProvider);
     final List<Widget> pages = [
-      const HomePage(),
-      const CoursePage(),
-      const SavedCoursesPage(),
-      const ProfilePage(),
+      const HomePage(), // 0
+      const CoursePage(), // 1
+      const SavedCoursesPage(), // 2
+      const ExamsScreen(), // 3
       CoursesPerCategoryListPage(
+        // 4
         category: currentCategory,
       ),
-      const CourseContentPage(),
+      const CourseContentPage(), // 5
+      const ExamQuestionsPage(), // 6
     ];
     return SafeArea(
       child: Scaffold(
@@ -145,10 +148,10 @@ class WrapperScreen extends ConsumerWidget {
                             ref: ref,
                           ),
                           NavItem(
-                            icon: Icons.person_outline,
+                            icon: Icons.quiz,
                             onTap: () => pageController.navigatePage(3),
-                            label: "Profile",
-                            isCurr: currentPage == 3,
+                            label: "Exams",
+                            isCurr: [3, 6].contains(currentPage),
                             ref: ref,
                           ),
                         ],

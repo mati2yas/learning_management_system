@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
+import 'package:lms_system/features/shared_course/presentation/widgets/custom_search_bar.dart';
 
 import '../../../wrapper/provider/wrapper_provider.dart';
 import '../../model/categories_sub_categories.dart';
@@ -51,26 +52,27 @@ class _CourseDetailPageState extends ConsumerState<CoursesPerCategoryListPage>
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        title: Text(category.name),
+        title: Text(
+          category.name,
+          style: textTh.titleLarge!.copyWith(
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
-        elevation: 3,
+        elevation: 5,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.black87,
         backgroundColor: Colors.white,
         bottom: PreferredSize(
-          preferredSize: Size(size.width, 120),
-          child: SizedBox(
+          preferredSize: Size(size.width, 112),
+          child: Container(
             width: size.width,
-            height: 140,
+            color: Colors.white,
+            height: 112,
             child: Column(
               children: [
-                SearchBar(
-                  backgroundColor: const WidgetStatePropertyAll(Colors.white),
-                  constraints: BoxConstraints.tightFor(
-                    width: size.width * 0.8,
-                    height: 40,
-                  ),
-                  leading: const Icon(Icons.search),
-                  hintText: "Search Course",
-                ),
+                CustomSearchBar(hintText: "Search Courses", size: size),
                 const SizedBox(height: 5),
                 SizedBox(
                   width: size.width * 0.85,

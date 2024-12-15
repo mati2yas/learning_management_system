@@ -31,6 +31,8 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: Colors.white,
         title: const Text("Profile"),
         centerTitle: true,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.black87,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
