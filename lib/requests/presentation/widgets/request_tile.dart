@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/shared_course/model/shared_course_model.dart';
+import 'package:lms_system/requests/provider/requests_provider.dart';
 
-class RequestTile extends StatelessWidget {
+
+
+class RequestTile extends ConsumerWidget {
   final Course course;
 
   final TextTheme textTh;
@@ -12,7 +16,7 @@ class RequestTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -44,14 +48,36 @@ class RequestTile extends StatelessWidget {
                 children: [
                   const SizedBox(width: 5),
                   Text(
-                    "${course.progress.toInt()} %",
+                    "${course.price} ETB",
                     style: textTh.labelMedium,
                   ),
                 ],
               ),
             ),
-            Text("${course.topics} topics"),
           ],
+        ),
+        trailing: GestureDetector(
+          onTap: () {
+            // this could be made better via a function that does just 'remove'
+            String status =
+                ref.read(requestsProvider.notifier).addOrRemoveCourse(course);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Course has been $status."),
+              ),
+            );
+          },
+          child: const CircleAvatar(
+            radius: 12,
+            backgroundColor: Colors.red,
+            child: Center(
+              child: Icon(
+                Icons.close,
+                color: Colors.white,
+                size: 18,
+              ),
+            ),
+          ),
         ),
       ),
     );

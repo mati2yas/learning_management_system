@@ -49,6 +49,7 @@ class HomeNotifier extends StateNotifier<List<Course>> {
           desc: c.desc,
           topics: c.topics,
           saves: c.saves + (c.saved ? -1 : 1),
+          price: c.price,
           liked: c.liked,
           likes: c.likes + (c.liked ? -1 : 1),
           image: c.image,
@@ -73,6 +74,7 @@ class HomeNotifier extends StateNotifier<List<Course>> {
           likes: c.likes,
           image: c.image,
           saved: !c.saved,
+          price: c.price,
           subscribed: c.subscribed,
           chapters: c.chapters,
         );
@@ -94,6 +96,7 @@ class HomeNotifier extends StateNotifier<List<Course>> {
           image: c.image,
           saved: c.saved,
           subscribed: !c.subscribed,
+          price: c.price,
           chapters: c.chapters,
         );
       }

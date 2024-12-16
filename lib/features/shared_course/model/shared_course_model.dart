@@ -8,6 +8,7 @@ class Course {
   String? streamOrDepartment;
   bool subscribed;
   bool saved, liked;
+  final double price;
   Course({
     required this.title,
     required this.desc,
@@ -19,6 +20,7 @@ class Course {
     this.subscribed = false,
     this.saved = false,
     this.liked = false,
+    required this.price,
     required this.chapters,
     this.streamOrDepartment,
   });

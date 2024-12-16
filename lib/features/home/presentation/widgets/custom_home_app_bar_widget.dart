@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/features/shared_course/model/shared_user.dart';
 
 class CustomHomeAppBar extends StatelessWidget {
+  final User user;
+
   const CustomHomeAppBar({
     super.key,
     required this.user,
   });
 
-  final User user;
-
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 135,
-      padding: EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 8),
+      padding:
+          const EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -31,7 +33,7 @@ class CustomHomeAppBar extends StatelessWidget {
                   ),
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               const CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Center(
@@ -42,20 +44,25 @@ class CustomHomeAppBar extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 10),
-              const CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Center(
-                  child: Icon(
-                    Icons.notifications,
-                    color: Colors.black,
-                    size: 20,
+              const SizedBox(width: 10),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(Routes.requests);
+                },
+                child: const CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Center(
+                    child: Icon(
+                      Icons.shopping_cart_outlined,
+                      color: Colors.black,
+                      size: 20,
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           const Text(

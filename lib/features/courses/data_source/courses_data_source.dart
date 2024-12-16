@@ -24,6 +24,7 @@ class CourseDataSource {
         saves: 9,
         image: "web_design.png",
         saved: true,
+        price: 30.0,
         likes: 12,
         liked: false,
         subscribed: true,
@@ -56,6 +57,7 @@ class CourseDataSource {
         subscribed: true,
         likes: 12,
         liked: false,
+        price: 82.0,
         chapters: [
           Chapter(
             name: "Chapter 2",
@@ -80,6 +82,7 @@ class CourseDataSource {
         desc: "web design",
         topics: 21,
         saves: 12,
+        price: 38.0,
         image: "marketing_course.png",
         saved: true,
         likes: 12,
@@ -111,6 +114,7 @@ class CourseDataSource {
         likes: 12,
         liked: false,
         saves: 7,
+        price: 57.0,
         image: "applied_math.png",
         saved: true,
         subscribed: true,
@@ -140,6 +144,7 @@ class CourseDataSource {
         saves: 7,
         image: "accounting_course.png",
         saved: false,
+        price: 99.99,
         subscribed: true,
         likes: 12,
         liked: false,
@@ -171,6 +176,7 @@ class CourseDataSource {
         saved: true,
         likes: 12,
         liked: false,
+        price: 19.99,
         subscribed: false,
         chapters: [
           Chapter(
@@ -200,6 +206,7 @@ class CourseDataSource {
         saves: 4,
         image: "applied_math.png",
         saved: true,
+        price: 99.99,
         subscribed: true,
         chapters: [
           Chapter(
@@ -229,6 +236,7 @@ class CourseDataSource {
         liked: false,
         image: "accounting_course.png",
         saved: false,
+        price: 39.99,
         subscribed: true,
         chapters: [
           Chapter(
@@ -259,6 +267,7 @@ class CourseDataSource {
         image: "applied_math.png",
         saved: true,
         subscribed: true,
+        price: 129.99,
         chapters: [
           Chapter(
             name: "Chapter 2",
@@ -288,6 +297,7 @@ class CourseDataSource {
         subscribed: true,
         likes: 12,
         liked: false,
+        price: 79.99,
         chapters: [
           Chapter(
             name: "Chapter 2",

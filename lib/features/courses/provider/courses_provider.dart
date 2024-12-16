@@ -40,6 +40,7 @@ class CourseNotifier extends StateNotifier<List<Course>> {
           image: c.image,
           saved: c.saved,
           liked: !c.liked,
+          price: c.price,
           subscribed: c.subscribed,
           chapters: c.chapters,
         );
@@ -61,6 +62,7 @@ class CourseNotifier extends StateNotifier<List<Course>> {
           image: c.image,
           saved: !c.saved,
           subscribed: c.subscribed,
+          price: c.price,
           chapters: c.chapters,
         );
       }
@@ -80,6 +82,7 @@ class CourseNotifier extends StateNotifier<List<Course>> {
           image: c.image,
           saved: c.saved,
           subscribed: !c.subscribed,
+          price: c.price,
           chapters: c.chapters,
         );
       }

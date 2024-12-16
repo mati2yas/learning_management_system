@@ -1,20 +1,42 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/requests/presentation/widgets/subscription_widget.dart';
 import 'package:lms_system/requests/provider/requests_provider.dart';
 
 import '../widgets/request_tile.dart';
 
-class RequestsScreen extends ConsumerWidget {
-  const RequestsScreen({
-    super.key,
-  });
+class RequestsScreen extends ConsumerStatefulWidget {
+  const RequestsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RequestsScreen> createState() => _RequestScreenState();
+}
+
+enum SubscriptionType { oneMonth, threeMonths, sixMonths }
+
+class _RequestScreenState extends ConsumerState<RequestsScreen> {
+  SubscriptionType subscriptionType = SubscriptionType.oneMonth;
+  XFile? transactionImage;
+  bool imagePicked = false;
+  Map<SubscriptionType, double> subTypeValue = {
+    SubscriptionType.oneMonth: 10,
+    SubscriptionType.threeMonths: 30,
+    SubscriptionType.sixMonths: 60,
+  };
+
+  @override
+  Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
-    var requestsProv = ref.read(requestsProvider);
+    var listViewSize = size.width * 0.5;
+    var requestsProv = ref.watch(requestsProvider);
+    double price =
+        requestsProv.map((r) => r.price).reduce((init, sum) => init + sum);
+    price *= subTypeValue[subscriptionType]!;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Buy Course"),
@@ -33,7 +55,7 @@ class RequestsScreen extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: size.height * 0.6,
+              height: size.height * 0.5,
               width: size.width * 0.85,
               child: ListView.builder(
                 itemCount: requestsProv.length,
@@ -50,12 +72,125 @@ class RequestsScreen extends ConsumerWidget {
               child: SizedBox(
                 height: 100,
                 width: size.width * 0.8,
-                child: const Row(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    SubscriptionWidget(duration: 1),
-                    SubscriptionWidget(duration: 3),
-                    SubscriptionWidget(duration: 6),
+                    SubscriptionWidget(
+                      isActive: subscriptionType == SubscriptionType.oneMonth,
+                      onPress: () {
+                        setState(() {
+                          subscriptionType = SubscriptionType.oneMonth;
+                        });
+                      },
+                      duration: 1,
+                    ),
+                    SubscriptionWidget(
+                      isActive:
+                          subscriptionType == SubscriptionType.threeMonths,
+                      onPress: () {
+                        setState(() {
+                          subscriptionType = SubscriptionType.threeMonths;
+                        });
+                      },
+                      duration: 3,
+                    ),
+                    SubscriptionWidget(
+                      isActive: subscriptionType == SubscriptionType.sixMonths,
+                      onPress: () {
+                        setState(() {
+                          subscriptionType = SubscriptionType.sixMonths;
+                        });
+                      },
+                      duration: 6,
+                    ),
                   ],
+                ),
+              ),
+            ),
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SizedBox(
+                  width: size.width * 0.6,
+                  child: Column(
+                    children: [
+                      Text(
+                        "${requestsProv.length} courses requested.",
+                        style: textTh.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        "Total price: $price",
+                        style: textTh.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      GestureDetector(
+                        onTap: () async {
+                          await pickTransactionImage();
+                          bool success = await pickTransactionImage();
+                          if (success) {
+                            setState(() {
+                              imagePicked = true;
+                              listViewSize = size.height * 0.35;
+                            });
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.mainBlue.withAlpha(100),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          height: 30,
+                          width: size.width * 0.4,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text("Choose Image"),
+                              Icon(
+                                Icons.image,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (imagePicked && transactionImage != null)
+                        Image.file(
+                          File(transactionImage!.path),
+                          width: 50,
+                          height: 50,
+                        ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.mainBlue,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 30,
+                            vertical: 7,
+                          ),
+                          fixedSize: Size(size.width * 0.4, 30),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: Text(
+                          'Submit',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: size.width * 0.04,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -64,34 +199,76 @@ class RequestsScreen extends ConsumerWidget {
       ),
     );
   }
-}
 
-class SubscriptionWidget extends StatelessWidget {
-  final int duration;
-  const SubscriptionWidget({
-    super.key,
-    required this.duration,
-  });
+  Future<bool> pickTransactionImage() async {
+    final XFile? image = await showImagePickSheet();
+    if (image != null) {
+      transactionImage = XFile(image.path);
+      return true;
+    }
+    return false;
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.mainBlue,
-          width: 2,
-        ),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          Text("$duration"),
-          const SizedBox(
-            height: 20,
+  Future<XFile?> showImagePickSheet() async {
+    final picker = ImagePicker();
+    return await showModalBottomSheet<XFile?>(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+          height: 120,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
           ),
-          const Text("Months"),
-        ],
-      ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GestureDetector(
+                onTap: () async {
+                  final XFile? image =
+                      await picker.pickImage(source: ImageSource.camera);
+                  if (image != null && context.mounted) {
+                    Navigator.pop(context, image);
+                  }
+                },
+                child: const SizedBox(
+                  height: 80,
+                  width: 60,
+                  child: Column(
+                    children: [
+                      Icon(Icons.image),
+                      Text("From Camera"),
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  final XFile? image =
+                      await picker.pickImage(source: ImageSource.gallery);
+                  if (image != null && context.mounted) {
+                    Navigator.pop(context, image);
+                  }
+                },
+                child: const SizedBox(
+                  height: 80,
+                  width: 60,
+                  child: Column(
+                    children: [
+                      Icon(Icons.image),
+                      Text("From Gallery"),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

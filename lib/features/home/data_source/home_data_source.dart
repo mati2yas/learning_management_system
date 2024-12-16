@@ -10,6 +10,7 @@ class HomeDataSource {
         topics: 21,
         saves: 7,
         likes: 12,
+        price: 30.0,
         liked: false,
         image: "web_design.png",
         chapters: [
@@ -35,6 +36,7 @@ class HomeDataSource {
         title: "Marketing",
         desc: "web design",
         topics: 21,
+        price: 50.0,
         saves: 7,
         likes: 7,
         liked: true,
@@ -61,6 +63,7 @@ class HomeDataSource {
       Course(
         title: "Applied Mathematics",
         desc: "web design",
+        price: 30.0,
         topics: 21,
         saves: 7,
         likes: 21,
@@ -93,6 +96,7 @@ class HomeDataSource {
         likes: 9,
         liked: false,
         image: "accounting_course.png",
+        price: 85.0,
         chapters: [
           Chapter(
             name: "Chapter 2",

@@ -10,6 +10,7 @@ class RequestsDataSource {
         topics: 21,
         saves: 7,
         likes: 12,
+        price: 30.0,
         liked: false,
         image: "web_design.png",
         chapters: [
@@ -35,6 +36,7 @@ class RequestsDataSource {
         title: "Marketing",
         desc: "web design",
         topics: 21,
+        price: 85.0,
         saves: 7,
         likes: 7,
         liked: true,
