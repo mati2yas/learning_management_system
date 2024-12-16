@@ -51,33 +51,104 @@ class CourseCard extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 5),
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                course.title,
-                style: const TextStyle(
-                  color: AppColors.mainBlue,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              course.title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: AppColors.mainBlue,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: [
-                  SvgPicture.asset(
-                    "assets/svgs/topics.svg",
-                    width: 12,
-                    height: 12,
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.mainBlue,
-                      BlendMode.srcIn,
-                    ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  "assets/svgs/topics.svg",
+                  width: 12,
+                  height: 12,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.mainBlue,
+                    BlendMode.srcIn,
                   ),
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  "${course.topics} Topics",
+                  style: TextStyle(color: AppColors.darkerGrey),
+                ),
+              ],
+            ),
+          ),
+          course.subscribed
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextButton.icon(
+                      onPressed: () {
+                        if (onLike != null) {
+                          onLike!();
+                        }
+                      },
+                      icon: Icon(
+                        course.liked ? Icons.thumb_up : Icons.thumb_up_outlined,
+                        color: AppColors.mainBlue,
+                      ),
+                      label: Text("${course.likes}"),
+                    ),
+                    Spacer(),
+                    TextButton.icon(
+                      // style: TextButton.styleFrom(
+                      //     padding: const EdgeInsets.only(left: 8)),
+                      onPressed: () {
+                        if (onBookmark != null) {
+                          onBookmark!();
+                        }
+                      },
+                      icon: Icon(
+                        course.saved ? Icons.bookmark : Icons.bookmark_outline,
+                        color: AppColors.mainBlue,
+                      ),
+                      label: Text("${course.saves}"),
+                    ),
+                  ],
+                )
+              : Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                  padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: AppColors.mainBlue,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Buy",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Icon(
+                        Icons.lock,
+                        size: 14,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                )
+        ],
+      ),
+    );
+  }
+}
+/*
                   const SizedBox(width: 4),
                   Text("${course.topics} Topics"),
                   const Spacer(),
@@ -182,8 +253,4 @@ class CourseCard extends ConsumerWidget {
                     ),
                   ),
                 ),
-        ],
-      ),
-    );
-  }
-}
+                */
