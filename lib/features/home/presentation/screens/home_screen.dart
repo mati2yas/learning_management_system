@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/home/presentation/widgets/carousel.dart';
@@ -45,25 +46,32 @@ class HomePage extends ConsumerWidget {
               );
             }),
             backgroundColor: AppColors.mainBlue,
-            actions: const [
-              CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Center(
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.black,
-                    size: 20,
+            actions: [
+              GestureDetector(
+                child: const CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Center(
+                    child: Icon(
+                      Icons.search,
+                      color: Colors.black,
+                      size: 20,
+                    ),
                   ),
                 ),
               ),
-              SizedBox(width: 10),
-              CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Center(
-                  child: Icon(
-                    Icons.notifications,
-                    color: Colors.black,
-                    size: 20,
+              const SizedBox(width: 10),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(Routes.requests);
+                },
+                child: const CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Center(
+                    child: Icon(
+                      Icons.shopping_cart_outlined,
+                      color: Colors.black,
+                      size: 20,
+                    ),
                   ),
                 ),
               ),
