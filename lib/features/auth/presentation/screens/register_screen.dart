@@ -96,7 +96,7 @@ class RegisterScreen extends ConsumerWidget {
                         horizontal: 50,
                         vertical: 15,
                       ),
-                      fixedSize: Size(size.width * 0.7, 50),
+                      fixedSize: Size(size.width - 80, 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),

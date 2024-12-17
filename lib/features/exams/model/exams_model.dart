@@ -65,11 +65,13 @@ class Question {
   final List<String> options;
   final String answer;
   final String explanation;
+  String? image;
 
   Question({
     required this.question,
     required this.options,
     required this.answer,
     required this.explanation,
+    this.image,
   });
 }

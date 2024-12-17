@@ -35,7 +35,7 @@ class NavItem extends StatelessWidget {
       onTap: () {
         onTap();
       },
-      child: Container(
+      child: SizedBox(
         height: 40,
         child: isCurr
             ? Column(

@@ -76,25 +76,6 @@ class _CourseDetailPageState extends ConsumerState<ExamsScreen>
                           });
                         },
                       ),
-                      // DropdownButton<String>(
-                      //   dropdownColor: Colors.white,
-                      //   value: courseDropDownValue == ""
-                      //       ? courseDropdowns[0]
-                      //       : courseDropDownValue,
-                      //   items: courseDropdowns
-                      //       .map(
-                      //         (item) => DropdownMenuItem<String>(
-                      //           value: item,
-                      //           child: Text(item),
-                      //         ),
-                      //       )
-                      //       .toList(),
-                      //   onChanged: (value) {
-                      //     setState(() {
-                      //       courseDropDownValue = value!;
-                      //     });
-                      //   },
-                      // ),
                     ],
                   ),
                 ),
@@ -154,16 +135,7 @@ class _CourseDetailPageState extends ConsumerState<ExamsScreen>
                         ),
                         color: Colors.white,
                         child: ListTile(
-                          onTap: () {
-                            var examData = {
-                              "exam year": exam.course.years[0].title,
-                              "exam title": exam.course.title,
-                              "questions": exam.course.years[0].questions,
-                            };
-
-                            pageNavController.navigatePage(6,
-                                arguments: examData);
-                          },
+                          onTap: () {},
                           title: Text(currentExam.title),
                           subtitle: Text(currentExam.course.title),
                           trailing: ElevatedButton(
@@ -174,7 +146,18 @@ class _CourseDetailPageState extends ConsumerState<ExamsScreen>
                               ),
                               fixedSize: const Size(90, 27),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              var examData = {
+                                "exam year": exam.course.years[0].title,
+                                "exam title": exam.course.title,
+                                "questions": exam.course.years[0].questions,
+                              };
+
+                              pageNavController.navigatePage(
+                                6,
+                                arguments: examData,
+                              );
+                            },
                             child: const Text(
                               "Retake",
                               style: TextStyle(
