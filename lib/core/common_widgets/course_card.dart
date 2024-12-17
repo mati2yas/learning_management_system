@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/shared_course/model/shared_course_model.dart';
+import 'package:lms_system/requests/provider/requests_provider.dart';
 
-class CourseCard extends StatelessWidget {
+import '../app_router.dart';
+
+class CourseCard extends ConsumerWidget {
   final Course course;
   Function? onBookmark;
   Function? onLike;
@@ -16,11 +20,12 @@ class CourseCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     var textTh = Theme.of(context).textTheme;
+    final requestsController = ref.watch(requestsProvider.notifier);
     return Container(
       width: double.infinity,
-      height: 180,
+      height: 160,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
@@ -75,7 +80,7 @@ class CourseCard extends StatelessWidget {
                 const SizedBox(width: 4),
                 Text(
                   "${course.topics} Topics",
-                  style: TextStyle(color: AppColors.darkerGrey),
+                  style: const TextStyle(color: AppColors.darkerGrey),
                 ),
               ],
             ),
@@ -96,7 +101,7 @@ class CourseCard extends StatelessWidget {
                       ),
                       label: Text("${course.likes}"),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     TextButton.icon(
                       // style: TextButton.styleFrom(
                       //     padding: const EdgeInsets.only(left: 8)),
@@ -113,29 +118,54 @@ class CourseCard extends StatelessWidget {
                     ),
                   ],
                 )
-              : Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: AppColors.mainBlue,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Buy",
-                        style: TextStyle(
+              : GestureDetector(
+                  onTap: () {
+                    String status =
+                        requestsController.addOrRemoveCourse(course);
+                    if (status == "added") {
+                      Navigator.of(context).pushNamed(Routes.requests);
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Course has been $status."),
+                      ),
+                    );
+                  },
+                  onLongPress: () {
+                    String status =
+                        requestsController.addOrRemoveCourse(course);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Course has been $status."),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: AppColors.mainBlue,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Buy",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Icon(
+                          Icons.lock,
+                          size: 14,
                           color: Colors.white,
                         ),
-                      ),
-                      SizedBox(width: 8),
-                      Icon(
-                        Icons.lock,
-                        size: 14,
-                        color: Colors.white,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 )
         ],

@@ -28,7 +28,7 @@ class HomePage extends ConsumerWidget {
         children: [
           CustomHomeAppBar(user: user),
           ClipRRect(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
             ),
@@ -48,7 +48,7 @@ class HomePage extends ConsumerWidget {
                   children: [
                     Container(
                       height: 150,
-                      margin: EdgeInsets.only(top: 8),
+                      margin: const EdgeInsets.only(top: 8),
                       width: size.width * 0.8,
                       decoration: const BoxDecoration(
                         color: AppColors.mainBlue,
@@ -146,7 +146,7 @@ class HomePage extends ConsumerWidget {
                             fontWeight: FontWeight.w600, letterSpacing: 0.7),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     SizedBox(
