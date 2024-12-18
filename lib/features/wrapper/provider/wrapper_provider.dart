@@ -26,6 +26,10 @@ class PageNavigationController extends StateNotifier<int> {
     if (index == 7) {
       return pageArguments[index] as Exam;
     }
+    if (index == 8) {
+      print("index argument is 8");
+      return pageArguments[index] as Map<String, dynamic>;
+    }
     return null;
   }
 

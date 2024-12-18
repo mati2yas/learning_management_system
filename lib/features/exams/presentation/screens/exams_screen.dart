@@ -60,7 +60,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 pageNavController.navigatePage(7, arguments: exams[1]);
               },
               categoryImage: "high_school",
-              categoryName: "Matric",
+              categoryName: "COC",
             ),
             ExamCategoryShow(
               exam: exams[2],

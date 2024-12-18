@@ -104,7 +104,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                     //     ? Colors.green
                                     //     : AppColors.mainGrey,
                                     color: AppColors.mainGrey,
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(26),
                                   ),
                                 );
                               },

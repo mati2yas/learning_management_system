@@ -5,6 +5,7 @@ import 'package:lms_system/features/courses/presentation/screens/course_content_
 import 'package:lms_system/features/courses/presentation/screens/courses_per_category_list.dart';
 import 'package:lms_system/features/courses/presentation/screens/courses_screen.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_filters_screen.dart';
+import 'package:lms_system/features/exams/presentation/screens/exam_grade_filter.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_page.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
@@ -100,7 +101,8 @@ class WrapperScreen extends ConsumerWidget {
       ),
       const CourseContentPage(), // 5
       const ExamQuestionsPage(), // 6
-      const ExamCoursesScreen(), // 7
+      const ExamFiltersScreen(), // 7
+      const ExamGradeFilter(), // 8
     ];
     return SafeArea(
       child: Scaffold(

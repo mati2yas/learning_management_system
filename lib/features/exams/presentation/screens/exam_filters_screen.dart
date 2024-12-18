@@ -5,16 +5,16 @@ import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 import '../../../../core/constants/colors.dart';
 
-class ExamCoursesScreen extends ConsumerStatefulWidget {
-  const ExamCoursesScreen({
+class ExamFiltersScreen extends ConsumerStatefulWidget {
+  const ExamFiltersScreen({
     super.key,
   });
 
   @override
-  ConsumerState<ExamCoursesScreen> createState() => _ExamCoursesScreenState();
+  ConsumerState<ExamFiltersScreen> createState() => _ExamCoursesScreenState();
 }
 
-class _ExamCoursesScreenState extends ConsumerState<ExamCoursesScreen>
+class _ExamCoursesScreenState extends ConsumerState<ExamFiltersScreen>
     with TickerProviderStateMixin {
   late Exam exam;
   late TabController tabController;
@@ -126,12 +126,41 @@ class _ExamCoursesScreenState extends ConsumerState<ExamCoursesScreen>
                     itemCount: filteredYears.length,
                     itemBuilder: (context, index) {
                       final year = filteredYears[index];
-                      return ListTile(
-                        title: Text(year.title),
-                        subtitle: Text('${year.questions.length} questions'),
-                        onTap: () {
-                          // Handle year tap, e.g., navigate to details
-                        },
+                      return Card(
+                        color: Colors.white,
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ListTile(
+                          title: Text(year.title),
+                          subtitle: Text('${year.questions.length} questions'),
+                          onTap: () {
+                            if (year.grades != null) {
+                              // if not null then matric page, move on to
+                              // grades and chapter page.
+                              print("to page 8, exam title: ${exam.title}");
+                              pageController.navigatePage(
+                                8,
+                                arguments: <String, dynamic>{
+                                  "exam title": exam.title,
+                                  "exam year": year,
+                                  //"exam title": year.title,
+                                },
+                              );
+                            } else {
+                              // if null then other pages, move on to
+                              // questions page
+                              Map<String, dynamic> examData = {
+                                "exam title": exam.title,
+                                "exam year": year.title,
+                                "questions": year.questions,
+                              };
+                              pageController.navigatePage(6,
+                                  arguments: examData);
+                            }
+                          },
+                        ),
                       );
                     },
                   );
