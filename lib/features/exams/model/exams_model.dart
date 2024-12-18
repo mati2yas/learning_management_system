@@ -1,12 +1,12 @@
 class Exam {
   final String title;
-  final ExamCourse course;
+  final List<ExamCourse> courses;
   final ExamType examType;
 
   Exam({
     required this.title,
     required this.examType,
-    required this.course,
+    required this.courses,
   });
 }
 

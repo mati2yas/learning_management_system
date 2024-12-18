@@ -21,7 +21,9 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
   List<Question> questions = [];
   List<String> selectedAnswers = [];
   List<String> correctAnswers = [];
+  List<bool> questionContainsImage = [];
   bool initializingPage = false;
+  int currentQuestionImageTrack = 0;
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
@@ -30,7 +32,8 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
     // Store selected answers
     print("questions length: ${questions.length}");
 
-    List<String> answers = [];
+    middleExpandedFlex =
+        questions[currentQuestionImageTrack].image == null ? 2 : 4;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -190,17 +193,18 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                 Text(questions[index].explanation),
                               const SizedBox(height: 15),
                               if (answerRevealed) ...[
-                                Text(currentQuestion.answer),
+                                const SizedBox(height: 10),
+                                Text(currentQuestion.explanation),
                                 Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Colors.red,
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
                                       width: 2,
                                       color: AppColors.darkerGrey,
                                     ),
                                   ),
-                                  child: Text(currentQuestion.answer),
+                                  child: Text(currentQuestion.explanation),
                                 )
                               ],
                             ],
@@ -224,6 +228,12 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                               elevation: 4,
                             ),
                             onPressed: () {
+                              setState(() {
+                                if (currentQuestionImageTrack >
+                                    questions.length) {
+                                  currentQuestionImageTrack -= 1;
+                                }
+                              });
                               pageViewController.previousPage(
                                 duration: const Duration(milliseconds: 850),
                                 curve: Curves.decelerate,
@@ -243,6 +253,12 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                               elevation: 4,
                             ),
                             onPressed: () {
+                              setState(() {
+                                if (currentQuestionImageTrack <
+                                    questions.length) {
+                                  currentQuestionImageTrack += 1;
+                                }
+                              });
                               pageViewController.nextPage(
                                 duration: const Duration(milliseconds: 850),
                                 curve: Curves.decelerate,
@@ -288,6 +304,9 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
           // save the correct answers.
           int index = questions.indexOf(question);
           correctAnswers[index] = question.answer;
+
+          // track whether each question contains image
+          questionContainsImage.add(question.image == null);
         }
         initializingPage = false;
       });
