@@ -15,7 +15,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilter>
     with TickerProviderStateMixin {
   bool initializingPage = false;
   late TabController tabController;
-  ExamYear year = ExamYear(title: "");
+  ExamYear year = ExamYear(title: "", grades: []);
   Map<String, dynamic> examData = {};
   List<String> tabsList = [], gradesDropDown = [];
   String currentTab = "", gradeDropDownValue = "";
@@ -89,7 +89,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilter>
               controller: tabController,
               children: tabsList.map((tabTitle) {
                 // Filter the grades by the current tab
-                final selectedGrade = year.grades!.firstWhere(
+                final selectedGrade = year.grades.firstWhere(
                   (grade) => grade.title == currentTab,
                   orElse: () => ExamGrade(id: "", title: "", chapters: []),
                 );
@@ -106,18 +106,27 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilter>
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: ListTile(
-                        onTap: () {
-                          Map<String, dynamic> examDataNext = {
-                            "exam title": examData["exam title"],
-                            "exam year": year.title,
-                            "questions": chapters[index].questions,
-                          };
-                          pageController.navigatePage(6,
-                              arguments: examDataNext);
-                        },
                         title: Text(chapters[index].title),
                         subtitle: Text(
                           "${chapters[index].questions.length} questions",
+                        ),
+                        trailing: FilledButton(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: AppColors.mainBlue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          onPressed: () {
+                            Map<String, dynamic> examDataNext = {
+                              "exam title": examData["exam title"],
+                              "exam year": year.title,
+                              "questions": chapters[index].questions,
+                            };
+                            pageController.navigatePage(6,
+                                arguments: examDataNext);
+                          },
+                          child: const Text("Take"),
                         ),
                       ),
                     );
@@ -140,10 +149,10 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilter>
       setState(() {
         var yearVal = examData["exam year"]! as ExamYear;
         year = yearVal;
-        var tabsSet = yearVal.grades!.map((yr) => yr.title).toSet();
+        var tabsSet = yearVal.grades.map((yr) => yr.title).toSet();
         tabsList = List.from(tabsSet);
 
-        gradesDropDown = yearVal.grades!.map((grade) => grade.title).toList();
+        gradesDropDown = yearVal.grades.map((grade) => grade.title).toList();
         gradeDropDownValue = gradesDropDown.first;
 
         tabController = TabController(

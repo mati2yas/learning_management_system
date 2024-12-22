@@ -15,6 +15,44 @@ class ExamsDataSource {
             years: [
               ExamYear(
                 title: "2012",
+                questions: [
+                  Question(
+                    sequenceOrder: 1,
+                    question: "If 3x+5=20, what is the value of x?",
+                    options: ["3", "5", "6", "7"],
+                    answer: "5",
+                    explanation: "simple substition",
+                    image: "web_design.png",
+                  ),
+                  Question(
+                    sequenceOrder: 1,
+                    question:
+                        "In a triangle, the sum of two angles is 90∘, and the third angle is 60∘. What type of triangle is this?",
+                    options: [
+                      "Acute-Agled Triangle",
+                      "Righ-Angled Triangle",
+                      "Obtuse-Angled Triangle",
+                      "Isosceles Triangle"
+                    ],
+                    answer: "Acute Angled Triangle",
+                    explanation: "Acute Agled triangle",
+                  ),
+                  Question(
+                    sequenceOrder: 3,
+                    question: "If 3x+5=20, what is the value of x?",
+                    options: ["3", "5", "6", "7"],
+                    answer: "5",
+                    explanation: "simple substition",
+                    image: "web_design.png",
+                  ),
+                  Question(
+                    sequenceOrder: 2,
+                    question: "If 3x+5=20, what is the value of x?",
+                    options: ["3", "5", "6", "7"],
+                    answer: "5",
+                    explanation: "simple substition",
+                  ),
+                ],
                 grades: [
                   ExamGrade(
                     id: "0",
@@ -30,7 +68,7 @@ class ExamsDataSource {
                         title: "Chapter 1",
                         questions: [
                           Question(
-                            //sequenceOrder: 1,
+                            sequenceOrder: 1,
                             question: "If 3x+5=20, what is the value of x?",
                             options: ["3", "5", "6", "7"],
                             answer: "5",
@@ -38,7 +76,7 @@ class ExamsDataSource {
                             image: "web_design.png",
                           ),
                           Question(
-                            //sequenceOrder: 1,
+                            sequenceOrder: 1,
                             question:
                                 "In a triangle, the sum of two angles is 90∘, and the third angle is 60∘. What type of triangle is this?",
                             options: [
@@ -51,7 +89,7 @@ class ExamsDataSource {
                             explanation: "Acute Agled triangle",
                           ),
                           Question(
-                            //sequenceOrder: 2,
+                            sequenceOrder: 2,
                             question: "If 3x+5=20, what is the value of x?",
                             options: ["3", "5", "6", "7"],
                             answer: "5",
@@ -59,7 +97,7 @@ class ExamsDataSource {
                             image: "web_design.png",
                           ),
                           Question(
-                            //sequenceOrder: 3,
+                            sequenceOrder: 3,
                             question: "If 3x+5=20, what is the value of x?",
                             options: ["3", "5", "6", "7"],
                             answer: "5",
@@ -78,7 +116,7 @@ class ExamsDataSource {
                         title: "Chapter 1",
                         questions: [
                           Question(
-                            //sequenceOrder: 1,
+                            sequenceOrder: 1,
                             question: "If 3x+5=20, what is the value of x?",
                             options: ["3", "5", "6", "7"],
                             answer: "5",
@@ -86,7 +124,7 @@ class ExamsDataSource {
                             image: "web_design.png",
                           ),
                           Question(
-                            //sequenceOrder: 1,
+                            sequenceOrder: 1,
                             question:
                                 "In a triangle, the sum of two angles is 90∘, and the third angle is 60∘. What type of triangle is this?",
                             options: [
@@ -99,7 +137,7 @@ class ExamsDataSource {
                             explanation: "Acute Agled triangle",
                           ),
                           Question(
-                            //sequenceOrder: 2,
+                            sequenceOrder: 2,
                             question: "If 3x+5=20, what is the value of x?",
                             options: ["3", "5", "6", "7"],
                             answer: "5",
@@ -107,7 +145,7 @@ class ExamsDataSource {
                             image: "web_design.png",
                           ),
                           Question(
-                            //sequenceOrder: 3,
+                            sequenceOrder: 3,
                             question: "If 3x+5=20, what is the value of x?",
                             options: ["3", "5", "6", "7"],
                             answer: "5",
@@ -126,7 +164,7 @@ class ExamsDataSource {
                         title: "Chapter 1",
                         questions: [
                           Question(
-                            //sequenceOrder: 1,
+                            sequenceOrder: 1,
                             question: "If 3x+5=20, what is the value of x?",
                             options: ["3", "5", "6", "7"],
                             answer: "5",
@@ -134,7 +172,7 @@ class ExamsDataSource {
                             image: "web_design.png",
                           ),
                           Question(
-                            //sequenceOrder: 1,
+                            sequenceOrder: 1,
                             question:
                                 "In a triangle, the sum of two angles is 90∘, and the third angle is 60∘. What type of triangle is this?",
                             options: [
@@ -147,7 +185,7 @@ class ExamsDataSource {
                             explanation: "Acute Agled triangle",
                           ),
                           Question(
-                            //sequenceOrder: 2,
+                            sequenceOrder: 2,
                             question: "If 3x+5=20, what is the value of x?",
                             options: ["3", "5", "6", "7"],
                             answer: "5",
@@ -155,7 +193,7 @@ class ExamsDataSource {
                             image: "web_design.png",
                           ),
                           Question(
-                            //sequenceOrder: 3,
+                            sequenceOrder: 3,
                             question: "If 3x+5=20, what is the value of x?",
                             options: ["3", "5", "6", "7"],
                             answer: "5",
@@ -181,9 +219,21 @@ class ExamsDataSource {
             id: "3",
             title: "Accounting",
             years: [
-              ExamYear(title: "2012", questions: generateQuestions(5)),
-              ExamYear(title: "2013", questions: generateQuestions(5)),
-              ExamYear(title: "2014", questions: generateQuestions(5)),
+              ExamYear(
+                title: "2012",
+                questions: generateQuestions(5),
+                grades: [],
+              ),
+              ExamYear(
+                title: "2013",
+                questions: generateQuestions(5),
+                grades: [],
+              ),
+              ExamYear(
+                title: "2014",
+                questions: generateQuestions(5),
+                grades: [],
+              ),
             ],
           ),
         ],
@@ -196,9 +246,21 @@ class ExamsDataSource {
             id: "4",
             title: "Nursing",
             years: [
-              ExamYear(title: "2012", questions: generateQuestions(5)),
-              ExamYear(title: "2013", questions: generateQuestions(5)),
-              ExamYear(title: "2014", questions: generateQuestions(5)),
+              ExamYear(
+                title: "2012",
+                questions: generateQuestions(5),
+                grades: [],
+              ),
+              ExamYear(
+                title: "2013",
+                questions: generateQuestions(5),
+                grades: [],
+              ),
+              ExamYear(
+                title: "2014",
+                questions: generateQuestions(5),
+                grades: [],
+              ),
             ],
           ),
         ],
@@ -211,9 +273,21 @@ class ExamsDataSource {
             id: "5",
             title: "Computer Science",
             years: [
-              ExamYear(title: "2012", questions: generateQuestions(5)),
-              ExamYear(title: "2013", questions: generateQuestions(5)),
-              ExamYear(title: "2014", questions: generateQuestions(5)),
+              ExamYear(
+                title: "2012",
+                questions: generateQuestions(5),
+                grades: [],
+              ),
+              ExamYear(
+                title: "2013",
+                questions: generateQuestions(5),
+                grades: [],
+              ),
+              ExamYear(
+                title: "2014",
+                questions: generateQuestions(5),
+                grades: [],
+              ),
             ],
           ),
         ],
@@ -259,10 +333,12 @@ class ExamsDataSource {
   List<Question> generateQuestions(int count) {
     return List.generate(count, (index) {
       return Question(
+        sequenceOrder: index + 1,
         question: "Question ${index + 1}?",
         options: ["Option A", "Option B", "Option C", "Option D"],
         answer: "Option A",
-        explanation: "Explanation for question ${index + 1}.",
+        explanation:
+            "Explanation for question ${index + 1}. the reason this is so long is case we need to make sure that we make it as long as possible so that we can test the limits.",
       );
     });
   }

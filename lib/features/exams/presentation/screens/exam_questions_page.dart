@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
+import 'package:lms_system/features/exams/presentation/screens/exam_questions_layout.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
+
+import '../../provider/timer_provider.dart';
 
 class ExamQuestionsPage extends ConsumerStatefulWidget {
   const ExamQuestionsPage({super.key});
@@ -24,16 +27,18 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
   List<bool> questionContainsImage = [];
   bool initializingPage = false;
   int currentQuestionImageTrack = 0;
+  ScreenLayoutConfig layoutConfig = ScreenLayoutConfig();
+
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
+    final timerAsyncValue = ref.watch(examTimerProvider);
+    middleExpandedFlex = questions.isNotEmpty &&
+            questions[currentQuestionImageTrack].image == null
+        ? 2
+        : 4;
 
-    // Store selected answers
-    print("questions length: ${questions.length}");
-
-    middleExpandedFlex =
-        questions[currentQuestionImageTrack].image == null ? 2 : 4;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -46,12 +51,28 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
             color: Colors.black,
           ),
         ),
-        title: Text(
-          "$examYear $examTitle",
-          style: textTh.titleLarge!.copyWith(
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
+        title: Column(
+          children: [
+            Text(
+              "$examYear $examTitle",
+              style: textTh.titleLarge!.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
+            timerAsyncValue.when(
+              data: (remainingSeconds) {
+                final minutes = remainingSeconds ~/ 60;
+                final seconds = remainingSeconds % 60;
+                return Text(
+                  "Time Left: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}",
+                  style: textTh.bodySmall!.copyWith(color: Colors.red),
+                );
+              },
+              loading: () => const Text("Calculating time..."),
+              error: (e, _) => const Text("Error with timer"),
+            ),
+          ],
         ),
         centerTitle: true,
         elevation: 6,
@@ -70,212 +91,195 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                 ),
               ),
             )
-          : SizedBox(
-              width: size.width,
-              height: size.height,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
+          : Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 18.0,
+                horizontal: 12,
+              ),
+              child: SizedBox(
+                width: size.width,
+                height: size.height,
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      width: size.width,
+                      height: size.height * 0.8,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            examTitle,
-                            style: textTh.titleMedium!.copyWith(
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
                           SizedBox(
-                            height: 30,
-                            width: size.width,
-                            child: ListView.separated(
-                              itemCount: questions.length,
+                            height: size.height * 0.65,
+                            child: PageView.builder(
                               scrollDirection: Axis.horizontal,
+                              controller: pageViewController,
+                              itemCount: questions.length,
                               itemBuilder: (_, index) {
-                                return Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    // color: correctAnswers[index] ==
-                                    //         selectedAnswers[index]
-                                    //     ? Colors.green
-                                    //     : AppColors.mainGrey,
-                                    color: AppColors.mainGrey,
-                                    borderRadius: BorderRadius.circular(26),
-                                  ),
+                                var currentQuestion = questions[index];
+                                bool answerRevealed = middleExpandedFlex > 2;
+
+                                return Column(
+                                  children: [
+                                    if (currentQuestion.image != null)
+                                      SizedBox(
+                                        width: size.width * 0.7,
+                                        height: 150,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.asset(
+                                            "assets/images/${currentQuestion.image}",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "${currentQuestion.sequenceOrder}. ${currentQuestion.question}",
+                                        style: const TextStyle(fontSize: 15),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    ...currentQuestion.options.map((op) {
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20),
+                                        child: SizedBox(
+                                          width: size.width * 0.55,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Radio<String>(
+                                                activeColor: AppColors.mainBlue,
+                                                value: op,
+                                                groupValue:
+                                                    selectedAnswers[index],
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    selectedAnswers[index] =
+                                                        value!;
+                                                  });
+                                                },
+                                              ),
+                                              const SizedBox(width: 10),
+                                              Text(
+                                                op,
+                                                style: const TextStyle(
+                                                    fontSize: 13),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                    const SizedBox(height: 15),
+                                    ElevatedButton.icon(
+                                      onPressed: () {
+                                        setState(() {
+                                          layoutConfig.answerRevealed =
+                                              !layoutConfig.answerRevealed;
+                                          // this will trigger getMiddleExpandedFlex method.
+                                        });
+                                      },
+                                      icon: const Icon(Icons.lightbulb),
+                                      label: const Text("Reveal Solution"),
+                                    ),
+                                    if (layoutConfig.answerRevealed) ...[
+                                      Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Text(
+                                          currentQuestion.answer,
+                                          style: textTh.bodyLarge,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          padding: const EdgeInsets.all(8),
+                                          width: size.width * 0.8,
+                                          height: 160,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              width: 2,
+                                              color: Colors.black,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(18),
+                                          ),
+                                          child: Text(
+                                            currentQuestion.explanation,
+                                            style: textTh.bodySmall,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ],
                                 );
                               },
-                              separatorBuilder: (_, index) =>
-                                  const SizedBox(width: 20),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: middleExpandedFlex,
-                    child: PageView.builder(
-                      scrollDirection: Axis.horizontal,
-                      controller: pageViewController,
-                      itemCount: questions.length,
-                      itemBuilder: (_, index) {
-                        var currentQuestion = questions[index];
-                        bool answerRevealed = false;
-                        return SizedBox(
-                          width: size.width * 0.8,
-                          child: Column(
-                            children: [
-                              if (currentQuestion.image != null)
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.asset(
-                                    "assets/images/${currentQuestion.image}",
-                                    width: size.width * 0.7,
-                                    height: 250,
-                                  ),
-                                ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  currentQuestion.question,
-                                  style: const TextStyle(fontSize: 15),
-                                ),
+                    Positioned(
+                      bottom: 200,
+                      child: SizedBox(
+                        width: size.width,
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                elevation: 4,
                               ),
-                              const SizedBox(height: 10),
-                              ...currentQuestion.options.map((op) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: SizedBox(
-                                    width: size.width * 0.55,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Radio<String>(
-                                          activeColor: AppColors.mainBlue,
-                                          value: op,
-                                          groupValue: selectedAnswers[index],
-                                          onChanged: (value) {
-                                            setState(() {
-                                              selectedAnswers[index] = value!;
-                                            });
-                                          },
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Text(
-                                          op,
-                                          style: const TextStyle(fontSize: 13),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }),
-                              const SizedBox(height: 15),
-                              ElevatedButton.icon(
-                                onPressed: () {
+                              onPressed: () {
+                                if (currentQuestionImageTrack > 0) {
                                   setState(() {
-                                    answerRevealed = !answerRevealed;
-                                    middleExpandedFlex =
-                                        modifyMiddleExpandedFlex(
-                                      middleExpandedFlex,
-                                      questions[index].image != null,
-                                    );
+                                    currentQuestionImageTrack--;
                                   });
-                                },
-                                label: const Text("Reveal Solution"),
-                              ),
-                              if (middleExpandedFlex == 4)
-                                Text(questions[index].explanation),
-                              const SizedBox(height: 15),
-                              if (answerRevealed) ...[
-                                const SizedBox(height: 10),
-                                Text(currentQuestion.explanation),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      width: 2,
-                                      color: AppColors.darkerGrey,
-                                    ),
-                                  ),
-                                  child: Text(currentQuestion.explanation),
-                                )
-                              ],
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Container(
-                      width: size.width * 0.6,
-                      alignment: Alignment.topCenter,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              elevation: 4,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                if (currentQuestionImageTrack >
-                                    questions.length) {
-                                  currentQuestionImageTrack -= 1;
+                                  pageViewController.previousPage(
+                                    duration: const Duration(milliseconds: 850),
+                                    curve: Curves.decelerate,
+                                  );
                                 }
-                              });
-                              pageViewController.previousPage(
-                                duration: const Duration(milliseconds: 850),
-                                curve: Curves.decelerate,
-                              );
-                            },
-                            child: const Text(
-                              "Previous",
-                              style: TextStyle(
-                                color: Colors.black,
+                              },
+                              child: const Text(
+                                "Previous",
+                                style: TextStyle(color: Colors.black),
                               ),
                             ),
-                          ),
-                          const Spacer(),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.mainBlue,
-                              elevation: 4,
-                            ),
-                            onPressed: () {
-                              setState(() {
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.mainBlue,
+                                elevation: 4,
+                              ),
+                              onPressed: () {
                                 if (currentQuestionImageTrack <
-                                    questions.length) {
-                                  currentQuestionImageTrack += 1;
+                                    questions.length - 1) {
+                                  setState(() {
+                                    currentQuestionImageTrack++;
+                                  });
+                                  pageViewController.nextPage(
+                                    duration: const Duration(milliseconds: 850),
+                                    curve: Curves.decelerate,
+                                  );
                                 }
-                              });
-                              pageViewController.nextPage(
-                                duration: const Duration(milliseconds: 850),
-                                curve: Curves.decelerate,
-                              );
-                            },
-                            child: const Text(
-                              "Next",
-                              style: TextStyle(
-                                color: Colors.white,
+                              },
+                              child: const Text(
+                                "Next",
+                                style: TextStyle(color: Colors.white),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
     );
@@ -289,52 +293,50 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
       pageNavController = ref.read(pageNavigationProvider.notifier);
       final examData =
           pageNavController.getArgumentsForPage(6) as Map<String, dynamic>;
+
       setState(() {
         examTitle = examData["exam title"]!;
         examYear = examData["exam year"]!;
         questions = examData["questions"]! as List<Question>;
 
-        // initialize correctAnswers and selectedAnswers as
-        // lists of empty strings with length the same as
-        // the number of questions.
         correctAnswers = List.generate(questions.length, (index) => "");
         selectedAnswers = List.generate(questions.length, (index) => "");
 
         for (var question in questions) {
-          // save the correct answers.
           int index = questions.indexOf(question);
           correctAnswers[index] = question.answer;
-
-          // track whether each question contains image
           questionContainsImage.add(question.image == null);
         }
         initializingPage = false;
+
+        pageViewController.addListener(trackLayoutConfig);
       });
     });
   }
 
-  int modifyMiddleExpandedFlex(int middleExpandedFlex, bool pictureExists) {
-    if (pictureExists) {
-      // in case of a picture existing, middle expanded
-      // flex wil either be 4 or 6. 6 means answer revealed
-      // and 4 means no answer revealed.
-      // if it was 4 make it 6, if 6 make it 4
-      if (middleExpandedFlex == 4) {
-        middleExpandedFlex = 6;
-      } else if (middleExpandedFlex == 6) {
-        middleExpandedFlex = 4;
-      }
-    } else {
-      // in case of a picture existing, middle expanded
-      // flex wil either be 2 or 4. 4 means answer
-      // revealed and 2 means no answer revealed.
-      // if it was 2 make it 4, if 4 make it 2
-      if (middleExpandedFlex == 2) {
-        middleExpandedFlex = 4;
-      } else if (middleExpandedFlex == 4) {
-        middleExpandedFlex = 2;
-      }
-    }
-    return middleExpandedFlex;
+  // this tracks the state of the layout config object
+  // based on the current pageview index.
+  // every time a new page comes it checks the question
+  // that corresponds to that pageview and
+  // modifies the image exists value based on the
+  // whether that question has image. it also
+  // toggles the answer revealed value of the layoutConfig
+  // to false, and after that once reveal solution has been
+  // pressed it will make it true. but for each new page
+  // that comes the answerRevealed has to be reset to false.
+  // cause whenever new screen comes the answer has to be hidden by default.
+  void trackLayoutConfig() {
+    double current = pageViewController.page ?? 0;
+    int currentIndex = current.toInt();
+    layoutConfig.imageExists = questions[currentIndex].image != null;
+    layoutConfig.answerRevealed = false;
+    print("current page: $currentIndex");
+    print(
+        "layout config=> answer revealed: ${layoutConfig.answerRevealed}, image exists: ${layoutConfig.imageExists}");
+    print("the flex in question $middleExpandedFlex");
+
+    // once setState is called,
+    // this will trigger getMiddleExpandedFlex method.
+    setState(() {});
   }
 }

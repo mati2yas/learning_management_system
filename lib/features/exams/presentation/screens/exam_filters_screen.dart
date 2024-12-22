@@ -135,31 +135,71 @@ class _ExamCoursesScreenState extends ConsumerState<ExamFiltersScreen>
                         child: ListTile(
                           title: Text(year.title),
                           subtitle: Text('${year.questions.length} questions'),
-                          onTap: () {
-                            if (year.grades != null) {
-                              // if not null then matric page, move on to
-                              // grades and chapter page.
-                              print("to page 8, exam title: ${exam.title}");
-                              pageController.navigatePage(
-                                8,
-                                arguments: <String, dynamic>{
-                                  "exam title": exam.title,
-                                  "exam year": year,
-                                  //"exam title": year.title,
-                                },
-                              );
-                            } else {
-                              // if null then other pages, move on to
-                              // questions page
-                              Map<String, dynamic> examData = {
-                                "exam title": exam.title,
-                                "exam year": year.title,
-                                "questions": year.questions,
-                              };
-                              pageController.navigatePage(6,
-                                  arguments: examData);
-                            }
-                          },
+                          onTap: () {},
+                          trailing: exam.examType == ExamType.matric
+                              ? PopupMenuButton<void>(
+                                  icon: const Icon(
+                                      Icons.more_vert), // Vertical three dots
+                                  itemBuilder: (BuildContext context) =>
+                                      <PopupMenuEntry<void>>[
+                                    PopupMenuItem<void>(
+                                      onTap: () {
+                                        Map<String, dynamic> examData = {
+                                          "exam title": exam.title,
+                                          "exam year": year.title,
+                                          "questions": year.questions,
+                                        };
+                                        pageController.navigatePage(6,
+                                            arguments: examData);
+                                      },
+                                      child: const ListTile(
+                                        leading: Icon(Icons.question_answer),
+                                        title: Text('Take All'),
+                                      ),
+                                    ),
+                                    PopupMenuItem<void>(
+                                      onTap: () {
+                                        print(
+                                            "to page 8, exam title: ${exam.title}");
+                                        pageController.navigatePage(
+                                          8,
+                                          arguments: <String, dynamic>{
+                                            "exam title": exam.title,
+                                            "exam year": year,
+                                            //"exam title": year.title,
+                                          },
+                                        );
+                                      },
+                                      child: const ListTile(
+                                        leading: Icon(Icons.filter_alt),
+                                        title: Text('Filter'),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : FilledButton(
+                                  style: FilledButton.styleFrom(
+                                    backgroundColor: AppColors.mainBlue,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    if (exam.examType == ExamType.matric) {
+                                    } else {
+                                      // if null then other pages, move on to
+                                      // questions page
+                                      Map<String, dynamic> examData = {
+                                        "exam title": exam.title,
+                                        "exam year": year.title,
+                                        "questions": year.questions,
+                                      };
+                                      pageController.navigatePage(6,
+                                          arguments: examData);
+                                    }
+                                  },
+                                  child: const Text("Take"),
+                                ),
                         ),
                       );
                     },

@@ -155,7 +155,40 @@ class WrapperScreen extends ConsumerWidget {
                           ),
                           NavItem(
                             icon: Icons.quiz,
-                            onTap: () => pageController.navigatePage(3),
+                            onTap: () {
+                              if (ref.read(pageNavigationProvider) == 6) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text("Confirmation"),
+                                      content: const Text(
+                                          "Are you sure to leave the current page?"),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(); // Dismiss the dialog
+                                          },
+                                          child: const Text("Cancel"),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(); // Dismiss the dialog
+
+                                            pageController.navigatePage(3);
+                                          },
+                                          child: const Text("Yes"),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else {
+                                pageController.navigatePage(3);
+                              }
+                            },
                             label: "Exams",
                             isCurr: [3, 6, 7].contains(currentPage),
                             ref: ref,

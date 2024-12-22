@@ -51,11 +51,11 @@ enum ExamType { matric, coc, ngat, exitexam }
 class ExamYear {
   final String title;
   final List<Question> questions; // For non-matric exams
-  final List<ExamGrade>? grades; // For matric exams
+  final List<ExamGrade> grades; // For matric exams
 
   ExamYear({
     required this.title,
-    this.grades,
+    required this.grades,
     this.questions = const [],
   });
 }
@@ -65,6 +65,7 @@ class Question {
   final List<String> options;
   final String answer;
   final String explanation;
+  final int sequenceOrder;
   String? image;
 
   Question({
@@ -72,6 +73,7 @@ class Question {
     required this.options,
     required this.answer,
     required this.explanation,
+    required this.sequenceOrder,
     this.image,
   });
 }
