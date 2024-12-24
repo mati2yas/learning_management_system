@@ -20,16 +20,29 @@ final highSchool = [
             saves: 15,
             image: 'applied_math.png',
             chapters: [
-              Chapter(name: "Chapter 1", title: "Intro to math", videos: []),
-              Chapter(name: "Chapter 1", title: "Intro to math", videos: []),
-              Chapter(name: "Chapter 1", title: "Intro to math", videos: []),
-              Chapter(name: "Chapter 1", title: "Intro to math", videos: []),
-              Chapter(name: "Chapter 1", title: "Intro to math", videos: []),
+              Chapter(name: "Chapter 1", title: "Vectors", videos: [
+                Video(title: "oTxY2P5j32w", duration: ""),
+              ]),
+              Chapter(name: "Chapter 2", title: "Number sequences", videos: [
+                Video(title: "XZJdyPkCxuE", duration: ""),
+              ]),
+              Chapter(
+                  name: "Chapter 3",
+                  title: "Limits and continuity",
+                  videos: [
+                    Video(title: "Tc2-B44oanQ", duration: ""),
+                  ]),
+              Chapter(name: "Chapter 4", title: "Derivatives", videos: [
+                Video(title: "Tc2-B44oanQ", duration: ""),
+              ]),
+              Chapter(name: "Chapter 5", title: "Integrals", videos: [
+                Video(title: "Tc2-B44oanQ", duration: ""),
+              ]),
             ],
           ),
           Course(
-            title: "Mathematics",
-            desc: "Advanced arithmetic and algebra",
+            title: "Applied Mathematics",
+            desc: "Advanced Calculus Course",
             topics: 7,
             likes: 12,
             liked: false,
@@ -38,11 +51,24 @@ final highSchool = [
             //image: 'mathematics.png',
             image: 'applied_math.png',
             chapters: [
-              Chapter(name: "Chapter 1", title: "Intro to math", videos: []),
-              Chapter(name: "Chapter 1", title: "Intro to math", videos: []),
-              Chapter(name: "Chapter 1", title: "Intro to math", videos: []),
-              Chapter(name: "Chapter 1", title: "Intro to math", videos: []),
-              Chapter(name: "Chapter 1", title: "Intro to math", videos: []),
+              Chapter(name: "Chapter 1", title: "Vectors", videos: [
+                Video(title: "oTxY2P5j32w", duration: ""),
+              ]),
+              Chapter(name: "Chapter 2", title: "Number sequences", videos: [
+                Video(title: "XZJdyPkCxuE", duration: ""),
+              ]),
+              Chapter(
+                  name: "Chapter 3",
+                  title: "Limits and continuity",
+                  videos: [
+                    Video(title: "Tc2-B44oanQ", duration: ""),
+                  ]),
+              Chapter(name: "Chapter 4", title: "Derivatives", videos: [
+                Video(title: "Tc2-B44oanQ", duration: ""),
+              ]),
+              Chapter(name: "Chapter 5", title: "Integrals", videos: [
+                Video(title: "Tc2-B44oanQ", duration: ""),
+              ]),
             ],
           ),
         ],
@@ -61,7 +87,96 @@ final highSchool = [
             liked: false,
             //image: 'chemistry.png',
             image: 'applied_math.png',
-            chapters: [],
+            chapters: [
+              Chapter(
+                  name: "Chapter 1",
+                  title: "Introduction to Computers",
+                  videos: [
+                    Video(title: "Rd4a1X3B61w", duration: ""),
+                  ]),
+              Chapter(
+                name: "Chapter 2",
+                title: "",
+                videos: [
+                  Video(title: "5iTOphGnCtg", duration: ""),
+                ],
+              ),
+              Chapter(
+                name: "Chapter 3",
+                title: "",
+                videos: [
+                  Video(title: "5iTOphGnCtg", duration: ""),
+                ],
+              ),
+            ],
+          ),
+          Course(
+            title: "Biology",
+            desc: "",
+            topics: 8,
+            saves: 16,
+            likes: 12,
+            price: 99.99,
+            liked: false,
+            //image: 'chemistry.png',
+            image: 'applied_math.png',
+            chapters: [
+              Chapter(
+                name: "Chapter 1",
+                title: "Intro to biology",
+                videos: [
+                  Video(title: "3tisOnOkwzo", duration: ""),
+                ],
+              ),
+              Chapter(
+                name: "Chapter 1",
+                title: "Intro to biology",
+                videos: [
+                  Video(title: "3tisOnOkwzo", duration: ""),
+                ],
+              ),
+              Chapter(
+                name: "Chapter 1",
+                title: "Intro to biology",
+                videos: [
+                  Video(title: "3tisOnOkwzo", duration: ""),
+                ],
+              ),
+            ],
+          ),
+          Course(
+            title: "Physics",
+            desc: "",
+            topics: 8,
+            saves: 16,
+            likes: 12,
+            price: 99.99,
+            liked: false,
+            //image: 'chemistry.png',
+            image: 'applied_math.png',
+            chapters: [
+              Chapter(
+                name: "Chapter 1",
+                title: "Vectors",
+                videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                ],
+              ),
+              Chapter(
+                name: "Chapter 1",
+                title: "Vectors",
+                videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                ],
+              ),
+              Chapter(
+                name: "Chapter 1",
+                title: "Vectors",
+                videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                ],
+              ),
+            ],
           ),
           Course(
             title: "History",
@@ -73,7 +188,29 @@ final highSchool = [
             liked: false,
             //image: 'history.png',
             image: 'applied_math.png',
-            chapters: [],
+            chapters: [
+              Chapter(
+                name: "Chapter 1",
+                title: "Introduction",
+                videos: [
+                  Video(title: "ajRdOHmYw74", duration: ""),
+                ],
+              ),
+              Chapter(
+                name: "Chapter 2",
+                title: "Introduction",
+                videos: [
+                  Video(title: "ajRdOHmYw74", duration: ""),
+                ],
+              ),
+              Chapter(
+                name: "Chapter 3",
+                title: "Introduction",
+                videos: [
+                  Video(title: "ajRdOHmYw74", duration: ""),
+                ],
+              ),
+            ],
           ),
         ],
       ),
@@ -91,7 +228,29 @@ final highSchool = [
             price: 99.99,
             //image: 'physics.png',
             image: 'applied_math.png',
-            chapters: [],
+            chapters: [
+              Chapter(
+                name: "Chapter 1",
+                title: "Vectors",
+                videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                ],
+              ),
+              Chapter(
+                name: "Chapter 1",
+                title: "Vectors",
+                videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                ],
+              ),
+              Chapter(
+                name: "Chapter 1",
+                title: "Vectors",
+                videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                ],
+              ),
+            ],
             streamOrDepartment: "Natural",
           ),
           Course(
@@ -104,7 +263,29 @@ final highSchool = [
             price: 99.99,
             //image: 'economics.png',
             image: 'applied_math.png',
-            chapters: [],
+            chapters: [
+              Chapter(
+                name: "Chapter 1",
+                title: "Vectors",
+                videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                ],
+              ),
+              Chapter(
+                name: "Chapter 1",
+                title: "Vectors",
+                videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                ],
+              ),
+              Chapter(
+                name: "Chapter 1",
+                title: "Vectors",
+                videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                ],
+              ),
+            ],
             streamOrDepartment: "Social",
           ),
         ],
@@ -414,7 +595,20 @@ final university = [
             liked: false,
             //image: 'cs_intro.png',
             image: 'applied_math.png',
-            chapters: [],
+            chapters: [
+              Chapter(name: "intro to cs", title: "intro to cs", videos: [
+                Video(duration: "", title: "-uleG_Vecis"),
+                Video(duration: "", title: "-uleG_Vecis"),
+              ]),
+              Chapter(
+                name: "intro to cs",
+                title: "intro to cs",
+                videos: [
+                  Video(duration: "", title: "-uleG_Vecis"),
+                  Video(duration: "", title: "-uleG_Vecis"),
+                ],
+              ),
+            ],
           ),
         ],
       ),
@@ -438,7 +632,16 @@ final university = [
                 liked: false,
                 //    image: 'data_structures.png',
                 image: 'applied_math.png',
-                chapters: [],
+                chapters: [
+                  Chapter(
+                    name: "intro to dsa",
+                    title: "intro to dsa",
+                    videos: [
+                      Video(title: "oz9cEqFynHU", duration: ""),
+                      Video(title: "oz9cEqFynHU", duration: ""),
+                    ],
+                  ),
+                ],
                 streamOrDepartment: "Computer Science",
               ),
             ],
@@ -463,7 +666,17 @@ final university = [
                 liked: false,
                 //image: 'thermodynamics.png',
                 image: 'applied_math.png',
-                chapters: [],
+                chapters: [
+                  Chapter(
+                    name: "intro to thermo",
+                    title: "intro to thermo",
+                    videos: [
+                      Video(title: "4i1MUWJoI0U", duration: ""),
+                      Video(title: "4i1MUWJoI0U", duration: ""),
+                      Video(title: "4i1MUWJoI0U", duration: ""),
+                    ],
+                  ),
+                ],
                 streamOrDepartment: "Mechanical Engineering",
               ),
             ],

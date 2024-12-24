@@ -57,23 +57,23 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
             ExamCategoryShow(
               exam: exams[0],
               onTap: () {
-                pageNavController.navigatePage(7, arguments: exams[1]);
+                pageNavController.navigatePage(7, arguments: exams[0]);
               },
               categoryImage: "high_school",
               categoryName: "COC",
             ),
             ExamCategoryShow(
-              exam: exams[2],
+              exam: exams[0],
               onTap: () {
-                pageNavController.navigatePage(7, arguments: exams[2]);
+                pageNavController.navigatePage(7, arguments: exams[0]);
               },
               categoryImage: "university",
               categoryName: "COC",
             ),
             ExamCategoryShow(
-              exam: exams[2],
+              exam: exams[0],
               onTap: () {
-                pageNavController.navigatePage(7, arguments: exams[2]);
+                pageNavController.navigatePage(7, arguments: exams[0]);
               },
               categoryImage: "university",
               categoryName: "COC",

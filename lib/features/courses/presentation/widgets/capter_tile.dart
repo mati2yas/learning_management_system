@@ -96,8 +96,9 @@ class ChapterTile extends StatelessWidget {
                         child: IconButton(
                           onPressed: () {
                             Navigator.of(context).pushNamed(
-                                Routes.chapterDetails,
-                                arguments: chapter);
+                              Routes.chapterDetails,
+                              arguments: chapter,
+                            );
                           },
                           icon: const Icon(
                             Icons.arrow_forward,

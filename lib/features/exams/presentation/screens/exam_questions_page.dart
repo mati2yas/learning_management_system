@@ -108,7 +108,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
-                            height: size.height * 0.65,
+                            height: size.height * 0.8,
                             child: PageView.builder(
                               scrollDirection: Axis.horizontal,
                               controller: pageViewController,
@@ -121,7 +121,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                   children: [
                                     if (currentQuestion.image != null)
                                       SizedBox(
-                                        width: size.width * 0.7,
+                                        width: size.width * 0.8,
                                         height: 150,
                                         child: ClipRRect(
                                           borderRadius:
@@ -145,7 +145,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                         padding:
                                             const EdgeInsets.only(left: 20),
                                         child: SizedBox(
-                                          width: size.width * 0.55,
+                                          width: size.width * 0.65,
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -224,7 +224,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                       ),
                     ),
                     Positioned(
-                      bottom: 200,
+                      bottom: 80,
                       child: SizedBox(
                         width: size.width,
                         height: 50,
