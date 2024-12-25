@@ -27,11 +27,53 @@ class _ChapterDetailPageState extends State<ChapterDetailPage> {
           "${chapter.name} -- ${chapter.title}",
           style: textTh.labelLarge,
         ),
+        centerTitle: true,
+        elevation: 5,
+        shadowColor: Colors.black87,
+        surfaceTintColor: Colors.transparent,
+        backgroundColor: Colors.white,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
+            height: 60,
+            width: size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 187, 191, 255),
+                    foregroundColor: Colors.black,
+                    elevation: 3,
+                  ),
+                  onPressed: () {},
+                  child: const Text("Video"),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.mainBlue,
+                    foregroundColor: Colors.white,
+                    elevation: 3,
+                  ),
+                  onPressed: () {},
+                  child: const Text("Document"),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.mainBlue,
+                    foregroundColor: Colors.white,
+                    elevation: 3,
+                  ),
+                  onPressed: () {},
+                  child: const Text("Quizzes"),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
             height: size.height * 0.4,
             width: size.width * 0.8,
             child: YoutubePlayer(

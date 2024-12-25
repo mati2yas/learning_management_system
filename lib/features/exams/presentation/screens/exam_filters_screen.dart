@@ -18,7 +18,7 @@ class _ExamCoursesScreenState extends ConsumerState<ExamFiltersScreen>
     with TickerProviderStateMixin {
   late Exam exam;
   late TabController tabController;
-  List<String> tabsList = [], yearsDropDown = [];
+  List<String> tabsList = [], yearsDropDown = ["2012", "2013"];
   String currentTab = "";
   String yearDropDownValue = "";
   bool initializingPage = false;
@@ -257,7 +257,7 @@ class _ExamCoursesScreenState extends ConsumerState<ExamFiltersScreen>
         tabController.addListener(() {
           setState(() {
             currentTab = tabsList[tabController.index];
-            yearDropDownValue = "";
+            yearDropDownValue = "2012";
           });
         });
         initializingPage = false;

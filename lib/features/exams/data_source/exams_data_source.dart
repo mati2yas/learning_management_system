@@ -2,19 +2,25 @@ import 'dart:math';
 
 import 'package:lms_system/features/exams/model/exams_model.dart';
 
+part 'questions_data_source.dart';
+
 class ExamsDataSource {
   List<Exam> fetchExams() {
     return [
       Exam(
-        title: "Matric Mathematics Exam",
+        title: "Matric",
         examType: ExamType.matric,
         courses: [
           ExamCourse(
             id: "1",
-            title: "Number and Quantity",
+            title: "Mathematics",
             years: [
               ExamYear(
-                title: "2024",
+                title: "2012",
+                questions: [
+                  ...mathChapterOne,
+                  ...mathChapterTwo,
+                ],
                 grades: [
                   ExamGrade(
                     id: "10",
@@ -22,46 +28,102 @@ class ExamsDataSource {
                     chapters: [
                       ExamChapter(
                         id: 1,
-                        title: "Number and Quantity",
-                        questions: [
-                          Question(
-                              sequenceOrder: 1,
-                              question: "Evaluate 9^(150/300).",
-                              options: ["18", "9", "3", "81"],
-                              answer: "3",
-                              explanation:
-                                  "9^(150/300) = 9^(1/2) = \u221a9 = 3."),
-                          Question(
-                              sequenceOrder: 2,
-                              question: "Rewrite x^(1/2) in radical form.",
-                              options: [
-                                "\u221ax",
-                                "\u221ax^2",
-                                "1/\u221ax",
-                                "-\u221ax"
-                              ],
-                              answer: "\u221ax",
-                              explanation: "x^(1/2) = \u221ax."),
-                          Question(
-                              sequenceOrder: 3,
-                              question: "Simplify completely i(7−i).",
-                              options: ["7i−i^2", "1+7i", "6i", "−1+7i"],
-                              answer: "1+7i",
-                              explanation: "i(7−i) = 7i + 1."),
-                          Question(
-                              sequenceOrder: 4,
-                              question:
-                                  "A vector in standard form has components <3, 10>. What is the initial point?",
-                              options: [
-                                "(0, 0)",
-                                "(3, 10)",
-                                "(6, 20)",
-                                "Not enough information given"
-                              ],
-                              answer: "(0, 0)",
-                              explanation:
-                                  "The vector starts at the origin (0, 0)."),
-                        ],
+                        title: "Relations And Functions",
+                        questions: mathChapterOne,
+                      ),
+                      ExamChapter(
+                        id: 2,
+                        title: "Polynomial Functions",
+                        questions: mathChapterTwo,
+                      ),
+                    ],
+                  ),
+                  ExamGrade(
+                    id: "11",
+                    title: "Grade 11",
+                    chapters: [
+                      ExamChapter(
+                        id: 1,
+                        title: "Relations And Functions",
+                        questions: mathChapterOne,
+                      ),
+                      ExamChapter(
+                        id: 2,
+                        title: "Polynomial Functions",
+                        questions: mathChapterTwo,
+                      ),
+                    ],
+                  ),
+                  ExamGrade(
+                    id: "12",
+                    title: "Grade 12",
+                    chapters: [
+                      ExamChapter(
+                        id: 1,
+                        title: "Relations And Functions",
+                        questions: mathChapterOne,
+                      ),
+                      ExamChapter(
+                        id: 2,
+                        title: "Polynomial Functions",
+                        questions: mathChapterTwo,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              ExamYear(
+                title: "2013",
+                questions: [
+                  ...mathChapterOne,
+                  ...mathChapterTwo,
+                ],
+                grades: [
+                  ExamGrade(
+                    id: "10",
+                    title: "Grade 10",
+                    chapters: [
+                      ExamChapter(
+                        id: 1,
+                        title: "Relations And Functions",
+                        questions: mathChapterOne,
+                      ),
+                      ExamChapter(
+                        id: 2,
+                        title: "Polynomial Functions",
+                        questions: mathChapterTwo,
+                      ),
+                    ],
+                  ),
+                  ExamGrade(
+                    id: "11",
+                    title: "Grade 11",
+                    chapters: [
+                      ExamChapter(
+                        id: 1,
+                        title: "Relations And Functions",
+                        questions: mathChapterOne,
+                      ),
+                      ExamChapter(
+                        id: 2,
+                        title: "Polynomial Functions",
+                        questions: mathChapterTwo,
+                      ),
+                    ],
+                  ),
+                  ExamGrade(
+                    id: "12",
+                    title: "Grade 12",
+                    chapters: [
+                      ExamChapter(
+                        id: 1,
+                        title: "Relations And Functions",
+                        questions: mathChapterOne,
+                      ),
+                      ExamChapter(
+                        id: 2,
+                        title: "Polynomial Functions",
+                        questions: mathChapterTwo,
                       ),
                     ],
                   ),
@@ -71,10 +133,14 @@ class ExamsDataSource {
           ),
           ExamCourse(
             id: "2",
-            title: "Algebra",
+            title: "Chemistry",
             years: [
               ExamYear(
-                title: "2024",
+                title: "2012",
+                questions: [
+                  ...chemistryChapterOne,
+                  ...chemistryChapterTwo,
+                ],
                 grades: [
                   ExamGrade(
                     id: "10",
@@ -82,55 +148,56 @@ class ExamsDataSource {
                     chapters: [
                       ExamChapter(
                         id: 1,
-                        title: "Algebra",
-                        questions: [
-                          Question(
-                              sequenceOrder: 1,
-                              question:
-                                  "Which expression is equivalent to 9x^2 – 16y^2?",
-                              options: [
-                                "(3x – 4y) (3x – 4y)",
-                                "(3x + 4y) (3x + 4y)",
-                                "(3x + 4y) (3x – 4y)",
-                                "(3x – 4y)^2"
-                              ],
-                              answer: "(3x + 4y) (3x – 4y)",
-                              explanation: "This is a difference of squares."),
-                          Question(
-                              sequenceOrder: 2,
-                              question:
-                                  "Evaluate f(x) = −a^3 + 6a – 7 at a = –1 and state the remainder.",
-                              options: ["-14", "-12", "14", "12"],
-                              answer: "-12",
-                              explanation:
-                                  "Substituting –1 gives f(-1) = -12."),
-                          Question(
-                              sequenceOrder: 3,
-                              question:
-                                  "The ratio of staff to guests at the gala was 3 to 5. There were a total of 576 people in the ballroom. How many guests were at the gala?",
-                              options: ["276", "300", "360", "216"],
-                              answer: "360",
-                              explanation: "Solve using proportions: 3:5."),
-                          Question(
-                              sequenceOrder: 4,
-                              question: "Solve the quadratic x^2 + 10x = –25.",
-                              options: ["-10", "10", "5", "-5"],
-                              answer: "-5",
-                              explanation: "Factoring gives (x+5)^2 = 0."),
-                        ],
+                        title: "Chemical Reactions and Stochiometry",
+                        questions: chemistryChapterOne,
+                      ),
+                      ExamChapter(
+                        id: 2,
+                        title: "Polynomial Functions",
+                        questions: chemistryChapterTwo,
+                      ),
+                    ],
+                  ),
+                  ExamGrade(
+                    id: "11",
+                    title: "Grade 11",
+                    chapters: [
+                      ExamChapter(
+                        id: 1,
+                        title: "Chemical Reactions and Stochiometry",
+                        questions: chemistryChapterOne,
+                      ),
+                      ExamChapter(
+                        id: 2,
+                        title: "Polynomial Functions",
+                        questions: chemistryChapterTwo,
+                      ),
+                    ],
+                  ),
+                  ExamGrade(
+                    id: "12",
+                    title: "Grade 12",
+                    chapters: [
+                      ExamChapter(
+                        id: 1,
+                        title: "Chemical Reactions and Stochiometry",
+                        questions: chemistryChapterOne,
+                      ),
+                      ExamChapter(
+                        id: 2,
+                        title: "Polynomial Functions",
+                        questions: chemistryChapterTwo,
                       ),
                     ],
                   ),
                 ],
               ),
-            ],
-          ),
-          ExamCourse(
-            id: "3",
-            title: "Functions",
-            years: [
               ExamYear(
-                title: "2024",
+                title: "2013",
+                questions: [
+                  ...chemistryChapterOne,
+                  ...chemistryChapterTwo,
+                ],
                 grades: [
                   ExamGrade(
                     id: "10",
@@ -138,65 +205,45 @@ class ExamsDataSource {
                     chapters: [
                       ExamChapter(
                         id: 1,
-                        title: "Functions",
-                        questions: [
-                          Question(
-                              sequenceOrder: 1,
-                              question:
-                                  "Describe how the graph of g(x)=x^3 – 5 can be obtained by shifting f(x) = x^3 + 2.",
-                              options: [
-                                "Shift right 7 units",
-                                "Shift left 7 units",
-                                "Shift up 7 units",
-                                "Shift down 7 units"
-                              ],
-                              answer: "Shift down 7 units",
-                              explanation:
-                                  "The vertical shift changes from +2 to -5."),
-                          Question(
-                              sequenceOrder: 2,
-                              question: "Solve 3^x=12 using logarithmic form.",
-                              options: [
-                                "x = ln12/ln3",
-                                "x = ln(4)",
-                                "x = ln(9)",
-                                "None of these"
-                              ],
-                              answer: "x = ln12/ln3",
-                              explanation:
-                                  "Solve using logarithms: x = log(base 3)12 = ln12/ln3."),
-                        ],
+                        title: "Chemical Reactions and Stochiometry",
+                        questions: chemistryChapterOne,
+                      ),
+                      ExamChapter(
+                        id: 2,
+                        title: "Polynomial Functions",
+                        questions: chemistryChapterTwo,
                       ),
                     ],
                   ),
-                ],
-              ),
-            ],
-          ),
-          ExamCourse(
-            id: "4",
-            title: "Geometry",
-            years: [
-              ExamYear(
-                title: "2024",
-                grades: [
                   ExamGrade(
-                    id: "10",
-                    title: "Grade 10",
+                    id: "11",
+                    title: "Grade 11",
                     chapters: [
                       ExamChapter(
                         id: 1,
-                        title: "Geometry",
-                        questions: [
-                          Question(
-                              sequenceOrder: 1,
-                              question:
-                                  "What value on the number line divides segment EF into two parts having a ratio of their lengths of 3:1?",
-                              options: ["-5", "-3", "-2", "-1"],
-                              answer: "-1",
-                              explanation:
-                                  "The point -1 divides segment EF in a 3:1 ratio."),
-                        ],
+                        title: "Chemical Reactions and Stochiometry",
+                        questions: chemistryChapterOne,
+                      ),
+                      ExamChapter(
+                        id: 2,
+                        title: "Polynomial Functions",
+                        questions: chemistryChapterTwo,
+                      ),
+                    ],
+                  ),
+                  ExamGrade(
+                    id: "12",
+                    title: "Grade 12",
+                    chapters: [
+                      ExamChapter(
+                        id: 1,
+                        title: "Chemical Reactions and Stochiometry",
+                        questions: chemistryChapterOne,
+                      ),
+                      ExamChapter(
+                        id: 2,
+                        title: "Polynomial Functions",
+                        questions: chemistryChapterTwo,
                       ),
                     ],
                   ),
