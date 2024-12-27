@@ -19,6 +19,8 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
   PageNavigationController pageNavController = PageNavigationController();
   int middleExpandedFlex = 2;
   int currentQuestion = 0;
+  int previousScreen =
+      3; // we use wrapper screen index to track which screen we navigated from
   String examTitle = "", examYear = "";
   Map<String, dynamic> examData = {};
   List<Question> questions = [];
@@ -44,7 +46,9 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            pageNavController.navigatePage(3);
+            // reset timer and the go back to previous screen
+            ref.read(examTimerProvider.notifier).resetTimer();
+            pageNavController.navigatePage(previousScreen);
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -298,6 +302,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
         examTitle = examData["exam title"]!;
         examYear = examData["exam year"]!;
         questions = examData["questions"]! as List<Question>;
+        previousScreen = examData["previusScreen"]! as int;
 
         correctAnswers = List.generate(questions.length, (index) => "");
         selectedAnswers = List.generate(questions.length, (index) => "");

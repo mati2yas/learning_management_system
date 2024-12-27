@@ -15,6 +15,9 @@ class PageNavigationController extends StateNotifier<int> {
   PageNavigationController() : super(0);
 
   dynamic getArgumentsForPage(int index) {
+    if (index == 3) {
+      return pageArguments[index] as int;
+    }
     if (index == 5) {
       return pageArguments[index] as CourseCategory?;
     }

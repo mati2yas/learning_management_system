@@ -122,6 +122,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilter>
                               "exam title": examData["exam title"],
                               "exam year": year.title,
                               "questions": chapters[index].questions,
+                              "previusScreen": 8,
                             };
                             pageController.navigatePage(6,
                                 arguments: examDataNext);

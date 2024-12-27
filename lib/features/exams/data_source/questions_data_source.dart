@@ -1,6 +1,6 @@
 part of 'exams_data_source.dart';
 
-List<Question> chemistryChapterOne = [
+List<Question> chemistryChapterOneGrade10 = [
   Question(
     sequenceOrder: 1,
     question: "Which of the following is a balanced chemical equation?",
@@ -79,7 +79,7 @@ List<Question> chemistryChapterOne = [
   ),
 ];
 
-List<Question> chemistryChapterTwo = [
+List<Question> chemistryChapterTwoGrade10 = [
   Question(
       sequenceOrder: 1,
       question:
@@ -147,7 +147,7 @@ List<Question> chemistryChapterTwo = [
   ),
 ];
 
-List<Question> mathChapterOne = [
+List<Question> mathChapterOneGrade10 = [
   Question(
     sequenceOrder: 1,
     question: "A relation f:A→B is called a function if:",
@@ -217,7 +217,7 @@ List<Question> mathChapterOne = [
         "A surjective (onto) function covers every element of the codomain. For f(x)=x2f(x)=x2:",
   ),
 ];
-List<Question> mathChapterTwo = [
+List<Question> mathChapterTwoGrade10 = [
   Question(
     sequenceOrder: 1,
     question: "Which of the following is a polynomial function?",

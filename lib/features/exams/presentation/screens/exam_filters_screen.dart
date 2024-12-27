@@ -144,10 +144,13 @@ class _ExamCoursesScreenState extends ConsumerState<ExamFiltersScreen>
                                       <PopupMenuEntry<void>>[
                                     PopupMenuItem<void>(
                                       onTap: () {
+                                        // navigate to the page that
+                                        // shows the exam
                                         Map<String, dynamic> examData = {
                                           "exam title": exam.title,
                                           "exam year": year.title,
                                           "questions": year.questions,
+                                          "previusScreen": 7,
                                         };
                                         pageController.navigatePage(6,
                                             arguments: examData);
@@ -159,6 +162,8 @@ class _ExamCoursesScreenState extends ConsumerState<ExamFiltersScreen>
                                     ),
                                     PopupMenuItem<void>(
                                       onTap: () {
+                                        // navigate to the page that
+                                        // further filter the exams
                                         print(
                                             "to page 8, exam title: ${exam.title}");
                                         pageController.navigatePage(
@@ -193,6 +198,7 @@ class _ExamCoursesScreenState extends ConsumerState<ExamFiltersScreen>
                                         "exam title": exam.title,
                                         "exam year": year.title,
                                         "questions": year.questions,
+                                        "previusScreen": 7,
                                       };
                                       pageController.navigatePage(6,
                                           arguments: examData);

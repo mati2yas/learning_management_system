@@ -155,12 +155,11 @@ class HomePage extends ConsumerWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.only(bottom: 30),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
-                          childAspectRatio: 0.85,
+                          childAspectRatio: getResponsiveChildAspectRatio(size),
                         ),
                         itemBuilder: (_, index) {
                           return CourseCard(
@@ -188,5 +187,16 @@ class HomePage extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  getResponsiveChildAspectRatio(Size size) {
+    print("width: ${size.width}");
+    if (size.width <= 200) return 0.65;
+    if (size.width <= 400) return 0.85;
+
+    if (size.width < 500) return 1.0;
+    if (size.width < 600) return 1.3;
+    if (size.width < 700) return 1.4;
+    return 1.7;
   }
 }
