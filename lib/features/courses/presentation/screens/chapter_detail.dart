@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/features/courses/presentation/widgets/chapter_document_tile.dart';
+import 'package:lms_system/features/courses/presentation/widgets/chapter_quiz_tile.dart';
+import 'package:lms_system/features/courses/presentation/widgets/chapter_videos.dart';
 import 'package:lms_system/features/shared_course/model/chapter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -19,81 +21,68 @@ class _ChapterDetailPageState extends State<ChapterDetailPage> {
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
-    Chapter chapter = widget.chapter;
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "${chapter.name} -- ${chapter.title}",
-          style: textTh.labelLarge,
+    Chapter chapter = widget.chapter;
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "${chapter.name} -- ${chapter.title}",
+            style: textTh.titleLarge!.copyWith(
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
+          centerTitle: true,
+          elevation: 5,
+          shadowColor: Colors.black87,
+          surfaceTintColor: Colors.transparent,
+          backgroundColor: Colors.white,
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: "Video"),
+              Tab(text: "Document"),
+              Tab(text: "Quizzes"),
+            ],
+          ),
         ),
-        centerTitle: true,
-        elevation: 5,
-        shadowColor: Colors.black87,
-        surfaceTintColor: Colors.transparent,
-        backgroundColor: Colors.white,
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 60,
-            width: size.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 187, 191, 255),
-                    foregroundColor: Colors.black,
-                    elevation: 3,
-                  ),
-                  onPressed: () {},
-                  child: const Text("Video"),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.mainBlue,
-                    foregroundColor: Colors.white,
-                    elevation: 3,
-                  ),
-                  onPressed: () {},
-                  child: const Text("Document"),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.mainBlue,
-                    foregroundColor: Colors.white,
-                    elevation: 3,
-                  ),
-                  onPressed: () {},
-                  child: const Text("Quizzes"),
-                ),
+        body: TabBarView(
+          children: [
+            ChapterVideosWidget(
+              chapter: widget.chapter,
+              ytCtrl: ytCtrl,
+            ),
+            ListView(
+              padding: const EdgeInsets.all(12),
+              children: const [
+                ChapterDocumentTile(),
+                ChapterDocumentTile(),
+                ChapterDocumentTile(),
+                ChapterDocumentTile(),
+                ChapterDocumentTile(),
+                ChapterDocumentTile(),
               ],
             ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            height: size.height * 0.4,
-            width: size.width * 0.8,
-            child: YoutubePlayer(
-              controller: ytCtrl,
-              showVideoProgressIndicator: true,
-              progressIndicatorColor: AppColors.mainBlue,
-              progressColors: ProgressBarColors(
-                playedColor: AppColors.mainBlue,
-                handleColor: AppColors.mainBlue.withOpacity(0.6),
-              ),
+            ListView(
+              padding: const EdgeInsets.all(12),
+              children: const [
+                ChapterQuizTile(),
+                SizedBox(height: 15),
+                ChapterQuizTile(),
+                SizedBox(height: 15),
+                ChapterQuizTile(),
+                SizedBox(height: 15),
+              ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     ytCtrl = YoutubePlayerController(
       initialVideoId: widget.chapter.videos[0].title,
