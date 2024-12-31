@@ -1,5 +1,5 @@
-import 'package:lms_system/features/shared_course/model/chapter.dart';
-import 'package:lms_system/features/shared_course/model/shared_course_model.dart';
+import 'package:lms_system/features/shared/model/chapter.dart';
+import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
 class RequestsDataSource {
   List<Course> fetchAddedCourses() {

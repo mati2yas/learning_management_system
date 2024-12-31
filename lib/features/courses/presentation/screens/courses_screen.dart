@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/features/courses/data_source/course_detail_data_source.dart';
 import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
-import 'package:lms_system/features/shared_course/presentation/widgets/custom_search_bar.dart';
+import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 

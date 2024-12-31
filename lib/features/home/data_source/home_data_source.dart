@@ -1,5 +1,5 @@
-import '../../shared_course/model/chapter.dart';
-import '../../shared_course/model/shared_course_model.dart';
+import '../../shared/model/chapter.dart';
+import '../../shared/model/shared_course_model.dart';
 
 class HomeDataSource {
   List<Course> fetchCourses() {

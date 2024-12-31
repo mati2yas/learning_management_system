@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/app_router.dart';
-import 'package:lms_system/features/shared_course/model/shared_user.dart';
+import 'package:lms_system/features/shared/model/shared_user.dart';
 
 class CustomHomeAppBar extends StatelessWidget {
   final User user;

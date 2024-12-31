@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
-import 'package:lms_system/features/shared_course/presentation/widgets/custom_search_bar.dart';
+import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
+import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 
 import '../../../wrapper/provider/wrapper_provider.dart';
 import '../../model/categories_sub_categories.dart';
@@ -108,12 +109,12 @@ class _CourseDetailPageState extends ConsumerState<CoursesPerCategoryListPage>
                   ),
                 ),
                 const SizedBox(height: 5),
-                TabBar(
-                  tabAlignment: TabAlignment.start,
+                CustomTabBar(
+                  alignment: TabAlignment.start,
                   isScrollable: true,
                   tabs: category.grades.map((grd) => Text(grd.name)).toList(),
                   controller: tabController,
-                ),
+                )
               ],
             ),
           ),

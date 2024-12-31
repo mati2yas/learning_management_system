@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
+import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class ExamGradeFilter extends ConsumerStatefulWidget {
@@ -57,8 +58,8 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilter>
                 children: [
                   const SizedBox(height: 10),
                   if (tabController.length != 0)
-                    TabBar(
-                      tabAlignment: TabAlignment.start,
+                    CustomTabBar(
+                      alignment: TabAlignment.start,
                       isScrollable: true,
                       tabs: tabsList
                           .map((ex) => Text(

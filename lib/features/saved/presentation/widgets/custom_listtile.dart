@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
-import 'package:lms_system/features/shared_course/model/shared_course_model.dart';
+import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class ListTilewidget extends ConsumerWidget {

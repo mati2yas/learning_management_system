@@ -1,7 +1,7 @@
 import 'package:lms_system/features/courses/data_source/course_detail_data_source.dart';
 
-import '../../shared_course/model/chapter.dart';
-import '../../shared_course/model/shared_course_model.dart';
+import '../../shared/model/chapter.dart';
+import '../../shared/model/shared_course_model.dart';
 import '../model/categories_sub_categories.dart';
 
 class CourseDataSource {

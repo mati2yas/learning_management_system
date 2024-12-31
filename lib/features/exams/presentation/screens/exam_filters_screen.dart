@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
+import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 import '../../../../core/constants/colors.dart';
@@ -73,9 +74,7 @@ class _ExamCoursesScreenState extends ConsumerState<ExamFiltersScreen>
                   ),
                   const SizedBox(height: 10),
                   if (tabController.length != 0)
-                    TabBar(
-                      tabAlignment: TabAlignment.start,
-                      isScrollable: true,
+                    CustomTabBar(
                       tabs: tabsList
                           .map((ex) => Text(
                                 ex,
@@ -83,6 +82,8 @@ class _ExamCoursesScreenState extends ConsumerState<ExamFiltersScreen>
                               ))
                           .toList(),
                       controller: tabController,
+                      alignment: TabAlignment.start,
+                      isScrollable: true,
                     ),
                 ],
               ),

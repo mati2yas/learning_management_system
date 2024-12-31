@@ -96,11 +96,17 @@ class ChapterQuizTile extends StatelessWidget {
                           style: FilledButton.styleFrom(
                             backgroundColor: AppColors.mainBlue,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(20),
                             ),
+                            fixedSize: const Size(130, 25),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
                           ),
                           onPressed: () {},
-                          child: const Text("Take"),
+                          child: const Text(
+                            "Take",
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ),
                       ],
                     ),

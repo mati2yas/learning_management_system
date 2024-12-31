@@ -13,7 +13,7 @@ import 'package:lms_system/features/wrapper/presentation/screens/wrapper_screen.
 import 'package:lms_system/requests/presentation/screens/requests_screen.dart';
 
 import '../features/courses/presentation/screens/courses_screen.dart';
-import '../features/shared_course/model/chapter.dart';
+import '../features/shared/model/chapter.dart';
 
 class Approuter {
   static Route<dynamic> generateRoute(RouteSettings settings) {

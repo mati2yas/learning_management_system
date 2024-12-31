@@ -20,22 +20,34 @@ final highSchool = [
             saves: 15,
             image: 'applied_math.png',
             chapters: [
-              Chapter(name: "Chapter 1", title: "Vectors", videos: [
+              Chapter(name: "Chapter 1 vid 1", title: "Vectors", videos: [
+                Video(title: "oTxY2P5j32w", duration: ""),
+                Video(title: "XZJdyPkCxuE", duration: ""),
+                Video(title: "Tc2-B44oanQ", duration: ""),
+                Video(title: "oTxY2P5j32w", duration: ""),
                 Video(title: "oTxY2P5j32w", duration: ""),
               ]),
               Chapter(name: "Chapter 2", title: "Number sequences", videos: [
                 Video(title: "XZJdyPkCxuE", duration: ""),
+                Video(title: "XZJdyPkCxuE", duration: ""),
+                Video(title: "XZJdyPkCxuE", duration: ""),
+                Video(title: "oTxY2P5j32w", duration: ""),
               ]),
               Chapter(
                   name: "Chapter 3",
                   title: "Limits and continuity",
                   videos: [
                     Video(title: "Tc2-B44oanQ", duration: ""),
+                    Video(title: "Tc2-B44oanQ", duration: ""),
                   ]),
               Chapter(name: "Chapter 4", title: "Derivatives", videos: [
                 Video(title: "Tc2-B44oanQ", duration: ""),
+                Video(title: "Tc2-B44oanQ", duration: ""),
+                Video(title: "Tc2-B44oanQ", duration: ""),
               ]),
               Chapter(name: "Chapter 5", title: "Integrals", videos: [
+                Video(title: "Tc2-B44oanQ", duration: ""),
+                Video(title: "Tc2-B44oanQ", duration: ""),
                 Video(title: "Tc2-B44oanQ", duration: ""),
               ]),
             ],
@@ -53,8 +65,12 @@ final highSchool = [
             chapters: [
               Chapter(name: "Chapter 1", title: "Vectors", videos: [
                 Video(title: "oTxY2P5j32w", duration: ""),
+                Video(title: "oTxY2P5j32w", duration: ""),
+                Video(title: "oTxY2P5j32w", duration: ""),
               ]),
               Chapter(name: "Chapter 2", title: "Number sequences", videos: [
+                Video(title: "XZJdyPkCxuE", duration: ""),
+                Video(title: "XZJdyPkCxuE", duration: ""),
                 Video(title: "XZJdyPkCxuE", duration: ""),
               ]),
               Chapter(
@@ -62,11 +78,17 @@ final highSchool = [
                   title: "Limits and continuity",
                   videos: [
                     Video(title: "Tc2-B44oanQ", duration: ""),
+                    Video(title: "Tc2-B44oanQ", duration: ""),
+                    Video(title: "Tc2-B44oanQ", duration: ""),
                   ]),
               Chapter(name: "Chapter 4", title: "Derivatives", videos: [
                 Video(title: "Tc2-B44oanQ", duration: ""),
+                Video(title: "Tc2-B44oanQ", duration: ""),
+                Video(title: "Tc2-B44oanQ", duration: ""),
               ]),
               Chapter(name: "Chapter 5", title: "Integrals", videos: [
+                Video(title: "Tc2-B44oanQ", duration: ""),
+                Video(title: "Tc2-B44oanQ", duration: ""),
                 Video(title: "Tc2-B44oanQ", duration: ""),
               ]),
             ],
@@ -99,12 +121,16 @@ final highSchool = [
                 title: "",
                 videos: [
                   Video(title: "5iTOphGnCtg", duration: ""),
+                  Video(title: "5iTOphGnCtg", duration: ""),
+                  Video(title: "5iTOphGnCtg", duration: ""),
                 ],
               ),
               Chapter(
                 name: "Chapter 3",
                 title: "",
                 videos: [
+                  Video(title: "5iTOphGnCtg", duration: ""),
+                  Video(title: "5iTOphGnCtg", duration: ""),
                   Video(title: "5iTOphGnCtg", duration: ""),
                 ],
               ),
@@ -126,6 +152,8 @@ final highSchool = [
                 title: "Intro to biology",
                 videos: [
                   Video(title: "3tisOnOkwzo", duration: ""),
+                  Video(title: "3tisOnOkwzo", duration: ""),
+                  Video(title: "3tisOnOkwzo", duration: ""),
                 ],
               ),
               Chapter(
@@ -139,6 +167,8 @@ final highSchool = [
                 name: "Chapter 1",
                 title: "Intro to biology",
                 videos: [
+                  Video(title: "3tisOnOkwzo", duration: ""),
+                  Video(title: "3tisOnOkwzo", duration: ""),
                   Video(title: "3tisOnOkwzo", duration: ""),
                 ],
               ),
@@ -160,12 +190,7 @@ final highSchool = [
                 title: "Vectors",
                 videos: [
                   Video(title: "b1t41Q3xRM8", duration: ""),
-                ],
-              ),
-              Chapter(
-                name: "Chapter 1",
-                title: "Vectors",
-                videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
                   Video(title: "b1t41Q3xRM8", duration: ""),
                 ],
               ),
@@ -173,6 +198,17 @@ final highSchool = [
                 name: "Chapter 1",
                 title: "Vectors",
                 videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                ],
+              ),
+              Chapter(
+                name: "Chapter 1",
+                title: "Vectors",
+                videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                  Video(title: "b1t41Q3xRM8", duration: ""),
                   Video(title: "b1t41Q3xRM8", duration: ""),
                 ],
               ),
@@ -194,6 +230,8 @@ final highSchool = [
                 title: "Introduction",
                 videos: [
                   Video(title: "ajRdOHmYw74", duration: ""),
+                  Video(title: "ajRdOHmYw74", duration: ""),
+                  Video(title: "ajRdOHmYw74", duration: ""),
                 ],
               ),
               Chapter(
@@ -201,12 +239,16 @@ final highSchool = [
                 title: "Introduction",
                 videos: [
                   Video(title: "ajRdOHmYw74", duration: ""),
+                  Video(title: "ajRdOHmYw74", duration: ""),
+                  Video(title: "ajRdOHmYw74", duration: ""),
                 ],
               ),
               Chapter(
                 name: "Chapter 3",
                 title: "Introduction",
                 videos: [
+                  Video(title: "ajRdOHmYw74", duration: ""),
+                  Video(title: "ajRdOHmYw74", duration: ""),
                   Video(title: "ajRdOHmYw74", duration: ""),
                 ],
               ),
@@ -234,6 +276,8 @@ final highSchool = [
                 title: "Vectors",
                 videos: [
                   Video(title: "b1t41Q3xRM8", duration: ""),
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                  Video(title: "b1t41Q3xRM8", duration: ""),
                 ],
               ),
               Chapter(
@@ -247,6 +291,8 @@ final highSchool = [
                 name: "Chapter 1",
                 title: "Vectors",
                 videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                  Video(title: "b1t41Q3xRM8", duration: ""),
                   Video(title: "b1t41Q3xRM8", duration: ""),
                 ],
               ),
@@ -276,12 +322,16 @@ final highSchool = [
                 title: "Vectors",
                 videos: [
                   Video(title: "b1t41Q3xRM8", duration: ""),
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                  Video(title: "b1t41Q3xRM8", duration: ""),
                 ],
               ),
               Chapter(
                 name: "Chapter 1",
                 title: "Vectors",
                 videos: [
+                  Video(title: "b1t41Q3xRM8", duration: ""),
+                  Video(title: "b1t41Q3xRM8", duration: ""),
                   Video(title: "b1t41Q3xRM8", duration: ""),
                 ],
               ),

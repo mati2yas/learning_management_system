@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
 
-import '../../../shared_course/model/chapter.dart';
+import '../../../shared/model/chapter.dart';
 
 class ChapterTile extends StatelessWidget {
   final Chapter chapter;

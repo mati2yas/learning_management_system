@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_document_tile.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_quiz_tile.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_videos.dart';
-import 'package:lms_system/features/shared_course/model/chapter.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:lms_system/features/shared/model/chapter.dart';
+import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 
-class ChapterDetailPage extends StatefulWidget {
+import '../../provider/chapter_videos_index.dart';
+
+class ChapterDetailPage extends ConsumerStatefulWidget {
   final Chapter chapter;
   const ChapterDetailPage({
     super.key,
@@ -13,14 +16,18 @@ class ChapterDetailPage extends StatefulWidget {
   });
 
   @override
-  State<ChapterDetailPage> createState() => _ChapterDetailPageState();
+  ConsumerState<ChapterDetailPage> createState() => _ChapterDetailPageState();
 }
 
-class _ChapterDetailPageState extends State<ChapterDetailPage> {
-  late YoutubePlayerController ytCtrl;
+class _ChapterDetailPageState extends ConsumerState<ChapterDetailPage>
+    with SingleTickerProviderStateMixin {
   int seconds = 0;
+  late TabController controller;
+
   @override
   Widget build(BuildContext context) {
+    var videoIndex = ref.watch(currentPlayingVideoTracker);
+    var videosIndexCtrl = ref.watch(currentPlayingVideoTracker.notifier);
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
     Chapter chapter = widget.chapter;
@@ -40,19 +47,27 @@ class _ChapterDetailPageState extends State<ChapterDetailPage> {
           shadowColor: Colors.black87,
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.white,
-          bottom: const TabBar(
-            tabs: [
-              Tab(text: "Video"),
-              Tab(text: "Document"),
-              Tab(text: "Quizzes"),
-            ],
+          bottom: PreferredSize(
+            preferredSize: const Size(double.infinity, kTextTabBarHeight),
+            child: CustomTabBar(
+              isScrollable: false,
+              alignment: TabAlignment.fill,
+              controller: controller,
+              tabs: const [
+                Tab(
+                  text: "Video",
+                ),
+                Tab(text: "Document"),
+                Tab(text: "Quizzes"),
+              ],
+            ),
           ),
         ),
         body: TabBarView(
+          controller: controller,
           children: [
             ChapterVideosWidget(
               chapter: widget.chapter,
-              ytCtrl: ytCtrl,
             ),
             ListView(
               padding: const EdgeInsets.all(12),
@@ -84,21 +99,6 @@ class _ChapterDetailPageState extends State<ChapterDetailPage> {
   @override
   void initState() {
     super.initState();
-
-    ytCtrl = YoutubePlayerController(
-      initialVideoId: widget.chapter.videos[0].title,
-      flags: const YoutubePlayerFlags(
-        autoPlay: true,
-        mute: true,
-      ),
-    );
-    dynamic val;
-    ytCtrl.addListener(() {
-      Duration dur = ytCtrl.value.position;
-      if (seconds < dur.inSeconds) {
-        seconds = dur.inSeconds;
-      }
-      print("$seconds out of ${ytCtrl.value.metaData.duration}");
-    });
+    controller = TabController(length: 3, vsync: this);
   }
 }

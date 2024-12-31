@@ -1,8 +1,8 @@
 import 'package:lms_system/features/home/data_source/home_data_source.dart';
 import 'package:riverpod/riverpod.dart';
 
-import '../../shared_course/model/shared_course_model.dart';
-import '../../shared_course/model/shared_user.dart';
+import '../../shared/model/shared_course_model.dart';
+import '../../shared/model/shared_user.dart';
 
 final homeDataSourceProvider = Provider<HomeDataSource>((ref) {
   return HomeDataSource();
