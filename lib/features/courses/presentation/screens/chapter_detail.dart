@@ -18,6 +18,7 @@ class ChapterDetailPage extends StatefulWidget {
 
 class _ChapterDetailPageState extends State<ChapterDetailPage> {
   late YoutubePlayerController ytCtrl;
+  int seconds = 0;
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
@@ -65,7 +66,6 @@ class _ChapterDetailPageState extends State<ChapterDetailPage> {
               ],
             ),
             ListView(
-              padding: const EdgeInsets.all(12),
               children: const [
                 ChapterQuizTile(),
                 SizedBox(height: 15),
@@ -84,6 +84,7 @@ class _ChapterDetailPageState extends State<ChapterDetailPage> {
   @override
   void initState() {
     super.initState();
+
     ytCtrl = YoutubePlayerController(
       initialVideoId: widget.chapter.videos[0].title,
       flags: const YoutubePlayerFlags(
@@ -91,5 +92,13 @@ class _ChapterDetailPageState extends State<ChapterDetailPage> {
         mute: true,
       ),
     );
+    dynamic val;
+    ytCtrl.addListener(() {
+      Duration dur = ytCtrl.value.position;
+      if (seconds < dur.inSeconds) {
+        seconds = dur.inSeconds;
+      }
+      print("$seconds out of ${ytCtrl.value.metaData.duration}");
+    });
   }
 }
