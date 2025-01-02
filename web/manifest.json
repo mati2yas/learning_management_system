@@ -1,6 +1,6 @@
 {
-    "name": "learning_management_system",
-    "short_name": "learning_management_system",
+    "name": "lms_system",
+    "short_name": "lms_system",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
