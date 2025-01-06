@@ -133,7 +133,6 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                       const SizedBox(height: 5),
                       GestureDetector(
                         onTap: () async {
-                          await pickTransactionImage();
                           bool success = await pickTransactionImage();
                           if (success) {
                             setState(() {

@@ -1,4 +1,4 @@
-import 'package:lms_system/features/shared_course/model/chapter.dart';
+import 'package:lms_system/features/shared/model/chapter.dart';
 
 class Course {
   final String title, desc, image;

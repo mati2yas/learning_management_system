@@ -1,12 +1,12 @@
 class Exam {
   final String title;
-  final ExamCourse course;
+  final List<ExamCourse> courses;
   final ExamType examType;
 
   Exam({
     required this.title,
     required this.examType,
-    required this.course,
+    required this.courses,
   });
 }
 
@@ -51,11 +51,11 @@ enum ExamType { matric, coc, ngat, exitexam }
 class ExamYear {
   final String title;
   final List<Question> questions; // For non-matric exams
-  final List<ExamGrade>? grades; // For matric exams
+  final List<ExamGrade> grades; // For matric exams
 
   ExamYear({
     required this.title,
-    this.grades,
+    required this.grades,
     this.questions = const [],
   });
 }
@@ -65,11 +65,15 @@ class Question {
   final List<String> options;
   final String answer;
   final String explanation;
+  final int sequenceOrder;
+  String? image;
 
   Question({
     required this.question,
     required this.options,
     required this.answer,
     required this.explanation,
+    required this.sequenceOrder,
+    this.image,
   });
 }

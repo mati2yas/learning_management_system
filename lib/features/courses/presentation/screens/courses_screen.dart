@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/features/courses/data_source/course_detail_data_source.dart';
 import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
-import 'package:lms_system/features/shared_course/presentation/widgets/custom_search_bar.dart';
+import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
@@ -94,11 +94,11 @@ class CoursePage extends ConsumerWidget {
             width: double.infinity,
             child: GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                childAspectRatio: 0.9,
+                childAspectRatio: getResponsiveChildAspectRatio(size),
               ),
               itemBuilder: (_, index) {
                 return GestureDetector(
@@ -129,6 +129,17 @@ class CoursePage extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  getResponsiveChildAspectRatio(Size size) {
+    print("width: ${size.width}");
+    if (size.width <= 200) return 0.65;
+    if (size.width <= 400) return 0.85;
+
+    if (size.width < 500) return 1.0;
+    if (size.width < 600) return 1.3;
+    if (size.width < 700) return 1.4;
+    return 1.7;
   }
 
   void handleCategorySelection(WidgetRef ref, CourseCategory category) {

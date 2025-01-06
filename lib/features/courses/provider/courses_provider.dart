@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod/riverpod.dart';
 
-import '../../shared_course/model/shared_course_model.dart';
+import '../../shared/model/shared_course_model.dart';
 import '../data_source/courses_data_source.dart';
 
 // Provider for the data source

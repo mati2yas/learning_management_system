@@ -43,7 +43,7 @@ class _ProfileAddScreenState extends State<ProfileAddScreen> {
               const SizedBox(height: 25),
               SizedBox(
                 height: size.height * .45,
-                width: size.width * .75,
+                width: size.width - 80,
                 child: Form(
                   key: _key,
                   child: Column(

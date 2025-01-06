@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/features/shared_course/model/shared_course_model.dart';
-import 'package:lms_system/features/shared_course/presentation/widgets/custom_search_bar.dart';
+import 'package:lms_system/features/shared/model/shared_course_model.dart';
+import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 
-import '../../../shared_course/model/chapter.dart';
+import '../../../shared/model/chapter.dart';
 import '../widgets/courses_list.dart';
 
 class SavedCoursesPage extends StatefulWidget {

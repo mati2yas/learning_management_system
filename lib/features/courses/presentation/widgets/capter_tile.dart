@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
 
-import '../../../shared_course/model/chapter.dart';
+import '../../../shared/model/chapter.dart';
 
 class ChapterTile extends StatelessWidget {
   final Chapter chapter;
@@ -96,8 +96,9 @@ class ChapterTile extends StatelessWidget {
                         child: IconButton(
                           onPressed: () {
                             Navigator.of(context).pushNamed(
-                                Routes.chapterDetails,
-                                arguments: chapter);
+                              Routes.chapterDetails,
+                              arguments: chapter,
+                            );
                           },
                           icon: const Icon(
                             Icons.arrow_forward,

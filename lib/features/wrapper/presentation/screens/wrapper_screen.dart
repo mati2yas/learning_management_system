@@ -4,12 +4,14 @@ import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/courses/presentation/screens/course_content_page.dart';
 import 'package:lms_system/features/courses/presentation/screens/courses_per_category_list.dart';
 import 'package:lms_system/features/courses/presentation/screens/courses_screen.dart';
+import 'package:lms_system/features/exams/presentation/screens/exam_filters_screen.dart';
+import 'package:lms_system/features/exams/presentation/screens/exam_grade_filter.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_page.dart';
-import 'package:lms_system/features/exams/presentation/screens/exams_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 
+import '../../../exams/presentation/screens/exams_screen.dart';
 import '../../provider/wrapper_provider.dart';
 import '../widgets/drawer_w.dart';
 
@@ -35,7 +37,7 @@ class NavItem extends StatelessWidget {
       onTap: () {
         onTap();
       },
-      child: Container(
+      child: SizedBox(
         height: 40,
         child: isCurr
             ? Column(
@@ -99,6 +101,8 @@ class WrapperScreen extends ConsumerWidget {
       ),
       const CourseContentPage(), // 5
       const ExamQuestionsPage(), // 6
+      const ExamFiltersScreen(), // 7
+      const ExamGradeFilter(), // 8
     ];
     return SafeArea(
       child: Scaffold(
@@ -151,9 +155,42 @@ class WrapperScreen extends ConsumerWidget {
                           ),
                           NavItem(
                             icon: Icons.quiz,
-                            onTap: () => pageController.navigatePage(3),
+                            onTap: () {
+                              if (ref.read(pageNavigationProvider) == 6) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text("Confirmation"),
+                                      content: const Text(
+                                          "Are you sure to leave the current page?"),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(); // Dismiss the dialog
+                                          },
+                                          child: const Text("Cancel"),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(); // Dismiss the dialog
+
+                                            pageController.navigatePage(3);
+                                          },
+                                          child: const Text("Yes"),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else {
+                                pageController.navigatePage(3);
+                              }
+                            },
                             label: "Exams",
-                            isCurr: [3, 6].contains(currentPage),
+                            isCurr: [3, 6, 7].contains(currentPage),
                             ref: ref,
                           ),
                         ],
