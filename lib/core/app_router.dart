@@ -6,6 +6,7 @@ import 'package:lms_system/features/courses/model/categories_sub_categories.dart
 import 'package:lms_system/features/courses/presentation/screens/chapter_detail.dart';
 import 'package:lms_system/features/courses/presentation/screens/courses_per_category_list.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
+import 'package:lms_system/features/notification/presentation/screens/notification_screen.dart';
 import 'package:lms_system/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:lms_system/features/profile/presentation/screens/profile_screen.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
@@ -62,6 +63,8 @@ class Approuter {
       case Routes.profile:
         return MaterialPageRoute(builder: (_) => const ProfilePage());
 
+      case Routes.notifications:
+        return MaterialPageRoute(builder: (_) => const NotificationScreen());
       // case Routes.signUp:
       //   final prevRoute = settings.arguments as String;
       //   return MaterialPageRoute(
@@ -95,4 +98,5 @@ class Routes {
   static const String saved = "saved";
   static const String requests = "requests";
   static const String profile = "profile";
+  static const String notifications = "notifications";
 }

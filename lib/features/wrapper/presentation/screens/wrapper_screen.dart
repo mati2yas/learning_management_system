@@ -13,7 +13,7 @@ import 'package:lms_system/features/wrapper/provider/current_category.dart';
 
 import '../../../exams/presentation/screens/exams_screen.dart';
 import '../../provider/wrapper_provider.dart';
-import '../widgets/drawer_w.dart';
+import '../widgets/drawer_widget.dart';
 
 class NavItem extends StatelessWidget {
   final IconData icon;

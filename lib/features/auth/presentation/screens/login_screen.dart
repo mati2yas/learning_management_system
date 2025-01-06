@@ -44,6 +44,7 @@ class LoginScreen extends ConsumerWidget {
                 width: size.width * .75,
                 child: Form(
                   child: Column(
+                    spacing: 12,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -52,7 +53,6 @@ class LoginScreen extends ConsumerWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 12),
                       InputWidget(
                         validator: _validateInput,
                         keyboardType: TextInputType.phone,
@@ -63,14 +63,12 @@ class LoginScreen extends ConsumerWidget {
                               .updatePhone(value);
                         },
                       ),
-                      const SizedBox(height: 15),
                       Text(
                         'Password',
                         style: textTh.bodyLarge!.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 12),
                       InputWidget(
                         validator: _validateInput,
                         hintText: 'Password',
@@ -81,7 +79,7 @@ class LoginScreen extends ConsumerWidget {
                               .updatePassword(value);
                         },
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 8),
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
@@ -95,7 +93,7 @@ class LoginScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 35),
+                      const SizedBox(height: 20),
                       Center(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
