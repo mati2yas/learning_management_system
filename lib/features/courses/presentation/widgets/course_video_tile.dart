@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/features/shared/model/chapter.dart';
 
-import '../../../shared/model/chapter.dart';
+class VideoTile extends StatelessWidget {
+  final Video video;
+  final GestureTapCallback onTap;
 
-class ChapterTile extends StatelessWidget {
-  final Chapter chapter;
-
-  const ChapterTile({
+  const VideoTile({
     super.key,
-    required this.chapter,
+    required this.video,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context)
-            .pushNamed(Routes.chapterDetails, arguments: chapter);
-      },
+      onTap: onTap, 
       child: Card(
         margin: const EdgeInsets.only(top: 3, left: 3, right: 2.6),
         elevation: 5,
@@ -37,8 +34,8 @@ class ChapterTile extends StatelessWidget {
                   child: SizedBox(
                     width: 55,
                     height: 55,
-                    child: Image.asset(
-                      "assets/images/applied_math.png",
+                    child: Image.network(
+                      'https://img.youtube.com/vi/${video.title}/0.jpg',
                       fit: BoxFit.cover,
                     ),
                   )),
@@ -46,7 +43,7 @@ class ChapterTile extends StatelessWidget {
                   child: Padding(
                 padding: const EdgeInsets.fromLTRB(10.0, 10.0, 15, 8.0),
                 child: Text(
-                  "${chapter.name} | ${chapter.title}",
+                  video.title,
                   style: textTh.labelMedium!.copyWith(
                     fontWeight: FontWeight.w500,
                   ),

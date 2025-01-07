@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String titleText;
-  const CommonAppBar({
+  Widget? leading;
+  PreferredSizeWidget? bottom;
+  CommonAppBar({
     super.key,
     required this.titleText,
+    this.leading,
+    this.bottom,
   });
 
   @override
@@ -15,6 +19,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       surfaceTintColor: Colors.transparent,
+      leading: leading,
       title: Text(
         titleText,
         style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -25,6 +30,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       elevation: 5,
       shadowColor: Colors.black87,
+      bottom: bottom,
     );
   }
 }

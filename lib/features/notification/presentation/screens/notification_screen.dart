@@ -13,7 +13,7 @@ class NotificationScreen extends ConsumerWidget {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CommonAppBar(titleText: "Notifications"),
+      appBar: CommonAppBar(titleText: "Notifications"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(

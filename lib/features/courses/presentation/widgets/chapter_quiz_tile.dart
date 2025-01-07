@@ -17,7 +17,7 @@ class ChapterQuizTile extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
       ),
       child: SizedBox(
-        height: 110,
+        height: 70,
         child: Row(
           children: <Widget>[
             ClipRRect(
@@ -26,8 +26,8 @@ class ChapterQuizTile extends StatelessWidget {
                   bottomLeft: Radius.circular(10.0),
                 ),
                 child: SizedBox(
-                  width: 100,
-                  height: 110,
+                  width: 70,
+                  height: 70,
                   child: Image.asset(
                     "assets/images/applied_math.png",
                     fit: BoxFit.cover,
@@ -41,51 +41,47 @@ class ChapterQuizTile extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 8,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Chapter 1",
-                          style: textTh.labelLarge!.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        Text(
-                          "Introduction to chemistry",
-                          style: textTh.labelMedium!.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        SizedBox(
-                          width: size.width * 0.8,
-                          child: const LinearProgressIndicator(
-                            value: 0.8,
-                            color: AppColors.mainBlue,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              "assets/svgs/topics.svg",
-                              width: 12,
-                              height: 12,
-                              colorFilter: const ColorFilter.mode(
-                                AppColors.mainBlue,
-                                BlendMode.srcIn,
-                              ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Introduction to chemistry",
+                            style: textTh.labelMedium!.copyWith(
+                              fontWeight: FontWeight.w600,
                             ),
-                            const SizedBox(width: 5),
-                            Text(
-                              "100 questions",
-                              style: textTh.labelMedium!.copyWith(
-                                fontWeight: FontWeight.w600,
+                          ),
+                          const SizedBox(height: 15),
+                          SizedBox(
+                            width: size.width * 0.8,
+                            child: const LinearProgressIndicator(
+                              value: 0.8,
+                              color: AppColors.mainBlue,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              SvgPicture.asset(
+                                "assets/svgs/topics.svg",
+                                width: 12,
+                                height: 12,
+                                colorFilter: const ColorFilter.mode(
+                                  AppColors.mainBlue,
+                                  BlendMode.srcIn,
+                                ),
                               ),
-                            )
-                          ],
-                        )
-                      ],
+                              const SizedBox(width: 5),
+                              Text(
+                                "100 questions",
+                                style: textTh.labelMedium!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(

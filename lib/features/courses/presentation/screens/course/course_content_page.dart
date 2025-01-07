@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/features/courses/presentation/widgets/capter_tile.dart';
 
-import '../../../wrapper/provider/wrapper_provider.dart';
+import '../../../../wrapper/provider/wrapper_provider.dart';
 
 class CourseContentPage extends ConsumerStatefulWidget {
   const CourseContentPage({super.key});
@@ -21,25 +22,18 @@ class _CourseContentPageState extends ConsumerState<CourseContentPage> {
     final courseChapters = course!.grades[0].courses[0].chapters;
     // 5 cause the 5th page in the wrapper screen pages list
     return Scaffold(
-      appBar: AppBar(
+      appBar: CommonAppBar(
         leading: IconButton(
           onPressed: () {
-            pageController.navigatePage(1);
+            pageController.navigatePage(4);
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        surfaceTintColor: Colors.transparent,
-        title: Text(
-          "${course.name ?? ""} -- ${course.grades[0].name}",
-          style: textTh.titleLarge!.copyWith(
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
-        ),
-        shadowColor: Colors.black87,
+        titleText: " ${course.name ?? ""} -- ${course.grades[0].name}",
       ),
       body: ListView.separated(
         itemCount: courseChapters.length,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         itemBuilder: (_, index) {
           return ChapterTile(chapter: courseChapters[index]);
         },

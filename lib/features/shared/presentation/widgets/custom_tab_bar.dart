@@ -22,7 +22,7 @@ class CustomTabBar extends StatelessWidget {
       tabAlignment: alignment,
       indicatorSize: TabBarIndicatorSize.tab,
       overlayColor: WidgetStatePropertyAll<Color>(
-        AppColors.mainBlue.withOpacity(0.2),
+        AppColors.mainBlue.withValues(alpha: 0.2),
       ),
       indicator: BoxDecoration(
         border: Border.all(

@@ -7,9 +7,9 @@ import 'package:lms_system/features/shared/presentation/widgets/custom_search_ba
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-import '../../../../core/app_router.dart';
-import '../../provider/courses_provider.dart';
-import '../widgets/category_show.dart';
+import '../../../../../core/app_router.dart';
+import '../../../provider/courses_provider.dart';
+import '../../widgets/category_show.dart';
 
 class CoursePage extends ConsumerWidget {
   const CoursePage({super.key});

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_document_tile.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_quiz_tile.dart';
-import 'package:lms_system/features/courses/presentation/widgets/chapter_videos.dart';
+import 'package:lms_system/features/courses/presentation/widgets/course_video_tile.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 
-import '../../provider/chapter_videos_index.dart';
+import '../../../provider/chapter_videos_index.dart';
 
 class ChapterDetailPage extends ConsumerStatefulWidget {
   final Chapter chapter;
@@ -48,7 +49,7 @@ class _ChapterDetailPageState extends ConsumerState<ChapterDetailPage>
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.white,
           bottom: PreferredSize(
-            preferredSize: const Size(double.infinity, kTextTabBarHeight),
+            preferredSize: const Size(double.infinity, kTextTabBarHeight - 10),
             child: CustomTabBar(
               isScrollable: false,
               alignment: TabAlignment.fill,
@@ -66,8 +67,17 @@ class _ChapterDetailPageState extends ConsumerState<ChapterDetailPage>
         body: TabBarView(
           controller: controller,
           children: [
-            ChapterVideosWidget(
-              chapter: widget.chapter,
+            ListView.separated(
+              padding: const EdgeInsets.all(12),
+              itemCount: chapter.videos.length,
+              itemBuilder: (context, index) => VideoTile(
+                onTap: () {
+                  Navigator.of(context).pushNamed(Routes.chapterVideo,
+                      arguments: chapter.videos[index]);
+                },
+                video: chapter.videos[index],
+              ),
+              separatorBuilder: (_, index) => const SizedBox(height: 10),
             ),
             ListView(
               padding: const EdgeInsets.all(12),

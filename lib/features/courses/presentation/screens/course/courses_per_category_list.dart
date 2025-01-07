@@ -4,8 +4,8 @@ import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 
-import '../../../wrapper/provider/wrapper_provider.dart';
-import '../../model/categories_sub_categories.dart';
+import '../../../../wrapper/provider/wrapper_provider.dart';
+import '../../../model/categories_sub_categories.dart';
 
 class CoursesPerCategoryListPage extends ConsumerStatefulWidget {
   final CourseCategory category;
@@ -66,18 +66,18 @@ class _CourseDetailPageState extends ConsumerState<CoursesPerCategoryListPage>
         shadowColor: Colors.black87,
         backgroundColor: Colors.white,
         bottom: PreferredSize(
-          preferredSize: Size(size.width, 112),
+          preferredSize: Size(size.width, 121),
           child: Container(
             width: size.width,
             color: Colors.white,
-            height: 112,
+            height: 121,
             child: Column(
+              spacing: 5,
               children: [
                 CustomSearchBar(hintText: "Search Courses", size: size),
-                const SizedBox(height: 5),
                 SizedBox(
                   width: size.width * 0.85,
-                  height: 40,
+                  height: 45,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -108,11 +108,18 @@ class _CourseDetailPageState extends ConsumerState<CoursesPerCategoryListPage>
                     ],
                   ),
                 ),
-                const SizedBox(height: 5),
                 CustomTabBar(
                   alignment: TabAlignment.start,
                   isScrollable: true,
-                  tabs: category.grades.map((grd) => Text(grd.name)).toList(),
+                  tabs: category.grades
+                      .map(
+                        (grd) => Text(
+                          grd.name,
+                          style: textTh.bodyLarge!
+                              .copyWith(fontWeight: FontWeight.w500),
+                        ),
+                      )
+                      .toList(),
                   controller: tabController,
                 )
               ],

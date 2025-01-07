@@ -3,8 +3,9 @@ import 'package:lms_system/features/auth/presentation/screens/login_screen.dart'
 import 'package:lms_system/features/auth/presentation/screens/profile_add.dart';
 import 'package:lms_system/features/auth/presentation/screens/register_screen.dart';
 import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
-import 'package:lms_system/features/courses/presentation/screens/chapter_detail.dart';
-import 'package:lms_system/features/courses/presentation/screens/courses_per_category_list.dart';
+import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_detail.dart';
+import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_videos.dart';
+import 'package:lms_system/features/courses/presentation/screens/course/courses_per_category_list.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/notification/presentation/screens/notification_screen.dart';
 import 'package:lms_system/features/onboarding/presentation/screens/onboarding_screen.dart';
@@ -13,7 +14,7 @@ import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart
 import 'package:lms_system/features/wrapper/presentation/screens/wrapper_screen.dart';
 import 'package:lms_system/requests/presentation/screens/requests_screen.dart';
 
-import '../features/courses/presentation/screens/courses_screen.dart';
+import '../features/courses/presentation/screens/course/courses_screen.dart';
 import '../features/shared/model/chapter.dart';
 
 class Approuter {
@@ -57,6 +58,13 @@ class Approuter {
           ),
         );
 
+      case Routes.chapterVideo:
+        final video = settings.arguments as Video;
+        return MaterialPageRoute(
+            builder: (_) => ChapterVideoWidget(
+                  video: video,
+                ));
+
       case Routes.saved:
         return MaterialPageRoute(builder: (_) => const SavedCoursesPage());
 
@@ -99,4 +107,5 @@ class Routes {
   static const String requests = "requests";
   static const String profile = "profile";
   static const String notifications = "notifications";
+  static const String chapterVideo = "chapterVideo";
 }
