@@ -43,15 +43,16 @@ class ChapterTile extends StatelessWidget {
                     ),
                   )),
               Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 15, 8.0),
-                child: Text(
-                  "${chapter.name} | ${chapter.title}",
-                  style: textTh.labelMedium!.copyWith(
-                    fontWeight: FontWeight.w500,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 15, 8.0),
+                  child: Text(
+                    "${chapter.name} | ${chapter.title}",
+                    style: textTh.labelMedium!.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-              )),
+              ),
             ],
           ),
         ),

@@ -44,7 +44,7 @@ class InputWidget extends StatelessWidget {
             hintStyle: const TextStyle(
               color: AppColors.darkerGrey,
               fontSize: 16,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),

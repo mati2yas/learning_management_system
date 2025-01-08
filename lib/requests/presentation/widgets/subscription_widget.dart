@@ -32,7 +32,7 @@ class SubscriptionWidget extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "$duration",
+              duration == 12 ? "1" : "$duration",
               style: TextStyle(
                 color: isActive ? Colors.white : Colors.black,
               ),
@@ -41,7 +41,7 @@ class SubscriptionWidget extends StatelessWidget {
               height: 10,
             ),
             Text(
-              "Months",
+              duration == 12 ? "Year" : "Months",
               style: TextStyle(
                 color: isActive ? Colors.white : Colors.black,
               ),

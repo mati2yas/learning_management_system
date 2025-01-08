@@ -1,3 +1,5 @@
+import 'package:lms_system/requests/presentation/screens/requests_screen.dart';
+
 import '../../shared/model/chapter.dart';
 import '../../shared/model/shared_course_model.dart';
 
@@ -10,7 +12,12 @@ class HomeDataSource {
         topics: 21,
         saves: 7,
         likes: 12,
-        price: 30.0,
+        price: {
+          SubscriptionType.oneMonth: 72.0,
+          SubscriptionType.threeMonths: 216.0,
+          SubscriptionType.sixMonths: 432.0,
+          SubscriptionType.yearly: 864.0,
+        },
         liked: false,
         image: "web_design.png",
         chapters: [
@@ -36,7 +43,12 @@ class HomeDataSource {
         title: "Marketing",
         desc: "web design",
         topics: 21,
-        price: 50.0,
+        price: {
+          SubscriptionType.oneMonth: 72.0,
+          SubscriptionType.threeMonths: 216.0,
+          SubscriptionType.sixMonths: 432.0,
+          SubscriptionType.yearly: 864.0,
+        },
         saves: 7,
         likes: 7,
         liked: true,
@@ -63,7 +75,12 @@ class HomeDataSource {
       Course(
         title: "Applied Mathematics",
         desc: "web design",
-        price: 30.0,
+        price: {
+          SubscriptionType.oneMonth: 72.0,
+          SubscriptionType.threeMonths: 216.0,
+          SubscriptionType.sixMonths: 432.0,
+          SubscriptionType.yearly: 864.0,
+        },
         topics: 21,
         saves: 7,
         likes: 21,
@@ -96,7 +113,12 @@ class HomeDataSource {
         likes: 9,
         liked: false,
         image: "accounting_course.png",
-        price: 85.0,
+        price: {
+          SubscriptionType.oneMonth: 72.0,
+          SubscriptionType.threeMonths: 216.0,
+          SubscriptionType.sixMonths: 432.0,
+          SubscriptionType.yearly: 864.0,
+        },
         chapters: [
           Chapter(
             name: "Chapter 2",

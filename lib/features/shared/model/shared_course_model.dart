@@ -1,4 +1,5 @@
 import 'package:lms_system/features/shared/model/chapter.dart';
+import 'package:lms_system/requests/presentation/screens/requests_screen.dart';
 
 class Course {
   final String title, desc, image;
@@ -8,7 +9,7 @@ class Course {
   String? streamOrDepartment;
   bool subscribed;
   bool saved, liked;
-  final double price;
+  final Map<SubscriptionType, double> price;
   Course({
     required this.title,
     required this.desc,

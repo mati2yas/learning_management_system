@@ -3,16 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/requests/provider/requests_provider.dart';
 
-
-
 class RequestTile extends ConsumerWidget {
   final Course course;
 
   final TextTheme textTh;
+  final double selectedPriceType;
   const RequestTile({
     super.key,
     required this.course,
     required this.textTh,
+    required this.selectedPriceType,
   });
 
   @override
@@ -48,7 +48,7 @@ class RequestTile extends ConsumerWidget {
                 children: [
                   const SizedBox(width: 5),
                   Text(
-                    "${course.price} ETB",
+                    "$selectedPriceType ETB",
                     style: textTh.labelMedium,
                   ),
                 ],

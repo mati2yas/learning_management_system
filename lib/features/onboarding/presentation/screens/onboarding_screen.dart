@@ -18,6 +18,30 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (_currentPage < 2) {
+                setState(() {
+                  _currentPage = 2;
+                  _pageController.jumpToPage(2);
+                });
+              } else {
+                Navigator.of(context).pushReplacementNamed(Routes.signup);
+              }
+            },
+            child: Text(
+              "Skip",
+              style: TextStyle(
+                color: _currentPage == 2 ? AppColors.mainBlue : Colors.black,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           PageView(
@@ -55,29 +79,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextButton(
-                    onPressed: () {
-                      if (_currentPage < 2) {
-                        setState(() {
-                          _currentPage = 2;
-                          _pageController.jumpToPage(2);
-                        });
-                      } else {
-                        Navigator.of(context)
-                            .pushReplacementNamed(Routes.signup);
-                      }
-                    },
-                    child: Text(
-                      "Skip",
-                      style: TextStyle(
-                        color: _currentPage == 2
-                            ? AppColors.mainBlue
-                            : Colors.black,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-
                   const Spacer(),
                   // the three dots
                   ...List.generate(3, (index) {

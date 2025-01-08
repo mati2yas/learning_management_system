@@ -16,7 +16,7 @@ class RequestsScreen extends ConsumerStatefulWidget {
   ConsumerState<RequestsScreen> createState() => _RequestScreenState();
 }
 
-enum SubscriptionType { oneMonth, threeMonths, sixMonths }
+enum SubscriptionType { oneMonth, threeMonths, sixMonths, yearly }
 
 class _RequestScreenState extends ConsumerState<RequestsScreen> {
   SubscriptionType subscriptionType = SubscriptionType.oneMonth;
@@ -26,6 +26,7 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
     SubscriptionType.oneMonth: 10,
     SubscriptionType.threeMonths: 30,
     SubscriptionType.sixMonths: 60,
+    SubscriptionType.yearly: 120,
   };
 
   @override
@@ -34,8 +35,9 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
     var size = MediaQuery.of(context).size;
     var listViewSize = size.width * 0.5;
     var requestsProv = ref.watch(requestsProvider);
-    double price =
-        requestsProv.map((r) => r.price).reduce((init, sum) => init + sum);
+    double price = requestsProv
+        .map((r) => r.price[subscriptionType] ?? 0)
+        .reduce((init, sum) => init + sum);
     price *= subTypeValue[subscriptionType]!;
     return Scaffold(
       appBar: AppBar(
@@ -62,6 +64,8 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                 itemBuilder: (_, index) {
                   var request = requestsProv[index];
                   return RequestTile(
+                    selectedPriceType:
+                        requestsProv[index].price[subscriptionType] ?? 0,
                     course: request,
                     textTh: textTh,
                   );
@@ -103,6 +107,15 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                       },
                       duration: 6,
                     ),
+                    SubscriptionWidget(
+                      isActive: subscriptionType == SubscriptionType.yearly,
+                      onPress: () {
+                        setState(() {
+                          subscriptionType = SubscriptionType.yearly;
+                        });
+                      },
+                      duration: 12,
+                    ),
                   ],
                 ),
               ),
@@ -125,7 +138,7 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                         ),
                       ),
                       Text(
-                        "Total price: $price",
+                        "Total price: ${price.toStringAsFixed(2)}",
                         style: textTh.bodyLarge!.copyWith(
                           fontWeight: FontWeight.w600,
                         ),

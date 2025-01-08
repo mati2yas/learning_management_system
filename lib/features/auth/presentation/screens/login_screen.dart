@@ -27,20 +27,13 @@ class LoginScreen extends ConsumerWidget {
             children: [
               Text(
                 'Welcome back, Sign In',
-                style: textTh.headlineMedium!.copyWith(
+                style: textTh.headlineSmall!.copyWith(
                   fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'Start learning Now',
-                style: textTh.titleLarge!.copyWith(
-                  fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 25),
               SizedBox(
-                height: size.height * .45,
+                height: size.height * .47,
                 width: size.width * .75,
                 child: Form(
                   child: Column(
@@ -79,7 +72,7 @@ class LoginScreen extends ConsumerWidget {
                               .updatePassword(value);
                         },
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 15),
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
@@ -93,7 +86,7 @@ class LoginScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 15),
                       Center(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(

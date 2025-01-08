@@ -113,10 +113,13 @@ class _CourseDetailPageState extends ConsumerState<CoursesPerCategoryListPage>
                   isScrollable: true,
                   tabs: category.grades
                       .map(
-                        (grd) => Text(
-                          grd.name,
-                          style: textTh.bodyLarge!
-                              .copyWith(fontWeight: FontWeight.w500),
+                        (grd) => Tab(
+                          height: 24,
+                          child: Text(
+                            grd.name,
+                            style: textTh.bodyLarge!
+                                .copyWith(fontWeight: FontWeight.w500),
+                          ),
                         ),
                       )
                       .toList(),

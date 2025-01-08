@@ -49,17 +49,24 @@ class _ChapterDetailPageState extends ConsumerState<ChapterDetailPage>
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.white,
           bottom: PreferredSize(
-            preferredSize: const Size(double.infinity, kTextTabBarHeight - 10),
+            preferredSize: const Size(double.infinity, 45),
             child: CustomTabBar(
               isScrollable: false,
               alignment: TabAlignment.fill,
               controller: controller,
               tabs: const [
                 Tab(
+                  height: 24,
                   text: "Video",
                 ),
-                Tab(text: "Document"),
-                Tab(text: "Quizzes"),
+                Tab(
+                  height: 24,
+                  text: "Document",
+                ),
+                Tab(
+                  height: 24,
+                  text: "Quizzes",
+                ),
               ],
             ),
           ),

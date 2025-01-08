@@ -25,12 +25,15 @@ class CustomTabBar extends StatelessWidget {
         AppColors.mainBlue.withValues(alpha: 0.2),
       ),
       indicator: BoxDecoration(
+        color: AppColors.mainBlue,
         border: Border.all(
           width: 2,
           color: AppColors.mainBlue,
         ),
         borderRadius: BorderRadius.circular(24),
       ),
+      indicatorColor: Colors.white,
+      labelColor: Colors.white,
       splashBorderRadius: BorderRadius.circular(24),
       tabs: tabs,
       controller: controller,
