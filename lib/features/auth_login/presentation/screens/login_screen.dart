@@ -11,10 +11,12 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final loginController = ref.watch(loginControllerProvider);
+    final loginController = ref.watch(loginControllerProvider.notifier);
+    final state = ref.watch(loginControllerProvider);
     final size = MediaQuery.of(context).size;
     final textTh = Theme.of(context).textTheme;
 
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       body: Center(
         child: Padding(
@@ -35,22 +37,25 @@ class LoginScreen extends ConsumerWidget {
                 height: size.height * .47,
                 width: size.width * .75,
                 child: Form(
+                  key: formKey,
                   child: Column(
                     spacing: 12,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Email',
+                        'Phone Number',
                         style: textTh.bodyLarge!.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       InputWidget(
                         validator: _validateInput,
-                        initialValue: "",
+                        initialValue: state.email,
                         keyboardType: TextInputType.emailAddress,
-                        hintText: 'Email',
-                        onSaved: (value) {},
+                        hintText: 'Your Email',
+                        onSaved: (value) {
+                          loginController.updateEmail(value!);
+                        },
                       ),
                       Text(
                         'Password',
@@ -60,10 +65,12 @@ class LoginScreen extends ConsumerWidget {
                       ),
                       InputWidget(
                         validator: _validateInput,
-                        initialValue: "",
+                        initialValue: state.password,
                         hintText: 'Password',
                         obscure: true,
-                        onSaved: (value) {},
+                        onSaved: (value) {
+                          loginController.updatePassword(value!);
+                        },
                       ),
                       const SizedBox(height: 15),
                       Align(
@@ -93,8 +100,30 @@ class LoginScreen extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          onPressed: () {
-                            // Perform login logic here
+                          onPressed: () async {
+                            if (formKey.currentState?.validate() == true) {
+                              formKey.currentState!.save();
+                              try {
+                                await loginController.loginUser();
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Login Successfull"),
+                                    ),
+                                  );
+                                  Navigator.of(context)
+                                      .pushReplacementNamed(Routes.wrapper);
+                                }
+                              } catch (e) {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Login Failed: $e"),
+                                    ),
+                                  );
+                                }
+                              }
+                            }
                           },
                           child: Text(
                             'Login',

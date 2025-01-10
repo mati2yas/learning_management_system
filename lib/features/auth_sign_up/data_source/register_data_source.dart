@@ -12,7 +12,7 @@ class RegisterDataSource {
     required String password,
   }) async {
     try {
-      final response = await _dio.post('/student-registration', data: {
+      final response = await _dio.post('/student-register', data: {
         'name': name,
         'username': username,
         'email': email,

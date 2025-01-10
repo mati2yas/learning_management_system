@@ -106,20 +106,24 @@ class RegisterScreen extends ConsumerWidget {
                         formKey.currentState!.save();
                         try {
                           await controller.registerUser();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Registration Successful!'),
-                            ),
-                          );
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Registration Successful!'),
+                              ),
+                            );
 
-                          Navigator.of(context)
-                              .pushReplacementNamed(Routes.profileAdd);
+                            Navigator.of(context)
+                                .pushReplacementNamed(Routes.profileAdd);
+                          }
                         } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Registration Failed: $e'),
-                            ),
-                          );
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Registration Failed: $e'),
+                              ),
+                            );
+                          }
                         }
                       }
                     },
