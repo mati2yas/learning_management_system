@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/common_widgets/input_field.dart';
 
 import '../../../../core/constants/colors.dart';
-import '../widgets/input_field.dart';
 
 class ProfileAddScreen extends StatefulWidget {
   const ProfileAddScreen({super.key});
@@ -57,18 +57,19 @@ class _ProfileAddScreenState extends State<ProfileAddScreen> {
                       ),
                       const SizedBox(height: 12),
                       InputWidget(
+                        initialValue: "",
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'enter correct name';
                           }
                           return null;
                         },
-                        keyboardType: TextInputType.phone,
+                        keyboardType: TextInputType.emailAddress,
                         hintText: 'tell Us About Yourself',
                         onSaved: (value) {
-                          setState(() {
-                            phone = value;
-                          });
+                          // setState(() {
+                          //   phone = value;
+                          // });
                         },
                       ),
                       const SizedBox(height: 15),
@@ -80,6 +81,7 @@ class _ProfileAddScreenState extends State<ProfileAddScreen> {
                       ),
                       const SizedBox(height: 12),
                       InputWidget(
+                        initialValue: "",
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'enter correct name';
@@ -87,11 +89,7 @@ class _ProfileAddScreenState extends State<ProfileAddScreen> {
                           return null;
                         },
                         hintText: 'Email',
-                        onSaved: (value) {
-                          setState(() {
-                            password = value;
-                          });
-                        },
+                        onSaved: (value) {},
                       ),
                       const SizedBox(height: 20),
                       Align(

@@ -2,25 +2,28 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/colors.dart';
 
 import '../../provider/register_controller.dart';
-import '../widgets/input_field.dart';
 
 class RegisterScreen extends ConsumerWidget {
   const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final registerController = ref.watch(registerControllerProvider);
     final textTh = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
+    final controller = ref.watch(registerControllerProvider.notifier);
+    final state = ref.watch(registerControllerProvider);
 
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
           child: Form(
+            key: formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,35 +45,32 @@ class RegisterScreen extends ConsumerWidget {
                 _buildInputLabel('Your Name', textTh),
                 InputWidget(
                   hintText: 'Your Name',
+                  initialValue: state.name,
                   validator: _validateInput,
                   onSaved: (value) {
-                    ref
-                        .read(registerControllerProvider.notifier)
-                        .updateName(value);
+                    controller.updateName(value!);
                   },
                 ),
                 const SizedBox(height: 15),
-                _buildInputLabel('Phone Number', textTh),
+                _buildInputLabel('Email', textTh),
                 InputWidget(
-                  hintText: 'Phone Number',
-                  keyboardType: TextInputType.phone,
+                  hintText: 'Email',
+                  initialValue: state.email,
+                  keyboardType: TextInputType.emailAddress,
                   validator: _validateInput,
                   onSaved: (value) {
-                    ref
-                        .read(registerControllerProvider.notifier)
-                        .updatePhone(value);
+                    controller.updateEmail(value!);
                   },
                 ),
                 const SizedBox(height: 15),
                 _buildInputLabel('Password', textTh),
                 InputWidget(
                   hintText: 'Password',
+                  initialValue: state.password,
                   obscure: true,
                   validator: _validateInput,
                   onSaved: (value) {
-                    ref
-                        .read(registerControllerProvider.notifier)
-                        .updatePassword(value);
+                    controller.updatePassword(value!);
                   },
                 ),
                 const SizedBox(height: 20),
@@ -101,10 +101,27 @@ class RegisterScreen extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: () {
-                      // Handle register logic
-                      Navigator.of(context)
-                          .pushReplacementNamed(Routes.profileAdd);
+                    onPressed: () async {
+                      if (formKey.currentState?.validate() == true) {
+                        formKey.currentState!.save();
+                        try {
+                          await controller.registerUser();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Registration Successful!'),
+                            ),
+                          );
+
+                          Navigator.of(context)
+                              .pushReplacementNamed(Routes.profileAdd);
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Registration Failed: $e'),
+                            ),
+                          );
+                        }
+                      }
                     },
                     child: Text(
                       'Register',

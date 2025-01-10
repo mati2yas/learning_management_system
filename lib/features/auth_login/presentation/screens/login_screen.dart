@@ -2,10 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/colors.dart';
-
-import '../../provider/login_controller.dart';
-import '../widgets/input_field.dart';
+import 'package:lms_system/features/auth_login/provider/login_controller.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
@@ -41,20 +40,17 @@ class LoginScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Phone Number',
+                        'Email',
                         style: textTh.bodyLarge!.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       InputWidget(
                         validator: _validateInput,
-                        keyboardType: TextInputType.phone,
-                        hintText: 'Phone Number',
-                        onSaved: (value) {
-                          ref
-                              .read(loginControllerProvider.notifier)
-                              .updatePhone(value);
-                        },
+                        initialValue: "",
+                        keyboardType: TextInputType.emailAddress,
+                        hintText: 'Email',
+                        onSaved: (value) {},
                       ),
                       Text(
                         'Password',
@@ -64,13 +60,10 @@ class LoginScreen extends ConsumerWidget {
                       ),
                       InputWidget(
                         validator: _validateInput,
+                        initialValue: "",
                         hintText: 'Password',
                         obscure: true,
-                        onSaved: (value) {
-                          ref
-                              .read(loginControllerProvider.notifier)
-                              .updatePassword(value);
-                        },
+                        onSaved: (value) {},
                       ),
                       const SizedBox(height: 15),
                       Align(

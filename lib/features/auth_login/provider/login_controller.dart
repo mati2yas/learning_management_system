@@ -13,26 +13,26 @@ class LoginController extends StateNotifier<LoginState> {
     state = state.copyWith(password: value);
   }
 
-  void updatePhone(String value) {
-    state = state.copyWith(phone: value);
+  void updateemail(String value) {
+    state = state.copyWith(email: value);
   }
 }
 
 class LoginState {
-  final String phone;
+  final String email;
   final String password;
 
   LoginState({
-    this.phone = '',
+    this.email = '',
     this.password = '',
   });
 
   LoginState copyWith({
-    String? phone,
+    String? email,
     String? password,
   }) {
     return LoginState(
-      phone: phone ?? this.phone,
+      email: email ?? this.email,
       password: password ?? this.password,
     );
   }

@@ -1,13 +1,30 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod/riverpod.dart';
+
+import '../repository/register_repository.dart';
+import 'register_repository_provider.dart';
 
 final registerControllerProvider =
     StateNotifierProvider<RegisterController, RegisterState>(
-  (ref) => RegisterController(),
+  (ref) => RegisterController(ref.watch(registerRepositoryProvider)),
 );
 
 class RegisterController extends StateNotifier<RegisterState> {
-  RegisterController() : super(RegisterState());
+  final RegisterRepository _repository;
+
+  RegisterController(this._repository) : super(RegisterState());
+
+  Future<void> registerUser() async {
+    try {
+      await _repository.register(
+        name: state.name,
+        username: state.username,
+        email: state.email,
+        password: state.password,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   void updateName(String value) {
     state = state.copyWith(name: value);
@@ -17,38 +34,36 @@ class RegisterController extends StateNotifier<RegisterState> {
     state = state.copyWith(password: value);
   }
 
-  void updatePhone(String value) {
-    state = state.copyWith(phone: value);
+  void updateEmail(String value) {
+    state = state.copyWith(email: value);
   }
 
-  void updateUsername(String value) {
-    state = state.copyWith(username: value);
-  }
+
 }
 
 class RegisterState {
   final String name;
   final String username;
-  final String phone;
+  final String email;
   final String password;
 
   RegisterState({
     this.name = '',
     this.username = '',
-    this.phone = '',
+    this.email = '',
     this.password = '',
   });
 
   RegisterState copyWith({
     String? name,
     String? username,
-    String? phone,
+    String? email,
     String? password,
   }) {
     return RegisterState(
       name: name ?? this.name,
       username: username ?? this.username,
-      phone: phone ?? this.phone,
+      email: email ?? this.email,
       password: password ?? this.password,
     );
   }

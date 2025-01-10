@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/features/auth/presentation/screens/login_screen.dart';
-import 'package:lms_system/features/auth/presentation/screens/profile_add.dart';
-import 'package:lms_system/features/auth/presentation/screens/register_screen.dart';
+import 'package:lms_system/features/auth_login/presentation/screens/login_screen.dart';
+import 'package:lms_system/features/auth_sign_up/presentation/screens/profile_add.dart';
+import 'package:lms_system/features/auth_sign_up/presentation/screens/register_screen.dart';
 import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_detail.dart';
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_videos.dart';
@@ -33,7 +33,7 @@ class Approuter {
         return MaterialPageRoute(builder: (_) => const LoginScreen());
 
       case Routes.signup:
-        return MaterialPageRoute(builder: (_) => const RegisterScreen());
+        return MaterialPageRoute(builder: (_) => RegisterScreen());
 
       case Routes.profileAdd:
         return MaterialPageRoute(builder: (_) => const ProfileAddScreen());
