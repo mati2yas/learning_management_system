@@ -14,7 +14,7 @@ class RegisterScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final textTh = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
-    final controller = ref.watch(registerControllerProvider.notifier);
+    final regController = ref.watch(registerControllerProvider.notifier);
     final state = ref.watch(registerControllerProvider);
 
     final formKey = GlobalKey<FormState>();
@@ -48,7 +48,7 @@ class RegisterScreen extends ConsumerWidget {
                   initialValue: state.name,
                   validator: _validateInput,
                   onSaved: (value) {
-                    controller.updateName(value!);
+                    regController.updateName(value!);
                   },
                 ),
                 const SizedBox(height: 15),
@@ -59,7 +59,7 @@ class RegisterScreen extends ConsumerWidget {
                   keyboardType: TextInputType.emailAddress,
                   validator: _validateInput,
                   onSaved: (value) {
-                    controller.updateEmail(value!);
+                    regController.updateEmail(value!);
                   },
                 ),
                 const SizedBox(height: 15),
@@ -70,7 +70,7 @@ class RegisterScreen extends ConsumerWidget {
                   obscure: true,
                   validator: _validateInput,
                   onSaved: (value) {
-                    controller.updatePassword(value!);
+                    regController.updatePassword(value!);
                   },
                 ),
                 const SizedBox(height: 20),
@@ -105,7 +105,7 @@ class RegisterScreen extends ConsumerWidget {
                       if (formKey.currentState?.validate() == true) {
                         formKey.currentState!.save();
                         try {
-                          await controller.registerUser();
+                          await regController.registerUser();
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

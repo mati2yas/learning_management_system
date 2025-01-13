@@ -6,7 +6,9 @@ import 'core/app_router.dart';
 import 'core/constants/colors.dart';
 
 void main() async {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(
+    const ProviderScope(child: MyApp()),
+  );
 }
 
 final localhostServer = InAppLocalhostServer(documentRoot: 'assets');

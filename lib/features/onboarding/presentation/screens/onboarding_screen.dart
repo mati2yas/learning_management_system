@@ -1,41 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/features/auth_status_registration/provider/reg_status_repository_provider.dart';
 
-import '../../../../core/app_router.dart';
+import '../../data_source/onboarding_data_source.dart';
+import '../../provider/onboarding_provider.dart';
+import '../../repository/onboarding_repository.dart';
 import '../widgets/current_page.dart';
 
-class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({super.key});
+class OnboardingScreen extends ConsumerWidget {
+  const OnboardingScreen({super.key});
 
   @override
-  State<OnboardingPage> createState() => _OnboardingPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentPage = ref.watch(onboardingProvider);
+    final onboardingController = ref.read(onboardingProvider.notifier);
+    final repository = OnboardingRepository(OnboardingDataSource());
+    final onboardingPages = repository.getOnboardingPages();
+    final registeredStatController =
+        ref.watch(registrationStatusControllerProvider.notifier);
 
-class _OnboardingPageState extends State<OnboardingPage> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         actions: [
           TextButton(
             onPressed: () {
-              if (_currentPage < 2) {
-                setState(() {
-                  _currentPage = 2;
-                  _pageController.jumpToPage(2);
-                });
+              if (currentPage < 2) {
+                onboardingController.skipToLastPage();
               } else {
-                Navigator.of(context).pushReplacementNamed(Routes.signup);
+                Navigator.of(context).pushReplacementNamed('/signup');
               }
             },
             child: Text(
               "Skip",
               style: TextStyle(
-                color: _currentPage == 2 ? AppColors.mainBlue : Colors.black,
+                color: currentPage == 2 ? Colors.blue : Colors.black,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -45,93 +46,66 @@ class _OnboardingPageState extends State<OnboardingPage> {
       body: Stack(
         children: [
           PageView(
-            controller: _pageController,
-            onPageChanged: (int page) {
-              setState(() {
-                _currentPage = page;
-              });
-            },
-            children: const [
-              CurrentPage(
-                image: 'assets/svgs/onboarding_page1.svg',
-                description:
-                    'Join our community and connect with others Knowledge.',
-              ),
-              CurrentPage(
-                image: 'assets/svgs/onboarding_page2.svg',
-                description:
-                    'Join our community and connect with others Knowledge.',
-              ),
-              CurrentPage(
-                image: 'assets/svgs/onboarding_page3.svg',
-                description:
-                    'Join our community and connect with others Knowledge.',
-              ),
-            ],
+            controller: onboardingController.pageController,
+            onPageChanged: onboardingController.setPage,
+            children: onboardingPages
+                .map(
+                  (page) => CurrentPage(
+                    image: page.imagePath,
+                    description: page.description,
+                  ),
+                )
+                .toList(),
           ),
-          // Page indicator
           Positioned(
             bottom: 30,
             left: 0,
             right: 0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Spacer(),
-                  // the three dots
-                  ...List.generate(3, (index) {
-                    return AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      height: _currentPage == index ? 25 : 18,
-                      width: _currentPage == index ? 10 : 8,
-                      decoration: BoxDecoration(
-                        color: AppColors.mainBlue,
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                    );
-                  }),
-                  const Spacer(),
-                  if (_currentPage == 2)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: CircleAvatar(
-                        backgroundColor: AppColors.mainBlue,
-                        child: IconButton(
-                          color: Colors.white,
-                          onPressed: () {
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Spacer(),
+                ...List.generate(
+                  onboardingPages.length,
+                  (index) => AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    height: currentPage == index ? 25 : 18,
+                    width: currentPage == index ? 10 : 8,
+                    decoration: BoxDecoration(
+                      color: AppColors.mainBlue,
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CircleAvatar(
+                    backgroundColor: AppColors.mainBlue,
+                    child: IconButton(
+                      color: Colors.white,
+                      onPressed: () async {
+                        if (currentPage == onboardingPages.length - 1) {
+                          final registered = await registeredStatController
+                              .checkRegistrationStatus();
+
+                          if (registered) {
+                            Navigator.of(context)
+                                .pushReplacementNamed(Routes.wrapper);
+                          } else {
                             Navigator.of(context)
                                 .pushReplacementNamed(Routes.signup);
-                          },
-                          icon: const Icon(
-                            Icons.arrow_forward,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    )
-                  else
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: CircleAvatar(
-                        backgroundColor: AppColors.mainBlue,
-                        child: IconButton(
-                          color: Colors.white,
-                          onPressed: () {
-                            _currentPage = _currentPage + 1;
-                            _pageController.jumpToPage(_currentPage);
-                          },
-                          icon: const Icon(
-                            Icons.arrow_forward,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    )
-                ],
-              ),
+                          }
+                        } else {
+                          onboardingController.nextPage();
+                        }
+                      },
+                      icon: const Icon(Icons.arrow_forward),
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
         ],

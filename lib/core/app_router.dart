@@ -24,7 +24,7 @@ class Approuter {
         return MaterialPageRoute(builder: (_) => WrapperScreen());
 
       case Routes.onboarding:
-        return MaterialPageRoute(builder: (_) => const OnboardingPage());
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen());
 
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const HomePage());
@@ -33,7 +33,7 @@ class Approuter {
         return MaterialPageRoute(builder: (_) => const LoginScreen());
 
       case Routes.signup:
-        return MaterialPageRoute(builder: (_) => RegisterScreen());
+        return MaterialPageRoute(builder: (_) => const RegisterScreen());
 
       case Routes.profileAdd:
         return MaterialPageRoute(builder: (_) => const ProfileAddScreen());
