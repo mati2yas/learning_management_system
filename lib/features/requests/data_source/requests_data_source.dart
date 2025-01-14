@@ -1,13 +1,12 @@
 import 'package:lms_system/features/shared/model/chapter.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
-import 'package:lms_system/requests/presentation/screens/requests_screen.dart';
+import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 
 class RequestsDataSource {
   List<Course> fetchAddedCourses() {
     return [
       Course(
         title: "Web Desien",
-        desc: "web design",
         topics: 21,
         saves: 7,
         likes: 12,
@@ -40,7 +39,6 @@ class RequestsDataSource {
       ),
       Course(
         title: "Marketing",
-        desc: "web design",
         topics: 21,
         price: {
           SubscriptionType.oneMonth: 72.0,

@@ -12,7 +12,7 @@ import 'package:lms_system/features/onboarding/presentation/screens/onboarding_s
 import 'package:lms_system/features/profile/presentation/screens/profile_screen.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
 import 'package:lms_system/features/wrapper/presentation/screens/wrapper_screen.dart';
-import 'package:lms_system/requests/presentation/screens/requests_screen.dart';
+import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 
 import '../features/courses/presentation/screens/course/courses_screen.dart';
 import '../features/shared/model/chapter.dart';

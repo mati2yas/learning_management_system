@@ -1,8 +1,8 @@
 import 'package:lms_system/features/shared/model/chapter.dart';
-import 'package:lms_system/requests/presentation/screens/requests_screen.dart';
+import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 
 class Course {
-  final String title, desc, image;
+  final String title, image;
   final int topics, saves, likes;
   final double progress;
   final List<Chapter> chapters;
@@ -12,7 +12,6 @@ class Course {
   final Map<SubscriptionType, double> price;
   Course({
     required this.title,
-    required this.desc,
     required this.topics,
     required this.saves,
     required this.likes,
@@ -25,4 +24,20 @@ class Course {
     required this.chapters,
     this.streamOrDepartment,
   });
+  factory Course.fromJson(Map<String, dynamic> json) {
+    return Course(
+      title: json["course_name"],
+      topics: 4,
+      saves: 5,
+      likes: 10,
+      image: json["thumbnail"],
+      price: {
+        SubscriptionType.oneMonth: 100,
+        SubscriptionType.threeMonths: 288,
+        SubscriptionType.sixMonths: 560,
+        SubscriptionType.yearly: 1000,
+      },
+      chapters: [], 
+    );
+  }
 }

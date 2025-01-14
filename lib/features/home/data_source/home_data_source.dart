@@ -1,14 +1,19 @@
-import 'package:lms_system/requests/presentation/screens/requests_screen.dart';
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../shared/model/chapter.dart';
 import '../../shared/model/shared_course_model.dart';
 
 class HomeDataSource {
+  final Dio _dio;
+  HomeDataSource(this._dio);
   List<Course> fetchCourses() {
     return [
       Course(
         title: "Web Design",
-        desc: "web design",
         topics: 21,
         saves: 7,
         likes: 12,
@@ -41,7 +46,6 @@ class HomeDataSource {
       ),
       Course(
         title: "Marketing",
-        desc: "web design",
         topics: 21,
         price: {
           SubscriptionType.oneMonth: 72.0,
@@ -74,7 +78,6 @@ class HomeDataSource {
       ),
       Course(
         title: "Applied Mathematics",
-        desc: "web design",
         price: {
           SubscriptionType.oneMonth: 72.0,
           SubscriptionType.threeMonths: 216.0,
@@ -107,7 +110,6 @@ class HomeDataSource {
       ),
       Course(
         title: "Accounting",
-        desc: "web design",
         topics: 21,
         saves: 7,
         likes: 9,
@@ -139,5 +141,59 @@ class HomeDataSource {
         ],
       ),
     ];
+  }
+
+  Future<List<Course>> getCourses() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    List<Course> courses = [];
+    final Map<String, dynamic> mapVal = await getUserData();
+    print(mapVal);
+    try {
+      var token = mapVal["token"];
+      print("token: $token");
+      _dio.options.headers = {"Authorization": "Bearer $token"};
+      final response = await _dio.get("/courses");
+
+      if (response.statusCode == 200) {
+        var data = response.data["data"];
+
+        for (var dataVl in data) {
+          print(dataVl);
+          Course crs = Course.fromJson(dataVl);
+          print(crs.title);
+
+          for (int i = 0; i < 3; i++) {
+            courses.add(crs);
+          }
+        }
+
+        print("courses: \n ${courses.length}");
+      }
+    } catch (e) {
+      rethrow;
+    }
+    return courses;
+  }
+
+  Future<Map<String, dynamic>> getUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    var userDataString = prefs.getString("userData") ?? "{}";
+
+    userDataString = userDataString.replaceAll('\'', '"');
+    userDataString = userDataString.replaceAllMapped(
+      RegExp(
+          r'(?<=[:\s{,])([a-zA-Z0-9_.@]+|\d[a-zA-Z0-9_.|]+[\d]+)(?=[,\s}])'), // Modified regex
+      (match) => '"${match.group(0)}"', // Wrap in double quotes
+    );
+    prefs.setString("userData", userDataString);
+    // Parse the JSON string into a Map
+    try {
+      final Map<String, dynamic> userData = jsonDecode(userDataString);
+      return userData;
+    } catch (e) {
+      print("Error decoding user data: $e");
+    }
+    return {}; // Return an empty map if no data or error
   }
 }

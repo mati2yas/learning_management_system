@@ -1,5 +1,5 @@
 import 'package:lms_system/features/courses/data_source/course_detail_data_source.dart';
-import 'package:lms_system/requests/presentation/screens/requests_screen.dart';
+import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 
 import '../../shared/model/chapter.dart';
 import '../../shared/model/shared_course_model.dart';
@@ -20,7 +20,6 @@ class CourseDataSource {
     return [
       Course(
         title: "Web Design",
-        desc: "web design",
         topics: 21,
         saves: 9,
         image: "web_design.png",
@@ -55,7 +54,6 @@ class CourseDataSource {
       ),
       Course(
         title: "Accounting",
-        desc: "web design",
         topics: 21,
         saves: 7,
         image: "accounting_course.png",
@@ -90,7 +88,6 @@ class CourseDataSource {
       ),
       Course(
         title: "Marketing",
-        desc: "web design",
         topics: 21,
         saves: 12,
         price: {
@@ -125,7 +122,6 @@ class CourseDataSource {
       ),
       Course(
         title: "Applied Mathematics",
-        desc: "web design",
         topics: 21,
         likes: 12,
         liked: false,
@@ -160,7 +156,6 @@ class CourseDataSource {
       ),
       Course(
         title: "Accounting",
-        desc: "web design",
         topics: 21,
         saves: 7,
         image: "accounting_course.png",
@@ -195,7 +190,6 @@ class CourseDataSource {
       ),
       Course(
         title: "Marketing",
-        desc: "web design",
         topics: 21,
         saves: 12,
         image: "marketing_course.png",
@@ -230,7 +224,6 @@ class CourseDataSource {
       ),
       Course(
         title: "Applied Mathematics",
-        desc: "web design",
         topics: 21,
         likes: 12,
         liked: false,
@@ -265,7 +258,6 @@ class CourseDataSource {
       ),
       Course(
         title: "Accounting",
-        desc: "web design",
         topics: 21,
         saves: 7,
         likes: 12,
@@ -300,7 +292,6 @@ class CourseDataSource {
       ),
       Course(
         title: "Applied Mathematics",
-        desc: "web design",
         topics: 21,
         likes: 12,
         liked: false,
@@ -335,7 +326,6 @@ class CourseDataSource {
       ),
       Course(
         title: "Accounting",
-        desc: "web design",
         topics: 21,
         saves: 7,
         image: "accounting_course.png",

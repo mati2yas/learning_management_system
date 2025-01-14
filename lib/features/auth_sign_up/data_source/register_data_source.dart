@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +17,6 @@ class RegisterDataSource {
     try {
       final response = await _dio.post('/student-register', data: {
         'name': name,
-        'username': username,
         'email': email,
         'password': password,
         'password_confirmation': password,
@@ -27,16 +28,16 @@ class RegisterDataSource {
         final user = response.data['data']['user'];
 
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', token);
-        // the json format of the code
-        String valueData = "{"
-            "'name': $name,"
-            " 'email': $email,"
-            " 'token': $token"
-            "}";
-        print("user valdata:");
+        final valueData = jsonEncode({
+          'name': "\"$name\"",
+          'email': "\"$email\"",
+          'token': "\"$token\"",
+        });
+
+        print("User Data to Save:");
         print(valueData);
 
+        // Save the JSON string
         await prefs.setString("userData", valueData);
       } else {
         throw Exception('Failed to register user: ${response.data['message']}');

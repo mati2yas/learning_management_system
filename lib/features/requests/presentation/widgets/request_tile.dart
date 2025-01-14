@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
-import 'package:lms_system/requests/provider/requests_provider.dart';
+import 'package:lms_system/features/requests/provider/requests_provider.dart';
 
 class RequestTile extends ConsumerWidget {
   final Course course;

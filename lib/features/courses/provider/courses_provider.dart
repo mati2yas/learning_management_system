@@ -33,7 +33,6 @@ class CourseNotifier extends StateNotifier<List<Course>> {
       if (c == course) {
         return Course(
           title: c.title,
-          desc: c.desc,
           topics: c.topics,
           saves: c.saves,
           likes: c.likes + (c.liked ? -1 : 1),
@@ -54,7 +53,6 @@ class CourseNotifier extends StateNotifier<List<Course>> {
       if (c == course) {
         return Course(
           title: c.title,
-          desc: c.desc,
           topics: c.topics,
           saves: c.saves + (c.saved ? -1 : 1),
           likes: c.likes,
@@ -75,7 +73,6 @@ class CourseNotifier extends StateNotifier<List<Course>> {
       if (c == course) {
         return Course(
           title: c.title,
-          desc: c.desc,
           topics: c.topics,
           saves: c.saves,
           likes: c.likes,

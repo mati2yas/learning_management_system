@@ -12,7 +12,6 @@ final highSchool = [
         courses: [
           Course(
             title: "Biology",
-            desc: "Introduction to biology concepts",
             topics: 6,
             price: {
               SubscriptionType.oneMonth: 72.0,
@@ -59,7 +58,6 @@ final highSchool = [
           ),
           Course(
             title: "Applied Mathematics",
-            desc: "Advanced Calculus Course",
             topics: 7,
             likes: 12,
             liked: false,
@@ -111,7 +109,6 @@ final highSchool = [
         courses: [
           Course(
             title: "Chemistry",
-            desc: "Understanding chemical reactions and compounds",
             topics: 8,
             saves: 16,
             likes: 12,
@@ -153,7 +150,6 @@ final highSchool = [
           ),
           Course(
             title: "Biology",
-            desc: "",
             topics: 8,
             saves: 16,
             likes: 12,
@@ -196,7 +192,6 @@ final highSchool = [
           ),
           Course(
             title: "Physics",
-            desc: "",
             topics: 8,
             saves: 16,
             likes: 12,
@@ -241,7 +236,6 @@ final highSchool = [
           ),
           Course(
             title: "History",
-            desc: "Exploring historical events and their impact",
             topics: 5,
             saves: 12,
             likes: 12,
@@ -292,7 +286,6 @@ final highSchool = [
         courses: [
           Course(
             title: "Physics",
-            desc: "Understanding basic physics principles",
             topics: 7,
             saves: 18,
             likes: 12,
@@ -336,7 +329,6 @@ final highSchool = [
           ),
           Course(
             title: "Economics",
-            desc: "Introduction to economics and finance",
             topics: 5,
             saves: 11,
             likes: 12,
@@ -386,7 +378,6 @@ final highSchool = [
         courses: [
           Course(
             title: "Calculus",
-            desc: "Introduction to derivatives and integrals",
             topics: 9,
             saves: 20,
             likes: 12,
@@ -404,7 +395,6 @@ final highSchool = [
           ),
           Course(
             title: "Political Science",
-            desc: "Learning about political systems and governance",
             likes: 12,
             liked: false,
             topics: 6,
@@ -437,7 +427,6 @@ final lowerGrades = [
         courses: [
           Course(
             title: "Math Basics",
-            desc: "Introduction to basic math concepts",
             topics: 5,
             saves: 10,
             price: {
@@ -454,7 +443,6 @@ final lowerGrades = [
           ),
           Course(
             title: "Reading",
-            desc: "Learning to read simple texts",
             topics: 6,
             likes: 12,
             liked: false,
@@ -477,7 +465,6 @@ final lowerGrades = [
         courses: [
           Course(
             title: "Advanced Math",
-            desc: "Building on basic math skills",
             topics: 5,
             likes: 12,
             liked: false,
@@ -496,7 +483,6 @@ final lowerGrades = [
             title: "Writing",
             likes: 12,
             liked: false,
-            desc: "Learning basic writing skills",
             price: {
               SubscriptionType.oneMonth: 72.0,
               SubscriptionType.threeMonths: 216.0,
@@ -517,7 +503,6 @@ final lowerGrades = [
         courses: [
           Course(
             title: "Multiplication and Division",
-            desc: "Introduction to multiplication and division",
             topics: 4,
             price: {
               SubscriptionType.oneMonth: 72.0,
@@ -534,7 +519,6 @@ final lowerGrades = [
           ),
           Course(
             title: "Grammar",
-            desc: "Learning basic grammar rules",
             topics: 5,
             likes: 12,
             price: {
@@ -557,7 +541,6 @@ final lowerGrades = [
         courses: [
           Course(
             title: "Fractions and Decimals",
-            desc: "Understanding fractions and decimals",
             likes: 12,
             liked: false,
             topics: 6,
@@ -574,7 +557,6 @@ final lowerGrades = [
           ),
           Course(
             title: "Creative Writing",
-            desc: "Developing writing creativity",
             topics: 4,
             saves: 10,
             price: {
@@ -597,7 +579,6 @@ final lowerGrades = [
         courses: [
           Course(
             title: "Geometry Basics",
-            desc: "Introduction to basic geometry",
             topics: 7,
             likes: 12,
             liked: false,
@@ -614,7 +595,6 @@ final lowerGrades = [
           ),
           Course(
             title: "Science Experiments",
-            desc: "Basic hands-on science experiments",
             likes: 12,
             liked: false,
             topics: 5,
@@ -637,7 +617,6 @@ final lowerGrades = [
         courses: [
           Course(
             title: "Algebra Basics",
-            desc: "Introduction to algebra concepts",
             topics: 5,
             likes: 12,
             price: {
@@ -654,7 +633,6 @@ final lowerGrades = [
           ),
           Course(
             title: "Earth Science",
-            desc: "Learning about the Earth and its structure",
             topics: 6,
             price: {
               SubscriptionType.oneMonth: 72.0,
@@ -677,7 +655,6 @@ final lowerGrades = [
         courses: [
           Course(
             title: "Pre-Algebra",
-            desc: "Preparation for advanced algebra topics",
             topics: 6,
             saves: 14,
             price: {
@@ -694,7 +671,6 @@ final lowerGrades = [
           ),
           Course(
             title: "History Basics",
-            desc: "Understanding historical events and figures",
             topics: 5,
             saves: 11,
             likes: 12,
@@ -717,7 +693,6 @@ final lowerGrades = [
         courses: [
           Course(
             title: "Algebra 1",
-            desc: "Detailed introduction to algebra",
             topics: 8,
             saves: 18,
             likes: 12,
@@ -734,7 +709,6 @@ final lowerGrades = [
           ),
           Course(
             title: "Physical Science",
-            desc: "Basic physics and chemistry concepts",
             topics: 7,
             saves: 17,
             likes: 12,
@@ -767,7 +741,6 @@ final university = [
         courses: [
           Course(
             title: "Introduction to Computer Science",
-            desc: "Basics of programming and algorithms",
             price: {
               SubscriptionType.oneMonth: 72.0,
               SubscriptionType.threeMonths: 216.0,
@@ -808,7 +781,6 @@ final university = [
             courses: [
               Course(
                 title: "Data Structures",
-                desc: "Exploring different types of data structures",
                 topics: 10,
                 saves: 25,
                 price: {
@@ -847,7 +819,6 @@ final university = [
             courses: [
               Course(
                 title: "Thermodynamics",
-                desc: "Study of heat and energy transfer",
                 topics: 12,
                 price: {
                   SubscriptionType.oneMonth: 72.0,
@@ -893,7 +864,6 @@ final university = [
                   SubscriptionType.yearly: 864.0,
                 },
                 title: "Strategic Management",
-                desc: "Overview of corporate strategies",
                 topics: 10,
                 saves: 20,
                 likes: 12,
@@ -917,7 +887,6 @@ final university = [
             courses: [
               Course(
                 title: "Clinical Medicine",
-                desc: "Introduction to clinical practices",
                 topics: 15,
                 price: {
                   SubscriptionType.oneMonth: 72.0,

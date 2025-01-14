@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
-import 'package:lms_system/requests/presentation/screens/requests_screen.dart';
+import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 
 import '../../../shared/model/chapter.dart';
 import '../widgets/courses_list.dart';
@@ -18,7 +18,6 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
   List<Course> courses = [
     Course(
       title: "Marketing Course",
-      desc: "Marketing Course",
       topics: 12,
       saves: 15,
       likes: 12,
@@ -52,7 +51,6 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
     ),
     Course(
       title: "Web Design",
-      desc: "Marketing Course",
       topics: 12,
       saves: 15,
       likes: 8,
@@ -86,7 +84,6 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
     ),
     Course(
       title: "Marketing Course",
-      desc: "Marketing Course",
       topics: 12,
       saves: 15,
       likes: 4,
@@ -120,7 +117,6 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
     ),
     Course(
       title: "Marketing Course",
-      desc: "Marketing Course",
       topics: 12,
       saves: 15,
       likes: 2,

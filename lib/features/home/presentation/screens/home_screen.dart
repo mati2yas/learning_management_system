@@ -5,6 +5,7 @@ import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/home/presentation/widgets/carousel.dart';
 import 'package:lms_system/features/home/presentation/widgets/category_indicator.dart';
 import 'package:lms_system/features/home/presentation/widgets/custom_home_app_bar_widget.dart';
+import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/wrapper/presentation/widgets/drawer_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -21,6 +22,8 @@ class HomePage extends ConsumerWidget {
     final pageviewParts = ref.watch(pageviewPartsProvider);
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
+
+    final homeApiState = ref.watch(homeScreenApiProvider);
     print("ktoolbarheight: $kToolbarHeight");
     final PageController pageController = PageController();
     return Scaffold(
@@ -151,34 +154,45 @@ class HomePage extends ConsumerWidget {
                     const SizedBox(
                       height: 5,
                     ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.only(bottom: 30),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                          childAspectRatio: getResponsiveChildAspectRatio(size),
+                    homeApiState.when(
+                      loading: () => const CircularProgressIndicator(
+                        color: AppColors.mainBlue,
+                        strokeWidth: 5,
+                      ),
+                      error: (error, stack) => Center(
+                        child: Text(error.toString()),
+                      ),
+                      data: (courses) => SizedBox(
+                        width: double.infinity,
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.only(bottom: 30),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            childAspectRatio:
+                                getResponsiveChildAspectRatio(size),
+                          ),
+                          itemBuilder: (_, index) {
+                            return CourseCard(
+                              onBookmark: () {
+                                ref
+                                    .read(courseProvider.notifier)
+                                    .toggleSaved(courses[index]);
+                              },
+                              onLike: () {
+                                ref
+                                    .read(courseProvider.notifier)
+                                    .toggleLiked(courses[index]);
+                              },
+                              course: courses[index],
+                            );
+                          },
+                          itemCount: courses.length,
                         ),
-                        itemBuilder: (_, index) {
-                          return CourseCard(
-                            onBookmark: () {
-                              ref
-                                  .read(courseProvider.notifier)
-                                  .toggleSaved(courses[index]);
-                            },
-                            onLike: () {
-                              ref
-                                  .read(courseProvider.notifier)
-                                  .toggleLiked(courses[index]);
-                            },
-                            course: courses[index],
-                          );
-                        },
-                        itemCount: courses.length,
                       ),
                     ),
                   ],

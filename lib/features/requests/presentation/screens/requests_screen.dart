@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/requests/presentation/widgets/subscription_widget.dart';
-import 'package:lms_system/requests/provider/requests_provider.dart';
+import 'package:lms_system/features/requests/presentation/widgets/subscription_widget.dart';
+import 'package:lms_system/features/requests/provider/requests_provider.dart';
 
 import '../widgets/request_tile.dart';
 

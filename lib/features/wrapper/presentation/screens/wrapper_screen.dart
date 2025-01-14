@@ -8,6 +8,7 @@ import 'package:lms_system/features/exams/presentation/screens/exam_filters_scre
 import 'package:lms_system/features/exams/presentation/screens/exam_grade_filter.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_page.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
+import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 
@@ -104,6 +105,9 @@ class WrapperScreen extends ConsumerWidget {
       const ExamFiltersScreen(), // 7
       const ExamGradeFilter(), // 8
     ];
+     if (currentPage == 0) {
+      ref.read(homeScreenApiProvider.notifier).build();
+    }
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,

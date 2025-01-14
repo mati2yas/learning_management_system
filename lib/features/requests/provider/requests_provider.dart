@@ -1,5 +1,5 @@
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
-import 'package:lms_system/requests/data_source/requests_data_source.dart';
+import 'package:lms_system/features/requests/data_source/requests_data_source.dart';
 import 'package:riverpod/riverpod.dart';
 
 final requestsDataSourceProvider = Provider<RequestsDataSource>((ref) {

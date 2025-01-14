@@ -1,16 +1,17 @@
+import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/features/home/data_source/home_data_source.dart';
+import 'package:lms_system/features/home/repository/home_repository.dart';
 import 'package:riverpod/riverpod.dart';
 
 import '../../shared/model/shared_course_model.dart';
 import '../../shared/model/shared_user.dart';
 
 final homeDataSourceProvider = Provider<HomeDataSource>((ref) {
-  return HomeDataSource();
+  return HomeDataSource(DioClient.instance);
 });
 
-final homeProvider = StateNotifierProvider<HomeNotifier, List<Course>>((ref) {
-  final dataSource = ref.read(homeDataSourceProvider);
-  return HomeNotifier(dataSource);
+final homeRepositoryProvider = Provider<HomeRepository>((ref) {
+  return HomeRepository(ref.watch(homeDataSourceProvider));
 });
 
 final pageviewPartsProvider = Provider<Map<String, String>>((ref) {
@@ -31,76 +32,86 @@ final userProvider = Provider<User>((ref) {
   );
 });
 
-class HomeNotifier extends StateNotifier<List<Course>> {
-  final HomeDataSource dataSource;
-  HomeNotifier(this.dataSource) : super([]) {
+class HomeNotifier extends StateNotifier<AsyncValue<List<Course>>> {
+  final HomeRepository repository;
+
+  HomeNotifier(this.repository) : super(const AsyncLoading()) {
     loadData();
   }
 
-  void loadData() {
-    state = dataSource.fetchCourses();
+  Future<void> loadData() async {
+    try {
+      state = const AsyncLoading();
+      final courses = await repository.getCourses();
+      state = AsyncData(courses);
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+    }
   }
 
   void toggleLiked(Course course) {
-    state = state.map((c) {
-      if (c == course) {
-        return Course(
-          title: c.title,
-          desc: c.desc,
-          topics: c.topics,
-          saves: c.saves + (c.saved ? -1 : 1),
-          price: c.price,
-          liked: c.liked,
-          likes: c.likes + (c.liked ? -1 : 1),
-          image: c.image,
-          saved: !c.saved,
-          subscribed: c.subscribed,
-          chapters: c.chapters,
-        );
-      }
-      return c;
-    }).toList();
+    state = state.whenData((courses) {
+      return courses.map((c) {
+        if (c == course) {
+          return Course(
+            title: c.title,
+            topics: c.topics,
+            saves: c.saves,
+            likes: c.likes + (c.liked ? -1 : 1),
+            liked: !c.liked,
+            image: c.image,
+            saved: c.saved,
+            subscribed: c.subscribed,
+            price: c.price,
+            chapters: c.chapters,
+          );
+        }
+        return c;
+      }).toList();
+    });
   }
 
   void toggleSaved(Course course) {
-    state = state.map((c) {
-      if (c == course) {
-        return Course(
-          title: c.title,
-          desc: c.desc,
-          topics: c.topics,
-          saves: c.saves + (c.saved ? -1 : 1),
-          liked: c.liked,
-          likes: c.likes,
-          image: c.image,
-          saved: !c.saved,
-          price: c.price,
-          subscribed: c.subscribed,
-          chapters: c.chapters,
-        );
-      }
-      return c;
-    }).toList();
+    state = state.whenData((courses) {
+      return courses.map((c) {
+        if (c == course) {
+          return Course(
+            title: c.title,
+            topics: c.topics,
+            saves: c.saves + (c.saved ? -1 : 1),
+            likes: c.likes,
+            liked: c.liked,
+            image: c.image,
+            saved: !c.saved,
+            subscribed: c.subscribed,
+            price: c.price,
+            chapters: c.chapters,
+          );
+        }
+        return c;
+      }).toList();
+    });
   }
 
   void toggleSubscribed(Course course) {
-    state = state.map((c) {
-      if (c == course) {
-        return Course(
-          title: c.title,
-          desc: c.desc,
-          topics: c.topics,
-          saves: c.saves,
-          likes: c.likes,
-          liked: c.liked,
-          image: c.image,
-          saved: c.saved,
-          subscribed: !c.subscribed,
-          price: c.price,
-          chapters: c.chapters,
-        );
-      }
-      return c;
-    }).toList();
+    state = state.whenData((courses) {
+      return courses.map((c) {
+        if (c == course) {
+          return Course(
+            title: c.title,
+            topics: c.topics,
+            saves: c.saves,
+            likes: c.likes,
+            liked: c.liked,
+            image: c.image,
+            saved: c.saved,
+            subscribed: !c.subscribed,
+            price: c.price,
+            chapters: c.chapters,
+          );
+        }
+        return c;
+      }).toList();
+    });
   }
 }
