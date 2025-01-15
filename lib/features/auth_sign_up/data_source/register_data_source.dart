@@ -10,7 +10,6 @@ class RegisterDataSource {
 
   Future<void> registerUser({
     required String name,
-    required String username,
     required String email,
     required String password,
   }) async {
@@ -29,9 +28,10 @@ class RegisterDataSource {
 
         final prefs = await SharedPreferences.getInstance();
         final valueData = jsonEncode({
-          'name': "\"$name\"",
-          'email': "\"$email\"",
-          'token': "\"$token\"",
+          "name": "\"$name\"",
+          "email": "\"$email\"",
+          "token": "\"$token\"",
+          "password": "\"$password\"",
         });
 
         print("User Data to Save:");

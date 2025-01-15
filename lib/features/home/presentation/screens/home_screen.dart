@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/common_widgets/course_card.dart';
+import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/home/presentation/widgets/carousel.dart';
 import 'package:lms_system/features/home/presentation/widgets/category_indicator.dart';
@@ -177,7 +177,7 @@ class HomePage extends ConsumerWidget {
                                 getResponsiveChildAspectRatio(size),
                           ),
                           itemBuilder: (_, index) {
-                            return CourseCard(
+                            return CourseCardWithImage(
                               onBookmark: () {
                                 ref
                                     .read(courseProvider.notifier)

@@ -1,5 +1,6 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/features/auth_sign_up/model/register_state.dart';
 import '../repository/register_repository.dart';
 import 'register_repository_provider.dart';
 
@@ -17,7 +18,6 @@ class RegisterController extends StateNotifier<RegisterState> {
     try {
       await _repository.register(
         name: state.name,
-        username: state.username,
         email: state.email,
         password: state.password,
       );
@@ -41,30 +41,4 @@ class RegisterController extends StateNotifier<RegisterState> {
 
 }
 
-class RegisterState {
-  final String name;
-  final String username;
-  final String email;
-  final String password;
 
-  RegisterState({
-    this.name = '',
-    this.username = '',
-    this.email = '',
-    this.password = '',
-  });
-
-  RegisterState copyWith({
-    String? name,
-    String? username,
-    String? email,
-    String? password,
-  }) {
-    return RegisterState(
-      name: name ?? this.name,
-      username: username ?? this.username,
-      email: email ?? this.email,
-      password: password ?? this.password,
-    );
-  }
-}

@@ -7,13 +7,11 @@ class RegisterRepository {
 
   Future<void> register({
     required String name,
-    required String username,
     required String email,
     required String password,
   }) {
     return _dataSource.registerUser(
       name: name,
-      username: username,
       email: email,
       password: password,
     );

@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
@@ -27,13 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
     var textTh = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text("Profile"),
-        centerTitle: true,
-        surfaceTintColor: Colors.transparent,
-        shadowColor: Colors.black87,
-      ),
+      appBar: CommonAppBar(titleText: "Profile"),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -116,7 +112,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 28),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.profileEdit);
+              },
               label: Text(
                 "Edit Profile",
                 style: textTh.titleMedium!.copyWith(

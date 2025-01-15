@@ -1,4 +1,4 @@
-w="auth"
+w=$1
 cd features
   mkdir $w && cd $w
   mkdir data_source repository provider model #presentation

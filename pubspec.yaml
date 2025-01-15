@@ -42,6 +42,7 @@ dependencies:
   youtube_player_flutter: ^9.1.1
   flutter_inappwebview: ^6.1.5
   shared_preferences: ^2.3.5
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:
