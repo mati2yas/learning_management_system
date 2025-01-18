@@ -17,7 +17,10 @@ class InputWidget extends StatelessWidget {
     required this.validator,
     this.obscure,
     required this.initialValue,
+    this.maxLength,
+    this.maxLines,
   });
+  int? maxLines, maxLength;
 
   @override
   Widget build(BuildContext context) {

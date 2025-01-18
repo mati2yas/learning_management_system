@@ -186,6 +186,10 @@ class HomeDataSource {
           r'(?<=[:\s{,])([a-zA-Z0-9_.@]+|\d[a-zA-Z0-9_.|]+[\d]+)(?=[,\s}])'), // Modified regex
       (match) => '"${match.group(0)}"', // Wrap in double quotes
     );
+    // var mapVal = jsonDecode(userDataString);
+    // mapVal["password"] = "12345678";
+    // userDataString = jsonEncode(mapVal);
+    // print("userDataString: $userDataString");
     prefs.setString("userData", userDataString);
     // Parse the JSON string into a Map
     try {

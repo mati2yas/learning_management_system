@@ -228,7 +228,7 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
       builder: (context) {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-          height: 120,
+          height: 150,
           width: double.infinity,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -249,10 +249,10 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                 },
                 child: const SizedBox(
                   height: 80,
-                  width: 60,
+                  width: 120,
                   child: Column(
                     children: [
-                      Icon(Icons.image),
+                      Icon(Icons.camera),
                       Text("From Camera"),
                     ],
                   ),
@@ -268,7 +268,7 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                 },
                 child: const SizedBox(
                   height: 80,
-                  width: 60,
+                  width: 120,
                   child: Column(
                     children: [
                       Icon(Icons.image),

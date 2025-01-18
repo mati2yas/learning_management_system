@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/colors.dart';
@@ -7,13 +8,17 @@ import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.
 
 final editProfileKey = GlobalKey<FormState>();
 
-class EditProfileScreen extends ConsumerWidget {
-  const EditProfileScreen({
-    super.key,
-  });
+class EditProfileScreen extends ConsumerStatefulWidget {
+  const EditProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<EditProfileScreen> createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
+  XFile? profilePic;
+  @override
+  Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
 
@@ -52,7 +57,9 @@ class EditProfileScreen extends ConsumerWidget {
                           foregroundColor: Colors.black,
                           iconSize: 24,
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          bool imagePicked = await pickProfilePic();
+                        },
                         icon: const Icon(Icons.image),
                       ),
                     ),
@@ -123,11 +130,11 @@ class EditProfileScreen extends ConsumerWidget {
                       }
                     }
                   },
-                  child: Text(
-                    'Register',
+                  child: const Text(
+                    'Save',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: size.width * 0.04,
+                      fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -137,6 +144,80 @@ class EditProfileScreen extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<bool> pickProfilePic() async {
+    final XFile? image = await showImagePickSheet();
+    if (image != null) {
+      profilePic = XFile(image.path);
+      return true;
+    }
+    return false;
+  }
+
+  Future<XFile?> showImagePickSheet() async {
+    final picker = ImagePicker();
+    return await showModalBottomSheet<XFile?>(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+          height: 150,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GestureDetector(
+                onTap: () async {
+                  final XFile? image =
+                      await picker.pickImage(source: ImageSource.camera);
+                  if (image != null && context.mounted) {
+                    Navigator.pop(context, image);
+                  }
+                },
+                child: const SizedBox(
+                  height: 80,
+                  width: 120,
+                  child: Column(
+                    spacing: 12,
+                    children: [
+                      Icon(Icons.camera),
+                      Text("From Camera"),
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  final XFile? image =
+                      await picker.pickImage(source: ImageSource.gallery);
+                  if (image != null && context.mounted) {
+                    Navigator.pop(context, image);
+                  }
+                },
+                child: const SizedBox(
+                  height: 80,
+                  width: 120,
+                  child: Column(
+                    spacing: 12,
+                    children: [
+                      Icon(Icons.image),
+                      Text("From Gallery"),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
