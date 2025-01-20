@@ -33,12 +33,12 @@ class RegisterDataSource {
           "token": "\"$token\"",
           "password": "\"$password\"",
         });
+        await prefs.setString("userData", valueData);
 
         print("User Data to Save:");
         print(valueData);
 
         // Save the JSON string
-        await prefs.setString("userData", valueData);
       } else {
         throw Exception('Failed to register user: ${response.data['message']}');
       }

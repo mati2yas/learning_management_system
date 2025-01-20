@@ -1,5 +1,5 @@
-import 'package:lms_system/features/shared/model/chapter.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
+import 'package:lms_system/features/shared/model/chapter.dart';
 
 class Course {
   final String title, image;
@@ -7,6 +7,7 @@ class Course {
   final double progress;
   final List<Chapter> chapters;
   String? streamOrDepartment;
+  final String category;
   bool subscribed;
   bool saved, liked;
   final Map<SubscriptionType, double> price;
@@ -15,6 +16,7 @@ class Course {
     required this.topics,
     required this.saves,
     required this.likes,
+    required this.category,
     required this.image,
     this.progress = 0.0,
     this.subscribed = false,
@@ -31,13 +33,14 @@ class Course {
       saves: 5,
       likes: 10,
       image: json["thumbnail"],
+      category: json["category"],
       price: {
         SubscriptionType.oneMonth: 100,
         SubscriptionType.threeMonths: 288,
         SubscriptionType.sixMonths: 560,
         SubscriptionType.yearly: 1000,
       },
-      chapters: [], 
+      chapters: [],
     );
   }
 }

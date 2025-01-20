@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:lms_system/features/courses/data_source/course_detail_data_source.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 
@@ -6,6 +7,9 @@ import '../../shared/model/shared_course_model.dart';
 import '../model/categories_sub_categories.dart';
 
 class CourseDataSource {
+  final Dio _dio;
+  CourseDataSource(this._dio);
+
   List<CourseCategory> fetchCourseFromGrade(
     CategoryType categoryType,
     Grade grade,
@@ -17,7 +21,7 @@ class CourseDataSource {
   }
 
   List<Course> fetchCourses() {
-    return [     
+    return [
       Course(
         title: "Web Design",
         topics: 21,
@@ -38,16 +42,16 @@ class CourseDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(title: "What is Web Design?", duration: "10:23"),
-              Video(title: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", duration: "10:23"),
+              Video(url: "Tools for Web Design", duration: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(title: "HTML Structure", duration: "12:34"),
-              Video(title: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", duration: "12:34"),
+              Video(url: "HTML Tags", duration: "18:50"),
             ],
           ),
         ],
@@ -72,16 +76,16 @@ class CourseDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(title: "What is Web Design?", duration: "10:23"),
-              Video(title: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", duration: "10:23"),
+              Video(url: "Tools for Web Design", duration: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(title: "HTML Structure", duration: "12:34"),
-              Video(title: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", duration: "12:34"),
+              Video(url: "HTML Tags", duration: "18:50"),
             ],
           ),
         ],
@@ -106,16 +110,16 @@ class CourseDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(title: "What is Web Design?", duration: "10:23"),
-              Video(title: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", duration: "10:23"),
+              Video(url: "Tools for Web Design", duration: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(title: "HTML Structure", duration: "12:34"),
-              Video(title: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", duration: "12:34"),
+              Video(url: "HTML Tags", duration: "18:50"),
             ],
           ),
         ],
@@ -140,16 +144,16 @@ class CourseDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(title: "What is Web Design?", duration: "10:23"),
-              Video(title: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", duration: "10:23"),
+              Video(url: "Tools for Web Design", duration: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(title: "HTML Structure", duration: "12:34"),
-              Video(title: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", duration: "12:34"),
+              Video(url: "HTML Tags", duration: "18:50"),
             ],
           ),
         ],
@@ -174,16 +178,16 @@ class CourseDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(title: "What is Web Design?", duration: "10:23"),
-              Video(title: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", duration: "10:23"),
+              Video(url: "Tools for Web Design", duration: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(title: "HTML Structure", duration: "12:34"),
-              Video(title: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", duration: "12:34"),
+              Video(url: "HTML Tags", duration: "18:50"),
             ],
           ),
         ],
@@ -208,16 +212,16 @@ class CourseDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(title: "What is Web Design?", duration: "10:23"),
-              Video(title: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", duration: "10:23"),
+              Video(url: "Tools for Web Design", duration: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(title: "HTML Structure", duration: "12:34"),
-              Video(title: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", duration: "12:34"),
+              Video(url: "HTML Tags", duration: "18:50"),
             ],
           ),
         ],
@@ -242,16 +246,16 @@ class CourseDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(title: "What is Web Design?", duration: "10:23"),
-              Video(title: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", duration: "10:23"),
+              Video(url: "Tools for Web Design", duration: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(title: "HTML Structure", duration: "12:34"),
-              Video(title: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", duration: "12:34"),
+              Video(url: "HTML Tags", duration: "18:50"),
             ],
           ),
         ],
@@ -276,16 +280,16 @@ class CourseDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(title: "What is Web Design?", duration: "10:23"),
-              Video(title: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", duration: "10:23"),
+              Video(url: "Tools for Web Design", duration: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(title: "HTML Structure", duration: "12:34"),
-              Video(title: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", duration: "12:34"),
+              Video(url: "HTML Tags", duration: "18:50"),
             ],
           ),
         ],
@@ -310,16 +314,16 @@ class CourseDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(title: "What is Web Design?", duration: "10:23"),
-              Video(title: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", duration: "10:23"),
+              Video(url: "Tools for Web Design", duration: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(title: "HTML Structure", duration: "12:34"),
-              Video(title: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", duration: "12:34"),
+              Video(url: "HTML Tags", duration: "18:50"),
             ],
           ),
         ],
@@ -344,16 +348,16 @@ class CourseDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(title: "What is Web Design?", duration: "10:23"),
-              Video(title: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", duration: "10:23"),
+              Video(url: "Tools for Web Design", duration: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(title: "HTML Structure", duration: "12:34"),
-              Video(title: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", duration: "12:34"),
+              Video(url: "HTML Tags", duration: "18:50"),
             ],
           ),
         ],

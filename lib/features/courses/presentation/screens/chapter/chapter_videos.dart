@@ -81,7 +81,7 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
           autoPlay: true,
           mute: true,
         ),
-        initialVideoId: widget.video.title,
+        initialVideoId: widget.video.url,
       );
       dynamic val;
       ytCtrl.addListener(() {

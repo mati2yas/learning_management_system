@@ -15,7 +15,7 @@ class VideoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
     return GestureDetector(
-      onTap: onTap, 
+      onTap: onTap,
       child: Card(
         margin: const EdgeInsets.only(top: 3, left: 3, right: 2.6),
         elevation: 5,
@@ -35,7 +35,7 @@ class VideoTile extends StatelessWidget {
                     width: 55,
                     height: 55,
                     child: Image.network(
-                      'https://img.youtube.com/vi/${video.title}/0.jpg',
+                      'https://img.youtube.com/vi/${video.url}/0.jpg',
                       fit: BoxFit.cover,
                     ),
                   )),
@@ -43,7 +43,7 @@ class VideoTile extends StatelessWidget {
                   child: Padding(
                 padding: const EdgeInsets.fromLTRB(10.0, 10.0, 15, 8.0),
                 child: Text(
-                  video.title,
+                  video.url,
                   style: textTh.labelMedium!.copyWith(
                     fontWeight: FontWeight.w500,
                   ),

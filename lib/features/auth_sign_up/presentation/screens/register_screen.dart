@@ -10,7 +10,7 @@ final formKey = GlobalKey<FormState>();
 
 class RegisterScreen extends ConsumerWidget {
   const RegisterScreen({super.key});
-  
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTh = Theme.of(context).textTheme;
@@ -95,10 +95,17 @@ class RegisterScreen extends ConsumerWidget {
                                 if (context.mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content: Text('Registration Successful!'),
+                                      elevation: 4,
+                                      backgroundColor: Colors.white,
+                                      behavior: SnackBarBehavior.floating,
+                                      content: Text(
+                                        'Registration Successful!',
+                                        style: TextStyle(
+                                          color: AppColors.mainBlue,
+                                        ),
+                                      ),
                                     ),
                                   );
-
                                   Navigator.of(context)
                                       .pushReplacementNamed(Routes.profileAdd);
                                 }
@@ -106,7 +113,15 @@ class RegisterScreen extends ConsumerWidget {
                                 if (context.mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('Registration Failed: $e'),
+                                      elevation: 4,
+                                      backgroundColor: Colors.white,
+                                      behavior: SnackBarBehavior.floating,
+                                      content: Text(
+                                        "Registration Failed: $e",
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                        ),
+                                      ),
                                     ),
                                   );
                                 }

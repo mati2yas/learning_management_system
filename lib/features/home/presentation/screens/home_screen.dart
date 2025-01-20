@@ -160,7 +160,11 @@ class HomePage extends ConsumerWidget {
                         strokeWidth: 5,
                       ),
                       error: (error, stack) => Center(
-                        child: Text(error.toString()),
+                        child: Text(
+                          error.toString(),
+                          style:
+                              textTh.titleMedium!.copyWith(color: Colors.red),
+                        ),
                       ),
                       data: (courses) => SizedBox(
                         width: double.infinity,

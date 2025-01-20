@@ -1,6 +1,6 @@
+import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
-import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 
 class RequestsDataSource {
   List<Course> fetchAddedCourses() {
@@ -23,16 +23,16 @@ class RequestsDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(title: "What is Web Design?", duration: "10:23"),
-              Video(title: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", duration: "10:23"),
+              Video(url: "Tools for Web Design", duration: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(title: "HTML Structure", duration: "12:34"),
-              Video(title: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", duration: "12:34"),
+              Video(url: "HTML Tags", duration: "18:50"),
             ],
           ),
         ],
@@ -55,16 +55,16 @@ class RequestsDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(title: "What is Web Design?", duration: "10:23"),
-              Video(title: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", duration: "10:23"),
+              Video(url: "Tools for Web Design", duration: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(title: "HTML Structure", duration: "12:34"),
-              Video(title: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", duration: "12:34"),
+              Video(url: "HTML Tags", duration: "18:50"),
             ],
           ),
         ],

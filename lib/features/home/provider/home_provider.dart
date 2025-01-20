@@ -1,3 +1,4 @@
+import 'package:lms_system/core/utils/connectivity/connectivity_service.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/features/home/data_source/home_data_source.dart';
 import 'package:lms_system/features/home/repository/home_repository.dart';
@@ -11,7 +12,10 @@ final homeDataSourceProvider = Provider<HomeDataSource>((ref) {
 });
 
 final homeRepositoryProvider = Provider<HomeRepository>((ref) {
-  return HomeRepository(ref.watch(homeDataSourceProvider));
+  return HomeRepository(
+    ref.watch(homeDataSourceProvider),
+    ref.watch(connectivityServiceProvider),
+  );
 });
 
 final pageviewPartsProvider = Provider<Map<String, String>>((ref) {
