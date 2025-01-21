@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/course_content_page.dart';
-import 'package:lms_system/features/courses/presentation/screens/course/courses_per_category_list.dart';
+import 'package:lms_system/features/courses_filtered/presentation/screens/courses_per_category_list.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/courses_screen.dart';
+import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_filters_screen.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_grade_filter.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_page.dart';
@@ -98,14 +99,13 @@ class WrapperScreen extends ConsumerWidget {
       const ExamsScreen(), // 3
       CoursesPerCategoryListPage(
         // 4
-        category: currentCategory,
       ),
       const CourseContentPage(), // 5
       const ExamQuestionsPage(), // 6
       const ExamFiltersScreen(), // 7
       const ExamGradeFilter(), // 8
     ];
-     if (currentPage == 0) {
+    if (currentPage == 0) {
       ref.read(homeScreenApiProvider.notifier).build();
     }
     return SafeArea(

@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:lms_system/features/auth_login/presentation/screens/login_screen.dart';
 import 'package:lms_system/features/auth_sign_up/presentation/screens/profile_add.dart';
 import 'package:lms_system/features/auth_sign_up/presentation/screens/register_screen.dart';
-import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_detail.dart';
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_videos.dart';
-import 'package:lms_system/features/courses/presentation/screens/course/courses_per_category_list.dart';
+import 'package:lms_system/features/courses_filtered/presentation/screens/courses_per_category_list.dart';
+import 'package:lms_system/features/edit_profile/presentation/screens/edit_profile_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/notification/presentation/screens/notification_screen.dart';
 import 'package:lms_system/features/onboarding/presentation/screens/onboarding_screen.dart';
-import 'package:lms_system/features/edit_profile/presentation/screens/edit_profile_screen.dart';
 import 'package:lms_system/features/profile/presentation/screens/profile_screen.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
@@ -45,11 +44,9 @@ class Approuter {
       case Routes.requests:
         return MaterialPageRoute(builder: (_) => const RequestsScreen());
       case Routes.courseDetails:
-        final category = settings.arguments as CourseCategory;
+        final category = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (_) => CoursesPerCategoryListPage(
-            category: category,
-          ),
+          builder: (_) => const CoursesPerCategoryListPage(),
         );
       case Routes.chapterDetails:
         final chapter = settings.arguments as Chapter;

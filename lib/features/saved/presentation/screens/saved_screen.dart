@@ -19,6 +19,7 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
     Course(
       title: "Marketing Course",
       topics: 12,
+      category: "",
       saves: 15,
       likes: 12,
       price: {
@@ -51,6 +52,7 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
     ),
     Course(
       title: "Web Design",
+      category: "",
       topics: 12,
       saves: 15,
       likes: 8,
@@ -84,6 +86,7 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
     ),
     Course(
       title: "Marketing Course",
+      category: "",
       topics: 12,
       saves: 15,
       likes: 4,
@@ -118,6 +121,7 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
     Course(
       title: "Marketing Course",
       topics: 12,
+      category: "",
       saves: 15,
       likes: 2,
       liked: false,

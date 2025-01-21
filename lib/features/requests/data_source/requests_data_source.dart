@@ -7,6 +7,7 @@ class RequestsDataSource {
     return [
       Course(
         title: "Web Desien",
+        category: "",
         topics: 21,
         saves: 7,
         likes: 12,
@@ -39,6 +40,7 @@ class RequestsDataSource {
       ),
       Course(
         title: "Marketing",
+        category: "",
         topics: 21,
         price: {
           SubscriptionType.oneMonth: 72.0,

@@ -22,9 +22,7 @@ class CourseNotifier extends StateNotifier<List<Course>> {
     state = await _repository.fetchCourses();
   }
 
-  Future<void> loadFilteredCourses({required String filter}) async {
-    state = await _repository.fetchCoursesFiltered(filter: filter);
-  }
+  
 
   void toggleLiked(Course course) {
     state = state.map((c) {
@@ -72,6 +70,7 @@ class CourseNotifier extends StateNotifier<List<Course>> {
     state = state.map((c) {
       if (c == course) {
         return Course(
+          category: c.category,
           title: c.title,
           topics: c.topics,
           saves: c.saves,

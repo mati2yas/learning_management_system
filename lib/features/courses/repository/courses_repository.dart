@@ -8,14 +8,12 @@ class CoursesRepository {
 
   CoursesRepository(this._dataSource, this._connectivityService);
   Future<void> fetchAllCourses() async {
-    return _dataSource.fetchCourses();
+    _dataSource.fetchCourses();
   }
 
   Future<List<Course>> fetchCourses() async {
-    return  _dataSource.fetchCourses();
+    return _dataSource.fetchCourses();
   }
 
-  Future<List<Course>> fetchCoursesFiltered({required String filter}) async {
-    return _dataSource.fetchCoursesFiltered(filter);
-  }
+  
 }

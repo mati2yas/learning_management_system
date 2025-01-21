@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/features/courses/data_source/course_detail_data_source.dart';
 import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
+import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
@@ -15,12 +16,14 @@ class CoursePage extends ConsumerWidget {
   const CoursePage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final courses = ref.watch(courseProvider);
+    final courses = ref.watch(coursesProvider);
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     final pageController = ref.read(pageNavigationProvider.notifier);
     final categoryController = ref.watch(currentCategoryProvider.notifier);
 
+    final currentCourseFilterController =
+        ref.watch(currentCourseFilterProvider.notifier);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -68,12 +71,12 @@ class CoursePage extends ConsumerWidget {
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 15,
               ),
-              children: categoriesData
+              children: categories
                   .map(
-                    (catData) => CategoryShow(
-                      category: catData,
+                    (cat) => CategoryShow(
+                      category: cat,
                       onTap: () {
-                        categoryController.changeCategory(catData.categoryType);
+                        currentCourseFilterController.changeFilter(cat);
                         pageController.navigatePage(4);
                       },
                     ),
@@ -112,12 +115,12 @@ class CoursePage extends ConsumerWidget {
                     course: courses[index],
                     onLike: () {
                       ref
-                          .read(courseProvider.notifier)
+                          .read(coursesProvider.notifier)
                           .toggleLiked(courses[index]);
                     },
                     onBookmark: () {
                       ref
-                          .read(courseProvider.notifier)
+                          .read(coursesProvider.notifier)
                           .toggleSaved(courses[index]);
                     },
                   ),

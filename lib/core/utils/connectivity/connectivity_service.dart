@@ -1,6 +1,14 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final connectivityServiceProvider = Provider<ConnectivityService>((ref) {
+  return ConnectivityService();
+});
+final connectivityStateProvider = StreamProvider<bool>((ref) {
+  final connectivityService = ref.watch(connectivityServiceProvider);
+  return connectivityService.onConnectivityChanged;
+});
+
 class ConnectivityService {
   final Connectivity _connectivity = Connectivity();
 
@@ -11,15 +19,6 @@ class ConnectivityService {
 
   Future<bool> hasConnection() async {
     final result = await _connectivity.checkConnectivity();
-    return result.contains(ConnectivityResult.none);
+    return !result.contains(ConnectivityResult.none);
   }
 }
-final connectivityServiceProvider = Provider<ConnectivityService>((ref) {
-  return ConnectivityService();
-});
-
-final connectivityStateProvider = StreamProvider<bool>((ref) {
-  final connectivityService = ref.watch(connectivityServiceProvider);
-  return connectivityService.onConnectivityChanged;
-});
-

@@ -14,6 +14,7 @@ class HomeDataSource {
     return [
       Course(
         title: "Web Design",
+        category: "",
         topics: 21,
         saves: 7,
         likes: 12,
@@ -46,6 +47,7 @@ class HomeDataSource {
       ),
       Course(
         title: "Marketing",
+        category: "",
         topics: 21,
         price: {
           SubscriptionType.oneMonth: 72.0,
@@ -78,6 +80,7 @@ class HomeDataSource {
       ),
       Course(
         title: "Applied Mathematics",
+        category: "",
         price: {
           SubscriptionType.oneMonth: 72.0,
           SubscriptionType.threeMonths: 216.0,
@@ -110,6 +113,7 @@ class HomeDataSource {
       ),
       Course(
         title: "Accounting",
+        category: "",
         topics: 21,
         saves: 7,
         likes: 9,
@@ -152,8 +156,8 @@ class HomeDataSource {
     try {
       var token = mapVal["token"];
       print("token: $token");
-      _dio.options.headers = {"Authorization": "Bearer $token"};
-      final response = await _dio.get("/courses");
+      //_dio.options.headers = {"Authorization": "Bearer $token"};
+      final response = await _dio.get("/random-courses");
 
       if (response.statusCode == 200) {
         var data = response.data["data"];
@@ -163,9 +167,7 @@ class HomeDataSource {
           Course crs = Course.fromJson(dataVl);
           print(crs.title);
 
-          for (int i = 0; i < 3; i++) {
-            courses.add(crs);
-          }
+          courses.add(crs);
         }
 
         print("courses: \n ${courses.length}");

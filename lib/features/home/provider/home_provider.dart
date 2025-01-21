@@ -59,6 +59,7 @@ class HomeNotifier extends StateNotifier<AsyncValue<List<Course>>> {
         if (c == course) {
           return Course(
             title: c.title,
+            category: c.category,
             topics: c.topics,
             saves: c.saves,
             likes: c.likes + (c.liked ? -1 : 1),
@@ -81,6 +82,7 @@ class HomeNotifier extends StateNotifier<AsyncValue<List<Course>>> {
         if (c == course) {
           return Course(
             title: c.title,
+            category: c.category,
             topics: c.topics,
             saves: c.saves + (c.saved ? -1 : 1),
             likes: c.likes,
@@ -103,6 +105,7 @@ class HomeNotifier extends StateNotifier<AsyncValue<List<Course>>> {
         if (c == course) {
           return Course(
             title: c.title,
+            category: c.category,
             topics: c.topics,
             saves: c.saves,
             likes: c.likes,

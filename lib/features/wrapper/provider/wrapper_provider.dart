@@ -18,9 +18,7 @@ class PageNavigationController extends StateNotifier<int> {
     if (index == 3) {
       return pageArguments[index] as int;
     }
-    if (index == 5) {
-      return pageArguments[index] as CourseCategory?;
-    }
+   
 
     if (index == 6) {
       return pageArguments[index] as Map<String, dynamic>;

@@ -27,18 +27,26 @@ class Course {
     this.streamOrDepartment,
   });
   factory Course.fromJson(Map<String, dynamic> json) {
+    var categ = json["category"]["name"];
+    var dep = json["department"];
     return Course(
       title: json["course_name"],
+      streamOrDepartment: json["department"]?["department_name"],
       topics: 4,
       saves: 5,
+      liked: json["liked"],
+      saved: json["saved"],
       likes: 10,
       image: json["thumbnail"],
-      category: json["category"],
+      category: categ,
       price: {
-        SubscriptionType.oneMonth: 100,
-        SubscriptionType.threeMonths: 288,
-        SubscriptionType.sixMonths: 560,
-        SubscriptionType.yearly: 1000,
+        SubscriptionType.oneMonth:
+            double.tryParse(json["price_one_month"]) ?? 0,
+        SubscriptionType.threeMonths:
+            double.tryParse(json["price_three_month"]) ?? 0,
+        SubscriptionType.sixMonths:
+            double.tryParse(json["price_six_month"]) ?? 0,
+        SubscriptionType.yearly: double.tryParse(json["price_one_year"]) ?? 0,
       },
       chapters: [],
     );

@@ -11,6 +11,7 @@ final highSchool = [
         name: '9th Grade',
         courses: [
           Course(
+            category: "",
             title: "Biology",
             topics: 6,
             price: {
@@ -58,6 +59,7 @@ final highSchool = [
           ),
           Course(
             title: "Applied Mathematics",
+            category: "",
             topics: 7,
             likes: 12,
             liked: false,
@@ -109,6 +111,7 @@ final highSchool = [
         courses: [
           Course(
             title: "Chemistry",
+            category: "",
             topics: 8,
             saves: 16,
             likes: 12,
@@ -150,6 +153,7 @@ final highSchool = [
           ),
           Course(
             title: "Biology",
+            category: "",
             topics: 8,
             saves: 16,
             likes: 12,
@@ -193,6 +197,7 @@ final highSchool = [
           Course(
             title: "Physics",
             topics: 8,
+            category: "",
             saves: 16,
             likes: 12,
             price: {
@@ -236,6 +241,7 @@ final highSchool = [
           ),
           Course(
             title: "History",
+            category: "",
             topics: 5,
             saves: 12,
             likes: 12,
@@ -287,6 +293,7 @@ final highSchool = [
           Course(
             title: "Physics",
             topics: 7,
+            category: "",
             saves: 18,
             likes: 12,
             liked: true,
@@ -330,6 +337,8 @@ final highSchool = [
           Course(
             title: "Economics",
             topics: 5,
+
+            category: "",
             saves: 11,
             likes: 12,
             liked: false,
@@ -378,6 +387,7 @@ final highSchool = [
         courses: [
           Course(
             title: "Calculus",
+            category: "",
             topics: 9,
             saves: 20,
             likes: 12,
@@ -396,6 +406,7 @@ final highSchool = [
           Course(
             title: "Political Science",
             likes: 12,
+            category: "",
             liked: false,
             topics: 6,
             saves: 14,
@@ -428,6 +439,7 @@ final lowerGrades = [
           Course(
             title: "Math Basics",
             topics: 5,
+            category: "",
             saves: 10,
             price: {
               SubscriptionType.oneMonth: 72.0,
@@ -444,6 +456,7 @@ final lowerGrades = [
           Course(
             title: "Reading",
             topics: 6,
+            category: "",
             likes: 12,
             liked: false,
             saves: 8,
@@ -465,6 +478,7 @@ final lowerGrades = [
         courses: [
           Course(
             title: "Advanced Math",
+            category: "",
             topics: 5,
             likes: 12,
             liked: false,
@@ -481,6 +495,7 @@ final lowerGrades = [
           ),
           Course(
             title: "Writing",
+            category: "",
             likes: 12,
             liked: false,
             price: {
@@ -504,6 +519,7 @@ final lowerGrades = [
           Course(
             title: "Multiplication and Division",
             topics: 4,
+            category: "",
             price: {
               SubscriptionType.oneMonth: 72.0,
               SubscriptionType.threeMonths: 216.0,
@@ -520,6 +536,7 @@ final lowerGrades = [
           Course(
             title: "Grammar",
             topics: 5,
+            category: "",
             likes: 12,
             price: {
               SubscriptionType.oneMonth: 72.0,
@@ -541,6 +558,7 @@ final lowerGrades = [
         courses: [
           Course(
             title: "Fractions and Decimals",
+            category: "",
             likes: 12,
             liked: false,
             topics: 6,
@@ -558,6 +576,7 @@ final lowerGrades = [
           Course(
             title: "Creative Writing",
             topics: 4,
+            category: "",
             saves: 10,
             price: {
               SubscriptionType.oneMonth: 72.0,
@@ -579,6 +598,7 @@ final lowerGrades = [
         courses: [
           Course(
             title: "Geometry Basics",
+            category: "",
             topics: 7,
             likes: 12,
             liked: false,
@@ -595,6 +615,7 @@ final lowerGrades = [
           ),
           Course(
             title: "Science Experiments",
+            category: "",
             likes: 12,
             liked: false,
             topics: 5,
@@ -617,6 +638,7 @@ final lowerGrades = [
         courses: [
           Course(
             title: "Algebra Basics",
+            category: "",
             topics: 5,
             likes: 12,
             price: {
@@ -633,6 +655,7 @@ final lowerGrades = [
           ),
           Course(
             title: "Earth Science",
+            category: "",
             topics: 6,
             price: {
               SubscriptionType.oneMonth: 72.0,
@@ -656,6 +679,7 @@ final lowerGrades = [
           Course(
             title: "Pre-Algebra",
             topics: 6,
+            category: "",
             saves: 14,
             price: {
               SubscriptionType.oneMonth: 72.0,
@@ -671,6 +695,7 @@ final lowerGrades = [
           ),
           Course(
             title: "History Basics",
+            category: "",
             topics: 5,
             saves: 11,
             likes: 12,
@@ -693,6 +718,7 @@ final lowerGrades = [
         courses: [
           Course(
             title: "Algebra 1",
+            category: "",
             topics: 8,
             saves: 18,
             likes: 12,
@@ -709,6 +735,7 @@ final lowerGrades = [
           ),
           Course(
             title: "Physical Science",
+            category: "",
             topics: 7,
             saves: 17,
             likes: 12,
@@ -741,6 +768,7 @@ final university = [
         courses: [
           Course(
             title: "Introduction to Computer Science",
+            category: "",
             price: {
               SubscriptionType.oneMonth: 72.0,
               SubscriptionType.threeMonths: 216.0,
@@ -781,6 +809,7 @@ final university = [
             courses: [
               Course(
                 title: "Data Structures",
+            category: "",
                 topics: 10,
                 saves: 25,
                 price: {
@@ -819,6 +848,7 @@ final university = [
             courses: [
               Course(
                 title: "Thermodynamics",
+            category: "",
                 topics: 12,
                 price: {
                   SubscriptionType.oneMonth: 72.0,
@@ -857,6 +887,7 @@ final university = [
             name: 'Business Administration',
             courses: [
               Course(
+            category: "",
                 price: {
                   SubscriptionType.oneMonth: 72.0,
                   SubscriptionType.threeMonths: 216.0,
@@ -887,6 +918,7 @@ final university = [
             courses: [
               Course(
                 title: "Clinical Medicine",
+            category: "",
                 topics: 15,
                 price: {
                   SubscriptionType.oneMonth: 72.0,
