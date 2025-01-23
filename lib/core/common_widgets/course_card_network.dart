@@ -9,7 +9,9 @@ import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
 fetchImageWithPlaceHolder(String imageUrl) {
   return CachedNetworkImage(
-    imageUrl: imageUrl,
+    //imageUrl: imageUrl,
+    //imageUrl: "https://fastly.picsum.photos/id/478/123/123.jpg",
+    imageUrl: "http://redonline.cdnds.net/main/thumbs/25788/stack_of_books.jpg",
     placeholder: (context, url) => placeHolderAssetWidget(),
     errorWidget: (context, url, error) {
       //print("url: $url, error: ${error.toString()}");
@@ -63,7 +65,8 @@ class CourseCardWithImage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     print(course.image);
     String urlee =
-        "https://www.pngarts.com/files/7/Education-Course-PNG-Download-Image.png";
+        "http://redonline.cdnds.net/main/thumbs/25788/stack_of_books.jpg";
+
     var textTh = Theme.of(context).textTheme;
     final requestsController = ref.watch(requestsProvider.notifier);
     return Container(

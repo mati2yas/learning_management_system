@@ -4,6 +4,7 @@ import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
+import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 
@@ -29,19 +30,20 @@ List<String> universityGrades = [
   "5th year"
 ];
 
-class CoursesPerCategoryListPage extends ConsumerStatefulWidget {
-  const CoursesPerCategoryListPage({
+class CoursesFilterScreen extends ConsumerStatefulWidget {
+  const CoursesFilterScreen({
     super.key,
   });
 
   @override
-  ConsumerState<CoursesPerCategoryListPage> createState() =>
-      _CourseDetailPageState();
+  ConsumerState<CoursesFilterScreen> createState() =>
+      _CoursesFilterScreenState();
 }
 
-class _CourseDetailPageState extends ConsumerState<CoursesPerCategoryListPage> {
+class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
   String? dropDownValue;
   int? currentTabIndex;
+  List<Course> selectedCourses = [];
   @override
   Widget build(BuildContext context) {
     var category = ref.watch(currentCourseFilterProvider);
@@ -149,7 +151,7 @@ class _CourseDetailPageState extends ConsumerState<CoursesPerCategoryListPage> {
                             ),
                           )
                           .toList(),
-                      controller: tabController,
+                      //controller: tabController,
                     )
                   ],
                 ),
@@ -172,16 +174,32 @@ class _CourseDetailPageState extends ConsumerState<CoursesPerCategoryListPage> {
                 data: (courses) => TabBarView(
                   controller: tabController,
                   children: filterGrades(category).map((grade) {
-                    final selectedCourses = (category == "university" ||
-                            (category == "highSchool" &&
-                                ["Grade 11", "Grade 12"].contains(grade)))
-                        ? courses
-                            .where(
-                              (course) =>
-                                  course.streamOrDepartment == dropDownValue,
-                            )
-                            .toList()
-                        : courses;
+                    if (category == "university") {
+                      selectedCourses = courses
+                          .where((course) =>
+                              course.batch ==
+                              universityGrades[currentTabIndex ?? 0])
+                          .toList();
+                    } else if (category == "high_school") {
+                      selectedCourses = courses
+                          .where((course) =>
+                              course.batch ==
+                              highSchoolGrades[currentTabIndex ?? 0])
+                          .toList();
+                      if (["Grade 11", "Grade 12"].contains(grade)) {
+                        selectedCourses = selectedCourses
+                            .where((course) =>
+                                course.streamOrDepartment == dropDownValue)
+                            .toList();
+                      }
+                    } else if (category == "lower_grades") {
+                      selectedCourses = courses
+                          .where((course) =>
+                              course.grade == lowerGrades[currentTabIndex ?? 0])
+                          .toList();
+                    } else {
+                      selectedCourses = courses;
+                    }
 
                     return GridView.builder(
                       gridDelegate:
@@ -220,6 +238,9 @@ class _CourseDetailPageState extends ConsumerState<CoursesPerCategoryListPage> {
     }
     if (category == "high_school") {
       return highSchoolGrades;
+    }
+    if (category == "university") {
+      return universityGrades;
     }
     return [];
   }

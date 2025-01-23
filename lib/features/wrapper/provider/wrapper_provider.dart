@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
 
 import '../../exams/model/exams_model.dart';
 

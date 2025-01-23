@@ -23,20 +23,8 @@ class RegisterDataSource {
 
       if (response.statusCode == 200 && response.data['status'] == true) {
         // Parse and store the token and user data in SharedPreferences
-        final token = response.data['token'];
-        final user = response.data['data']['user'];
-
-        final prefs = await SharedPreferences.getInstance();
-        final valueData = jsonEncode({
-          "name": "\"$name\"",
-          "email": "\"$email\"",
-          "token": "\"$token\"",
-          "password": "\"$password\"",
-        });
-        await prefs.setString("userData", valueData);
-
+        
         print("User Data to Save:");
-        print(valueData);
 
         // Save the JSON string
       } else {

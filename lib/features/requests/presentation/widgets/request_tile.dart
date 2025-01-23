@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
-import 'package:lms_system/features/requests/provider/requests_provider.dart';
 
 class RequestTile extends ConsumerWidget {
   final Course course;
 
   final TextTheme textTh;
   final double selectedPriceType;
+  final Function onTap;
   const RequestTile({
     super.key,
     required this.course,
     required this.textTh,
     required this.selectedPriceType,
+    required this.onTap,
   });
 
   @override
@@ -58,14 +59,7 @@ class RequestTile extends ConsumerWidget {
         ),
         trailing: GestureDetector(
           onTap: () {
-            // this could be made better via a function that does just 'remove'
-            String status =
-                ref.read(requestsProvider.notifier).addOrRemoveCourse(course);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Course has been $status."),
-              ),
-            );
+            onTap();
           },
           child: const CircleAvatar(
             radius: 12,

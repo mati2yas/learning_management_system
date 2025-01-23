@@ -107,7 +107,7 @@ class RegisterScreen extends ConsumerWidget {
                                     ),
                                   );
                                   Navigator.of(context)
-                                      .pushReplacementNamed(Routes.profileAdd);
+                                      .pushReplacementNamed(Routes.login);
                                 }
                               } catch (e) {
                                 if (context.mounted) {

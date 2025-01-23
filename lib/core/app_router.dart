@@ -4,7 +4,7 @@ import 'package:lms_system/features/auth_sign_up/presentation/screens/profile_ad
 import 'package:lms_system/features/auth_sign_up/presentation/screens/register_screen.dart';
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_detail.dart';
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_videos.dart';
-import 'package:lms_system/features/courses_filtered/presentation/screens/courses_per_category_list.dart';
+import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
 import 'package:lms_system/features/edit_profile/presentation/screens/edit_profile_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/notification/presentation/screens/notification_screen.dart';
@@ -46,7 +46,7 @@ class Approuter {
       case Routes.courseDetails:
         final category = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (_) => const CoursesPerCategoryListPage(),
+          builder: (_) => const CoursesFilterScreen(),
         );
       case Routes.chapterDetails:
         final chapter = settings.arguments as Chapter;

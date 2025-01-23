@@ -8,6 +8,8 @@ class Course {
   final List<Chapter> chapters;
   String? streamOrDepartment;
   final String category;
+  String? grade;
+  String? batch;
   bool subscribed;
   bool saved, liked;
   final Map<SubscriptionType, double> price;
@@ -25,6 +27,8 @@ class Course {
     required this.price,
     required this.chapters,
     this.streamOrDepartment,
+    this.batch,
+    this.grade,
   });
   factory Course.fromJson(Map<String, dynamic> json) {
     var categ = json["category"]["name"];
@@ -32,6 +36,8 @@ class Course {
     return Course(
       title: json["course_name"],
       streamOrDepartment: json["department"]?["department_name"],
+      batch: json["batch"]?["batch_name"],
+      grade: json["grade"]?["grade_name"],
       topics: 4,
       saves: 5,
       liked: json["liked"],

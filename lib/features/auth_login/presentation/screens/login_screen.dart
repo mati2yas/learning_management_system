@@ -121,7 +121,7 @@ class LoginScreen extends ConsumerWidget {
                                   ),
                                 );
                                 Navigator.of(context)
-                                    .pushReplacementNamed(Routes.wrapper);
+                                    .pushReplacementNamed(Routes.profileAdd);
                               }
                             } catch (e) {
                               if (context.mounted) {

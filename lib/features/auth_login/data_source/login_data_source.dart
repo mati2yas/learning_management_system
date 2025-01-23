@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginDataSource {
   final Dio _dio;
@@ -18,24 +22,22 @@ class LoginDataSource {
       if (response.statusCode == 200) {
         final token = response.data['token'];
         final user = response.data['data']['user'];
-        // for (int i = 0; i < 50; ++i) {
-        //   print(response.data['data']);
-        // }
-        // var name = user["name"];
+        var name = user["name"];
 
-        // final prefs = await SharedPreferences.getInstance();
-        // final valueData = jsonEncode({
-        //   "name": "\"$name\"",
-        //   "email": "\"$email\"",
-        //   "token": "\"$token\"",
-        //   "password": "\"$password\"",
-        // });
+        final prefs = await SharedPreferences.getInstance();
+        final valueData = jsonEncode({
+          "name": "\"$name\"",
+          "email": "\"$email\"",
+          "token": "\"$token\"",
+          "password": "\"$password\"",
+        });
+
+        await prefs.setString("userData", valueData);
 
         print("User Data to Save:");
         // print(valueData);
 
         // // Save the JSON string
-        // await prefs.setString("userData", valueData);
       } else {
         throw Exception('Failed to register user');
       }

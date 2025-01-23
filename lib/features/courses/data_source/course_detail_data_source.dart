@@ -15,5 +15,5 @@ final categories = [
   "lower_grades",
   "high_school",
   "university",
-  "random_course"
+  "random_courses"
 ];
