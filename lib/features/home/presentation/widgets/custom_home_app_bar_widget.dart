@@ -34,17 +34,6 @@ class CustomHomeAppBar extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              const CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Center(
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushNamed(Routes.requests);

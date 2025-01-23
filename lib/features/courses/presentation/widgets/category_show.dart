@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/colors.dart';
-import '../../model/categories_sub_categories.dart';
 
 class CategoryShow extends StatelessWidget {
-  final CourseCategory category; // Accept the Category model
+  final String category; // Accept the Category model
   final Function onTap;
 
   const CategoryShow({
@@ -37,11 +36,11 @@ class CategoryShow extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              "assets/images/${category.id}.png", // Assuming the image name matches the category ID
+              "assets/images/$category.png", // Assuming the image name matches the category ID
               height: 100,
             ),
             Text(
-              category.name,
+              category,
               style: textTh.bodyMedium!.copyWith(
                 color: Colors.black,
                 fontWeight: FontWeight.w600,

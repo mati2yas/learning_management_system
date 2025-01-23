@@ -48,44 +48,23 @@ class _ExamCoursesScreenState extends ConsumerState<ExamFiltersScreen>
         surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
         bottom: PreferredSize(
-          preferredSize: Size(size.width, 96),
+          preferredSize: Size(size.width, 26),
           child: Container(
             width: size.width,
             color: Colors.white,
-            height: 84,
+            height: 24,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  DropdownButton(
-                    value: yearDropDownValue,
-                    items: yearsDropDown.map((yrDr) {
-                      return DropdownMenuItem(
-                        value: yrDr,
-                        child: Text(yrDr),
-                      );
-                    }).toList(),
-                    onChanged: (val) {
-                      setState(() {
-                        yearDropDownValue = val!;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  if (tabController.length != 0)
-                    CustomTabBar(
-                      tabs: tabsList
-                          .map((ex) => Text(
-                                ex,
-                                style: textTh.titleMedium,
-                              ))
-                          .toList(),
-                      controller: tabController,
-                      alignment: TabAlignment.start,
-                      isScrollable: true,
-                    ),
-                ],
+              child: CustomTabBar(
+                tabs: tabsList
+                    .map((ex) => Text(
+                          ex,
+                          style: textTh.titleMedium,
+                        ))
+                    .toList(),
+                controller: tabController,
+                alignment: TabAlignment.start,
+                isScrollable: true,
               ),
             ),
           ),
@@ -116,17 +95,18 @@ class _ExamCoursesScreenState extends ConsumerState<ExamFiltersScreen>
                     ),
                   );
 
-                  // Filter the years based on the selected dropdown value
-                  final filteredYears = selectedCourse.years.where((year) {
-                    return yearDropDownValue.isEmpty ||
-                        year.title == yearDropDownValue;
-                  }).toList();
+                  // removed the dropdown that filters course per year
+                  // because we can just display all years
+                  // in the listview
+                  final unfilteredYears = selectedCourse.years;
 
                   // Build the ListView of years
                   return ListView.builder(
-                    itemCount: filteredYears.length,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    itemCount: unfilteredYears.length,
                     itemBuilder: (context, index) {
-                      final year = filteredYears[index];
+                      final year = unfilteredYears[index];
                       return Card(
                         color: Colors.white,
                         elevation: 3,

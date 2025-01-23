@@ -1,39 +1,35 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/features/courses/provider/course_repository_provider.dart';
+import 'package:lms_system/features/courses/repository/courses_repository.dart';
 import 'package:riverpod/riverpod.dart';
 
 import '../../shared/model/shared_course_model.dart';
-import '../data_source/courses_data_source.dart';
 
-// Provider for the data source
-final courseDataSourceProvider = Provider<CourseDataSource>((ref) {
-  return CourseDataSource();
-});
-
-// Provider for the state notifier
-final courseProvider =
+final coursesProvider =
     StateNotifierProvider<CourseNotifier, List<Course>>((ref) {
-  final dataSource = ref.read(courseDataSourceProvider);
-  return CourseNotifier(dataSource);
+  return CourseNotifier(ref.watch(courseRepositoryProvider));
 });
 
 // StateNotifier for managing course data
 class CourseNotifier extends StateNotifier<List<Course>> {
-  final CourseDataSource dataSource;
+  final CoursesRepository _repository;
 
-  CourseNotifier(this.dataSource) : super([]) {
+  CourseNotifier(this._repository) : super([]) {
     loadCourses();
   }
 
-  void loadCourses() {
-    state = dataSource.fetchCourses();
+  Future<void> loadCourses() async {
+    state = await _repository.fetchCourses();
   }
+
+  
 
   void toggleLiked(Course course) {
     state = state.map((c) {
       if (c == course) {
         return Course(
+          category: c.category,
           title: c.title,
-          desc: c.desc,
           topics: c.topics,
           saves: c.saves,
           likes: c.likes + (c.liked ? -1 : 1),
@@ -54,7 +50,7 @@ class CourseNotifier extends StateNotifier<List<Course>> {
       if (c == course) {
         return Course(
           title: c.title,
-          desc: c.desc,
+          category: c.category,
           topics: c.topics,
           saves: c.saves + (c.saved ? -1 : 1),
           likes: c.likes,
@@ -74,8 +70,8 @@ class CourseNotifier extends StateNotifier<List<Course>> {
     state = state.map((c) {
       if (c == course) {
         return Course(
+          category: c.category,
           title: c.title,
-          desc: c.desc,
           topics: c.topics,
           saves: c.saves,
           likes: c.likes,

@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
@@ -27,13 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
     var textTh = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text("Profile"),
-        centerTitle: true,
-        surfaceTintColor: Colors.transparent,
-        shadowColor: Colors.black87,
-      ),
+      appBar: CommonAppBar(titleText: "Profile"),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -52,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withValues(alpha: 0.7),
                       ),
                       child: Image.asset(
                         width: size.width,
@@ -69,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             12), // 50 for radius of circle and 12 for the padding of screen on left
                     child: const CircleAvatar(
                       backgroundImage:
-                          AssetImage("assets/images/web_design.png"),
+                          AssetImage("assets/images/profile_pic.png"),
                       radius: 50,
                     ),
                   ),
@@ -116,7 +112,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 28),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.profileEdit);
+              },
               label: Text(
                 "Edit Profile",
                 style: textTh.titleMedium!.copyWith(

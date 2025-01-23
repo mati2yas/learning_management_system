@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 
@@ -17,11 +18,16 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
   List<Course> courses = [
     Course(
       title: "Marketing Course",
-      desc: "Marketing Course",
       topics: 12,
+      category: "",
       saves: 15,
       likes: 12,
-      price: 30.0,
+      price: {
+        SubscriptionType.oneMonth: 30.0,
+        SubscriptionType.threeMonths: 90.0,
+        SubscriptionType.sixMonths: 120.0,
+        SubscriptionType.yearly: 3600.0,
+      },
       liked: false,
       image: "marketing_course.png",
       progress: 13,
@@ -30,27 +36,32 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
           name: "Chapter 2",
           title: "Introduction to Web Design",
           videos: [
-            Video(title: "What is Web Design?", duration: "10:23"),
-            Video(title: "Tools for Web Design", duration: "15:45"),
+            Video(url: "What is Web Design?", duration: "10:23"),
+            Video(url: "Tools for Web Design", duration: "15:45"),
           ],
         ),
         Chapter(
           name: "Chapter 2",
           title: "HTML Basics",
           videos: [
-            Video(title: "HTML Structure", duration: "12:34"),
-            Video(title: "HTML Tags", duration: "18:50"),
+            Video(url: "HTML Structure", duration: "12:34"),
+            Video(url: "HTML Tags", duration: "18:50"),
           ],
         ),
       ],
     ),
     Course(
       title: "Web Design",
-      desc: "Marketing Course",
+      category: "",
       topics: 12,
       saves: 15,
       likes: 8,
-      price: 82.0,
+      price: {
+        SubscriptionType.oneMonth: 82.0,
+        SubscriptionType.threeMonths: 246.0,
+        SubscriptionType.sixMonths: 492.0,
+        SubscriptionType.yearly: 984.0,
+      },
       liked: false,
       image: "web_design.png",
       progress: 28,
@@ -59,27 +70,32 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
           name: "Chapter 2",
           title: "Introduction to Web Design",
           videos: [
-            Video(title: "What is Web Design?", duration: "10:23"),
-            Video(title: "Tools for Web Design", duration: "15:45"),
+            Video(url: "What is Web Design?", duration: "10:23"),
+            Video(url: "Tools for Web Design", duration: "15:45"),
           ],
         ),
         Chapter(
           name: "Chapter 2",
           title: "HTML Basics",
           videos: [
-            Video(title: "HTML Structure", duration: "12:34"),
-            Video(title: "HTML Tags", duration: "18:50"),
+            Video(url: "HTML Structure", duration: "12:34"),
+            Video(url: "HTML Tags", duration: "18:50"),
           ],
         ),
       ],
     ),
     Course(
       title: "Marketing Course",
-      desc: "Marketing Course",
+      category: "",
       topics: 12,
       saves: 15,
       likes: 4,
-      price: 72.0,
+      price: {
+        SubscriptionType.oneMonth: 72.0,
+        SubscriptionType.threeMonths: 216.0,
+        SubscriptionType.sixMonths: 432.0,
+        SubscriptionType.yearly: 864.0,
+      },
       liked: true,
       image: "marketing_course.png",
       progress: 13,
@@ -88,28 +104,33 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
           name: "Chapter 2",
           title: "Introduction to Web Design",
           videos: [
-            Video(title: "What is Web Design?", duration: "10:23"),
-            Video(title: "Tools for Web Design", duration: "15:45"),
+            Video(url: "What is Web Design?", duration: "10:23"),
+            Video(url: "Tools for Web Design", duration: "15:45"),
           ],
         ),
         Chapter(
           name: "Chapter 2",
           title: "HTML Basics",
           videos: [
-            Video(title: "HTML Structure", duration: "12:34"),
-            Video(title: "HTML Tags", duration: "18:50"),
+            Video(url: "HTML Structure", duration: "12:34"),
+            Video(url: "HTML Tags", duration: "18:50"),
           ],
         ),
       ],
     ),
     Course(
       title: "Marketing Course",
-      desc: "Marketing Course",
       topics: 12,
+      category: "",
       saves: 15,
       likes: 2,
       liked: false,
-      price: 49.0,
+      price: {
+        SubscriptionType.oneMonth: 49.0,
+        SubscriptionType.threeMonths: 147.0,
+        SubscriptionType.sixMonths: 294.0,
+        SubscriptionType.yearly: 588.0,
+      },
       image: "marketing_course.png",
       progress: 13,
       chapters: [
@@ -117,16 +138,16 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
           name: "Chapter 2",
           title: "Introduction to Web Design",
           videos: [
-            Video(title: "What is Web Design?", duration: "10:23"),
-            Video(title: "Tools for Web Design", duration: "15:45"),
+            Video(url: "What is Web Design?", duration: "10:23"),
+            Video(url: "Tools for Web Design", duration: "15:45"),
           ],
         ),
         Chapter(
           name: "Chapter 2",
           title: "HTML Basics",
           videos: [
-            Video(title: "HTML Structure", duration: "12:34"),
-            Video(title: "HTML Tags", duration: "18:50"),
+            Video(url: "HTML Structure", duration: "12:34"),
+            Video(url: "HTML Tags", duration: "18:50"),
           ],
         ),
       ],
@@ -143,7 +164,7 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const Text("Saved"),
+          title: const Text("Saved Courses"),
           centerTitle: true,
           shadowColor: Colors.black87,
           surfaceTintColor: Colors.transparent,
@@ -151,30 +172,18 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
           bottom: PreferredSize(
             preferredSize: Size(
               MediaQuery.of(context).size.width,
-              100,
+              56,
             ),
             child: Container(
+              padding: const EdgeInsets.only(bottom: 5),
               color: Colors.white,
-              child: Column(
-                children: [
-                  CustomSearchBar(hintText: "Search Courses", size: size),
-                  const SizedBox(height: 10),
-                  TabBar(
-                    tabs: categories.map((e) => Tab(text: e)).toList(),
-                  ),
-                ],
-              ),
+              child: CustomSearchBar(hintText: "Search Courses", size: size),
             ),
           ),
         ),
-        body: TabBarView(
-          children: List.generate(
-            4,
-            (index) => CoursesListWidget(
-              courses: courses,
-              textTh: textTh,
-            ),
-          ),
+        body: CoursesListWidget(
+          courses: courses,
+          textTh: textTh,
         ),
       ),
     );

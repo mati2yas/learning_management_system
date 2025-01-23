@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
-import 'package:lms_system/requests/provider/requests_provider.dart';
+import 'package:lms_system/features/requests/provider/requests_provider.dart';
 
 import '../app_router.dart';
 
