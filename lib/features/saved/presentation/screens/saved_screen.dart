@@ -37,16 +37,16 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
           name: "Chapter 2",
           title: "Introduction to Web Design",
           videos: [
-            Video(url: "What is Web Design?", duration: "10:23"),
-            Video(url: "Tools for Web Design", duration: "15:45"),
+            Video(url: "What is Web Design?", title: "10:23"),
+            Video(url: "Tools for Web Design", title: "15:45"),
           ],
         ),
         Chapter(
           name: "Chapter 2",
           title: "HTML Basics",
           videos: [
-            Video(url: "HTML Structure", duration: "12:34"),
-            Video(url: "HTML Tags", duration: "18:50"),
+            Video(url: "HTML Structure", title: "12:34"),
+            Video(url: "HTML Tags", title: "18:50"),
           ],
         ),
       ],
@@ -72,16 +72,16 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
           name: "Chapter 2",
           title: "Introduction to Web Design",
           videos: [
-            Video(url: "What is Web Design?", duration: "10:23"),
-            Video(url: "Tools for Web Design", duration: "15:45"),
+            Video(url: "What is Web Design?", title: "10:23"),
+            Video(url: "Tools for Web Design", title: "15:45"),
           ],
         ),
         Chapter(
           name: "Chapter 2",
           title: "HTML Basics",
           videos: [
-            Video(url: "HTML Structure", duration: "12:34"),
-            Video(url: "HTML Tags", duration: "18:50"),
+            Video(url: "HTML Structure", title: "12:34"),
+            Video(url: "HTML Tags", title: "18:50"),
           ],
         ),
       ],
@@ -107,16 +107,16 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
           name: "Chapter 2",
           title: "Introduction to Web Design",
           videos: [
-            Video(url: "What is Web Design?", duration: "10:23"),
-            Video(url: "Tools for Web Design", duration: "15:45"),
+            Video(url: "What is Web Design?", title: "10:23"),
+            Video(url: "Tools for Web Design", title: "15:45"),
           ],
         ),
         Chapter(
           name: "Chapter 2",
           title: "HTML Basics",
           videos: [
-            Video(url: "HTML Structure", duration: "12:34"),
-            Video(url: "HTML Tags", duration: "18:50"),
+            Video(url: "HTML Structure", title: "12:34"),
+            Video(url: "HTML Tags", title: "18:50"),
           ],
         ),
       ],
@@ -142,16 +142,16 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
           name: "Chapter 2",
           title: "Introduction to Web Design",
           videos: [
-            Video(url: "What is Web Design?", duration: "10:23"),
-            Video(url: "Tools for Web Design", duration: "15:45"),
+            Video(url: "What is Web Design?", title: "10:23"),
+            Video(url: "Tools for Web Design", title: "15:45"),
           ],
         ),
         Chapter(
           name: "Chapter 2",
           title: "HTML Basics",
           videos: [
-            Video(url: "HTML Structure", duration: "12:34"),
-            Video(url: "HTML Tags", duration: "18:50"),
+            Video(url: "HTML Structure", title: "12:34"),
+            Video(url: "HTML Tags", title: "18:50"),
           ],
         ),
       ],

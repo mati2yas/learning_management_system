@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
+import 'package:lms_system/core/utils/youtube_helper.dart';
 import 'package:lms_system/features/courses/provider/chapter_videos_index.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -63,6 +64,13 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
                 ),
               ),
             ),
+            Text(
+              widget.video.title,
+              style: textTh.bodyLarge!.copyWith(
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ],
         ),
       ),
@@ -81,7 +89,9 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
           autoPlay: true,
           mute: true,
         ),
-        initialVideoId: widget.video.url,
+        initialVideoId: YoutubeHelper.getVideoId(
+          widget.video.url,
+        ),
       );
       dynamic val;
       ytCtrl.addListener(() {

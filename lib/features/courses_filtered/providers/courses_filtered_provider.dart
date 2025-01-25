@@ -7,9 +7,7 @@ import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 
 final coursesFilteredNotifierProvider = Provider((ref) =>
-    CoursesFilteredNotifier(ref.read(coursesFilteredRepositoryProvider),
-        ref.read(currentCategoryProvider)));
-
+    CoursesFilteredNotifier(ref.watch(coursesFilteredRepositoryProvider)));
 
 final coursesFilteredProvider =
     AsyncNotifierProvider<CoursesFilteredNotifier, List<Course>>(() {
@@ -22,12 +20,12 @@ final coursesFilteredProvider =
 
 class CoursesFilteredNotifier extends AsyncNotifier<List<Course>> {
   final CoursesFilteredRepository _repository;
-  final String _categoryFilter;
 
-  CoursesFilteredNotifier(this._repository, this._categoryFilter);
+  CoursesFilteredNotifier(this._repository);
   @override
   Future<List<Course>> build() async {
-    return fetchCoursesFiltered(filter: _categoryFilter);
+    String filter = ref.read(currentCategoryProvider);
+    return fetchCoursesFiltered(filter: filter);
   }
 
   Future<List<Course>> fetchCoursesFiltered({required String filter}) async {

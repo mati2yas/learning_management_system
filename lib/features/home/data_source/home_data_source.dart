@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,16 +33,16 @@ class HomeDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(url: "What is Web Design?", duration: "10:23"),
-              Video(url: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", title: "10:23"),
+              Video(url: "Tools for Web Design", title: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(url: "HTML Structure", duration: "12:34"),
-              Video(url: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", title: "12:34"),
+              Video(url: "HTML Tags", title: "18:50"),
             ],
           ),
         ],
@@ -66,16 +67,16 @@ class HomeDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(url: "What is Web Design?", duration: "10:23"),
-              Video(url: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", title: "10:23"),
+              Video(url: "Tools for Web Design", title: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(url: "HTML Structure", duration: "12:34"),
-              Video(url: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", title: "12:34"),
+              Video(url: "HTML Tags", title: "18:50"),
             ],
           ),
         ],
@@ -100,16 +101,16 @@ class HomeDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(url: "What is Web Design?", duration: "10:23"),
-              Video(url: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", title: "10:23"),
+              Video(url: "Tools for Web Design", title: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(url: "HTML Structure", duration: "12:34"),
-              Video(url: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", title: "12:34"),
+              Video(url: "HTML Tags", title: "18:50"),
             ],
           ),
         ],
@@ -134,16 +135,16 @@ class HomeDataSource {
             name: "Chapter 2",
             title: "Introduction to Web Design",
             videos: [
-              Video(url: "What is Web Design?", duration: "10:23"),
-              Video(url: "Tools for Web Design", duration: "15:45"),
+              Video(url: "What is Web Design?", title: "10:23"),
+              Video(url: "Tools for Web Design", title: "15:45"),
             ],
           ),
           Chapter(
             name: "Chapter 2",
             title: "HTML Basics",
             videos: [
-              Video(url: "HTML Structure", duration: "12:34"),
-              Video(url: "HTML Tags", duration: "18:50"),
+              Video(url: "HTML Structure", title: "12:34"),
+              Video(url: "HTML Tags", title: "18:50"),
             ],
           ),
         ],
@@ -156,13 +157,14 @@ class HomeDataSource {
 
     List<Course> courses = [];
     final Map<String, dynamic> mapVal = await getUserData();
+    int? statusCode;
     print(mapVal);
     try {
       var token = mapVal["token"];
       print("token: $token");
       //_dio.options.headers = {"Authorization": "Bearer $token"};
       final response = await _dio.get("/random-courses");
-
+      statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];
 
@@ -176,8 +178,9 @@ class HomeDataSource {
 
         print("courses: \n ${courses.length}");
       }
-    } catch (e) {
-      rethrow;
+    } on DioException catch (e) {
+      final errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
+      throw Exception(errorMessage);
     }
     return courses;
   }

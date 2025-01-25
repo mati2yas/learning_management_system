@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:lms_system/core/utils/error_handling.dart';
 
 class EditProfileDataSource {
   final Dio _dio;
@@ -10,8 +11,11 @@ class EditProfileDataSource {
     required String email,
     required String password,
   }) async {
+    int? statusCode;
     try {} on DioException catch (e) {
-      throw Exception("API error: ${e.response?.data['message'] ?? e.message}");
+
+      String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
+      throw Exception(errorMessage);
     }
   }
 }

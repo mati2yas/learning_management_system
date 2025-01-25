@@ -7,7 +7,7 @@ final currentCourseIdProvider =
 
 class CurrentCourseIdController extends StateNotifier<String> {
   CurrentCourseIdController() : super("0");
-  void changeCourseId(String category) {
-    state = category;
+  void changeCourseId(String newId) {
+    state = newId;
   }
 }

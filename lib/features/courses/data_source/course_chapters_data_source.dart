@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/api_constants.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
+import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 
 final courseChaptersDataSourceProvider =
@@ -15,11 +16,12 @@ class CourseChaptersDataSource {
   Future<List<Chapter>> fetchCourseChapters(String courseId) async {
     print("fetchCourseChapters called");
     List<Chapter> chapters = [];
-  
+    int? statusCode;
 
     try {
       final response = await _dio.get("/course-chapters/$courseId");
       print("${ApiConstants.baseUrl}/course-chapters/$courseId");
+      statusCode = response.statusCode;
       if (response.statusCode == 200) {
         for (var d in response.data["data"]) {
           print(d);
@@ -27,7 +29,8 @@ class CourseChaptersDataSource {
         }
       }
     } on DioException catch (e) {
-      throw Exception("API Error: ${e.message}");
+      String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
+      throw Exception(errorMessage);
     }
     return chapters;
   }

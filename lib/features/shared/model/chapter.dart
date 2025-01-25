@@ -1,9 +1,9 @@
-import 'package:lms_system/features/chapter_detail/model/chapter_detail_model.dart';
+import 'package:lms_system/features/chapter_content/model/chapter_content_model.dart';
 
 class Chapter {
   final String title, name, id;
 
-  ChapterDetail? chapterDetail;
+  ChapterContent? chapterDetail;
   List<Video> videos;
   Chapter({
     this.id = "",
@@ -24,11 +24,20 @@ class Chapter {
   }
 }
 
+class Document {
+  final String fileUrl;
+  final String title;
+  Document({
+    required this.fileUrl,
+    required this.title,
+  });
+}
+
 class Video {
   final String url;
-  final String duration;
+  final String title;
   Video({
     required this.url,
-    required this.duration,
+    required this.title,
   });
 }

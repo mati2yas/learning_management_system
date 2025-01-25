@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginDataSource {
@@ -13,11 +14,13 @@ class LoginDataSource {
     required String email,
     required String password,
   }) async {
+    int? statusCode;
     try {
       final response = await _dio.post('/login', data: {
         'email': email,
         'password': password,
       });
+      statusCode = response.statusCode;
 
       if (response.statusCode == 200) {
         final token = response.data['token'];
@@ -42,7 +45,8 @@ class LoginDataSource {
         throw Exception('Failed to register user');
       }
     } on DioException catch (e) {
-      throw Exception('API Error: ${e.response?.data['message'] ?? e.message}');
+      String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
+      throw Exception(errorMessage);
     }
   }
 }

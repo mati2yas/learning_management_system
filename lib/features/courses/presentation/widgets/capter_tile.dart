@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/features/chapter_content/provider/current_chapter_id_provider.dart';
 
 import '../../../shared/model/chapter.dart';
 
-class ChapterTile extends StatelessWidget {
+class ChapterTile extends ConsumerWidget {
   final Chapter chapter;
 
   const ChapterTile({
@@ -12,12 +14,16 @@ class ChapterTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     var textTh = Theme.of(context).textTheme;
+
+    final currentChapterIdController =
+        ref.watch(currentChapterIdProvider.notifier);
     return GestureDetector(
       onTap: () {
+        currentChapterIdController.changeChapterId(chapter.id);
         Navigator.of(context)
-            .pushNamed(Routes.chapterDetails, arguments: chapter);
+            .pushNamed(Routes.chapterContent, arguments: chapter);
       },
       child: Card(
         margin: const EdgeInsets.only(top: 3, left: 3, right: 2.6),

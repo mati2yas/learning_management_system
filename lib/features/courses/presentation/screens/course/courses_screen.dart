@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
+import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
@@ -88,9 +89,12 @@ class CoursePage extends ConsumerWidget {
                   .map(
                     (cat) => CategoryShow(
                       category: categoryFormatted[cat]!,
-                     categoryImage: cat, 
+                      categoryImage: cat,
                       onTap: () {
                         currentCourseFilterController.changeFilter(cat);
+                        ref
+                            .read(coursesFilteredProvider.notifier)
+                            .fetchCoursesFiltered(filter: cat);
                         pageController.navigatePage(4);
                       },
                     ),
