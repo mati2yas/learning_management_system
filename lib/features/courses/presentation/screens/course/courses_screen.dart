@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
-import 'package:lms_system/features/courses/data_source/course_detail_data_source.dart';
 import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
@@ -11,6 +10,20 @@ import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 import '../../../../../core/app_router.dart';
 import '../../../provider/courses_provider.dart';
 import '../../widgets/category_show.dart';
+
+final categories = [
+  "lower_grades",
+  "high_school",
+  "university",
+  "random_courses"
+];
+
+Map<String, String> categoryFormatted = {
+  "lower_grades": "Lower Grades",
+  "high_school": "Highschool",
+  "university": "University",
+  "random_courses": "Random Courses",
+};
 
 class CoursePage extends ConsumerWidget {
   const CoursePage({super.key});
@@ -74,7 +87,8 @@ class CoursePage extends ConsumerWidget {
               children: categories
                   .map(
                     (cat) => CategoryShow(
-                      category: cat,
+                      category: categoryFormatted[cat]!,
+                     categoryImage: cat, 
                       onTap: () {
                         currentCourseFilterController.changeFilter(cat);
                         pageController.navigatePage(4);

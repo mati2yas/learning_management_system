@@ -1,12 +1,27 @@
-class Chapter {
-  final String title, name;
+import 'package:lms_system/features/chapter_detail/model/chapter_detail_model.dart';
 
-  final List<Video> videos;
+class Chapter {
+  final String title, name, id;
+
+  ChapterDetail? chapterDetail;
+  List<Video> videos;
   Chapter({
+    this.id = "",
     required this.name,
     required this.title,
-    required this.videos,
+    this.chapterDetail,
+    this.videos = const [],
   });
+
+  factory Chapter.fromJson(Map<String, dynamic> json) {
+    print("json:");
+    print(json);
+    return Chapter(
+      id: json["id"].toString(),
+      name: json["name"],
+      title: json["name"],
+    );
+  }
 }
 
 class Video {

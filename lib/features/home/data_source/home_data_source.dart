@@ -13,6 +13,7 @@ class HomeDataSource {
   List<Course> fetchCourses() {
     return [
       Course(
+        id: "0",
         title: "Web Design",
         category: "",
         topics: 21,
@@ -46,6 +47,7 @@ class HomeDataSource {
         ],
       ),
       Course(
+        id: "1",
         title: "Marketing",
         category: "",
         topics: 21,
@@ -79,6 +81,7 @@ class HomeDataSource {
         ],
       ),
       Course(
+        id: "2",
         title: "Applied Mathematics",
         category: "",
         price: {
@@ -112,6 +115,7 @@ class HomeDataSource {
         ],
       ),
       Course(
+        id: "3",
         title: "Accounting",
         category: "",
         topics: 21,

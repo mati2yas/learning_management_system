@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
@@ -54,6 +55,8 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     //final coursesFilteredState =
     // Determine dropdown items dynamically
     List<String> dropdownItems = [];
+
+    final courseIdController = ref.watch(currentCourseIdProvider.notifier);
     final apiState = ref.watch(coursesFilteredProvider);
 
     if (category == "high_school" && [2, 3].contains(currentTabIndex)) {
@@ -161,9 +164,11 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
           body: Padding(
               padding: const EdgeInsets.all(12.0),
               child: apiState.when(
-                loading: () => const CircularProgressIndicator(
-                  color: AppColors.mainBlue,
-                  strokeWidth: 5,
+                loading: () => const Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.mainBlue,
+                    strokeWidth: 5,
+                  ),
                 ),
                 error: (error, stack) => Center(
                   child: Text(
@@ -213,7 +218,12 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                       itemBuilder: (_, index) {
                         return GestureDetector(
                           onTap: () {
-                            pageController.navigatePage(5, arguments: category);
+                            courseIdController
+                                .changeCourseId(selectedCourses[index].id);
+                            pageController.navigatePage(
+                              5,
+                              arguments: selectedCourses[index],
+                            );
                           },
                           child: CourseCard(course: selectedCourses[index]),
                         );

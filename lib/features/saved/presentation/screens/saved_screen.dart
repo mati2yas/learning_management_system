@@ -17,6 +17,7 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
   List<String> categories = ["All", "University", "High School", "Lower Grade"];
   List<Course> courses = [
     Course(
+      id: "0",
       title: "Marketing Course",
       topics: 12,
       category: "",
@@ -51,6 +52,7 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
       ],
     ),
     Course(
+      id: "1",
       title: "Web Design",
       category: "",
       topics: 12,
@@ -85,6 +87,7 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
       ],
     ),
     Course(
+      id: "2",
       title: "Marketing Course",
       category: "",
       topics: 12,
@@ -119,6 +122,7 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
       ],
     ),
     Course(
+      id: "3",
       title: "Marketing Course",
       topics: 12,
       category: "",

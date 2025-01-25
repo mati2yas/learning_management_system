@@ -3,11 +3,12 @@ import 'package:lms_system/features/shared/model/chapter.dart';
 
 class Course {
   final String title, image;
+  final String id;
   final int topics, saves, likes;
   final double progress;
   final List<Chapter> chapters;
   String? streamOrDepartment;
-  final String category;
+  String? category;
   String? grade;
   String? batch;
   bool subscribed;
@@ -15,10 +16,11 @@ class Course {
   final Map<SubscriptionType, double> price;
   Course({
     required this.title,
+    required this.id,
     required this.topics,
     required this.saves,
     required this.likes,
-    required this.category,
+    this.category,
     required this.image,
     this.progress = 0.0,
     this.subscribed = false,
@@ -31,9 +33,10 @@ class Course {
     this.grade,
   });
   factory Course.fromJson(Map<String, dynamic> json) {
-    var categ = json["category"]["name"];
+    var categ = json["category"]?["name"];
     var dep = json["department"];
     return Course(
+      id: json["id"].toString(),
       title: json["course_name"],
       streamOrDepartment: json["department"]?["department_name"],
       batch: json["batch"]?["batch_name"],
@@ -57,4 +60,5 @@ class Course {
       chapters: [],
     );
   }
+
 }

@@ -99,7 +99,7 @@ class WrapperScreen extends ConsumerWidget {
       const CoursesFilterScreen(
           // 4
           ),
-      const CourseContentPage(), // 5
+      const CourseChaptersScreen(), // 5
       const ExamQuestionsPage(), // 6
       const ExamFiltersScreen(), // 7
       const ExamGradeFilter(), // 8

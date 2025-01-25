@@ -8,13 +8,12 @@ class CoursesFilteredDataSource {
   Future<List<Course>> fetchCoursesFiltered(String filter) async {
     List<Course> courses = [];
     try {
-      final response = await _dio.get("/random-courses");
+      final response = await _dio.get("/random-courses/$filter");
 
       if (response.statusCode == 200) {
         for (var x in response.data["data"]) {
-          if (x["category"]["name"] == filter) {
-            courses.add(Course.fromJson(x));
-          }
+          x["category"] = {"name": filter};
+          courses.add(Course.fromJson(x));
         }
       }
     } on DioException catch (e) {

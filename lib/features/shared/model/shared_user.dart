@@ -1,5 +1,5 @@
 class User {
-  final String name, email, password, bio, image;
+  final String name, lastName, email, password, bio, image;
 
   User({
     required this.name,
