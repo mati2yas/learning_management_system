@@ -6,7 +6,6 @@ import 'package:lms_system/features/home/presentation/widgets/carousel.dart';
 import 'package:lms_system/features/home/presentation/widgets/category_indicator.dart';
 import 'package:lms_system/features/home/presentation/widgets/custom_home_app_bar_widget.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
-import 'package:lms_system/features/wrapper/presentation/widgets/drawer_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../courses/provider/courses_provider.dart';
@@ -28,7 +27,6 @@ class HomePage extends ConsumerWidget {
     final PageController pageController = PageController();
     return Scaffold(
       backgroundColor: AppColors.mainBlue,
-      drawer: const CustomDrawer(),
       body: SizedBox(
         height: size.height,
         child: Column(
@@ -176,6 +174,7 @@ class HomePage extends ConsumerWidget {
                             padding: const EdgeInsets.only(bottom: 30),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisExtent: 175,
                               crossAxisCount: 2,
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 10,

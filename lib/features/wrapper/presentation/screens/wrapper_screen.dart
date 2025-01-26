@@ -80,9 +80,10 @@ class NavItem extends StatelessWidget {
     );
   }
 }
-
+class Keys {
+  static final globalkey = GlobalKey<ScaffoldState>();
+}
 class WrapperScreen extends ConsumerWidget {
-  final drKey = GlobalKey<ScaffoldState>();
 
   WrapperScreen({super.key});
   @override
@@ -110,7 +111,7 @@ class WrapperScreen extends ConsumerWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        key: drKey,
+        key: Keys.globalkey,
         drawer: const Drawer(
           child: CustomDrawer(),
         ),

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lms_system/core/api_constants.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/requests/provider/requests_provider.dart';
@@ -87,9 +88,31 @@ class CourseCardWithImage extends ConsumerWidget {
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
             ),
-            child: fetchImageWithPlaceHolder(
-              // "${ApiConstants.imageBaseUrl}/${course.image}",
-             course.image, 
+            // child: fetchImageWithPlaceHolder(
+            //   // "${ApiConstants.imageBaseUrl}/${course.image}",
+            //  course.image,
+            // ),
+            child: Image.network(
+              height: 100,
+              "${ApiConstants.imageBaseUrl}/${course.image}", //?? "",
+              fit: BoxFit.cover,
+              loadingBuilder: (BuildContext context, Widget child,
+                  ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return Image.asset(
+                    fit: BoxFit.cover, "assets/images/applied_math.png");
+              },
+              errorBuilder:
+                  (BuildContext context, Object error, StackTrace? stackTrace) {
+                // Show an error widget if the image failed to load
+
+                return Image.asset(
+                    height: 80,
+                    fit: BoxFit.cover,
+                    "assets/images/applied_math.png");
+              },
             ),
           ),
           const SizedBox(height: 5),
