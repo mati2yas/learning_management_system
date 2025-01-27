@@ -27,6 +27,7 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
     // 5 cause the 5th page in the wrapper screen pages list
     //final courseIdcurrent = ref.watch(currentCourseIdProvider);
     final apiState = ref.watch(courseChaptersProvider);
+    
 
     final currentChapterId = ref.watch(currentChapterIdProvider);
     return Scaffold(

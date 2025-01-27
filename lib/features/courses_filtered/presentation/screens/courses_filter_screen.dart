@@ -42,6 +42,12 @@ class CoursesFilterScreen extends ConsumerStatefulWidget {
 }
 
 class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
+  Map<String, List<Course>> highschoolTabCourses = {
+    "Grade 9": [],
+    "Grade 10": [],
+    "Grade 11": [],
+    "Grade 12": [],
+  };
   String? dropDownValue;
   int? currentTabIndex;
   List<Course> selectedCourses = [];
@@ -60,9 +66,11 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     final apiState = ref.watch(coursesFilteredProvider);
 
     if (category == "high_school" && [2, 3].contains(currentTabIndex)) {
-      dropdownItems = ["Natural", "Social"];
+      dropdownItems = ["natural", "nocial"];
+      dropDownValue = "natural";
     } else if (category == "university") {
-      dropdownItems = [];
+      dropdownItems = ["engineering", "law", "medicine"];
+      dropDownValue = "engineering";
     }
 
     return DefaultTabController(
@@ -179,33 +187,52 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                 data: (courses) => TabBarView(
                   controller: tabController,
                   children: filterGrades(category).map((grade) {
-                    if (category == "university") {
-                      selectedCourses = courses
-                          .where((course) =>
-                              course.batch ==
-                              universityGrades[currentTabIndex ?? 0])
-                          .toList();
-                    } else if (category == "high_school") {
-                      selectedCourses = courses
-                          .where((course) =>
-                              course.batch ==
-                              highSchoolGrades[currentTabIndex ?? 0])
-                          .toList();
-                      if (["Grade 11", "Grade 12"].contains(grade)) {
-                        selectedCourses = selectedCourses
-                            .where((course) =>
-                                course.streamOrDepartment == dropDownValue)
-                            .toList();
-                      }
-                    } else if (category == "lower_grades") {
-                      selectedCourses = courses
-                          .where((course) =>
-                              course.grade == lowerGrades[currentTabIndex ?? 0])
-                          .toList();
-                    } else {
-                      selectedCourses = courses;
-                    }
+                    // if (category == "university") {
+                    //   selectedCourses = courses
+                    //       .where((course) =>
+                    //           course.batch ==
+                    //           universityGrades[currentTabIndex ?? 0])
+                    //       .toList();
+                    // } else if (category == "high_school") {
+                    //   // selectedCourses = courses
+                    //   //     .where((course) =>
+                    //   //         course.grade ==
+                    //   //         highSchoolGrades[currentTabIndex ?? 0])
+                    //   //     .toList();
+                    //   // if (["Grade 11", "Grade 12"].contains(grade)) {
+                    //   //   selectedCourses = selectedCourses
+                    //   //       .where((course) => course.stream == dropDownValue)
+                    //   //       .toList();
+                    //   // }
+                    //   // Check if the list for the current tab is already populated
+                    //   if (highschoolTabCourses[grade]?.isEmpty ?? true) {
+                    //     var coursesForGrade = courses
+                    //         .where((course) => course.grade == grade)
+                    //         .toList();
 
+                    //     // Apply stream filtering only for Grade 11 and 12
+                    //     if (["Grade 11", "Grade 12"].contains(grade)) {
+                    //       coursesForGrade = coursesForGrade
+                    //           .where((course) =>
+                    //               course.stream?.toLowerCase() ==
+                    //               dropDownValue?.toLowerCase())
+                    //           .toList();
+                    //     }
+
+                    //     highschoolTabCourses[grade] = coursesForGrade;
+                    //   }
+
+                    //   selectedCourses = highschoolTabCourses[grade] ?? [];
+                    // } else if (category == "lower_grades") {
+                    //   selectedCourses = courses
+                    //       .where((course) =>
+                    //           course.grade == lowerGrades[currentTabIndex ?? 0])
+                    //       .toList();
+                    // } else {
+                    //   selectedCourses = courses;
+                    // }
+                    selectedCourses = getFilteredCourses(
+                        courses, category, grade, dropDownValue);
                     return GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -213,6 +240,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
                         childAspectRatio: 0.8,
+                        mainAxisExtent: 188,
                       ),
                       itemCount: selectedCourses.length,
                       itemBuilder: (_, index) {
@@ -253,6 +281,29 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
       return universityGrades;
     }
     return [];
+  }
+
+  List<Course> getFilteredCourses(
+      List<Course> courses, String category, String? grade, String? stream) {
+    return courses.where((course) {
+      switch (category) {
+        case "university":
+          int foundIndex = universityGrades.indexOf(grade!);
+          return course.batch == universityGrades[foundIndex];
+        case "high_school":
+          if (["Grade 11", "Grade 12"].contains(grade)) {
+            return course.grade == grade &&
+                course.stream?.toLowerCase() == stream?.toLowerCase();
+          } else {
+            return course.grade == grade;
+          }
+        case "lower_grades":
+          int foundIndex = lowerGrades.indexOf(grade!);
+          return course.grade == lowerGrades[foundIndex];
+        default:
+          return true;
+      }
+    }).toList();
   }
 
   @override

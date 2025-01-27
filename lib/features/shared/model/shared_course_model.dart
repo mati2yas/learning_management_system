@@ -7,13 +7,16 @@ class Course {
   final int topics, saves, likes;
   final double progress;
   final List<Chapter> chapters;
-  String? streamOrDepartment;
+  String? stream;
+  String? department;
   String? category;
   String? grade;
   String? batch;
   bool subscribed;
   bool saved, liked;
   final Map<SubscriptionType, double> price;
+  Map<SubscriptionType, double?> onSalePrices;
+
   Course({
     required this.title,
     required this.id,
@@ -28,17 +31,21 @@ class Course {
     this.liked = false,
     required this.price,
     required this.chapters,
-    this.streamOrDepartment,
+    this.onSalePrices = const {},
+    this.stream,
+    this.department,
     this.batch,
     this.grade,
   });
   factory Course.fromJson(Map<String, dynamic> json) {
     var categ = json["category"]?["name"];
     var dep = json["department"];
+
     return Course(
       id: json["id"].toString(),
       title: json["course_name"],
-      streamOrDepartment: json["department"]?["department_name"],
+      // stream: json["department"]?["department_name"],
+      stream: json["grade"]?["stream"],
       batch: json["batch"]?["batch_name"],
       grade: json["grade"]?["grade_name"],
       topics: 4,
@@ -57,8 +64,14 @@ class Course {
             double.tryParse(json["price_six_month"]) ?? 0,
         SubscriptionType.yearly: double.tryParse(json["price_one_year"]) ?? 0,
       },
+      onSalePrices: {
+        SubscriptionType.oneMonth: double.tryParse(json["on_sale_month"]),
+        SubscriptionType.threeMonths:
+            double.tryParse(json["on_sale_three_month"]),
+        SubscriptionType.sixMonths: double.tryParse(json["on_sale_six_month"]),
+        SubscriptionType.yearly: double.tryParse(json["on_sale_one_year"]),
+      },
       chapters: [],
     );
   }
-
 }

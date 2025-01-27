@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_repo_provider.dart';
+import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/courses_filtered/repository/courses_filtered_repository.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
@@ -24,7 +25,7 @@ class CoursesFilteredNotifier extends AsyncNotifier<List<Course>> {
   CoursesFilteredNotifier(this._repository);
   @override
   Future<List<Course>> build() async {
-    String filter = ref.read(currentCategoryProvider);
+    String filter = ref.read(currentCourseFilterProvider);
     return fetchCoursesFiltered(filter: filter);
   }
 

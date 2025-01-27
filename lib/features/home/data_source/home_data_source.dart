@@ -169,9 +169,9 @@ class HomeDataSource {
         var data = response.data["data"];
 
         for (var dataVl in data) {
-          print(dataVl);
+          //print(dataVl);
           Course crs = Course.fromJson(dataVl);
-          print(crs.title);
+          //print(crs.title);
 
           courses.add(crs);
         }

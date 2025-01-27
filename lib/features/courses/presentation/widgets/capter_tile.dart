@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/features/chapter_content/provider/chapter_content_provider.dart';
 import 'package:lms_system/features/chapter_content/provider/current_chapter_id_provider.dart';
 
 import '../../../shared/model/chapter.dart';
@@ -22,6 +23,7 @@ class ChapterTile extends ConsumerWidget {
     return GestureDetector(
       onTap: () {
         currentChapterIdController.changeChapterId(chapter.id);
+        ref.read(chapterContentProvider.notifier).fetchChapterContent();
         Navigator.of(context)
             .pushNamed(Routes.chapterContent, arguments: chapter);
       },
