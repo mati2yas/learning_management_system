@@ -1,46 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:lms_system/core/common_widgets/common_app_bar.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:lms_system/core/utils/file_download_handler.dart';
 
-class ChapterDocumentView extends StatefulWidget {
-  final String fileUrl;
-  const ChapterDocumentView({super.key, required this.fileUrl});
+class SecurePDFViewer extends StatefulWidget {
+  final String encryptedFilePath;
+
+  const SecurePDFViewer({super.key, required this.encryptedFilePath});
 
   @override
-  State<ChapterDocumentView> createState() => _ChapterDocumentViewState();
+  _SecurePDFViewerState createState() => _SecurePDFViewerState();
 }
 
-class _ChapterDocumentViewState extends State<ChapterDocumentView> {
-  late InAppWebViewController _webViewController;
+class _SecurePDFViewerState extends State<SecurePDFViewer> {
+  String decryptedFilePath = "";
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    //_disableScreenshots(); // we actually wont implement this here, remember to turn on the 
+    // kotlin flag that we already setup earlier.
+    _loadPDF();
+  }
+
+  
+
+  /// **Decrypt and Load PDF**
+  Future<void> _loadPDF() async {
+    final file = await SecureFileHandler.decryptPDF(widget.encryptedFilePath, "temp_view");
+    setState(() {
+      decryptedFilePath = file.path;
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CommonAppBar(titleText: "View Document"),
-      body: InAppWebView(
-        initialUrlRequest: URLRequest(url: WebUri(widget.fileUrl)),
-        onWebViewCreated: (InAppWebViewController controller) {
-          _webViewController = controller;
-        },
-        onLoadStart: (controller, url) {
-          // Disable the ability to download the PDF file
-          controller.evaluateJavascript(source: """
-            var links = document.getElementsByTagName("a");
-            for (var i = 0; i < links.length; i++) {
-              links[i].setAttribute("download", "");
-            }
-          """);
-        },
-        onLoadStop: (controller, url) {
-          // Disable the ability to right-click and save the PDF file
-          controller.evaluateJavascript(source: """
-            document.addEventListener("contextmenu", function(e) {
-              e.preventDefault();
-            }, false);
-          """);
-        },
-      ),
+      appBar: AppBar(title: const Text("Secure PDF Viewer")),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : PDFView(
+              filePath: decryptedFilePath,
+              enableSwipe: true,
+              swipeHorizontal: false,
+              autoSpacing: true,
+              pageFling: true,
+            ),
     );
   }
 }
+

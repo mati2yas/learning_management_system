@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_system/core/utils/file_download_handler.dart';
 import 'package:lms_system/features/chapter_content/presentation/screens/chapter_document.view.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 
@@ -8,17 +9,23 @@ class ChapterDocumentTile extends StatelessWidget {
     super.key,
     required this.document,
   });
-
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder: (context) => const ChapterDocumentView(
+        //         fileUrl:
+        //             "https://web.ung.edu/media/Chemistry2/Chemistry-LR.pdf"),
+        //   ),
+        // );
+        final encryptedFilePath = await openSecurePDF("");
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const ChapterDocumentView(
-                fileUrl:
-                    "https://web.ung.edu/media/Chemistry2/Chemistry-LR.pdf"),
+            builder: (context) =>
+                SecurePDFViewer(encryptedFilePath: encryptedFilePath),
           ),
         );
       },
@@ -75,5 +82,11 @@ class ChapterDocumentTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<String> openSecurePDF(String pdfUrl) async {
+    final encryptedFilePath =
+        await SecureFileHandler.downloadAndEncryptPDF(pdfUrl, "secure_file");
+    return encryptedFilePath;
   }
 }
