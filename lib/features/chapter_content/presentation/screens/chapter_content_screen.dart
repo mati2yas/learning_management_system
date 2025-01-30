@@ -44,7 +44,7 @@ class DocumentsListView extends ConsumerWidget {
           const urll =
               "https://www.cs.umd.edu/~atif/Teaching/Spring2011/Slides/8.pdf";
 
-          await docProcessor.processPDF(urll);
+          await docProcessor.processPDF(urll, documents[index].title);
 
           if (context.mounted) {
             if (ref.read(documentProvider).status ==
@@ -202,8 +202,9 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                               ref.read(documentProvider.notifier);
                           const urll =
                               "https://www.cs.umd.edu/~atif/Teaching/Spring2011/Slides/8.pdf";
-
-                          await docProcessor.processPDF(urll);
+                          String identifier =
+                              chapterContent.documents[index].title;
+                          await docProcessor.processPDF(urll, identifier);
 
                           if (context.mounted) {
                             Navigator.of(context).push(

@@ -1,4 +1,4 @@
-import 'document_status.dart';
+ import 'document_status.dart';
 
 class DocumentViewState {
   final DocumentStatus status;

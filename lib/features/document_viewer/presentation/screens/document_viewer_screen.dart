@@ -60,6 +60,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/features/document_viewer/model/document_status.dart';
 import 'package:lms_system/features/document_viewer/model/document_viewer_model.dart';
 import 'package:lms_system/features/document_viewer/provider/document_viewer_provider.dart';
@@ -77,7 +78,7 @@ class _SecurePDFViewerState extends ConsumerState<SecurePDFViewer> {
     final state = ref.watch(documentProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Secure PDF Viewer")),
+      appBar: CommonAppBar(titleText: "Document Content"),
       body: _buildBody(state),
     );
   }

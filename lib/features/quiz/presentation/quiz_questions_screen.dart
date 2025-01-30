@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_layout.dart';
 import 'package:lms_system/features/exams/provider/timer_provider.dart';
@@ -291,11 +290,6 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
               ),
             ),
     );
-  }
-
-  Future<void> fetchQuestions() async {
-    var dio = DioClient.instance;
-    await dio.get("");
   }
 
   @override
