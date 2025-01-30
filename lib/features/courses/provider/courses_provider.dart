@@ -22,12 +22,11 @@ class CourseNotifier extends StateNotifier<List<Course>> {
     state = await _repository.fetchCourses();
   }
 
-  
-
   void toggleLiked(Course course) {
     state = state.map((c) {
       if (c == course) {
         return Course(
+          id: c.id,
           category: c.category,
           title: c.title,
           topics: c.topics,
@@ -49,6 +48,7 @@ class CourseNotifier extends StateNotifier<List<Course>> {
     state = state.map((c) {
       if (c == course) {
         return Course(
+          id: c.id,
           title: c.title,
           category: c.category,
           topics: c.topics,
@@ -70,6 +70,7 @@ class CourseNotifier extends StateNotifier<List<Course>> {
     state = state.map((c) {
       if (c == course) {
         return Course(
+          id: c.id,
           category: c.category,
           title: c.title,
           topics: c.topics,

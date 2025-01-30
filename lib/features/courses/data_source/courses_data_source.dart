@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/shared_pref/shared_pref.dart';
 
 import '../../shared/model/shared_course_model.dart';
@@ -12,11 +13,12 @@ class CourseDataSource {
     // _dio.options.headers.addEntries(
     //   {MapEntry("Authorization", "Bearer $token")},
     // );
+    int? statusCode;
 
     List<Course> courses = [];
     try {
-      final response = await _dio.get("/random-course");
-
+      final response = await _dio.get("/random-courses");
+      statusCode = response.statusCode;
       if (response.statusCode == 200) {
         print("response is 200");
         //var data = response.data["data"];
@@ -28,10 +30,9 @@ class CourseDataSource {
         }
       }
     } on DioException catch (e) {
-      throw Exception("API Error: ${e.message}");
+      String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
+      throw Exception(errorMessage);
     }
     return courses;
   }
-
-  
 }

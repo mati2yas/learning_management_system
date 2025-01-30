@@ -4,11 +4,14 @@ import '../../../../core/constants/colors.dart';
 
 class CategoryShow extends StatelessWidget {
   final String category; // Accept the Category model
+  final String categoryImage;
   final Function onTap;
 
   const CategoryShow({
     super.key,
     required this.category,
+    required this.categoryImage,
+
     required this.onTap,
   });
 
@@ -36,7 +39,7 @@ class CategoryShow extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              "assets/images/$category.png", // Assuming the image name matches the category ID
+              "assets/images/$categoryImage.png", // Assuming the image name matches the category ID
               height: 100,
             ),
             Text(

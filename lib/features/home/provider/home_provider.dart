@@ -58,6 +58,7 @@ class HomeNotifier extends StateNotifier<AsyncValue<List<Course>>> {
       return courses.map((c) {
         if (c == course) {
           return Course(
+            id: c.id,
             title: c.title,
             category: c.category,
             topics: c.topics,
@@ -81,6 +82,7 @@ class HomeNotifier extends StateNotifier<AsyncValue<List<Course>>> {
       return courses.map((c) {
         if (c == course) {
           return Course(
+            id: c.id,
             title: c.title,
             category: c.category,
             topics: c.topics,
@@ -104,6 +106,7 @@ class HomeNotifier extends StateNotifier<AsyncValue<List<Course>>> {
       return courses.map((c) {
         if (c == course) {
           return Course(
+            id: c.id,
             title: c.title,
             category: c.category,
             topics: c.topics,

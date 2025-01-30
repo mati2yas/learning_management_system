@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/requests/provider/requests_provider.dart';
+import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
 import '../app_router.dart';
 
@@ -44,7 +44,8 @@ class CourseCard extends ConsumerWidget {
               topRight: Radius.circular(10),
             ),
             child: Image.asset(
-              "assets/images/${course.image}",
+              //"assets/images/${course.image}",
+              "assets/images/applied_math.png",
               height: 90,
               width: double.infinity,
               fit: BoxFit.cover,

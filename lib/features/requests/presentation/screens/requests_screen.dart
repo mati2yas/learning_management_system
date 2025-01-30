@@ -22,12 +22,6 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
   SubscriptionType subscriptionType = SubscriptionType.oneMonth;
   XFile? transactionImage;
   bool imagePicked = false;
-  Map<SubscriptionType, double> subTypeValue = {
-    SubscriptionType.oneMonth: 10,
-    SubscriptionType.threeMonths: 30,
-    SubscriptionType.sixMonths: 60,
-    SubscriptionType.yearly: 120,
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +29,13 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
     var size = MediaQuery.of(context).size;
     var listViewSize = size.width * 0.5;
     var requestsProv = ref.watch(requestsProvider);
-    double price = requestsProv
-        .map((r) => r.price[subscriptionType] ?? 0)
-        .reduce((init, sum) => init + sum);
-    price *= subTypeValue[subscriptionType]!;
+    bool listIsEmpty = requestsProv.isEmpty;
+    double price = 0;
+    if (requestsProv.isNotEmpty) {
+      requestsProv
+          .map((r) => r.price[subscriptionType] ?? 0)
+          .reduce((init, sum) => init + sum);
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text("Buy Course"),
@@ -59,18 +56,45 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
             SizedBox(
               height: size.height * 0.5,
               width: size.width * 0.85,
-              child: ListView.builder(
-                itemCount: requestsProv.length,
-                itemBuilder: (_, index) {
-                  var request = requestsProv[index];
-                  return RequestTile(
-                    selectedPriceType:
-                        requestsProv[index].price[subscriptionType] ?? 0,
-                    course: request,
-                    textTh: textTh,
-                  );
-                },
-              ),
+              child: requestsProv.isEmpty
+                  ? Center(
+                      child: Text(
+                        "No Cart Values",
+                        style: textTh.bodyLarge!
+                            .copyWith(fontWeight: FontWeight.w600),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: requestsProv.length,
+                      itemBuilder: (_, index) {
+                        var request = requestsProv[index];
+                        return RequestTile(
+                          onTap: () {
+                            if (requestsProv.isNotEmpty) {
+                              final status = ref
+                                  .read(requestsProvider.notifier)
+                                  .addOrRemoveCourse(requestsProv[index]);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Course has been $status."),
+                                ),
+                              );
+                            } else {
+                              // If the list is empty, you can handle this case here
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Your cart is empty!"),
+                                ),
+                              );
+                            }
+                          },
+                          selectedPriceType:
+                              requestsProv[index].price[subscriptionType] ?? 0,
+                          course: request,
+                          textTh: textTh,
+                        );
+                      },
+                    ),
             ),
             Center(
               child: SizedBox(

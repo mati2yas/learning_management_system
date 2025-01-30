@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_system/core/utils/youtube_helper.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 
 class VideoTile extends StatelessWidget {
@@ -35,7 +36,7 @@ class VideoTile extends StatelessWidget {
                     width: 55,
                     height: 55,
                     child: Image.network(
-                      'https://img.youtube.com/vi/${video.url}/0.jpg',
+                      YoutubeHelper.getThumbnailUrl(video.url),
                       fit: BoxFit.cover,
                     ),
                   )),
@@ -43,7 +44,7 @@ class VideoTile extends StatelessWidget {
                   child: Padding(
                 padding: const EdgeInsets.fromLTRB(10.0, 10.0, 15, 8.0),
                 child: Text(
-                  video.url,
+                  video.title,
                   style: textTh.labelMedium!.copyWith(
                     fontWeight: FontWeight.w500,
                   ),

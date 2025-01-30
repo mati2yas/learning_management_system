@@ -6,7 +6,7 @@ class User {
     required this.lastName,
     required this.email,
     required this.password,
-    required this.bio,
-    required this.image,
+    this.bio = "",
+    this.image = "",
   });
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterDataSource {
@@ -13,6 +14,7 @@ class RegisterDataSource {
     required String email,
     required String password,
   }) async {
+    int? statusCode;
     try {
       final response = await _dio.post('/student-register', data: {
         'name': name,
@@ -20,30 +22,19 @@ class RegisterDataSource {
         'password': password,
         'password_confirmation': password,
       });
-
+      statusCode = response.statusCode;
       if (response.statusCode == 200 && response.data['status'] == true) {
         // Parse and store the token and user data in SharedPreferences
-        final token = response.data['token'];
-        final user = response.data['data']['user'];
-
-        final prefs = await SharedPreferences.getInstance();
-        final valueData = jsonEncode({
-          "name": "\"$name\"",
-          "email": "\"$email\"",
-          "token": "\"$token\"",
-          "password": "\"$password\"",
-        });
-        await prefs.setString("userData", valueData);
 
         print("User Data to Save:");
-        print(valueData);
 
         // Save the JSON string
       } else {
         throw Exception('Failed to register user: ${response.data['message']}');
       }
     } on DioException catch (e) {
-      throw Exception('API Error: ${e.response?.data['message'] ?? e.message}');
+      String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
+      throw Exception(errorMessage);
     }
   }
 }
