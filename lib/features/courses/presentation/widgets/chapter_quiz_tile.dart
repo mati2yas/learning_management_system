@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lms_system/features/shared/model/chapter.dart';
 
 import '../../../../core/constants/colors.dart';
 
 class ChapterQuizTile extends StatelessWidget {
-  const ChapterQuizTile({super.key});
+  final Quiz quiz;
+  const ChapterQuizTile({
+    super.key,
+    required this.quiz,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,19 +25,19 @@ class ChapterQuizTile extends StatelessWidget {
         height: 70,
         child: Row(
           children: <Widget>[
-            ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
-                ),
-                child: SizedBox(
-                  width: 70,
-                  height: 70,
-                  child: Image.asset(
-                    "assets/images/applied_math.png",
-                    fit: BoxFit.cover,
-                  ),
-                )),
+            // ClipRRect(
+            //     borderRadius: const BorderRadius.only(
+            //       topLeft: Radius.circular(10.0),
+            //       bottomLeft: Radius.circular(10.0),
+            //     ),
+            //     child: SizedBox(
+            //       width: 70,
+            //       height: 70,
+            //       child: Image.asset(
+            //         "assets/images/applied_math.png",
+            //         fit: BoxFit.cover,
+            //       ),
+            //     )),
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.fromLTRB(6.0, 10.0, 15, 8.0),
@@ -47,7 +52,7 @@ class ChapterQuizTile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Introduction to chemistry",
+                            quiz.title,
                             style: textTh.labelMedium!.copyWith(
                               fontWeight: FontWeight.w600,
                             ),

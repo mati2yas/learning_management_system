@@ -267,6 +267,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
 
   @override
   void dispose() {
+    
     super.dispose();
   }
 

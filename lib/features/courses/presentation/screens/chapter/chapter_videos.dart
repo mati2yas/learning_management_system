@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
-import 'package:lms_system/core/utils/youtube_helper.dart';
 import 'package:lms_system/features/courses/provider/chapter_videos_index.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -40,8 +39,8 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
             Center(
               child: Container(
                 alignment: Alignment.center,
-                height: size.height * 0.3,
-                width: size.width * 0.8,
+                height: size.height * 0.4,
+                width: size.width * 0.9,
                 decoration: BoxDecoration(
                   border: Border.all(
                     width: 1,
@@ -49,26 +48,37 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
                   ),
                   borderRadius: BorderRadius.circular(15),
                 ),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
                     YoutubePlayer(
+                      bottomActions: const [
+                        CurrentPosition(),
+                        ProgressBar(isExpanded: true),
+                        CurrentPosition(),
+                        PlayPauseButton(),
+                        FullScreenButton(),
+                      ],
                       controller: ytCtrl,
                       showVideoProgressIndicator: true,
                       progressIndicatorColor: AppColors.mainBlue,
                       progressColors: ProgressBarColors(
                         playedColor: AppColors.mainBlue,
-                        handleColor: AppColors.mainBlue.withOpacity(0.6),
+                        handleColor: AppColors.mainBlue.withValues(alpha: 0.6),
+                      ),
+                    ),
+                    // Row(children: [
+                    //   IconButton(onPressed: (){}, icon: Icons.)
+                    // ],),
+                    Text(
+                      widget.video.title,
+                      style: textTh.bodyLarge!.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
-            Text(
-              widget.video.title,
-              style: textTh.bodyLarge!.copyWith(
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
               ),
             ),
           ],
@@ -78,29 +88,34 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
   }
 
   @override
+  void dispose() {
+    ytCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
-
-    print("1. initstate starts");
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      print("2: ytcontrol inits");
-      ytCtrl = YoutubePlayerController(
-        flags: const YoutubePlayerFlags(
-          autoPlay: true,
-          mute: true,
-        ),
-        initialVideoId: YoutubeHelper.getVideoId(
-          widget.video.url,
-        ),
-      );
-      dynamic val;
-      ytCtrl.addListener(() {
-        Duration dur = ytCtrl.value.position;
-        if (seconds < dur.inSeconds) {
-          seconds = dur.inSeconds;
-        }
-        print("$seconds out of ${ytCtrl.value.metaData.duration}");
-      });
+    String url;
+    url = widget.video.url;
+    print("2: ytcontrol inits");
+    ytCtrl = YoutubePlayerController(
+      flags: const YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+        showLiveFullscreenButton: false,
+      ),
+      initialVideoId: YoutubePlayer.convertUrlToId(url) ?? "",
+    );
+    dynamic val;
+    ytCtrl.addListener(() {
+      // Duration dur = ytCtrl.value.position;
+      // if (seconds < dur.inSeconds) {
+      //   seconds = dur.inSeconds;
+      // }
+      print("$seconds out of ${ytCtrl.value.metaData.duration}");
     });
+    print("1. initstate starts");
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
   }
 }

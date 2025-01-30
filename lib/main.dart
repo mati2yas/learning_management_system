@@ -19,13 +19,17 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.mainBlue),
-        useMaterial3: true,
-      ),
-      initialRoute: Routes.onboarding,
-      onGenerateRoute: Approuter.generateRoute,
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        return MaterialApp(
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: AppColors.mainBlue),
+            useMaterial3: true,
+          ),
+          initialRoute: Routes.onboarding,
+          onGenerateRoute: Approuter.generateRoute,
+        );
+      }
     );
   }
 }

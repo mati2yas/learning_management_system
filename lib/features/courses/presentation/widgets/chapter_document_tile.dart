@@ -1,33 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/file_download_handler.dart';
-import 'package:lms_system/features/chapter_content/presentation/screens/chapter_document.view.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 
-class ChapterDocumentTile extends StatelessWidget {
+class ChapterDocumentTile extends ConsumerWidget {
   final Document document;
+  final Function callBack;
   const ChapterDocumentTile({
     super.key,
     required this.document,
+    required this.callBack,
   });
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     var textTh = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () async {
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => const ChapterDocumentView(
-        //         fileUrl:
-        //             "https://web.ung.edu/media/Chemistry2/Chemistry-LR.pdf"),
-        //   ),
-        // );
-        final encryptedFilePath = await openSecurePDF("");
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) =>
-                SecurePDFViewer(encryptedFilePath: encryptedFilePath),
-          ),
-        );
+        await callBack();
       },
       child: Card(
         margin: const EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),

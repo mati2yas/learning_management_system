@@ -113,29 +113,29 @@ class HomePage extends ConsumerWidget {
                       SizedBox(
                         height: 90,
                         width: double.infinity,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CategoryIndicator(
-                              title: "Marketing",
+                              title: "Lower Grades",
                               color: AppColors.courseCategoryColors[0],
                               image: "marketing_course.png",
                             ),
                             const SizedBox(width: 5),
                             CategoryIndicator(
-                              title: "Web Design",
+                              title: "High School",
                               color: AppColors.courseCategoryColors[1],
                               image: "web_design.png",
                             ),
                             const SizedBox(width: 5),
                             CategoryIndicator(
-                              title: "Freshman Courses",
+                              title: "University",
                               color: AppColors.courseCategoryColors[2],
                               image: "marketing_course.png",
                             ),
                             const SizedBox(width: 5),
                             CategoryIndicator(
-                              title: "Lower Grades",
+                              title: "Other Courses",
                               color: AppColors.courseCategoryColors[3],
                               image: "marketing_course.png",
                             ),

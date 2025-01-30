@@ -15,7 +15,8 @@ class ChapterContentDataSource {
   ChapterContentDataSource(this._dio);
 
   Future<ChapterContent> fetchChapterContent(String chapterId) async {
-    ChapterContent content = ChapterContent(videos: [], documents: []);
+    ChapterContent content =
+        ChapterContent(videos: [], documents: [], quizzes: []);
     int? statusCode;
     print("fetchChapterContent called");
     try {
