@@ -184,81 +184,85 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                     style: textTh.titleMedium!.copyWith(color: Colors.red),
                   ),
                 ),
-                data: (courses) => TabBarView(
-                  controller: tabController,
-                  children: filterGrades(category).map((grade) {
-                    // if (category == "university") {
-                    //   selectedCourses = courses
-                    //       .where((course) =>
-                    //           course.batch ==
-                    //           universityGrades[currentTabIndex ?? 0])
-                    //       .toList();
-                    // } else if (category == "high_school") {
-                    //   // selectedCourses = courses
-                    //   //     .where((course) =>
-                    //   //         course.grade ==
-                    //   //         highSchoolGrades[currentTabIndex ?? 0])
-                    //   //     .toList();
-                    //   // if (["Grade 11", "Grade 12"].contains(grade)) {
-                    //   //   selectedCourses = selectedCourses
-                    //   //       .where((course) => course.stream == dropDownValue)
-                    //   //       .toList();
-                    //   // }
-                    //   // Check if the list for the current tab is already populated
-                    //   if (highschoolTabCourses[grade]?.isEmpty ?? true) {
-                    //     var coursesForGrade = courses
-                    //         .where((course) => course.grade == grade)
-                    //         .toList();
+                data: (courses) {
+                  print("current category: $category");
+                  return TabBarView(
+                    controller: tabController,
+                    children: filterGrades(category).map((grade) {
+                      if (category == "university") {
+                        selectedCourses = courses
+                            .where((course) =>
+                                course.batch ==
+                                universityGrades[currentTabIndex ?? 0])
+                            .toList();
+                      } else if (category == "high_school") {
+                        // selectedCourses = courses
+                        //     .where((course) =>
+                        //         course.grade ==
+                        //         highSchoolGrades[currentTabIndex ?? 0])
+                        //     .toList();
+                        // if (["Grade 11", "Grade 12"].contains(grade)) {
+                        //   selectedCourses = selectedCourses
+                        //       .where((course) => course.stream == dropDownValue)
+                        //       .toList();
+                        // }
+                        // Check if the list for the current tab is already populated
+                        if (highschoolTabCourses[grade]?.isEmpty ?? true) {
+                          var coursesForGrade = courses
+                              .where((course) => course.grade == grade)
+                              .toList();
 
-                    //     // Apply stream filtering only for Grade 11 and 12
-                    //     if (["Grade 11", "Grade 12"].contains(grade)) {
-                    //       coursesForGrade = coursesForGrade
-                    //           .where((course) =>
-                    //               course.stream?.toLowerCase() ==
-                    //               dropDownValue?.toLowerCase())
-                    //           .toList();
-                    //     }
+                          // Apply stream filtering only for Grade 11 and 12
+                          if (["Grade 11", "Grade 12"].contains(grade)) {
+                            coursesForGrade = coursesForGrade
+                                .where((course) =>
+                                    course.stream?.toLowerCase() ==
+                                    dropDownValue?.toLowerCase())
+                                .toList();
+                          }
 
-                    //     highschoolTabCourses[grade] = coursesForGrade;
-                    //   }
+                          highschoolTabCourses[grade] = coursesForGrade;
+                          print(
+                              "highSchoolTabCourses[grade].length: ${highschoolTabCourses[grade]?.length ?? 0}");
+                        }
 
-                    //   selectedCourses = highschoolTabCourses[grade] ?? [];
-                    // } else if (category == "lower_grades") {
-                    //   selectedCourses = courses
-                    //       .where((course) =>
-                    //           course.grade == lowerGrades[currentTabIndex ?? 0])
-                    //       .toList();
-                    // } else {
-                    //   selectedCourses = courses;
-                    // }
-                    selectedCourses = getFilteredCourses(
-                        courses, category, grade, dropDownValue);
-                    return GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        childAspectRatio: 0.8,
-                        mainAxisExtent: 188,
-                      ),
-                      itemCount: selectedCourses.length,
-                      itemBuilder: (_, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            courseIdController
-                                .changeCourseId(selectedCourses[index].id);
-                            pageController.navigatePage(
-                              5,
-                              arguments: selectedCourses[index],
-                            );
-                          },
-                          child: CourseCard(course: selectedCourses[index]),
-                        );
-                      },
-                    );
-                  }).toList(),
-                ),
+                        selectedCourses = highschoolTabCourses[grade] ?? [];
+                      } else if (category == "lower_grades") {
+                        selectedCourses = courses
+                            .where((course) =>
+                                course.grade ==
+                                lowerGrades[currentTabIndex ?? 0])
+                            .toList();
+                      } else {
+                        selectedCourses = courses;
+                      }
+                      return GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: 0.8,
+                          mainAxisExtent: 188,
+                        ),
+                        itemCount: selectedCourses.length,
+                        itemBuilder: (_, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              courseIdController
+                                  .changeCourseId(selectedCourses[index].id);
+                              pageController.navigatePage(
+                                5,
+                                arguments: selectedCourses[index],
+                              );
+                            },
+                            child: CourseCard(course: selectedCourses[index]),
+                          );
+                        },
+                      );
+                    }).toList(),
+                  );
+                },
               )),
         );
       }),
@@ -267,7 +271,6 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
 
   @override
   void dispose() {
-    
     super.dispose();
   }
 

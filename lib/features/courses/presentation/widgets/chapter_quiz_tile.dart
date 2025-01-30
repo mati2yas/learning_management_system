@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lms_system/features/quiz/presentation/quiz_questions_screen.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 
 import '../../../../core/constants/colors.dart';
@@ -59,7 +60,7 @@ class ChapterQuizTile extends StatelessWidget {
                           ),
                           const SizedBox(height: 15),
                           SizedBox(
-                            width: size.width * 0.8,
+                            width: size.width * 0.1,
                             child: const LinearProgressIndicator(
                               value: 0.8,
                               color: AppColors.mainBlue,
@@ -78,7 +79,7 @@ class ChapterQuizTile extends StatelessWidget {
                               ),
                               const SizedBox(width: 5),
                               Text(
-                                "100 questions",
+                                "${quiz.numOfQuestions} questions",
                                 style: textTh.labelMedium!.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -103,7 +104,14 @@ class ChapterQuizTile extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 5),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    QuizQuestionsPage(quiz: quiz),
+                              ),
+                            );
+                          },
                           child: const Text(
                             "Take",
                             style: TextStyle(fontSize: 12),

@@ -94,7 +94,8 @@ class CourseCardWithImage extends ConsumerWidget {
             //  course.image,
             // ),
             child: Image.network(
-              height: 100,
+              height: 80,
+              width: double.infinity,
               "${ApiConstants.imageBaseUrl}/${course.image}", //?? "",
               fit: BoxFit.cover,
               loadingBuilder: (BuildContext context, Widget child,
@@ -103,7 +104,11 @@ class CourseCardWithImage extends ConsumerWidget {
                   return child;
                 }
                 return Image.asset(
-                    fit: BoxFit.cover, "assets/images/applied_math.png");
+                  fit: BoxFit.cover,
+                  "assets/images/applied_math.png",
+                  height: 80,
+                  width: double.infinity,
+                );
               },
               errorBuilder:
                   (BuildContext context, Object error, StackTrace? stackTrace) {
@@ -111,6 +116,7 @@ class CourseCardWithImage extends ConsumerWidget {
 
                 return Image.asset(
                     height: 80,
+                    width: double.infinity,
                     fit: BoxFit.cover,
                     "assets/images/applied_math.png");
               },

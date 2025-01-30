@@ -14,7 +14,7 @@ class ChapterContent {
   static ChapterContent fromJson(Map<String, dynamic> json) {
     List<Video> vids = [];
     List<Document> docs = [];
-    List<Quiz> quis = [];
+    List<Quiz> quizs = [];
     for (var vid in json["videos"]) {
       vids.add(
         Video(
@@ -33,14 +33,18 @@ class ChapterContent {
     }
 
     for (var quiz in json["quizzes"]) {
-      quis.add(
-        Quiz(id: quiz["id"].toString(), title: quiz['title']),
+      quizs.add(
+        Quiz(
+          id: quiz["id"].toString(),
+          title: quiz['title'],
+          numOfQuestions: quiz['number_of_questions'],
+        ),
       );
     }
     return ChapterContent(
       videos: vids,
       documents: docs,
-      quizzes: quis,
+      quizzes: quizs,
     );
   }
 }

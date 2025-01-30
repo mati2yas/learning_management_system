@@ -37,12 +37,14 @@ class Document {
 class Quiz {
   final String id;
   final String title;
+  final int numOfQuestions;
   List<Question> questions;
 
   Quiz({
     required this.id,
     required this.title,
     this.questions = const [],
+    required this.numOfQuestions,
   });
 }
 

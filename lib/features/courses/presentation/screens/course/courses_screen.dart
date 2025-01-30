@@ -120,6 +120,7 @@ class CoursePage extends ConsumerWidget {
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
                 childAspectRatio: getResponsiveChildAspectRatio(size),
+                mainAxisExtent: 188,
               ),
               itemBuilder: (_, index) {
                 return GestureDetector(

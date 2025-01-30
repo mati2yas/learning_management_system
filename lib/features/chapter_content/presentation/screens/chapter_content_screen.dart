@@ -185,36 +185,73 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
             ),
           ),
           data: (chapterContent) {
-            return TabBarView(
-              //controller: controller,
+            return Stack(
               children: [
-                VideosListView(videos: chapterContent.videos),
-                //DocumentsListView(documents: chapterContent.documents),
-                ListView.builder(
-                  padding: const EdgeInsets.all(12),
-                  itemCount: chapterContent.documents.length,
-                  itemBuilder: (context, index) => ChapterDocumentTile(
-                    document: chapterContent.documents[index],
-                    callBack: () async {
-                      var docProcessor = ref.read(documentProvider.notifier);
-                      const urll =
-                          "https://www.cs.umd.edu/~atif/Teaching/Spring2011/Slides/8.pdf";
+                TabBarView(
+                  //controller: controller,
+                  children: [
+                    VideosListView(videos: chapterContent.videos),
+                    //DocumentsListView(documents: chapterContent.documents),
+                    ListView.builder(
+                      padding: const EdgeInsets.all(12),
+                      itemCount: chapterContent.documents.length,
+                      itemBuilder: (context, index) => ChapterDocumentTile(
+                        document: chapterContent.documents[index],
+                        callBack: () async {
+                          var docProcessor =
+                              ref.read(documentProvider.notifier);
+                          const urll =
+                              "https://www.cs.umd.edu/~atif/Teaching/Spring2011/Slides/8.pdf";
 
-                      await docProcessor.processPDF(urll);
+                          await docProcessor.processPDF(urll);
 
-                      if (context.mounted) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const SecurePDFViewer(),
-                          ),
-                        );
-                      }
-                    },
+                          if (context.mounted) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const SecurePDFViewer(),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    QuizzesListView(
+                      quizzes: chapterContent.quizzes,
+                    ),
+                  ],
+                ),
+                if ([
+                  DocumentStatus.downloading,
+                  DocumentStatus.encrypting,
+                  DocumentStatus.decrypting
+                ].contains(documentState.status)) ...[
+                  Container(
+                    height: size.height,
+                    width: size.width,
+                    color: Colors.black.withOpacity(0.3),
                   ),
-                ),
-                QuizzesListView(
-                  quizzes: chapterContent.quizzes,
-                ),
+                  const Center(
+                    child: SizedBox(
+                      width: 200,
+                      height: 100,
+                      child: Column(
+                        spacing: 10,
+                        children: [
+                          CircularProgressIndicator(
+                            color: AppColors.mainBlue,
+                          ),
+                          Text(
+                            "Preparing Document...",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: AppColors.mainBlue,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ]
               ],
             );
           },
