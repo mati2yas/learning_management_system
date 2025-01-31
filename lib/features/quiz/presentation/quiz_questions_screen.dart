@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_layout.dart';
 import 'package:lms_system/features/exams/provider/timer_provider.dart';
-import 'package:lms_system/features/shared/model/chapter.dart';
+
+import '../model/quiz_model.dart';
+import '../provider/quiz_provider.dart';
 
 class QuizQuestionsPage extends ConsumerStatefulWidget {
   final Quiz quiz;
@@ -21,12 +22,13 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
   PageController pageViewController = PageController();
   //PageNavigationController pageNavController = PageNavigationController();
   int middleExpandedFlex = 2;
-  int currentQuestion = 0;
+  //int currentQuestion = 0;
   int previousScreen =
       3; // we use wrapper screen index to track which screen we navigated from
   String examTitle = "", examYear = "";
+  bool allQuestionsAnswered = false;
   //Map<String, dynamic> examData = {};
-  List<Question> questions = [];
+  List<Questions>? questions = [];
   List<String> selectedAnswers = [];
   List<String> correctAnswers = [];
   List<bool> questionContainsImage = [];
@@ -39,25 +41,28 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
     final timerAsyncValue = ref.watch(examTimerProvider);
-    middleExpandedFlex = questions.isNotEmpty &&
-            questions[currentQuestionImageTrack].image == null
+    middleExpandedFlex = (questions?.isNotEmpty ?? false) &&
+            (questions?[currentQuestionImageTrack].imageExplanationUrl == "" ||
+                questions?[currentQuestionImageTrack].imageExplanationUrl ==
+                    null)
         ? 2
         : 4;
 
+    final apiState = ref.watch(quizProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            // reset timer and the go back to previous screen
-            // ref.read(examTimerProvider.notifier).resetTimer();
-            // pageNavController.navigatePage(previousScreen);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
+        // leading: IconButton(
+        //   onPressed: () {
+        //     // reset timer and the go back to previous screen
+        //     // ref.read(examTimerProvider.notifier).resetTimer();
+        //     // pageNavController.navigatePage(previousScreen);
+        //   },
+        //   icon: const Icon(
+        //     Icons.arrow_back,
+        //     color: Colors.black,
+        //   ),
+        // ),
         title: Column(
           children: [
             Text(
@@ -87,30 +92,34 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
         shadowColor: Colors.black87,
         backgroundColor: Colors.white,
       ),
-      body: initializingPage
-          ? const Center(
-              child: SizedBox(
-                width: 60,
-                height: 60,
-                child: CircularProgressIndicator(
-                  color: AppColors.mainBlue,
-                  strokeWidth: 5,
-                ),
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 18.0,
-                horizontal: 12,
-              ),
-              child: SizedBox(
-                width: size.width,
-                height: size.height,
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      width: size.width,
-                      height: size.height * 0.8,
+      body: apiState.when(
+        loading: () => const Center(
+          child: CircularProgressIndicator(
+            color: AppColors.mainBlue,
+            strokeWidth: 5,
+          ),
+        ),
+        error: (error, stack) => Center(
+          child: Text(
+            error.toString(),
+            style: textTh.titleMedium!.copyWith(color: Colors.red),
+          ),
+        ),
+        data: (quiz) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 18.0,
+              horizontal: 12,
+            ),
+            child: SizedBox(
+              width: size.width,
+              height: size.height,
+              child: Stack(
+                children: [
+                  SizedBox(
+                    width: size.width,
+                    height: size.height * 0.8,
+                    child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -119,35 +128,45 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                             child: PageView.builder(
                               scrollDirection: Axis.horizontal,
                               controller: pageViewController,
-                              itemCount: questions.length,
+                              itemCount: questions?.length ?? 0,
                               itemBuilder: (_, index) {
-                                var currentQuestion = questions[index];
+                                var currentQuestionItem = questions?[index];
                                 bool answerRevealed = middleExpandedFlex > 2;
-
+                                if (index == (questions?.length ?? 1) - 1) {
+                                  allQuestionsAnswered = selectedAnswers
+                                      .every((answer) => answer.isNotEmpty);
+                                }
                                 return Column(
                                   children: [
-                                    if (currentQuestion.image != null)
+                                    // if (currentQuestionItem
+                                    //         ?.imageExplanationUrl !=
+                                    //     null)
+                                    if (questionContainsImage[index])
                                       SizedBox(
                                         width: size.width * 0.8,
                                         height: 150,
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          child: Image.asset(
-                                            "assets/images/${currentQuestion.image}",
+                                          child: Image.network(
+                                            //"assets/images/${currentQuestion.imageExplanationUrl}",
+                                            currentQuestionItem
+                                                    ?.imageExplanationUrl ??
+                                                "",
                                             fit: BoxFit.cover,
                                           ),
                                         ),
                                       ),
+                                    const SizedBox(width: 5),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        "${currentQuestion.sequenceOrder}. ${currentQuestion.question}",
+                                        "${currentQuestionItem?.questionNumber ?? "q.NO"}. ${currentQuestionItem?.text ?? "q. txt"}",
                                         style: const TextStyle(fontSize: 15),
                                       ),
                                     ),
                                     const SizedBox(height: 10),
-                                    ...currentQuestion.options.map((op) {
+                                    ...currentQuestionItem!.options!.map((op) {
                                       return Padding(
                                         padding:
                                             const EdgeInsets.only(left: 20),
@@ -196,7 +215,8 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                       Padding(
                                         padding: const EdgeInsets.all(12.0),
                                         child: Text(
-                                          currentQuestion.answer,
+                                          currentQuestionItem.answer?.first ??
+                                              "No Answer",
                                           style: textTh.bodyLarge,
                                         ),
                                       ),
@@ -216,7 +236,9 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                                 BorderRadius.circular(18),
                                           ),
                                           child: Text(
-                                            currentQuestion.explanation,
+                                            currentQuestionItem
+                                                    .textExplanation ??
+                                                "No TextExplanation",
                                             style: textTh.bodySmall,
                                           ),
                                         ),
@@ -230,65 +252,113 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                         ],
                       ),
                     ),
-                    Positioned(
-                      bottom: 80,
-                      child: SizedBox(
-                        width: size.width,
-                        height: 50,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                elevation: 4,
-                              ),
-                              onPressed: () {
-                                if (currentQuestionImageTrack > 0) {
-                                  setState(() {
-                                    currentQuestionImageTrack--;
-                                  });
-                                  pageViewController.previousPage(
-                                    duration: const Duration(milliseconds: 850),
-                                    curve: Curves.decelerate,
-                                  );
-                                }
-                              },
-                              child: const Text(
-                                "Previous",
-                                style: TextStyle(color: Colors.black),
-                              ),
+                  ),
+                  Positioned(
+                    bottom: 30,
+                    child: SizedBox(
+                      width: size.width,
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              elevation: 4,
                             ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.mainBlue,
-                                elevation: 4,
-                              ),
-                              onPressed: () {
-                                if (currentQuestionImageTrack <
-                                    questions.length - 1) {
-                                  setState(() {
-                                    currentQuestionImageTrack++;
-                                  });
-                                  pageViewController.nextPage(
-                                    duration: const Duration(milliseconds: 850),
-                                    curve: Curves.decelerate,
-                                  );
-                                }
-                              },
-                              child: const Text(
-                                "Next",
-                                style: TextStyle(color: Colors.white),
-                              ),
+                            onPressed: () {
+                              if (currentQuestionImageTrack > 0) {
+                                setState(() {
+                                  currentQuestionImageTrack--;
+                                });
+                                pageViewController.previousPage(
+                                  duration: const Duration(milliseconds: 850),
+                                  curve: Curves.decelerate,
+                                );
+                              }
+                            },
+                            child: const Text(
+                              "Previous",
+                              style: TextStyle(color: Colors.black),
                             ),
-                          ],
-                        ),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.mainBlue,
+                              elevation: 4,
+                            ),
+                            onPressed: () {
+                              if (currentQuestionImageTrack <
+                                  (questions?.length ?? 0) - 1) {
+                                setState(() {
+                                  currentQuestionImageTrack++;
+                                });
+                                pageViewController.nextPage(
+                                  duration: const Duration(milliseconds: 850),
+                                  curve: Curves.decelerate,
+                                );
+                              } else if (allQuestionsAnswered) {
+                                submitExam();
+                                int rightAnswers = 0;
+                                for (var qs in questions!) {
+                                  for (var ans in selectedAnswers) {
+                                    if (qs.answer?[0] == ans) {
+                                      rightAnswers++;
+                                    }
+                                  }
+                                }
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Exam Results'),
+                                    content: Text(
+                                      "You got $rightAnswers out of ${questions?.length ?? 0} Questions right.",
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(),
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Incomplete Exam'),
+                                    content: const Text(
+                                        'Please answer all questions before submitting.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(),
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text(
+                              currentQuestionImageTrack ==
+                                      (questions?.length ?? 0) - 1
+                                  ? 'Submit Exam'
+                                  : 'Next',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+          );
+        },
+      ),
     );
   }
 
@@ -302,18 +372,25 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
       //     pageNavController.getArgumentsForPage(6) as Map<String, dynamic>;
 
       setState(() {
-        examTitle = widget.quiz.title;
+        examTitle = widget.quiz.title ?? "QuizTitle";
         //examYear = examData["exam year"]!;
         questions = widget.quiz.questions;
+        if (questions != null) {
+          // questions!.add(questions![0]);
+          // questions!.add(questions![0]);
+          // questions!.add(questions![0]);
+        }
         //previousScreen = examData["previusScreen"]! as int;
 
-        correctAnswers = List.generate(questions.length, (index) => "");
-        selectedAnswers = List.generate(questions.length, (index) => "");
+        correctAnswers = List.generate((questions?.length ?? 0),
+            (index) => questions?[index].answer?.first ?? "no answer");
+        selectedAnswers =
+            List.generate((questions?.length ?? 1), (index) => "");
 
-        for (var question in questions) {
-          int index = questions.indexOf(question);
-          correctAnswers[index] = question.answer;
-          questionContainsImage.add(question.image == null);
+        for (var question in questions!) {
+          int index = questions!.indexOf(question);
+          correctAnswers[index] = question.answer!.first;
+          questionContainsImage.add(question.imageExplanationUrl != null);
         }
         initializingPage = false;
 
@@ -321,6 +398,8 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
       });
     });
   }
+
+  void submitExam() {}
 
   // this tracks the state of the layout config object
   // based on the current pageview index.
@@ -336,7 +415,8 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
   void trackLayoutConfig() {
     double current = pageViewController.page ?? 0;
     int currentIndex = current.toInt();
-    layoutConfig.imageExists = questions[currentIndex].image != null;
+    layoutConfig.imageExists =
+        questions![currentIndex].imageExplanationUrl != null;
     layoutConfig.answerRevealed = false;
     print("current page: $currentIndex");
     print(

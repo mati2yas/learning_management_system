@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/constants/colors.dart';
 
@@ -28,7 +31,7 @@ class _ProfileAddScreenState extends State<ProfileAddScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Welcome Abebe',
+                'Welcome $name',
                 style: textTh.headlineMedium!.copyWith(
                   fontWeight: FontWeight.w800,
                 ),
@@ -164,5 +167,18 @@ class _ProfileAddScreenState extends State<ProfileAddScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> getUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+    var stringVal = prefs.getString("userData") ?? "{}";
+    var mapVal = jsonDecode(stringVal);
+    name = mapVal["name"]!;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserName();
   }
 }

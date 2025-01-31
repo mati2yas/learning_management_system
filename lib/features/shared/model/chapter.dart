@@ -1,5 +1,5 @@
 import 'package:lms_system/features/chapter_content/model/chapter_content_model.dart';
-import 'package:lms_system/features/exams/model/exams_model.dart';
+//import 'package:lms_system/features/exams/model/exams_model.dart';
 
 class Chapter {
   final String title, name, id;
@@ -34,20 +34,27 @@ class Document {
   });
 }
 
-class Quiz {
-  final String id;
-  final String title;
-  final int numOfQuestions;
-  List<Question> questions;
+// class Quiz {
+//   final String id;
+//   final String title;
+//   final int numOfQuestions;
+//   List<Question> questions;
 
-  Quiz({
-    required this.id,
-    required this.title,
-    this.questions = const [],
-    required this.numOfQuestions,
-  });
-}
+//   Quiz({
+//     required this.id,
+//     required this.title,
+//     this.questions = const [],
+//     required this.numOfQuestions,
+//   });
 
+//   factory Quiz.fromJson(Map<String, dynamic> json) {
+//     return Quiz();
+//   }
+// }
+
+// class Question {
+
+// }
 class Video {
   final String url;
   final String title;

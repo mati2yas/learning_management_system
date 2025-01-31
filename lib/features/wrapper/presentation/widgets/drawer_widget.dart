@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -54,7 +55,8 @@ class CustomDrawer extends StatelessWidget {
             // ),
             ListTileButton(
               onTap: () {
-                Navigator.of(context).pushNamed(Routes.notifications);
+                //Navigator.of(context).pushNamed(Routes.notifications);
+                Navigator.of(context).pushNamed(Routes.login);
               },
               iconData: Icons.notifications_outlined,
               titleText: "Notification",
@@ -75,6 +77,14 @@ class CustomDrawer extends StatelessWidget {
               onTap: () {},
               iconData: Icons.phone_outlined,
               titleText: "Contact",
+            ),
+            ListTileButton(
+              onTap: () async {
+                final prefs = await SharedPreferences.getInstance();
+                prefs.remove("userData");
+              },
+              iconData: Icons.logout_outlined,
+              titleText: "logout",
             ),
           ],
         ),

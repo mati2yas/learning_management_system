@@ -12,6 +12,7 @@ import 'package:lms_system/features/shared/model/chapter.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 
 import '../../../document_viewer/provider/document_viewer_provider.dart';
+import '../../../quiz/model/quiz_model.dart';
 
 class ChapterContentScreen extends ConsumerStatefulWidget {
   final Chapter chapter;

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,15 +22,18 @@ class LoginDataSource {
       statusCode = response.statusCode;
 
       if (response.statusCode == 200) {
-        final token = response.data['token'];
-        final user = response.data['data']['user'];
-        var name = user["name"];
+        if (response.data["is_verified"] == false) {
+          throw Exception("Email not verified");
+        }
+        //final token = response.data['token'] ?? "";
+        //final user = response.data['data']['user'] ?? "";
+        //var name = user["name"];
 
         final prefs = await SharedPreferences.getInstance();
         final valueData = jsonEncode({
-          "name": "\"$name\"",
+          "name": "\"$email\"",
           "email": "\"$email\"",
-          "token": "\"$token\"",
+          "token": "\"$password\"",
           "password": "\"$password\"",
         });
 
@@ -42,7 +44,7 @@ class LoginDataSource {
 
         // // Save the JSON string
       } else {
-        throw Exception('Failed to register user');
+        throw Exception('Failed to login: Unknown error');
       }
     } on DioException catch (e) {
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);

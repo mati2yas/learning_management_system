@@ -1,5 +1,7 @@
 import 'package:lms_system/features/shared/model/chapter.dart';
 
+import '../../quiz/model/quiz_model.dart';
+
 class ChapterContent {
   final List<Video> videos;
   final List<Document> documents;
@@ -35,9 +37,9 @@ class ChapterContent {
     for (var quiz in json["quizzes"]) {
       quizs.add(
         Quiz(
-          id: quiz["id"].toString(),
+          id: quiz["id"],
           title: quiz['title'],
-          numOfQuestions: quiz['number_of_questions'],
+          numberOfQuestions: quiz['number_of_questions'],
         ),
       );
     }

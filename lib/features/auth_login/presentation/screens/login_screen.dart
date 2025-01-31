@@ -26,6 +26,7 @@ class LoginScreen extends ConsumerWidget {
       backgroundColor: Colors.white,
       body: LayoutBuilder(builder: (context, constraints) {
         return SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 40),
           child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: constraints.maxHeight,
@@ -45,7 +46,7 @@ class LoginScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Phone Number',
+                      'Email',
                       style: textTh.bodyLarge!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -125,19 +126,35 @@ class LoginScreen extends ConsumerWidget {
                               }
                             } catch (e) {
                               if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    elevation: 4,
-                                    backgroundColor: Colors.white,
-                                    behavior: SnackBarBehavior.floating,
-                                    content: Text(
-                                      "Login Failed: $e",
-                                      style: const TextStyle(
-                                        color: Colors.red,
+                                if (e.toString() == "Email not verified") {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      elevation: 4,
+                                      backgroundColor: Colors.white,
+                                      behavior: SnackBarBehavior.floating,
+                                      content: Text(
+                                        "Login Failed: $e",
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      elevation: 4,
+                                      backgroundColor: Colors.white,
+                                      behavior: SnackBarBehavior.floating,
+                                      content: Text(
+                                        "Login Failed: $e",
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
                               }
                             }
                           }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lms_system/features/exams/provider/timer_provider.dart';
 import 'package:lms_system/features/quiz/presentation/quiz_questions_screen.dart';
-import 'package:lms_system/features/shared/model/chapter.dart';
+import 'package:lms_system/features/quiz/provider/quiz_provider.dart';
 
 import '../../../../core/constants/colors.dart';
+import '../../../quiz/model/quiz_model.dart';
 
-class ChapterQuizTile extends StatelessWidget {
+class ChapterQuizTile extends ConsumerWidget {
   final Quiz quiz;
   const ChapterQuizTile({
     super.key,
@@ -13,7 +16,7 @@ class ChapterQuizTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
     return Card(
@@ -53,7 +56,7 @@ class ChapterQuizTile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            quiz.title,
+                            quiz.title!,
                             style: textTh.labelMedium!.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
@@ -79,7 +82,7 @@ class ChapterQuizTile extends StatelessWidget {
                               ),
                               const SizedBox(width: 5),
                               Text(
-                                "${quiz.numOfQuestions} questions",
+                                "${quiz.numberOfQuestions ?? 0} questions",
                                 style: textTh.labelMedium!.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -104,11 +107,16 @@ class ChapterQuizTile extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 5),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            Quiz quize = await ref
+                                .read(quizProvider.notifier)
+                                .fetchQuizData();
+                            ref.read(examTimerProvider.notifier).resetTimer();
+
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    QuizQuestionsPage(quiz: quiz),
+                                    QuizQuestionsPage(quiz: quize),
                               ),
                             );
                           },

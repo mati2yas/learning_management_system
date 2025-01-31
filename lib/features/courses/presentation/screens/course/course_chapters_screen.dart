@@ -5,7 +5,6 @@ import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/chapter_content/provider/current_chapter_id_provider.dart';
 import 'package:lms_system/features/courses/presentation/widgets/capter_tile.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
-import 'package:lms_system/features/courses/provider/current_course_id.dart';
 
 import '../../../../wrapper/provider/wrapper_provider.dart';
 
@@ -27,7 +26,6 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
     // 5 cause the 5th page in the wrapper screen pages list
     //final courseIdcurrent = ref.watch(currentCourseIdProvider);
     final apiState = ref.watch(courseChaptersProvider);
-    
 
     final currentChapterId = ref.watch(currentChapterIdProvider);
     return Scaffold(
@@ -53,16 +51,25 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
             style: textTh.titleMedium!.copyWith(color: Colors.red),
           ),
         ),
-        data: (chapters) => ListView.separated(
-          itemCount: chapters.length,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          itemBuilder: (_, index) {
-            return ChapterTile(chapter: chapters[index]);
-          },
-          separatorBuilder: (_, index) => const SizedBox(
-            height: 15,
-          ),
-        ),
+        data: (chapters) => chapters.isEmpty
+            ? Center(
+                child: Text(
+                  "No Chapters for this course yet.",
+                  style:
+                      textTh.bodyLarge!.copyWith(fontWeight: FontWeight.w700),
+                ),
+              )
+            : ListView.separated(
+                itemCount: chapters.length,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                itemBuilder: (_, index) {
+                  return ChapterTile(chapter: chapters[index]);
+                },
+                separatorBuilder: (_, index) => const SizedBox(
+                  height: 15,
+                ),
+              ),
       ),
     );
   }
