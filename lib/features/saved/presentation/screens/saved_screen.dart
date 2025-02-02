@@ -1,167 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
-import 'package:lms_system/features/shared/model/shared_course_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/features/saved/provider/saved_provider.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
+import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-import '../../../shared/model/chapter.dart';
 import '../widgets/courses_list.dart';
 
-class SavedCoursesPage extends StatefulWidget {
+class SavedCoursesPage extends ConsumerStatefulWidget {
   const SavedCoursesPage({super.key});
 
   @override
-  State<SavedCoursesPage> createState() => _SavedCoursesPageState();
+  ConsumerState<SavedCoursesPage> createState() => _SavedCoursesPageState();
 }
 
-class _SavedCoursesPageState extends State<SavedCoursesPage> {
+class _SavedCoursesPageState extends ConsumerState<SavedCoursesPage> {
   List<String> categories = ["All", "University", "High School", "Lower Grade"];
-  List<Course> courses = [
-    Course(
-      id: "0",
-      title: "Marketing Course",
-      topics: 12,
-      category: "",
-      saves: 15,
-      likes: 12,
-      price: {
-        SubscriptionType.oneMonth: 30.0,
-        SubscriptionType.threeMonths: 90.0,
-        SubscriptionType.sixMonths: 120.0,
-        SubscriptionType.yearly: 3600.0,
-      },
-      liked: false,
-      image: "marketing_course.png",
-      progress: 13,
-      chapters: [
-        Chapter(
-          name: "Chapter 2",
-          title: "Introduction to Web Design",
-          videos: [
-            Video(url: "What is Web Design?", title: "10:23"),
-            Video(url: "Tools for Web Design", title: "15:45"),
-          ],
-        ),
-        Chapter(
-          name: "Chapter 2",
-          title: "HTML Basics",
-          videos: [
-            Video(url: "HTML Structure", title: "12:34"),
-            Video(url: "HTML Tags", title: "18:50"),
-          ],
-        ),
-      ],
-    ),
-    Course(
-      id: "1",
-      title: "Web Design",
-      category: "",
-      topics: 12,
-      saves: 15,
-      likes: 8,
-      price: {
-        SubscriptionType.oneMonth: 82.0,
-        SubscriptionType.threeMonths: 246.0,
-        SubscriptionType.sixMonths: 492.0,
-        SubscriptionType.yearly: 984.0,
-      },
-      liked: false,
-      image: "web_design.png",
-      progress: 28,
-      chapters: [
-        Chapter(
-          name: "Chapter 2",
-          title: "Introduction to Web Design",
-          videos: [
-            Video(url: "What is Web Design?", title: "10:23"),
-            Video(url: "Tools for Web Design", title: "15:45"),
-          ],
-        ),
-        Chapter(
-          name: "Chapter 2",
-          title: "HTML Basics",
-          videos: [
-            Video(url: "HTML Structure", title: "12:34"),
-            Video(url: "HTML Tags", title: "18:50"),
-          ],
-        ),
-      ],
-    ),
-    Course(
-      id: "2",
-      title: "Marketing Course",
-      category: "",
-      topics: 12,
-      saves: 15,
-      likes: 4,
-      price: {
-        SubscriptionType.oneMonth: 72.0,
-        SubscriptionType.threeMonths: 216.0,
-        SubscriptionType.sixMonths: 432.0,
-        SubscriptionType.yearly: 864.0,
-      },
-      liked: true,
-      image: "marketing_course.png",
-      progress: 13,
-      chapters: [
-        Chapter(
-          name: "Chapter 2",
-          title: "Introduction to Web Design",
-          videos: [
-            Video(url: "What is Web Design?", title: "10:23"),
-            Video(url: "Tools for Web Design", title: "15:45"),
-          ],
-        ),
-        Chapter(
-          name: "Chapter 2",
-          title: "HTML Basics",
-          videos: [
-            Video(url: "HTML Structure", title: "12:34"),
-            Video(url: "HTML Tags", title: "18:50"),
-          ],
-        ),
-      ],
-    ),
-    Course(
-      id: "3",
-      title: "Marketing Course",
-      topics: 12,
-      category: "",
-      saves: 15,
-      likes: 2,
-      liked: false,
-      price: {
-        SubscriptionType.oneMonth: 49.0,
-        SubscriptionType.threeMonths: 147.0,
-        SubscriptionType.sixMonths: 294.0,
-        SubscriptionType.yearly: 588.0,
-      },
-      image: "marketing_course.png",
-      progress: 13,
-      chapters: [
-        Chapter(
-          name: "Chapter 2",
-          title: "Introduction to Web Design",
-          videos: [
-            Video(url: "What is Web Design?", title: "10:23"),
-            Video(url: "Tools for Web Design", title: "15:45"),
-          ],
-        ),
-        Chapter(
-          name: "Chapter 2",
-          title: "HTML Basics",
-          videos: [
-            Video(url: "HTML Structure", title: "12:34"),
-            Video(url: "HTML Tags", title: "18:50"),
-          ],
-        ),
-      ],
-    ),
-  ];
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
 
+    final pageController = ref.read(pageNavigationProvider.notifier);
+    final savedApiState = ref.watch(savedApiProvider);
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -185,10 +47,25 @@ class _SavedCoursesPageState extends State<SavedCoursesPage> {
             ),
           ),
         ),
-        body: CoursesListWidget(
-          courses: courses,
-          textTh: textTh,
-        ),
+        body: savedApiState.when(
+            loading: () => const Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.mainBlue,
+                    strokeWidth: 5,
+                  ),
+                ),
+            error: (error, stack) => Center(
+                  child: Text(
+                    error.toString(),
+                    style: textTh.titleMedium!.copyWith(color: Colors.red),
+                  ),
+                ),
+            data: (courses) {
+              return CoursesListWidget(
+                courses: courses,
+                textTh: textTh,
+              );
+            }),
       ),
     );
   }

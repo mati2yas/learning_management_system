@@ -25,7 +25,7 @@ class CourseCard extends ConsumerWidget {
     final requestsController = ref.watch(requestsProvider.notifier);
     return Container(
       width: double.infinity,
-      height: 160,
+      height: 180,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
@@ -56,6 +56,19 @@ class CourseCard extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               course.title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: AppColors.mainBlue,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              course.grade ?? "no grade",
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(

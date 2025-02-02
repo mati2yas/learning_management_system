@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'core/app_router.dart';
 import 'core/constants/colors.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
   runApp(
     const ProviderScope(child: MyApp()),
   );
@@ -19,17 +23,15 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return OrientationBuilder(
-      builder: (context, orientation) {
-        return MaterialApp(
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: AppColors.mainBlue),
-            useMaterial3: true,
-          ),
-          initialRoute: Routes.onboarding,
-          onGenerateRoute: Approuter.generateRoute,
-        );
-      }
-    );
+    return OrientationBuilder(builder: (context, orientation) {
+      return MaterialApp(
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.mainBlue),
+          useMaterial3: true,
+        ),
+        initialRoute: Routes.onboarding,
+        onGenerateRoute: Approuter.generateRoute,
+      );
+    });
   }
 }

@@ -13,6 +13,10 @@ class QuizDataSource {
   final Dio _dio;
   QuizDataSource(this._dio);
 
+  // Future<void> insertQuizScore(Quiz quiz, int score, int maxScore) async {
+  //   final db = await database;
+  // }
+
   Future<Quiz> fetchQuizData(String quizId) async {
     Quiz quiz = Quiz();
     int? statusCode;

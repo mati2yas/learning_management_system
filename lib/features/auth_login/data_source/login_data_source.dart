@@ -29,6 +29,7 @@ class LoginDataSource {
         //final user = response.data['data']['user'] ?? "";
         //var name = user["name"];
 
+        // TODO: fix the email thingy here. it shouldn't be email in the attribute of name
         final prefs = await SharedPreferences.getInstance();
         final valueData = jsonEncode({
           "name": "\"$email\"",

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:lms_system/features/shared/model/shared_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationStatusDataSource {
@@ -5,6 +8,8 @@ class RegistrationStatusDataSource {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear(); // Clear all registration data
   }
+
+  
 
   Future<bool> isUserRegistered() async {
     final prefs = await SharedPreferences.getInstance();

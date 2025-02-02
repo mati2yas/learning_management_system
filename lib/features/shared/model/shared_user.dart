@@ -9,4 +9,8 @@ class User {
     this.bio = "",
     this.image = "",
   });
+
+  static User initial() {
+    return User(name: "", lastName: "", email: "", password: "");
+  }
 }

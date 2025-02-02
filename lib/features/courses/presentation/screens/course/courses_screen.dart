@@ -104,7 +104,7 @@ class CoursePage extends ConsumerWidget {
           ),
           const SizedBox(height: 25),
           Text(
-            "Categories",
+            "Courses From All Categories",
             style: textTh.bodyLarge!.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -120,7 +120,7 @@ class CoursePage extends ConsumerWidget {
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
                 childAspectRatio: getResponsiveChildAspectRatio(size),
-                mainAxisExtent: 188,
+                mainAxisExtent: 200,
               ),
               itemBuilder: (_, index) {
                 return GestureDetector(

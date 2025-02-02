@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/features/auth_status_registration/provider/reg_status_repository_provider.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/course_chapters_screen.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/courses_screen.dart';
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
+import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_filters_screen.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_grade_filter.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_page.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
+import 'package:lms_system/features/shared/model/shared_user.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 
 import '../../../exams/presentation/screens/exams_screen.dart';
 import '../../provider/wrapper_provider.dart';
 import '../widgets/drawer_widget.dart';
+
+class Keys {
+  static final globalkey = GlobalKey<ScaffoldState>();
+}
 
 class NavItem extends StatelessWidget {
   final IconData icon;
@@ -80,12 +87,9 @@ class NavItem extends StatelessWidget {
     );
   }
 }
-class Keys {
-  static final globalkey = GlobalKey<ScaffoldState>();
-}
-class WrapperScreen extends ConsumerWidget {
 
-  WrapperScreen({super.key});
+class WrapperScreen extends ConsumerWidget {
+  const WrapperScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentPage = ref.watch(pageNavigationProvider);
@@ -107,6 +111,7 @@ class WrapperScreen extends ConsumerWidget {
     ];
     if (currentPage == 0) {
       ref.read(homeScreenApiProvider.notifier).build();
+      ref.read(currentUserProvider.notifier).build();
     }
     return SafeArea(
       child: Scaffold(
@@ -138,7 +143,9 @@ class WrapperScreen extends ConsumerWidget {
                         children: [
                           NavItem(
                             icon: Icons.home_outlined,
-                            onTap: () => pageController.navigatePage(0),
+                            onTap: () async {
+                              pageController.navigatePage(0);
+                            },
                             label: "Home",
                             isCurr: currentPage == 0,
                             ref: ref,
@@ -153,7 +160,7 @@ class WrapperScreen extends ConsumerWidget {
                           NavItem(
                             icon: Icons.bookmark_outline,
                             onTap: () => pageController.navigatePage(2),
-                            label: "Saved",
+                            label: "My Courses",
                             isCurr: currentPage == 2,
                             ref: ref,
                           ),

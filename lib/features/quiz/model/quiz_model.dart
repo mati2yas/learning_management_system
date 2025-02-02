@@ -94,3 +94,29 @@ class Quiz {
     return data;
   }
 }
+
+class QuizScore {
+  int quizId;
+  int score;
+  QuizScore({
+    required this.quizId,
+    required this.score,
+  });
+
+  factory QuizScore.fromJson(Map<String, dynamic> json) {
+    return QuizScore(
+      quizId: json["quiz_id"],
+      score: json["score"],
+    );
+  }
+  factory QuizScore.initial() {
+    return QuizScore(quizId: -1, score: 0);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "quiz_id": quizId,
+      "score": score,
+    };
+  }
+}

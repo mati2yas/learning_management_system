@@ -41,6 +41,30 @@ class Course {
     var categ = json["category"]?["name"];
     var dep = json["department"];
 
+    Map<SubscriptionType, double?> onSalePrices = {
+      SubscriptionType.oneMonth: null,
+      SubscriptionType.threeMonths: null,
+      SubscriptionType.sixMonths: null,
+      SubscriptionType.yearly: null,
+    };
+
+    if (json["on_sale_month"] != null) {
+      onSalePrices[SubscriptionType.oneMonth] =
+          double.tryParse(json["on_sale_month"]);
+    }
+    if (json["on_sale_three_month"] != null) {
+      onSalePrices[SubscriptionType.threeMonths] =
+          double.tryParse(json["on_sale_three_month"]);
+    }
+    if (json["on_sale_six_month"] != null) {
+      onSalePrices[SubscriptionType.sixMonths] =
+          double.tryParse(json["on_sale_six_month"]);
+    }
+    if (json["on_sale_one_year"] != null) {
+      onSalePrices[SubscriptionType.yearly] =
+          double.tryParse(json["on_sale_one_year"]);
+    }
+
     return Course(
       id: json["id"].toString(),
       title: json["course_name"],
@@ -57,20 +81,24 @@ class Course {
       category: categ,
       price: {
         SubscriptionType.oneMonth:
-            double.tryParse(json["price_one_month"]) ?? 0,
+            double.tryParse(json["price_one_month"] ?? 0) ?? 0,
         SubscriptionType.threeMonths:
-            double.tryParse(json["price_three_month"]) ?? 0,
+            double.tryParse(json["price_three_month"] ?? 0) ?? 0,
         SubscriptionType.sixMonths:
-            double.tryParse(json["price_six_month"]) ?? 0,
-        SubscriptionType.yearly: double.tryParse(json["price_one_year"]) ?? 0,
+            double.tryParse(json["price_six_month"] ?? 0) ?? 0,
+        SubscriptionType.yearly:
+            double.tryParse(json["price_one_year"] ?? 0) ?? 0,
       },
-      onSalePrices: {
-        SubscriptionType.oneMonth: double.tryParse(json["on_sale_month"]),
-        SubscriptionType.threeMonths:
-            double.tryParse(json["on_sale_three_month"]),
-        SubscriptionType.sixMonths: double.tryParse(json["on_sale_six_month"]),
-        SubscriptionType.yearly: double.tryParse(json["on_sale_one_year"]),
-      },
+      // onSalePrices: {
+      //   SubscriptionType.oneMonth: double.tryParse(json["on_sale_month"] ?? 0),
+      //   SubscriptionType.threeMonths:
+      //       double.tryParse( ?? 0) ?? 0,
+      //   SubscriptionType.sixMonths:
+      //       double.tryParse(json["on_sale_six_month"] ?? 0) ?? 0,
+      //   SubscriptionType.yearly:
+      //       double.tryParse(json["on_sale_one_year"] ?? 0) ?? 0,
+      // },
+      onSalePrices: onSalePrices,
       chapters: [],
     );
   }

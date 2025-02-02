@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
+import 'package:lms_system/features/shared/model/shared_user.dart';
 
 import '../../exams/model/exams_model.dart';
 
@@ -15,6 +16,7 @@ class PageNavigationController extends StateNotifier<int> {
   PageNavigationController() : super(0);
 
   dynamic getArgumentsForPage(int index) {
+   
     if (index == 3) {
       return pageArguments[index] as int;
     }

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/auth_status_registration/provider/registration_status_controller.dart';
+import 'package:lms_system/features/shared/model/shared_user.dart';
 
 import '../repository/check_registration_repository.dart';
 
@@ -18,6 +19,8 @@ class RegistrationStatusController extends StateNotifier<bool> {
     state = await _repository.isUserRegistered();
     return state;
   }
+
+  
 
   Future<void> clearStatus() async {
     await _repository.clearRegistrationStatus();

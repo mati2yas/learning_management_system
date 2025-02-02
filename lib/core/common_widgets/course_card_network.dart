@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lms_system/core/api_constants.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
@@ -96,7 +95,7 @@ class CourseCardWithImage extends ConsumerWidget {
             child: Image.network(
               height: 80,
               width: double.infinity,
-              "${ApiConstants.imageBaseUrl}/${course.image}", //?? "",
+              "${course.image}.jpg", //?? "",
               fit: BoxFit.cover,
               loadingBuilder: (BuildContext context, Widget child,
                   ImageChunkEvent? loadingProgress) {
