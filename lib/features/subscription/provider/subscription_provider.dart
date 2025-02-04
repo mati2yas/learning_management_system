@@ -32,4 +32,8 @@ class SubscriptionController extends StateNotifier<SubscriptionModel> {
   void updateSubscriptionType(SubscriptionType newType) {
     state = state.copyWith(newType: newType);
   }
+
+  void updateTransactionId(String newTransactionId) {
+    state = state.copyWith(newTransactionId: newTransactionId);
+  }
 }

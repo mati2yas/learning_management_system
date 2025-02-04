@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
-import 'package:lms_system/features/shared/model/shared_user.dart';
 
 import '../../exams/model/exams_model.dart';
 

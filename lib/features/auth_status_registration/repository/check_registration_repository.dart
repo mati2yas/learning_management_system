@@ -1,5 +1,4 @@
 import 'package:lms_system/features/auth_status_registration/data_source/check_registered_data_source.dart';
-import 'package:lms_system/features/shared/model/shared_user.dart';
 
 class RegistrationStatusRepository {
   final RegistrationStatusDataSource _dataSource;

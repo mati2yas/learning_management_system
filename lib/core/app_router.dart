@@ -22,7 +22,7 @@ class Approuter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.wrapper:
-        return MaterialPageRoute(builder: (_) => WrapperScreen());
+        return MaterialPageRoute(builder: (_) => const WrapperScreen());
 
       case Routes.onboarding:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
@@ -48,7 +48,6 @@ class Approuter {
       case Routes.requests:
         return MaterialPageRoute(builder: (_) => const RequestsScreen());
       case Routes.courseDetails:
-        final category = settings.arguments as String;
         return MaterialPageRoute(
           builder: (_) => const CoursesFilterScreen(),
         );

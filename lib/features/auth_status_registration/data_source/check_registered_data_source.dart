@@ -1,6 +1,4 @@
-import 'dart:convert';
 
-import 'package:lms_system/features/shared/model/shared_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationStatusDataSource {

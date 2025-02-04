@@ -23,7 +23,9 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
   SubscriptionType subscriptionType = SubscriptionType.oneMonth;
   XFile? transactionImage;
   bool imagePicked = false;
-
+  final TextEditingController _transactionIdController =
+      TextEditingController();
+  String? _errorMessageTransactionId, _errorMessageImagePath;
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
@@ -167,8 +169,9 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: SizedBox(
-                      width: size.width * 0.6,
+                      width: size.width * 0.8,
                       child: Column(
+                        spacing: 5,
                         children: [
                           Text(
                             "${requestsProv.length} courses requested.",
@@ -181,6 +184,32 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                             style: textTh.bodyLarge!.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
+                          ),
+                          const SizedBox(height: 5),
+                          TextField(
+                            controller: _transactionIdController,
+                            decoration: InputDecoration(
+                              labelText: 'Enter Transaction ID',
+                              errorText:
+                                  _errorMessageTransactionId, // Show error message
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  width: 2,
+                                  color: AppColors.mainBlue,
+                                ),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              // Validate on change
+                              _validateInput();
+                              if (_errorMessageTransactionId == null) {
+                                // if error message is null then _transactionIdController.text will not
+                                // be null or empty.
+                                subscriptionController.updateTransactionId(
+                                    _transactionIdController.text);
+                              }
+                            },
                           ),
                           const SizedBox(height: 5),
                           GestureDetector(
@@ -201,14 +230,21 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                                 color: AppColors.mainBlue.withAlpha(100),
                                 borderRadius: BorderRadius.circular(4),
                               ),
-                              height: 30,
-                              width: size.width * 0.4,
-                              child: const Row(
+                              height: 40,
+                              width: size.width * 0.6,
+                              child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text("Choose Image"),
-                                  Icon(
+                                  Text(
+                                    "Choose Image",
+                                    style: TextStyle(
+                                      color: _errorMessageImagePath != null
+                                          ? Colors.red
+                                          : Colors.black,
+                                    ),
+                                  ),
+                                  const Icon(
                                     Icons.image,
                                     color: Colors.black,
                                   ),
@@ -216,26 +252,49 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                               ),
                             ),
                           ),
-                          if (imagePicked && transactionImage != null)
+                          if (imagePicked &&
+                              transactionImage != null &&
+                              _errorMessageImagePath == null)
                             Image.file(
                               File(transactionImage!.path),
-                              width: 50,
-                              height: 50,
+                              width: 60,
+                              height: 60,
+                            )
+                          else if (_errorMessageImagePath != null)
+                            Text(
+                              _errorMessageImagePath!,
+                              style: textTh.labelMedium!
+                                  .copyWith(color: Colors.red),
                             ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.mainBlue,
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 30,
+                                horizontal: 25,
                                 vertical: 7,
                               ),
-                              fixedSize: Size(size.width * 0.4, 30),
+                              fixedSize: Size(size.width * 0.6, 50),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
                             onPressed: () async {
-                              await subscriptionController.subscribe();
+                              _validateInput(); // Validate when button is pressed
+                              _validateImagePath();
+                              if (_errorMessageTransactionId != null) {
+                                return;
+                              } else if (_errorMessageTransactionId == null) {
+                                // Proceed with the valid input
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      elevation: 4,
+                                      backgroundColor: Colors.white,
+                                      behavior: SnackBarBehavior.floating,
+                                      content: Text('Input is valid!')),
+                                );
+
+                                await subscriptionController.subscribe();
+                              }
                             },
                             child: Text(
                               'Submit',
@@ -263,6 +322,9 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
     final XFile? image = await showImagePickSheet();
     if (image != null) {
       transactionImage = XFile(image.path);
+      setState(() {
+        _errorMessageImagePath = null;
+      });
       return true;
     }
     return false;
@@ -288,10 +350,16 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
             children: [
               GestureDetector(
                 onTap: () async {
-                  final XFile? image =
-                      await picker.pickImage(source: ImageSource.camera);
-                  if (image != null && context.mounted) {
-                    Navigator.pop(context, image);
+                  try {
+                    final XFile? image =
+                        await picker.pickImage(source: ImageSource.camera);
+                    if (image != null && context.mounted) {
+                      Navigator.pop(context, image);
+                    }
+                  } catch (e) {
+                    setState(() {
+                      _errorMessageImagePath = e.toString();
+                    });
                   }
                 },
                 child: const SizedBox(
@@ -307,10 +375,16 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
               ),
               GestureDetector(
                 onTap: () async {
-                  final XFile? image =
-                      await picker.pickImage(source: ImageSource.gallery);
-                  if (image != null && context.mounted) {
-                    Navigator.pop(context, image);
+                  try {
+                    final XFile? image =
+                        await picker.pickImage(source: ImageSource.gallery);
+                    if (image != null && context.mounted) {
+                      Navigator.pop(context, image);
+                    }
+                  } catch (e) {
+                    setState(() {
+                      _errorMessageImagePath = e.toString();
+                    });
                   }
                 },
                 child: const SizedBox(
@@ -329,5 +403,26 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
         );
       },
     );
+  }
+
+  void _validateImagePath() {
+    setState(() {
+      if (!imagePicked) {
+        _errorMessageImagePath = "This field cannot be empty";
+      } else {
+        _errorMessageImagePath = null;
+      }
+    });
+  }
+
+  void _validateInput() {
+    setState(() {
+      // Example validation: Check if the input is empty
+      if (_transactionIdController.text.isEmpty) {
+        _errorMessageTransactionId = 'This field cannot be empty';
+      } else {
+        _errorMessageTransactionId = null; // Clear error message if valid
+      }
+    });
   }
 }

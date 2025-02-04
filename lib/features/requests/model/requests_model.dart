@@ -7,11 +7,13 @@ class SubscriptionRequest {
   final List<Course> courses;
   final SubscriptionType subscriptionType;
   final XFile screenshot; // Accept XFile instead of path
+  final String transactionId;
 
   SubscriptionRequest({
     required this.courses,
     required this.subscriptionType,
     required this.screenshot,
+    required this.transactionId,
   });
 
   Future<FormData> toFormData() async {
@@ -22,6 +24,7 @@ class SubscriptionRequest {
       "subscription_type": subscriptionType.name,
       "screenshot": await MultipartFile.fromFile(screenshot.path,
           filename: "screenshot.jpg"),
+      "transaction_id": transactionId,
     });
   }
 }
