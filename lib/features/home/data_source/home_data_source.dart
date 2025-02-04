@@ -39,7 +39,7 @@ class HomeDataSource {
           courses.add(crs);
         }
 
-        print("courses: \n ${courses.length}");
+        print("courses length: \n ${courses.length}");
       }
     } on DioException catch (e) {
       final errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);

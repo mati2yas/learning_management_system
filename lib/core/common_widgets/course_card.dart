@@ -139,10 +139,10 @@ class CourseCard extends ConsumerWidget {
                 )
               : GestureDetector(
                   onTap: () {
-                    String status =
-                        requestsController.addOrRemoveCourse(course);
+                    
 
-                    subscriptionController.updateCourses(requestsProv);
+                var (status, courses) = requestsController.addOrRemoveCourse(course);
+                subscriptionController.updateCourses(courses);
                     if (status == "added") {
                       Navigator.of(context).pushNamed(Routes.requests);
                     }
@@ -153,8 +153,10 @@ class CourseCard extends ConsumerWidget {
                     );
                   },
                   onLongPress: () {
-                    String status =
-                        requestsController.addOrRemoveCourse(course);
+                 
+
+                var (status, courses) = requestsController.addOrRemoveCourse(course);
+                subscriptionController.updateCourses(courses);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text("Course has been $status."),

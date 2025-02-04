@@ -226,9 +226,15 @@ class CourseCardWithImage extends ConsumerWidget {
               ),
             GestureDetector(
               onTap: () {
-                String status = requestsController.addOrRemoveCourse(course);
 
-                subscriptionController.updateCourses(requestsProv);
+                var (status, courses) = requestsController.addOrRemoveCourse(course);
+                subscriptionController.updateCourses(courses);
+
+                debugPrint("after subscController updateCurse, courses:");
+                var subProv = ref.read(subscriptionControllerProvider);
+                for (var c in subProv.courses) {
+                  print("subProv.courses.current.id: ${c.id}");
+                }
                 if (status == "added") {
                   Navigator.of(context).pushNamed(Routes.requests);
                 }
@@ -239,7 +245,10 @@ class CourseCardWithImage extends ConsumerWidget {
                 );
               },
               onLongPress: () {
-                String status = requestsController.addOrRemoveCourse(course);
+
+                var (status, courses) = requestsController.addOrRemoveCourse(course);
+
+                subscriptionController.updateCourses(courses);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text("Course has been $status."),

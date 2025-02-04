@@ -3,24 +3,32 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EditProfileState {
-  final String name;
-  final String email;
-  final String password;
+  String name;
+  String email;
+  String password;
+  String bio;
+  String image;
 
   EditProfileState({
     this.name = '',
     this.email = '',
     this.password = '',
+    this.bio = '',
+    this.image = '',
   });
-  EditProfileState copywith({
+  EditProfileState copyWith({
     String? name,
     String? email,
     String? password,
+    String? bio,
+    String? image,
   }) {
     return EditProfileState(
       name: name ?? this.name,
       email: email ?? this.email,
       password: password ?? this.password,
+      bio: bio ?? this.bio,
+      image: image ?? this.image,
     );
   }
 

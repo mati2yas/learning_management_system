@@ -12,6 +12,8 @@ class CurrentUserDataSource {
 
     String email = userMap["email"] ?? "";
     String password = userMap["password"] ?? "";
+    email = email.replaceAll("\"", "");
+    password = password.replaceAll("\"", "");
     final valueData = jsonEncode({
       "name": "\"dechasa\"",
       "email": "\"$email\"",
@@ -19,7 +21,6 @@ class CurrentUserDataSource {
       "password": "\"$password\"",
     });
 
-    await prefs.setString("userData", valueData);
     return User(
       name: userMap["name"] ?? "no name",
       lastName: userMap["name"] ?? "no email",

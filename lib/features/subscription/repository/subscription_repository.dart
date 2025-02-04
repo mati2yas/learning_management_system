@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/connectivity/connectivity_service.dart';
 import 'package:lms_system/features/subscription/data_source/subscription_data_source.dart';
@@ -16,7 +17,8 @@ class SubscriptionRepository {
 
   SubscriptionRepository(this._dataSource, this._connectivityService);
 
-  Future<void> subscribe(SubscriptionModel request) async {
-    return _dataSource.subscribe(request);
+  
+  Future<Response> subscribe(SubscriptionModel request) async {
+    return await _dataSource.subscribe(request);
   }
 }

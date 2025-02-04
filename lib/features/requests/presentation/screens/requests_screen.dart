@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/requests/presentation/widgets/subscription_widget.dart';
 import 'package:lms_system/features/requests/provider/requests_provider.dart';
 import 'package:lms_system/features/subscription/provider/subscription_provider.dart';
@@ -293,7 +294,32 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                                       content: Text('Input is valid!')),
                                 );
 
-                                await subscriptionController.subscribe();
+                                final result =
+                                    await subscriptionController.subscribe();
+
+                                if (context.mounted) {
+                                  if (result == "success") {
+                                    ref
+                                        .read(requestsProvider.notifier)
+                                        .removeAll();
+                                    ref
+                                        .read(homeScreenApiProvider.notifier)
+                                        .fetchHomeScreenData();
+                                    // we need this so that next time home page fetches
+                                    // courses that are not bought.
+                                  }
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(result == "success"
+                                          ? "Subscription successful!"
+                                          : "Subscription failed!"),
+                                      backgroundColor: result == "success"
+                                          ? Colors.green
+                                          : Colors.red,
+                                    ),
+                                  );
+                                }
                               }
                             },
                             child: Text(

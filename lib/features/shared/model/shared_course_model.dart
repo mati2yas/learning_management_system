@@ -64,6 +64,7 @@ class Course {
       onSalePrices[SubscriptionType.yearly] =
           double.tryParse(json["on_sale_one_year"]);
     }
+    print("course id: ${json["id"]}");
 
     return Course(
       id: json["id"].toString(),
