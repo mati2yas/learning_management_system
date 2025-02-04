@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/requests/provider/requests_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
+import 'package:lms_system/features/subscription/provider/subscription_provider.dart';
 
 import '../app_router.dart';
 
@@ -23,6 +24,10 @@ class CourseCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var textTh = Theme.of(context).textTheme;
     final requestsController = ref.watch(requestsProvider.notifier);
+    final requestsProv = ref.watch(requestsProvider);
+
+    var subscriptionController =
+        ref.watch(subscriptionControllerProvider.notifier);
     return Container(
       width: double.infinity,
       height: 180,
@@ -136,6 +141,8 @@ class CourseCard extends ConsumerWidget {
                   onTap: () {
                     String status =
                         requestsController.addOrRemoveCourse(course);
+
+                    subscriptionController.updateCourses(requestsProv);
                     if (status == "added") {
                       Navigator.of(context).pushNamed(Routes.requests);
                     }

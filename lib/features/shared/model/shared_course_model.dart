@@ -89,17 +89,15 @@ class Course {
         SubscriptionType.yearly:
             double.tryParse(json["price_one_year"] ?? 0) ?? 0,
       },
-      // onSalePrices: {
-      //   SubscriptionType.oneMonth: double.tryParse(json["on_sale_month"] ?? 0),
-      //   SubscriptionType.threeMonths:
-      //       double.tryParse( ?? 0) ?? 0,
-      //   SubscriptionType.sixMonths:
-      //       double.tryParse(json["on_sale_six_month"] ?? 0) ?? 0,
-      //   SubscriptionType.yearly:
-      //       double.tryParse(json["on_sale_one_year"] ?? 0) ?? 0,
-      // },
+
       onSalePrices: onSalePrices,
       chapters: [],
     );
+  }
+
+  double getPriceBySubscriptionType(SubscriptionType subscriptionType) {
+    double priceValue =
+        onSalePrices[subscriptionType] ?? price[subscriptionType]!;
+    return priceValue;
   }
 }

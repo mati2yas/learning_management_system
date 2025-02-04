@@ -7,6 +7,7 @@ import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 import 'package:lms_system/features/requests/provider/requests_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
+import 'package:lms_system/features/subscription/provider/subscription_provider.dart';
 
 fetchImageWithPlaceHolder(String imageUrl) {
   return CachedNetworkImage(
@@ -66,6 +67,10 @@ class CourseCardWithImage extends ConsumerWidget {
     String urlee =
         "http://redonline.cdnds.net/main/thumbs/25788/stack_of_books.jpg";
 
+    var subscriptionController =
+        ref.watch(subscriptionControllerProvider.notifier);
+
+    var requestsProv = ref.watch(requestsProvider);
     var textTh = Theme.of(context).textTheme;
     final requestsController = ref.watch(requestsProvider.notifier);
     return Container(
@@ -222,6 +227,8 @@ class CourseCardWithImage extends ConsumerWidget {
             GestureDetector(
               onTap: () {
                 String status = requestsController.addOrRemoveCourse(course);
+
+                subscriptionController.updateCourses(requestsProv);
                 if (status == "added") {
                   Navigator.of(context).pushNamed(Routes.requests);
                 }

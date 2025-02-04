@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/requests/presentation/widgets/subscription_widget.dart';
 import 'package:lms_system/features/requests/provider/requests_provider.dart';
+import 'package:lms_system/features/subscription/provider/subscription_provider.dart';
 
 import '../widgets/request_tile.dart';
 
@@ -32,10 +33,13 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
     bool listIsEmpty = requestsProv.isEmpty;
     double price = 0;
     if (requestsProv.isNotEmpty) {
-      requestsProv
-          .map((r) => r.price[subscriptionType] ?? 0)
+      price = requestsProv
+          .map((r) => r.getPriceBySubscriptionType(subscriptionType))
           .reduce((init, sum) => init + sum);
     }
+
+    var subscriptionController =
+        ref.watch(subscriptionControllerProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Buy Course"),
@@ -48,189 +52,208 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              height: size.height * 0.5,
-              width: size.width * 0.85,
-              child: requestsProv.isEmpty
-                  ? Center(
+        child: Center(
+          child: SizedBox(
+            height: size.height * 0.8,
+            width: size.width * 0.85,
+            child: ListView(
+              children: [
+                if (requestsProv.isEmpty)
+                  Align(
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                      height: 100,
                       child: Text(
                         "No Cart Values",
                         style: textTh.bodyLarge!
                             .copyWith(fontWeight: FontWeight.w600),
                       ),
-                    )
-                  : ListView.builder(
-                      itemCount: requestsProv.length,
-                      itemBuilder: (_, index) {
-                        var request = requestsProv[index];
-                        return RequestTile(
-                          onTap: () {
-                            if (requestsProv.isNotEmpty) {
-                              final status = ref
-                                  .read(requestsProvider.notifier)
-                                  .addOrRemoveCourse(requestsProv[index]);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Course has been $status."),
-                                ),
-                              );
-                            } else {
-                              // If the list is empty, you can handle this case here
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Your cart is empty!"),
-                                ),
-                              );
-                            }
-                          },
-                          selectedPriceType:
-                              requestsProv[index].price[subscriptionType] ?? 0,
-                          course: request,
-                          textTh: textTh,
-                        );
-                      },
                     ),
-            ),
-            Center(
-              child: SizedBox(
-                height: 100,
-                width: size.width * 0.8,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SubscriptionWidget(
-                      isActive: subscriptionType == SubscriptionType.oneMonth,
-                      onPress: () {
-                        setState(() {
-                          subscriptionType = SubscriptionType.oneMonth;
-                        });
+                  )
+                else
+                  for (int index = 0; index < requestsProv.length; index++)
+                    RequestTile(
+                      onTap: () {
+                        if (requestsProv.isNotEmpty) {
+                          final status = ref
+                              .read(requestsProvider.notifier)
+                              .addOrRemoveCourse(requestsProv[index]);
+
+                          subscriptionController.updateCourses(requestsProv);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Course has been $status."),
+                            ),
+                          );
+                        } else {
+                          // If the list is empty, you can handle this case here
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Your cart is empty!"),
+                            ),
+                          );
+                        }
                       },
-                      duration: 1,
+                      selectedPriceType: requestsProv[index]
+                          .getPriceBySubscriptionType(subscriptionType),
+                      course: requestsProv[index],
+                      textTh: textTh,
                     ),
-                    SubscriptionWidget(
-                      isActive:
-                          subscriptionType == SubscriptionType.threeMonths,
-                      onPress: () {
-                        setState(() {
-                          subscriptionType = SubscriptionType.threeMonths;
-                        });
-                      },
-                      duration: 3,
-                    ),
-                    SubscriptionWidget(
-                      isActive: subscriptionType == SubscriptionType.sixMonths,
-                      onPress: () {
-                        setState(() {
-                          subscriptionType = SubscriptionType.sixMonths;
-                        });
-                      },
-                      duration: 6,
-                    ),
-                    SubscriptionWidget(
-                      isActive: subscriptionType == SubscriptionType.yearly,
-                      onPress: () {
-                        setState(() {
-                          subscriptionType = SubscriptionType.yearly;
-                        });
-                      },
-                      duration: 12,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: SizedBox(
-                  width: size.width * 0.6,
-                  child: Column(
-                    children: [
-                      Text(
-                        "${requestsProv.length} courses requested.",
-                        style: textTh.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Total price: ${price.toStringAsFixed(2)}",
-                        style: textTh.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      GestureDetector(
-                        onTap: () async {
-                          bool success = await pickTransactionImage();
-                          if (success) {
+                const SizedBox(height: 20),
+                Center(
+                  child: SizedBox(
+                    height: 100,
+                    width: size.width * 0.8,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SubscriptionWidget(
+                          isActive:
+                              subscriptionType == SubscriptionType.oneMonth,
+                          onPress: () {
                             setState(() {
-                              imagePicked = true;
-                              listViewSize = size.height * 0.35;
+                              subscriptionType = SubscriptionType.oneMonth;
                             });
-                          }
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.mainBlue.withAlpha(100),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          height: 30,
-                          width: size.width * 0.4,
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text("Choose Image"),
-                              Icon(
-                                Icons.image,
-                                color: Colors.black,
-                              ),
-                            ],
-                          ),
+
+                            subscriptionController.updateSubscriptionType(
+                                SubscriptionType.oneMonth);
+                          },
+                          duration: 1,
                         ),
-                      ),
-                      if (imagePicked && transactionImage != null)
-                        Image.file(
-                          File(transactionImage!.path),
-                          width: 50,
-                          height: 50,
+                        SubscriptionWidget(
+                          isActive:
+                              subscriptionType == SubscriptionType.threeMonths,
+                          onPress: () {
+                            subscriptionController.updateSubscriptionType(
+                                SubscriptionType.threeMonths);
+                            setState(() {
+                              subscriptionType = SubscriptionType.threeMonths;
+                            });
+                          },
+                          duration: 3,
                         ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.mainBlue,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 30,
-                            vertical: 7,
-                          ),
-                          fixedSize: Size(size.width * 0.4, 30),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                        SubscriptionWidget(
+                          isActive:
+                              subscriptionType == SubscriptionType.sixMonths,
+                          onPress: () {
+                            subscriptionController.updateSubscriptionType(
+                                SubscriptionType.sixMonths);
+                            setState(() {
+                              subscriptionType = SubscriptionType.sixMonths;
+                            });
+                          },
+                          duration: 6,
                         ),
-                        onPressed: () {},
-                        child: Text(
-                          'Submit',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: size.width * 0.04,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        SubscriptionWidget(
+                          isActive: subscriptionType == SubscriptionType.yearly,
+                          onPress: () {
+                            subscriptionController.updateSubscriptionType(
+                                SubscriptionType.yearly);
+                            setState(() {
+                              subscriptionType = SubscriptionType.yearly;
+                            });
+                          },
+                          duration: 12,
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
+                Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SizedBox(
+                      width: size.width * 0.6,
+                      child: Column(
+                        children: [
+                          Text(
+                            "${requestsProv.length} courses requested.",
+                            style: textTh.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            "Total price: ${price.toStringAsFixed(2)}",
+                            style: textTh.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          GestureDetector(
+                            onTap: () async {
+                              bool success = await pickTransactionImage();
+
+                              if (success) {
+                                subscriptionController.updateScreenshotPath(
+                                    transactionImage?.path ?? "");
+                                setState(() {
+                                  imagePicked = true;
+                                  listViewSize = size.height * 0.35;
+                                });
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.mainBlue.withAlpha(100),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              height: 30,
+                              width: size.width * 0.4,
+                              child: const Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text("Choose Image"),
+                                  Icon(
+                                    Icons.image,
+                                    color: Colors.black,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          if (imagePicked && transactionImage != null)
+                            Image.file(
+                              File(transactionImage!.path),
+                              width: 50,
+                              height: 50,
+                            ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.mainBlue,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 30,
+                                vertical: 7,
+                              ),
+                              fixedSize: Size(size.width * 0.4, 30),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            onPressed: () async {
+                              await subscriptionController.subscribe();
+                            },
+                            child: Text(
+                              'Submit',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: size.width * 0.04,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
