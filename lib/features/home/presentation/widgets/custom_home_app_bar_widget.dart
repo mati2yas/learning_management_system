@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/features/requests/provider/requests_provider.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
 import '../../../wrapper/presentation/screens/wrapper_screen.dart';
@@ -16,6 +17,7 @@ class CustomHomeAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var requestsProv = ref.watch(requestsProvider);
     return Container(
       height: 135,
       padding:
@@ -42,15 +44,41 @@ class CustomHomeAppBar extends ConsumerWidget {
                 onTap: () {
                   Navigator.of(context).pushNamed(Routes.requests);
                 },
-                child: const CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Center(
-                    child: Icon(
-                      Icons.shopping_cart_outlined,
-                      color: Colors.black,
-                      size: 20,
+                child: Stack(
+                  children: [
+                    const CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Center(
+                        child: Icon(
+                          Icons.shopping_cart_outlined,
+                          color: Colors.black,
+                          size: 20,
+                        ),
+                      ),
                     ),
-                  ),
+                    if (requestsProv.isNotEmpty)
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 18,
+                          width: 18,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          child: Text(
+                            "${requestsProv.length}",
+                            style: const TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ],

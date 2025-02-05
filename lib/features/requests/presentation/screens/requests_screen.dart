@@ -7,6 +7,7 @@ import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/requests/presentation/widgets/subscription_widget.dart';
 import 'package:lms_system/features/requests/provider/requests_provider.dart';
+import 'package:lms_system/features/subscription/model/subscription_model.dart';
 import 'package:lms_system/features/subscription/provider/subscription_provider.dart';
 
 import '../widgets/request_tile.dart';
@@ -41,6 +42,7 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
           .reduce((init, sum) => init + sum);
     }
 
+    var subscriptionProv = ref.watch(subscriptionControllerProvider);
     var subscriptionController =
         ref.watch(subscriptionControllerProvider.notifier);
     return Scaffold(
@@ -302,6 +304,8 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                                     ref
                                         .read(requestsProvider.notifier)
                                         .removeAll();
+                                    resetImagePicked();
+                                    _transactionIdController.clear();
                                     ref
                                         .read(homeScreenApiProvider.notifier)
                                         .fetchHomeScreenData();
@@ -322,14 +326,29 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                                 }
                               }
                             },
-                            child: Text(
-                              'Submit',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: size.width * 0.04,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                            child: subscriptionProv.apiStatus == ApiStatus.busy
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : subscriptionProv.apiStatus == ApiStatus.idle
+                                    ? Text(
+                                        'Submit',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: size.width * 0.04,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      )
+                                    : Text(
+                                        'Error',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: size.width * 0.04,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
                           ),
                         ],
                       ),
@@ -354,6 +373,13 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
       return true;
     }
     return false;
+  }
+
+  void resetImagePicked() {
+    setState(() {
+      imagePicked = false;
+      transactionImage = null;
+    });
   }
 
   Future<XFile?> showImagePickSheet() async {

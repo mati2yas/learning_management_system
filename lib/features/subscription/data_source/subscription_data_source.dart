@@ -42,6 +42,7 @@ class SubscriptionDataSource {
     debugPrint("Headers: ${_dio.options.headers}");
     debugPrint("Body: ${formData.fields}");
     try {
+      _dio.options.headers['Content-Type'] = 'multipart/form-data';
       final response = await _dio.post(
         "/subscription-request",
         data: formData,
