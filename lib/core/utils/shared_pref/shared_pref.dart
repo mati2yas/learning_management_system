@@ -24,6 +24,11 @@ class SharedPrefService {
     Map<String, dynamic> data = jsonDecode(
       prefs.getString("userData") ?? "{\"data\": \"no data\"}",
     );
-    return data["token"];
+
+    String? token = data["token"];
+    if (token != null) {
+      token = token.replaceAll("\"", "");
+    }
+    return token;
   }
 }

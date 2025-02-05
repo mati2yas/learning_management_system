@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/core/utils/shared_pref/shared_pref.dart';
 import 'package:lms_system/features/subscription/model/subscription_model.dart';
 
 final subscriptionDataSourceProvider = Provider<SubscriptionDataSource>((ref) {
@@ -36,7 +37,9 @@ class SubscriptionDataSource {
       ),
     );
 
-    DioClient.setToken("23|ys5TDUzMPjsLjKLaCMBJDoJqzhbcPRjzKlPkXE7N35a4290a");
+    //DioClient.setToken("23|ys5TDUzMPjsLjKLaCMBJDoJqzhbcPRjzKlPkXE7N35a4290a");
+    var token = await SharedPrefService.getUserToken();
+    DioClient.setToken(token);
 
     debugPrint("➡️ Request: POST /subscription-request");
     debugPrint("Headers: ${_dio.options.headers}");

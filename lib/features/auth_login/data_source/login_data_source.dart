@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,19 +32,27 @@ class LoginDataSource {
 
         // TODO: fix the email thingy here. it shouldn't be email in the attribute of name
         final prefs = await SharedPreferences.getInstance();
+        Map<String, dynamic> userData = jsonDecode(
+          prefs.getString("userData") ?? "{\"data\": \"no data\"}",
+        );
+        var name = userData["name"];
+        var token = response.data["token"];
         final valueData = jsonEncode({
-          "name": "\"$email\"",
+          "name": "\"$name\"",
           "email": "\"$email\"",
-          "token": "\"$password\"",
+          "token": "\"$token\"",
           "password": "\"$password\"",
         });
 
         await prefs.setString("userData", valueData);
 
-        print("User Data to Save:");
-        // print(valueData);
+        debugPrint("User Data to Save:");
+        debugPrint(valueData);
 
         // // Save the JSON string
+      } else if (response.statusCode == 403) {
+        var msg = response.data["message"];
+        throw Exception(msg);
       } else {
         throw Exception('Failed to login: Unknown error');
       }

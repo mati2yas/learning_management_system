@@ -101,8 +101,7 @@ class RegisterScreen extends ConsumerWidget {
                                       duration: Duration(seconds: 3),
                                       behavior: SnackBarBehavior.floating,
                                       content: Text(
-                                        //'Registration Successful! Verification link will be sent to your email.',
-                                        "Registration Successful",
+                                        "Registration Successful. Check your email for verification",
                                         style: TextStyle(
                                           color: AppColors.mainBlue,
                                         ),
@@ -111,7 +110,7 @@ class RegisterScreen extends ConsumerWidget {
                                   );
 
                                   Navigator.of(context)
-                                      .pushReplacementNamed(Routes.wrapper);
+                                      .pushReplacementNamed(Routes.login);
                                 }
                               } catch (e) {
                                 if (context.mounted) {
