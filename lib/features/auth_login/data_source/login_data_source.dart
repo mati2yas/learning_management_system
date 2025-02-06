@@ -36,6 +36,11 @@ class LoginDataSource {
           prefs.getString("userData") ?? "{\"data\": \"no data\"}",
         );
         var name = userData["name"];
+        if (name != null) {
+          name = name.replaceAll("\"", "");
+        } else {
+          name = "user-name";
+        }
         var token = response.data["token"];
         final valueData = jsonEncode({
           "name": "\"$name\"",

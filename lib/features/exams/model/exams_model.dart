@@ -46,18 +46,21 @@ class ExamGrade {
   });
 }
 
-enum ExamType { matric, coc, ngat, exitexam }
+enum ExamType { matric, coc, ngat, exitexam, ministry }
 
 class ExamYear {
   final String title;
+  final int courseId;
   final List<Question> questions; // For non-matric exams
   final List<ExamGrade> grades; // For matric exams
 
   ExamYear({
     required this.title,
     required this.grades,
+    required this.courseId,
     this.questions = const [],
   });
+  
 }
 
 class Question {

@@ -4,13 +4,11 @@ import 'package:lms_system/core/constants/colors.dart';
 import '../../model/exams_model.dart';
 
 class ExamCategoryShow extends StatelessWidget {
-  final Exam exam; // Accept the Category model
   final Function onTap;
   final String categoryImage, categoryName;
 
   const ExamCategoryShow({
     super.key,
-    required this.exam,
     required this.onTap,
     required this.categoryImage,
     required this.categoryName,

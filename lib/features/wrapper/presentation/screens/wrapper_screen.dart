@@ -5,8 +5,8 @@ import 'package:lms_system/features/courses/presentation/screens/course/course_c
 import 'package:lms_system/features/courses/presentation/screens/course/courses_screen.dart';
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
-import 'package:lms_system/features/exams/presentation/screens/exam_filters_screen.dart';
-import 'package:lms_system/features/exams/presentation/screens/exam_grade_filter.dart';
+import 'package:lms_system/features/exam_grade_filter/presentation/screens/exam_grade_filter_screen.dart';
+import 'package:lms_system/features/exam_year_filter/presentation/exam_year_filter_screen.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_page.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
@@ -104,8 +104,8 @@ class WrapperScreen extends ConsumerWidget {
           ),
       const CourseChaptersScreen(), // 5
       const ExamQuestionsPage(), // 6
-      const ExamFiltersScreen(), // 7
-      const ExamGradeFilter(), // 8
+      const ExamYearFiltersScreen(), // 7
+      const ExamGradeFilterScreen(), // 8
     ];
     if (currentPage == 0) {
       ref.read(homeScreenApiProvider.notifier).build();

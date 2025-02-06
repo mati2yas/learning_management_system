@@ -14,6 +14,7 @@ class ExamsDataSource {
             title: "Mathematics",
             years: [
               ExamYear(
+                courseId: 1,
                 title: "2012",
                 questions: [
                   ...mathChapterOneGrade10,
@@ -71,6 +72,7 @@ class ExamsDataSource {
                 ],
               ),
               ExamYear(
+                courseId: 2,
                 title: "2013",
                 questions: [
                   ...mathChapterOneGrade10,
@@ -134,6 +136,7 @@ class ExamsDataSource {
             title: "Chemistry",
             years: [
               ExamYear(
+                courseId: 3,
                 title: "2012",
                 questions: [
                   ...chemistryChapterOneGrade10,
@@ -191,6 +194,7 @@ class ExamsDataSource {
                 ],
               ),
               ExamYear(
+                courseId: 4,
                 title: "2013",
                 questions: [
                   ...chemistryChapterOneGrade10,
