@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/chapter_content/provider/chapter_content_provider.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_document_tile.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_quiz_tile.dart';
@@ -181,7 +182,7 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
           ),
           error: (error, stack) => Center(
             child: Text(
-              error.toString(),
+              ApiExceptions.getExceptionMessage(error as Exception, 400),
               style: textTh.titleMedium!.copyWith(color: Colors.red),
             ),
           ),

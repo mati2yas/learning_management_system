@@ -30,6 +30,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
   bool initializingPage = false;
   int currentQuestionImageTrack = 0;
   ScreenLayoutConfig layoutConfig = ScreenLayoutConfig();
+  bool allQuestionsAnswered = false;
 
   @override
   Widget build(BuildContext context) {
@@ -108,127 +109,136 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                     SizedBox(
                       width: size.width,
                       height: size.height * 0.8,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: size.height * 0.8,
-                            child: PageView.builder(
-                              scrollDirection: Axis.horizontal,
-                              controller: pageViewController,
-                              itemCount: questions.length,
-                              itemBuilder: (_, index) {
-                                var currentQuestion = questions[index];
-                                bool answerRevealed = middleExpandedFlex > 2;
-
-                                return Column(
-                                  children: [
-                                    if (currentQuestion.image != null)
-                                      SizedBox(
-                                        width: size.width * 0.8,
-                                        height: 150,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: Image.asset(
-                                            "assets/images/${currentQuestion.image}",
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "${currentQuestion.sequenceOrder}. ${currentQuestion.question}",
-                                        style: const TextStyle(fontSize: 15),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    ...currentQuestion.options.map((op) {
-                                      return Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20),
-                                        child: SizedBox(
-                                          width: size.width * 0.65,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Radio<String>(
-                                                activeColor: AppColors.mainBlue,
-                                                value: op,
-                                                groupValue:
-                                                    selectedAnswers[index],
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    selectedAnswers[index] =
-                                                        value!;
-                                                  });
-                                                },
-                                              ),
-                                              const SizedBox(width: 10),
-                                              Text(
-                                                op,
-                                                style: const TextStyle(
-                                                    fontSize: 13),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                                    const SizedBox(height: 15),
-                                    ElevatedButton.icon(
-                                      onPressed: () {
-                                        setState(() {
-                                          layoutConfig.answerRevealed =
-                                              !layoutConfig.answerRevealed;
-                                          // this will trigger getMiddleExpandedFlex method.
-                                        });
-                                      },
-                                      icon: const Icon(Icons.lightbulb),
-                                      label: const Text("Reveal Solution"),
-                                    ),
-                                    if (layoutConfig.answerRevealed) ...[
-                                      Padding(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: Text(
-                                          currentQuestion.answer,
-                                          style: textTh.bodyLarge,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          padding: const EdgeInsets.all(8),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: size.height * 0.8,
+                              child: PageView.builder(
+                                scrollDirection: Axis.horizontal,
+                                controller: pageViewController,
+                                itemCount: questions.length,
+                                itemBuilder: (_, index) {
+                                  var currentQuestion = questions[index];
+                                  bool answerRevealed = middleExpandedFlex > 2;
+                                  if (index == (questions.length) - 1) {
+                                    allQuestionsAnswered = selectedAnswers
+                                        .every((answer) => answer.isNotEmpty);
+                                  }
+                                  return Column(
+                                    children: [
+                                      if (currentQuestion.image != null)
+                                        SizedBox(
                                           width: size.width * 0.8,
-                                          height: 160,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              width: 2,
-                                              color: Colors.black,
-                                            ),
+                                          height: 150,
+                                          child: ClipRRect(
                                             borderRadius:
-                                                BorderRadius.circular(18),
-                                          ),
-                                          child: Text(
-                                            currentQuestion.explanation,
-                                            style: textTh.bodySmall,
+                                                BorderRadius.circular(10),
+                                            child: Image.network(
+                                              //"assets/images/${currentQuestion.imageExplanationUrl}",
+                                              currentQuestion
+                                                      .imageExplanationUrl ??
+                                                  "",
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                         ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "${currentQuestion.sequenceOrder}. ${currentQuestion.question}",
+                                          style: const TextStyle(fontSize: 15),
+                                        ),
                                       ),
+                                      const SizedBox(height: 10),
+                                      ...currentQuestion.options.map((op) {
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
+                                          child: SizedBox(
+                                            width: size.width * 0.65,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Radio<String>(
+                                                  activeColor:
+                                                      AppColors.mainBlue,
+                                                  value: op,
+                                                  groupValue:
+                                                      selectedAnswers[index],
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      selectedAnswers[index] =
+                                                          value!;
+                                                    });
+                                                  },
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  op,
+                                                  style: const TextStyle(
+                                                      fontSize: 13),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                      const SizedBox(height: 15),
+                                      ElevatedButton.icon(
+                                        onPressed: () {
+                                          setState(() {
+                                            layoutConfig.answerRevealed =
+                                                !layoutConfig.answerRevealed;
+                                            // this will trigger getMiddleExpandedFlex method.
+                                          });
+                                        },
+                                        icon: const Icon(Icons.lightbulb),
+                                        label: const Text("Reveal Solution"),
+                                      ),
+                                      if (layoutConfig.answerRevealed) ...[
+                                        Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Text(
+                                            currentQuestion.answer,
+                                            style: textTh.bodyLarge,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            padding: const EdgeInsets.all(8),
+                                            width: size.width * 0.8,
+                                            height: 160,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                width: 2,
+                                                color: Colors.black,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(18),
+                                            ),
+                                            child: Text(
+                                              currentQuestion.explanation,
+                                              style: textTh.bodySmall,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ],
-                                  ],
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     Positioned(
-                      bottom: 80,
+                      bottom: 30,
                       child: SizedBox(
                         width: size.width,
                         height: 50,
@@ -271,11 +281,56 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                     duration: const Duration(milliseconds: 850),
                                     curve: Curves.decelerate,
                                   );
+                                } else if (allQuestionsAnswered) {
+                                  submitExam();
+                                  int rightAnswers = 0;
+                                  for (var qs in questions) {
+                                    for (var ans in selectedAnswers) {
+                                      if (qs.answer[0] == ans) {
+                                        rightAnswers++;
+                                      }
+                                    }
+                                  }
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text('Exam Results'),
+                                      content: Text(
+                                        "You got $rightAnswers out of ${questions.length ?? 0} Questions right.",
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text('Incomplete Exam'),
+                                      content: const Text(
+                                          'Please answer all questions before submitting.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
                                 }
                               },
-                              child: const Text(
-                                "Next",
-                                style: TextStyle(color: Colors.white),
+                              child: Text(
+                                currentQuestionImageTrack ==
+                                        (questions.length ?? 0) - 1
+                                    ? 'Submit Exam'
+                                    : 'Next',
+                                style: const TextStyle(color: Colors.white),
                               ),
                             ),
                           ],
@@ -288,6 +343,10 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
             ),
     );
   }
+  void submitExam() {
+   
+  }
+   
 
   @override
   void initState() {

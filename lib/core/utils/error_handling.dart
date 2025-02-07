@@ -1,7 +1,13 @@
 import 'package:dio/dio.dart';
 
 class ApiExceptions {
-  static String getExceptionMessage(DioException exc, int? statusCode) {
+  static String getExceptionMessage(Exception exc, int? statusCode) {
+    if (exc is! DioException) {
+      if (exc.toString().contains("No internet connection")) {
+        return "No connection. Connect to the internet";
+      }
+      return "Unknown Error Occurred";
+    }
     switch (exc.type) {
       case DioExceptionType.badResponse:
         if (statusCode == 500) {

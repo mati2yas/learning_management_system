@@ -54,9 +54,9 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
       appBar: AppBar(
         // leading: IconButton(
         //   onPressed: () {
-        //     // reset timer and the go back to previous screen
-        //     // ref.read(examTimerProvider.notifier).resetTimer();
-        //     // pageNavController.navigatePage(previousScreen);
+        //     //reset timer and the go back to previous screen
+        //     //ref.read(examTimerProvider.notifier).resetTimer();
+        //     //pageNavController.navigatePage(previousScreen);
         //   },
         //   icon: const Icon(
         //     Icons.arrow_back,

@@ -103,11 +103,15 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                 return TabBarView(
                   controller: tabController,
                   children: tabsList.map((tabTitle) {
-                    // Filter the grades by the current tab
+                    // Filter the gradconst es by the current tab
+                    debugPrint("current tabTitle: $tabTitle");
+                    print(
+                        "all grades: ${grades.map((gr) => gr.title).join(",")}");
                     final selectedGrade = grades.firstWhere(
                       (grade) => grade.title == tabTitle,
-                      orElse: () => ExamGrade(id: "", title: "", chapters: []),
+                      orElse: () => ExamGrade(id: 0, title: "", chapters: []),
                     );
+                    debugPrint("selected Grade: ${selectedGrade.title}");
 
                     final chapters = selectedGrade.chapters;
 

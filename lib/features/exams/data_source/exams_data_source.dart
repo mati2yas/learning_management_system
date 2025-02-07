@@ -14,6 +14,7 @@ class ExamsDataSource {
             title: "Mathematics",
             years: [
               ExamYear(
+                id: 0,
                 courseId: 1,
                 title: "2012",
                 questions: [
@@ -22,7 +23,7 @@ class ExamsDataSource {
                 ],
                 grades: [
                   ExamGrade(
-                    id: "10",
+                    id: 10,
                     title: "Grade 10",
                     chapters: [
                       ExamChapter(
@@ -38,7 +39,7 @@ class ExamsDataSource {
                     ],
                   ),
                   ExamGrade(
-                    id: "11",
+                    id: 11,
                     title: "Grade 11",
                     chapters: [
                       ExamChapter(
@@ -54,7 +55,7 @@ class ExamsDataSource {
                     ],
                   ),
                   ExamGrade(
-                    id: "12",
+                    id: 12,
                     title: "Grade 12",
                     chapters: [
                       ExamChapter(
@@ -72,6 +73,7 @@ class ExamsDataSource {
                 ],
               ),
               ExamYear(
+                id: 1,
                 courseId: 2,
                 title: "2013",
                 questions: [
@@ -80,7 +82,7 @@ class ExamsDataSource {
                 ],
                 grades: [
                   ExamGrade(
-                    id: "10",
+                    id: 10,
                     title: "Grade 10",
                     chapters: [
                       ExamChapter(
@@ -96,7 +98,7 @@ class ExamsDataSource {
                     ],
                   ),
                   ExamGrade(
-                    id: "11",
+                    id: 11,
                     title: "Grade 11",
                     chapters: [
                       ExamChapter(
@@ -112,7 +114,7 @@ class ExamsDataSource {
                     ],
                   ),
                   ExamGrade(
-                    id: "12",
+                    id: 12,
                     title: "Grade 12",
                     chapters: [
                       ExamChapter(
@@ -136,6 +138,7 @@ class ExamsDataSource {
             title: "Chemistry",
             years: [
               ExamYear(
+                id: 2,
                 courseId: 3,
                 title: "2012",
                 questions: [
@@ -144,7 +147,7 @@ class ExamsDataSource {
                 ],
                 grades: [
                   ExamGrade(
-                    id: "10",
+                    id: 10,
                     title: "Grade 10",
                     chapters: [
                       ExamChapter(
@@ -160,7 +163,7 @@ class ExamsDataSource {
                     ],
                   ),
                   ExamGrade(
-                    id: "11",
+                    id: 11,
                     title: "Grade 11",
                     chapters: [
                       ExamChapter(
@@ -176,7 +179,7 @@ class ExamsDataSource {
                     ],
                   ),
                   ExamGrade(
-                    id: "12",
+                    id: 12,
                     title: "Grade 12",
                     chapters: [
                       ExamChapter(
@@ -194,6 +197,7 @@ class ExamsDataSource {
                 ],
               ),
               ExamYear(
+                id: 3,
                 courseId: 4,
                 title: "2013",
                 questions: [
@@ -202,7 +206,7 @@ class ExamsDataSource {
                 ],
                 grades: [
                   ExamGrade(
-                    id: "10",
+                    id: 10,
                     title: "Grade 10",
                     chapters: [
                       ExamChapter(
@@ -218,7 +222,7 @@ class ExamsDataSource {
                     ],
                   ),
                   ExamGrade(
-                    id: "11",
+                    id: 11,
                     title: "Grade 11",
                     chapters: [
                       ExamChapter(
@@ -234,7 +238,7 @@ class ExamsDataSource {
                     ],
                   ),
                   ExamGrade(
-                    id: "12",
+                    id: 12,
                     title: "Grade 12",
                     chapters: [
                       ExamChapter(

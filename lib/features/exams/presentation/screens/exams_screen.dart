@@ -83,7 +83,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
               },
               categoryImage: "university",
-              categoryName: "COC",
+              categoryName: "Exit Exam",
             ),
             ExamCategoryShow(
               onTap: () {
@@ -91,7 +91,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
 
                 ref
                     .read(currentExamTypeProvider.notifier)
-                    .changeExamType(ExamType.ngat);
+                    .changeExamType(ExamType.exitexam);
                 ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
               },
               categoryImage: "university",

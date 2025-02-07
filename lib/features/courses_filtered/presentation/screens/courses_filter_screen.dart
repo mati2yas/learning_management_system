@@ -81,12 +81,12 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     final courseIdController = ref.watch(currentCourseIdProvider.notifier);
     final apiState = ref.watch(coursesFilteredProvider);
 
-    if (category == "high_school" && [2, 3].contains(currentTabIndex)) {
-      dropdownItems = ["natural", "social"];
-    } else if (category == "university") {
-      dropdownItems = ["engineering", "law", "medicine"];
-      dropDownValue = "engineering";
-    }
+    // if (category == "high_school" && [2, 3].contains(currentTabIndex)) {
+    //   dropdownItems = ["natural", "social"];
+    // } else if (category == "university") {
+    //   dropdownItems = ["engineering", "law", "medicine"];
+    //   dropDownValue = "engineering";
+    // }
 
     return DefaultTabController(
       length: filterGrades(category).length,
@@ -96,6 +96,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
           if (!tabController.indexIsChanging) {
             setState(() {
               currentTabIndex = tabController.index;
+              updateDropdownValue();
             });
           }
         });
@@ -348,28 +349,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     return [];
   }
 
-  List<Course> getFilteredCourses(
-      List<Course> courses, String category, String? grade, String? stream) {
-    return courses.where((course) {
-      switch (category) {
-        case "university":
-          int foundIndex = universityGrades.indexOf(grade!);
-          return course.batch == universityGrades[foundIndex];
-        case "high_school":
-          if (["Grade 11", "Grade 12"].contains(grade)) {
-            return course.grade == grade &&
-                course.stream?.toLowerCase() == stream?.toLowerCase();
-          } else {
-            return course.grade == grade;
-          }
-        case "lower_grades":
-          int foundIndex = lowerGrades.indexOf(grade!);
-          return course.grade == lowerGrades[foundIndex];
-        default:
-          return true;
-      }
-    }).toList();
-  }
+   
 
   @override
   void initState() {

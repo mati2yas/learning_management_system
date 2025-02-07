@@ -19,6 +19,9 @@ class SubscriptionRepository {
 
   
   Future<Response> subscribe(SubscriptionModel request) async {
+    if (!await _connectivityService.hasConnection()) {
+      throw Exception("No Internet");
+    }
     return await _dataSource.subscribe(request);
   }
 }

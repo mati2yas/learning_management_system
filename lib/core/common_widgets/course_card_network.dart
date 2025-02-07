@@ -63,7 +63,7 @@ class CourseCardWithImage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print(course.image);
+    //print(course.image);
     String urlee =
         "http://redonline.cdnds.net/main/thumbs/25788/stack_of_books.jpg";
 
@@ -226,8 +226,8 @@ class CourseCardWithImage extends ConsumerWidget {
               ),
             GestureDetector(
               onTap: () {
-
-                var (status, courses) = requestsController.addOrRemoveCourse(course);
+                var (status, courses) =
+                    requestsController.addOrRemoveCourse(course);
                 subscriptionController.updateCourses(courses);
 
                 debugPrint("after subscController updateCurse, courses:");
@@ -245,8 +245,8 @@ class CourseCardWithImage extends ConsumerWidget {
                 );
               },
               onLongPress: () {
-
-                var (status, courses) = requestsController.addOrRemoveCourse(course);
+                var (status, courses) =
+                    requestsController.addOrRemoveCourse(course);
 
                 subscriptionController.updateCourses(courses);
                 ScaffoldMessenger.of(context).showSnackBar(

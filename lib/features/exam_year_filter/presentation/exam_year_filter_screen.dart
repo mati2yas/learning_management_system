@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter_provider.dart';
 import 'package:lms_system/features/exam_year_filter/provider/current_exam_type_provider.dart';
+import 'package:lms_system/features/exam_year_filter/provider/current_exam_year_provider.dart';
 import 'package:lms_system/features/exam_year_filter/provider/exam_year_filter_provider.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/exams/provider/timer_provider.dart';
@@ -132,6 +133,10 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
                                 // navigate to the page that
                                 // further filter the exams
                                 print("to page 8, exam title: examtitle");
+
+                                ref
+                                    .read(currentExamYearIdProvider.notifier)
+                                    .changeYearId(year.id);
                                 ref
                                     .read(examGradeFilterApiProvider.notifier)
                                     .fetchExamGrades();
