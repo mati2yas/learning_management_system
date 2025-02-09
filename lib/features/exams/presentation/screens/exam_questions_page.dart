@@ -8,7 +8,11 @@ import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 import '../../provider/timer_provider.dart';
 
 class ExamQuestionsPage extends ConsumerStatefulWidget {
-  const ExamQuestionsPage({super.key});
+  final bool hasTimerOption;
+  const ExamQuestionsPage({
+    super.key,
+    this.hasTimerOption = false,
+  });
 
   @override
   ConsumerState<ExamQuestionsPage> createState() => _ExamQuestionsPageState();
@@ -32,11 +36,14 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
   ScreenLayoutConfig layoutConfig = ScreenLayoutConfig();
   bool allQuestionsAnswered = false;
 
+  dynamic timerAsyncValue;
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
-    final timerAsyncValue = ref.watch(examTimerProvider);
+    if (widget.hasTimerOption) {
+      timerAsyncValue = ref.watch(examTimerProvider);
+    }
     middleExpandedFlex = questions.isNotEmpty &&
             questions[currentQuestionImageTrack].image == null
         ? 2
@@ -65,18 +72,19 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                 color: Colors.black,
               ),
             ),
-            timerAsyncValue.when(
-              data: (remainingSeconds) {
-                final minutes = remainingSeconds ~/ 60;
-                final seconds = remainingSeconds % 60;
-                return Text(
-                  "Time Left: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}",
-                  style: textTh.bodySmall!.copyWith(color: Colors.red),
-                );
-              },
-              loading: () => const Text("Calculating time..."),
-              error: (e, _) => const Text("Error with timer"),
-            ),
+            if (widget.hasTimerOption)
+              timerAsyncValue.when(
+                data: (remainingSeconds) {
+                  final minutes = remainingSeconds ~/ 60;
+                  final seconds = remainingSeconds % 60;
+                  return Text(
+                    "Time Left: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}",
+                    style: textTh.bodySmall!.copyWith(color: Colors.red),
+                  );
+                },
+                loading: () => const Text("Calculating time..."),
+                error: (e, _) => const Text("Error with timer"),
+              ),
           ],
         ),
         centerTitle: true,
@@ -343,10 +351,6 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
             ),
     );
   }
-  void submitExam() {
-   
-  }
-   
 
   @override
   void initState() {
@@ -377,6 +381,8 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
       });
     });
   }
+
+  void submitExam() {}
 
   // this tracks the state of the layout config object
   // based on the current pageview index.

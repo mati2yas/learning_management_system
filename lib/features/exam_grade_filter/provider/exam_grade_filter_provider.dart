@@ -28,12 +28,14 @@ class ExamGradeFilterNotifier extends AsyncNotifier<List<ExamGrade>> {
 
   Future<List<ExamGrade>> fetchExamGrades() async {
     int id = ref.read(currentExamYearIdProvider);
+    state = const AsyncValue.loading();
     try {
       final examGrades = await _repository.fetchExamGrades(id);
-      return examGrades;
+      state = AsyncValue.data(examGrades);
     } catch (e, stack) {
       state = AsyncError(e, stack);
       rethrow;
     }
+    return state.value ?? [];
   }
 }

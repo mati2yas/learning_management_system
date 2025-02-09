@@ -113,10 +113,7 @@ class WrapperScreen extends ConsumerWidget {
       ref.read(homeScreenApiProvider.notifier).build();
       ref.read(currentUserProvider.notifier).build();
     }
-    // if (currentPage == 3) {
-    //   ref.read(examGradeFilterApiProvider.notifier).build();
-    //   ref.read(examYearFilterApiProvider.notifier).build();
-    // }
+    
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,

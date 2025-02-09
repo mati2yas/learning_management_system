@@ -60,9 +60,8 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
               padding: EdgeInsets.symmetric(horizontal: 10.0),
               // child: CustomTabBar(
               //   tabs: tabsList
-              //       .map((ex) => Text(
-              //             ex,
-              //             style: textTh.titleMedium,
+              //       .map((ex) => Tab(
+              //             text: ex,
               //           ))
               //       .toList(),
               //   alignment: TabAlignment.start,
@@ -99,7 +98,7 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
                 ),
                 child: ListTile(
                   title: Text(year.title),
-                  subtitle: Text('${year.questions.length} questions'),
+                  subtitle: Text('${year.questionCount} questions'),
                   onTap: () {},
                   trailing: examTypeProv == ExamType.matric
                       ? PopupMenuButton<void>(
@@ -173,7 +172,7 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
                                 "exam title": "exam title",
                                 "exam year": year.title,
                                 "questions": year.questions,
-                                "previusScreen": 7,
+                                "previousScreen": 7,
                               };
                               pageController.navigatePage(6,
                                   arguments: examData);

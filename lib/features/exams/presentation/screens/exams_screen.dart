@@ -51,48 +51,47 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
           children: [
             ExamCategoryShow(
               onTap: () {
-                pageNavController.navigatePage(7);
-
                 ref
                     .read(currentExamTypeProvider.notifier)
                     .changeExamType(ExamType.matric);
                 ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+                pageNavController.navigatePage(7);
               },
               categoryImage: "high_school",
               categoryName: "Matric",
             ),
             ExamCategoryShow(
               onTap: () {
-                pageNavController.navigatePage(7);
-
                 ref
                     .read(currentExamTypeProvider.notifier)
                     .changeExamType(ExamType.ministry);
                 ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+
+                pageNavController.navigatePage(7);
               },
               categoryImage: "high_school",
               categoryName: "Ministry",
             ),
             ExamCategoryShow(
               onTap: () {
-                pageNavController.navigatePage(7);
-
                 ref
                     .read(currentExamTypeProvider.notifier)
                     .changeExamType(ExamType.coc);
                 ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+
+                pageNavController.navigatePage(7);
               },
               categoryImage: "university",
               categoryName: "Exit Exam",
             ),
             ExamCategoryShow(
               onTap: () {
-                pageNavController.navigatePage(7);
-
                 ref
                     .read(currentExamTypeProvider.notifier)
                     .changeExamType(ExamType.exitexam);
                 ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+
+                pageNavController.navigatePage(7);
               },
               categoryImage: "university",
               categoryName: "NGAT",

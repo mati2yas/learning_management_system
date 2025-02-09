@@ -29,12 +29,15 @@ class CoursesFilteredNotifier extends AsyncNotifier<List<Course>> {
     return fetchCoursesFiltered(filter: filter);
   }
 
-  Future<List<Course>> fetchCoursesFiltered({required String filter}) async {
+  
+   Future<List<Course>> fetchCoursesFiltered({required String filter}) async {
+    state = const AsyncValue.loading();
     try {
       final coursesFiltered = await _repository.fetchCourses(filter: filter);
-      return coursesFiltered;
-    } catch (e) {
-      rethrow;
+      state = AsyncValue.data(coursesFiltered);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
     }
+    return state.value ?? [];
   }
 }

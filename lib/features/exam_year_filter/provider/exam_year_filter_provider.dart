@@ -31,8 +31,10 @@ class ExamYearFilterNotifier extends AsyncNotifier<List<ExamYear>> {
 
   Future<List<ExamYear>> fetchExamYears() async {
     var currentExamType = ref.read(currentExamTypeProvider);
+    state = const AsyncLoading();
     try {
       final examYears = await _repository.fetchExamYears(currentExamType);
+      state = AsyncData(examYears);
       return examYears;
     } catch (e, stack) {
       state = AsyncError(e, stack);

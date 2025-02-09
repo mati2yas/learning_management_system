@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 
@@ -64,7 +65,12 @@ class Course {
       onSalePrices[SubscriptionType.yearly] =
           double.tryParse(json["on_sale_one_year"]);
     }
-    print("course id: ${json["id"]}");
+    //debugPrint("course id: ${json["id"]}");
+    // if (json["grade"]?["grade_name"] == "Grade 11" ||
+    //     json["grade"]?["grade_name"] == "Grade 12") {
+    //   debugPrint(
+    //       "grade: ${json["grade"]?["grade_name"]}, stream: ${json["grade"]?["stream"]}");
+    // }
 
     return Course(
       id: json["id"].toString(),

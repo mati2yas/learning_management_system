@@ -63,8 +63,10 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     "Grade 11": [],
     "Grade 12": [],
   };
+
+  List<String> dropdownItems = [];
   HsClasses hsClasses = HsClasses.lowerHs;
-  String? dropDownValue = "natural";
+  String? dropDownValue = "Natural";
   int? currentTabIndex;
   List<Course> selectedCourses = [];
   @override
@@ -73,20 +75,9 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     final pageController = ref.read(pageNavigationProvider.notifier);
-    //final coursesFilteredState = ref.watch(coursesfilpro)
-    //final coursesFilteredState =
-    // Determine dropdown items dynamically
-    List<String> dropdownItems = [];
 
     final courseIdController = ref.watch(currentCourseIdProvider.notifier);
     final apiState = ref.watch(coursesFilteredProvider);
-
-    // if (category == "high_school" && [2, 3].contains(currentTabIndex)) {
-    //   dropdownItems = ["natural", "social"];
-    // } else if (category == "university") {
-    //   dropdownItems = ["engineering", "law", "medicine"];
-    //   dropDownValue = "engineering";
-    // }
 
     return DefaultTabController(
       length: filterGrades(category).length,
@@ -170,11 +161,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                           .map(
                             (grd) => Tab(
                               height: 24,
-                              child: Text(
-                                grd,
-                                style: textTh.bodyLarge!
-                                    .copyWith(fontWeight: FontWeight.w500),
-                              ),
+                              text: grd,
                             ),
                           )
                           .toList(),
@@ -195,9 +182,31 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                   ),
                 ),
                 error: (error, stack) => Center(
-                  child: Text(
-                    error.toString(),
-                    style: textTh.titleMedium!.copyWith(color: Colors.red),
+                  child: SizedBox(
+                    height: 120,
+                    width: 280,
+                    child: Column(
+                      spacing: 12,
+                      children: [
+                        Text(
+                          error.toString().replaceAll("Exception:", ""),
+                          style:
+                              textTh.titleMedium!.copyWith(color: Colors.red),
+                        ),
+                        FilledButton(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: AppColors.mainBlue,
+                            foregroundColor: Colors.white,
+                          ),
+                          onPressed: () async {
+                            await ref
+                                .read(coursesFilteredProvider.notifier)
+                                .fetchCoursesFiltered(filter: category);
+                          },
+                          child: const Text("Retry"),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 data: (courses) {
@@ -206,61 +215,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                   return TabBarView(
                     controller: tabController,
                     children: filterGrades(category).map((grade) {
-                      // if (category == "university") {
-                      //   selectedCourses = courses
-                      //       .where((course) =>
-                      //           course.batch ==
-                      //           universityGrades[currentTabIndex ?? 0])
-                      //       .toList();
-                      // } else if (category == "high_school") {
-                      //   debugPrint(
-                      //       "high school courses length: ${courses.length}");
-
-                      //   // the below in case previous state was
-                      //   // prep hs, we will perform below logic to bring
-                      //   // back to the old lower hs classes.
-
-                      //   selectedCourses = courses
-                      //       .where((course) =>
-                      //           course.grade ==
-                      //           highSchoolGrades[currentTabIndex ?? 0])
-                      //       .toList();
-                      //   if (hsClasses == HsClasses.prepHs &&
-                      //       ["Grade 9", "Grade 10"].contains(grade)) {
-                      //     var index = 0;
-                      //     if (grade == "Grade 9") {
-                      //       index = 0;
-                      //     } else if (grade == "Grade 10") {
-                      //       index = 1;
-                      //     }
-                      //     selectedCourses = courses
-                      //         .where((course) =>
-                      //             course.grade == highSchoolGrades[index])
-                      //         .toList();
-
-                      //     hsClasses = HsClasses.lowerHs;
-                      //   }
-                      //   if (["Grade 11", "Grade 12"].contains(grade)) {
-                      //     hsClasses = HsClasses.prepHs;
-                      //     selectedCourses = selectedCourses
-                      //         .where((course) => course.stream == dropDownValue)
-                      //         .toList();
-                      //   }
-
-                      // } else if (category == "lower_grades") {
-                      //   selectedCourses = courses
-                      //       .where((course) =>
-                      //           course.grade ==
-                      //           lowerGrades[currentTabIndex ?? 0])
-                      //       .toList();
-                      // } else {
-                      //   selectedCourses = courses;
-                      // }
-                      // if (grade == "Grade 9" || grade == "Grade 10") {
-                      //   hsClasses = HsClasses.lowerHs;
-                      // } else if (grade == "Grade 11" || grade == "Grade 12") {
-                      //   hsClasses = HsClasses.prepHs;
-                      // }
+                      //
                       switch (category) {
                         case "university":
                           selectedCourses = courses
@@ -283,9 +238,16 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                     course.grade ==
                                         highSchoolGrades[
                                             currentTabIndex ?? 0] &&
-                                    course.stream == dropDownValue)
+                                    course.stream?.toLowerCase() ==
+                                        dropDownValue?.toLowerCase())
                                 .toList();
                           }
+                          String theList = selectedCourses
+                              .take((selectedCourses.length * 0.75).toInt())
+                              .map((course) =>
+                                  "{${course.grade},${course.stream}}")
+                              .join("|");
+                          debugPrint("current Courses: $theList");
                           break;
                         case "lower_grades":
                           selectedCourses = courses
@@ -349,8 +311,6 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     return [];
   }
 
-   
-
   @override
   void initState() {
     super.initState();
@@ -363,9 +323,12 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     final category = ref.read(currentCourseFilterProvider);
     List<String> grades = filterGrades(category);
     // Determine dropdown items
-    List<String> dropdownItems = [];
-
-    if (category == "high_school" && [2, 3].contains(currentTabIndex)) {
+    //List<String> dropdownItems = [];
+    if (category == "high_school" &&
+        (currentTabIndex == 0 || currentTabIndex == 1)) {
+      dropdownItems = [];
+      dropDownValue = null;
+    } else if (category == "high_school" && [2, 3].contains(currentTabIndex)) {
       dropdownItems = ["Natural", "Social"];
     } else if (category == "university") {
       // var items =  (grades)

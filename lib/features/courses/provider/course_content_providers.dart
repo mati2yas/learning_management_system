@@ -29,10 +29,13 @@ class CourseContentNotifier extends AsyncNotifier<List<Chapter>> {
   }
 
   Future<List<Chapter>> fetchCourseChapters(String courseId) async {
+    state = const AsyncValue.loading();
     try {
       final courseChapters = await _repository.fetchCourseChapters(courseId);
+      state = AsyncValue.data(courseChapters);
       return courseChapters;
-    } catch (e) {
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
       rethrow;
     }
   }

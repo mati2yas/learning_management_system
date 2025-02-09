@@ -45,7 +45,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {
-                pageController.navigatePage(3);
+                pageController.navigatePage(7);
               },
               icon: const Icon(
                 Icons.arrow_back,
@@ -74,10 +74,12 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                         alignment: TabAlignment.start,
                         isScrollable: true,
                         tabs: tabsList
-                            .map((ex) => Text(
-                                  ex,
-                                  style: textTh.titleMedium,
-                                ))
+                            .map(
+                              (tab) => Tab(
+                                height: 24,
+                                text: tab,
+                              ),
+                            )
                             .toList(),
                       ),
                     ],
