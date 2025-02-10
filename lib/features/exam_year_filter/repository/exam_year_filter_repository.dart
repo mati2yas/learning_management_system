@@ -16,7 +16,7 @@ class ExamYearFilterRepository {
   final ConnectivityService _connectivityService;
   ExamYearFilterRepository(this._dataSource, this._connectivityService);
 
-  Future<List<ExamYear>> fetchExamYears(ExamType examType) async {
+  Future<List<ExamCourse>> fetchExamYears(ExamType examType) async {
     if (!await _connectivityService.hasConnection()) {
       throw Exception("No internet connection");
     }

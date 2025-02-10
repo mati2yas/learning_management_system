@@ -23,7 +23,7 @@ class ExamChapter {
 }
 
 class ExamCourse {
-  final String id;
+  final int id;
   final String title;
   final List<ExamYear> years;
 
@@ -32,6 +32,18 @@ class ExamCourse {
     required this.title,
     required this.years,
   });
+  factory ExamCourse.fromJson(Map<String, dynamic> json) {
+    List<ExamYear> years = [];
+    for (var yr in json["exam_years"]) {
+      years.add(ExamYear.fromJson(yr));
+    }
+
+    return ExamCourse(
+      id: json["id"],
+      title: json["course_name"] ?? "coursename",
+      years: years,
+    );
+  }
 }
 
 class ExamGrade {
@@ -84,11 +96,17 @@ class ExamYear {
   });
 
   factory ExamYear.fromJson(Map<String, dynamic> json) {
+    int? id;
+    if (json["id"] == "") {
+      id = 0;
+    } else {
+      id = int.tryParse(json["id"]);
+    }
     return ExamYear(
-      id: json['id'] ?? 0,
-      title: json["exam_year"],
+      id: id ?? 0,
+      title: json["year_name"] ?? "year name",
       courseId: json["course_id"] ?? 0,
-      questionCount: json['question_count'],
+      questionCount: json['question_count'] ?? 0,
     );
   }
 }
@@ -115,7 +133,6 @@ class Question {
     this.videoExplanationUrl,
   });
   factory Question.fromJson(Map<String, dynamic> json) {
-
     return Question(
       id: json["id"],
       sequenceOrder: json["sequence_order"],

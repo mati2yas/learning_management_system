@@ -6,7 +6,7 @@ import 'package:lms_system/features/exam_year_filter/repository/exam_year_filter
 import 'package:lms_system/features/exams/model/exams_model.dart';
 
 final examYearFilterApiProvider =
-    AsyncNotifierProvider<ExamYearFilterNotifier, List<ExamYear>>(
+    AsyncNotifierProvider<ExamYearFilterNotifier, List<ExamCourse>>(
   () {
     final container = ProviderContainer(
       overrides: [
@@ -19,17 +19,17 @@ final examYearFilterApiProvider =
 final examYearFilterNotifierProvider = Provider((ref) =>
     ExamYearFilterNotifier(ref.read(examYearFilterRepositoryProvider)));
 
-class ExamYearFilterNotifier extends AsyncNotifier<List<ExamYear>> {
+class ExamYearFilterNotifier extends AsyncNotifier<List<ExamCourse>> {
   final ExamYearFilterRepository _repository;
 
   ExamYearFilterNotifier(this._repository);
 
   @override
-  Future<List<ExamYear>> build() {
+  Future<List<ExamCourse>> build() {
     return fetchExamYears();
   }
 
-  Future<List<ExamYear>> fetchExamYears() async {
+  Future<List<ExamCourse>> fetchExamYears() async {
     var currentExamType = ref.read(currentExamTypeProvider);
     state = const AsyncLoading();
     try {

@@ -6,7 +6,6 @@ import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/exams/presentation/widgets/exam_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-import '../../provider/exams_provider.dart';
 
 class ExamsScreen extends ConsumerStatefulWidget {
   const ExamsScreen({super.key});
@@ -21,8 +20,6 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     final pageNavController = ref.read(pageNavigationProvider.notifier);
-    final examsController = ref.watch(examsProvider.notifier);
-    final exams = ref.read(examsProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
