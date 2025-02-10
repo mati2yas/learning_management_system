@@ -61,7 +61,7 @@ class ExamGrade {
     return ExamGrade(
       id: json["id"],
       title: "Grade ${json["grade"]}",
-      chapters: chaps ,
+      chapters: chaps,
     );
   }
 }
@@ -94,21 +94,38 @@ class ExamYear {
 }
 
 class Question {
-  final String question;
+  final String questionText;
   final List<String> options;
   final String answer;
   final String explanation;
   final int sequenceOrder;
-  String? image;
-
-  var imageExplanationUrl;
+  final int id;
+  String? imageUrl;
+  String? imageExplanationUrl, videoExplanationUrl;
 
   Question({
-    required this.question,
+    required this.id,
+    required this.questionText,
     required this.options,
     required this.answer,
     required this.explanation,
     required this.sequenceOrder,
-    this.image,
+    this.imageUrl,
+    this.imageExplanationUrl,
+    this.videoExplanationUrl,
   });
+  factory Question.fromJson(Map<String, dynamic> json) {
+
+    return Question(
+      id: json["id"],
+      sequenceOrder: json["sequence_order"],
+      questionText: json["question_text"],
+      options: json["options"] as List<String>,
+      answer: json["answer"],
+      imageUrl: json["question_image_url"],
+      imageExplanationUrl: json["image_explanation_url"],
+      videoExplanationUrl: json["video_explanation_url"],
+      explanation: json["text_explanation"],
+    );
+  }
 }

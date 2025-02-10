@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/constants/colors.dart';
 
-import '../../model/exams_model.dart';
 
 class ExamCategoryShow extends StatelessWidget {
   final Function onTap;

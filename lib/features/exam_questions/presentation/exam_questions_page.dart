@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/features/exam_questions/provider/exam_questions_provider.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_layout.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-import '../../provider/timer_provider.dart';
+import '../../exams/provider/timer_provider.dart';
 
 class ExamQuestionsPage extends ConsumerStatefulWidget {
-  final bool hasTimerOption;
   const ExamQuestionsPage({
     super.key,
-    this.hasTimerOption = false,
   });
 
   @override
@@ -36,18 +35,22 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
   ScreenLayoutConfig layoutConfig = ScreenLayoutConfig();
   bool allQuestionsAnswered = false;
 
+  bool hasTimerOption = false;
+
   dynamic timerAsyncValue;
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
-    if (widget.hasTimerOption) {
+    if (hasTimerOption) {
       timerAsyncValue = ref.watch(examTimerProvider);
     }
     middleExpandedFlex = questions.isNotEmpty &&
-            questions[currentQuestionImageTrack].image == null
+            questions[currentQuestionImageTrack].imageUrl == null
         ? 2
         : 4;
+
+    final apiState = ref.watch(examQuestionsApiProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -72,7 +75,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                 color: Colors.black,
               ),
             ),
-            if (widget.hasTimerOption)
+            if (hasTimerOption)
               timerAsyncValue.when(
                 data: (remainingSeconds) {
                   final minutes = remainingSeconds ~/ 60;
@@ -93,18 +96,21 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
         shadowColor: Colors.black87,
         backgroundColor: Colors.white,
       ),
-      body: initializingPage
-          ? const Center(
-              child: SizedBox(
-                width: 60,
-                height: 60,
+      body: apiState.when(
+          loading: () => const Center(
                 child: CircularProgressIndicator(
                   color: AppColors.mainBlue,
                   strokeWidth: 5,
                 ),
               ),
-            )
-          : Padding(
+          error: (error, stack) => Center(
+                child: Text(
+                  error.toString(),
+                  style: textTh.titleMedium!.copyWith(color: Colors.red),
+                ),
+              ),
+          data: (questions) {
+            return Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 18.0,
                 horizontal: 12,
@@ -136,7 +142,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                   }
                                   return Column(
                                     children: [
-                                      if (currentQuestion.image != null)
+                                      if (currentQuestion.imageUrl != null)
                                         SizedBox(
                                           width: size.width * 0.8,
                                           height: 150,
@@ -155,7 +161,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "${currentQuestion.sequenceOrder}. ${currentQuestion.question}",
+                                          "${currentQuestion.sequenceOrder}. ${currentQuestion.questionText}",
                                           style: const TextStyle(fontSize: 15),
                                         ),
                                       ),
@@ -348,7 +354,8 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                   ],
                 ),
               ),
-            ),
+            );
+          }),
     );
   }
 
@@ -365,7 +372,8 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
         examTitle = examData["exam title"]!;
         examYear = examData["exam year"]!;
         questions = examData["questions"]! as List<Question>;
-        previousScreen = examData["previusScreen"]! as int;
+        previousScreen = examData["previousScreen"]! as int;
+        hasTimerOption = examData["hasTimerOption"];
 
         correctAnswers = List.generate(questions.length, (index) => "");
         selectedAnswers = List.generate(questions.length, (index) => "");
@@ -373,7 +381,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
         for (var question in questions) {
           int index = questions.indexOf(question);
           correctAnswers[index] = question.answer;
-          questionContainsImage.add(question.image == null);
+          questionContainsImage.add(question.imageUrl == null);
         }
         initializingPage = false;
 
@@ -398,7 +406,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
   void trackLayoutConfig() {
     double current = pageViewController.page ?? 0;
     int currentIndex = current.toInt();
-    layoutConfig.imageExists = questions[currentIndex].image != null;
+    layoutConfig.imageExists = questions[currentIndex].imageUrl != null;
     layoutConfig.answerRevealed = false;
     print("current page: $currentIndex");
     print(

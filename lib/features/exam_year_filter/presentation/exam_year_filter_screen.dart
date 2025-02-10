@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter_provider.dart';
+import 'package:lms_system/features/exam_questions/provider/current_id_stub_provider.dart';
+import 'package:lms_system/features/exam_questions/provider/exam_questions_provider.dart';
 import 'package:lms_system/features/exam_year_filter/provider/current_exam_type_provider.dart';
 import 'package:lms_system/features/exam_year_filter/provider/current_exam_year_provider.dart';
 import 'package:lms_system/features/exam_year_filter/provider/exam_year_filter_provider.dart';
@@ -103,7 +106,8 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
                   trailing: examTypeProv == ExamType.matric
                       ? PopupMenuButton<void>(
                           icon: const Icon(
-                              Icons.more_vert), // Vertical three dots
+                            Icons.more_vert,
+                          ), // Vertical three dots
                           itemBuilder: (BuildContext context) =>
                               <PopupMenuEntry<void>>[
                             PopupMenuItem<void>(
@@ -114,8 +118,18 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
                                   "exam title": "exam title",
                                   "exam year": year.title,
                                   "questions": year.questions,
-                                  "previusScreen": 7,
+                                  "previousScreen": 7,
+                                  "hasTimerOption": true,
                                 };
+                                ref
+                                    .read(currentIdStubProvider.notifier)
+                                    .changeStub({
+                                  "idType": IdType.all,
+                                  "id": year.id,
+                                });
+                                ref
+                                    .read(examQuestionsApiProvider.notifier)
+                                    .fetchQuestions();
                                 ref
                                     .read(examTimerProvider.notifier)
                                     .resetTimer();

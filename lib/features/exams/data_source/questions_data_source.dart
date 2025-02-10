@@ -2,8 +2,9 @@ part of 'exams_data_source.dart';
 
 List<Question> chemistryChapterOneGrade10 = [
   Question(
+    id: 0,
     sequenceOrder: 1,
-    question: "Which of the following is a balanced chemical equation?",
+    questionText: "Which of the following is a balanced chemical equation?",
     options: [
       "H2​+O2​→H2​O",
       "N2​+3H2​→2NH3",
@@ -15,8 +16,9 @@ List<Question> chemistryChapterOneGrade10 = [
         "A balanced equation has equal numbers of each type of atom on both sides. In (A), the oxygen atoms are not balanced. In (C), both carbon and oxygen are not balanced. Option (B) is correctly balanced with 1 nitrogen molecule, 3 hydrogen molecules, and 2 ammonia molecules.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 2,
-    question:
+    questionText:
         "How many moles of O2O2​ are required to completely react with 2 moles of C2H6C2​H6​ in the reaction: 2C2H6+7O2→4CO2+6H2O2C2​H6​+7O2​→4CO2​+6H2​O?",
     options: [
       "2 moles",
@@ -30,8 +32,9 @@ List<Question> chemistryChapterOneGrade10 = [
         "The balanced equation shows that 7 moles of O2O2​ react with 2 moles of C2H6C2​H6​. Thus, 2 moles of C2H6C2​H6​ require 7×2=147×2=14 moles of O2O2​.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 3,
-    question:
+    questionText:
         "Which of the following correctly represents the mole ratio of AlAl to O2O2​ in the reaction: 4Al+3O2→2Al2O34Al+3O2​→2Al2​O3​?",
     options: [
       "4:3",
@@ -44,8 +47,9 @@ List<Question> chemistryChapterOneGrade10 = [
         "From the balanced equation, 4 moles of Al react with 3 moles of O2​. Thus, the mole ratio of Al:O2​ is 4:3.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 4,
-    question:
+    questionText:
         "If 5.0 grams of NaClNaCl are dissolved in water, how many moles of NaClNaCl are present? (Molar mass of NaCl=58.44 g/molNaCl=58.44g/mol)",
     options: [
       "0.086 moles",
@@ -59,8 +63,9 @@ List<Question> chemistryChapterOneGrade10 = [
         "Moles=5.058.44≈0.086 moles.Moles=58.445.0​≈0.086moles.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 5,
-    question:
+    questionText:
         "In the reaction 2KClO3→2KCl+3O22KClO3​→2KCl+3O2​, how many grams of O2O2​ are produced when 122.55 g of KClO3KClO3​ decomposes? (Molar masses: KClO3=122.55 g/molKClO3​=122.55g/mol, O2=32.00 g/molO2​=32.00g/mol)",
     options: [
       "32.00 g",
@@ -81,8 +86,9 @@ List<Question> chemistryChapterOneGrade10 = [
 
 List<Question> chemistryChapterTwoGrade10 = [
   Question(
+      id: 0,
       sequenceOrder: 1,
-      question:
+      questionText:
           "Which of the following is an example of a saturated hydrocarbon?",
       options: [
         "Ethene",
@@ -94,8 +100,9 @@ List<Question> chemistryChapterTwoGrade10 = [
       explanation:
           " Saturated hydrocarbons (alkanes) contain only single bonds between carbon atoms. Ethane (C2H6C2​H6​) is an alkane. Ethene (C2H4C2​H4​) and Ethyne (C2H2C2​H2​) have double and triple bonds, respectively, and benzene (C6H6C6​H6​) has alternating single and double bonds in a ring structure."),
   Question(
+    id: 0,
     sequenceOrder: 2,
-    question: "Which functional group is present in alcohols?",
+    questionText: "Which functional group is present in alcohols?",
     options: [
       "−OH",
       "−CHO",
@@ -107,8 +114,9 @@ List<Question> chemistryChapterTwoGrade10 = [
         "The hydroxyl group (−OH−OH) is the functional group in alcohols. −CHO is found in aldehydes, −COOH in carboxylic acids, and −NH2​ in amines.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 3,
-    question: "What is the molecular formula of benzene?",
+    questionText: "What is the molecular formula of benzene?",
     options: [
       "C6H12",
       "C6​H6",
@@ -120,8 +128,9 @@ List<Question> chemistryChapterTwoGrade10 = [
         "Benzene is an aromatic hydrocarbon with the molecular formula C6H6C6​H6​. It has six carbon atoms in a ring with alternating single and double bonds, and six hydrogen atoms attached.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 4,
-    question: "Which of the following compounds is an example of an ester?",
+    questionText: "Which of the following compounds is an example of an ester?",
     options: [
       "Ethanol",
       "Ethanoic acid",
@@ -133,8 +142,9 @@ List<Question> chemistryChapterTwoGrade10 = [
         "Esters have the functional group −COO−−COO−. Ethyl ethanoate (CH3COOCH2CH3CH3​COOCH2​CH3​) is an ester. Ethanol is an alcohol, ethanoic acid is a carboxylic acid, and methanamide is an amide.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 5,
-    question: "What type of isomerism is shown by butane (C4H10C4​H10​)?",
+    questionText: "What type of isomerism is shown by butane (C4H10C4​H10​)?",
     options: [
       "Geometric isomerism",
       "Structural isomerism",
@@ -149,8 +159,9 @@ List<Question> chemistryChapterTwoGrade10 = [
 
 List<Question> mathChapterOneGrade10 = [
   Question(
+    id: 0,
     sequenceOrder: 1,
-    question: "A relation f:A→B is called a function if:",
+    questionText: "A relation f:A→B is called a function if:",
     options: [
       "Every element of A has at least one image in B",
       "Every element of A has exactly one image in B.",
@@ -162,8 +173,9 @@ List<Question> mathChapterOneGrade10 = [
         "A function is defined as a relation where each element of the domain AA is associated with exactly one element in the codomain BB. Option (A) is incorrect because \"at least one\" does not guarantee uniqueness. Option (C) describes an injective relation, not the definition of a function.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 2,
-    question:
+    questionText:
         "If f(x)=x2+1f(x)=x2+1 and g(x)=2x+3g(x)=2x+3, what is (f∘g)(x)(f∘g)(x)?",
     options: [
       "2x2+7x+10",
@@ -176,8 +188,10 @@ List<Question> mathChapterOneGrade10 = [
         "Composition of functions (f∘g)(x)(f∘g)(x) means f(g(x))f(g(x)). Substituting g(x)=2x+3g(x)=2x+3 into f(x)f(x), we get: f(g(x))=f(2x+3)=(2x+3)2+1f(g(x))=f(2x+3)=(2x+3)2+1.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 3,
-    question: "Which of the following relations is an equivalence relation?",
+    questionText:
+        "Which of the following relations is an equivalence relation?",
     options: [
       "Reflexive and transitive",
       "Symmetric and transitive",
@@ -189,8 +203,9 @@ List<Question> mathChapterOneGrade10 = [
         "An equivalence relation must satisfy three properties: reflexivity, symmetry, and transitivity. Options (A) and (B) do not include all three properties.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 4,
-    question:
+    questionText:
         "If f(x)=3x−4f(x)=3x−4 is a one-to-one function, what is its inverse?",
     options: [
       "f−1(x)=x+43f−1(x)=3x+4​",
@@ -204,8 +219,10 @@ List<Question> mathChapterOneGrade10 = [
         "Replace yy with xx, so f−1(x)=x+43f−1(x)=3x+4​.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 5,
-    question: "Which of the following is an example of a surjective function?",
+    questionText:
+        "Which of the following is an example of a surjective function?",
     options: [
       "f(x)=x2,f:R→Rf(x)=x2,f:R→R",
       "f(x)=x2,f:R→R+∪{0}",
@@ -219,8 +236,9 @@ List<Question> mathChapterOneGrade10 = [
 ];
 List<Question> mathChapterTwoGrade10 = [
   Question(
+    id: 0,
     sequenceOrder: 1,
-    question: "Which of the following is a polynomial function?",
+    questionText: "Which of the following is a polynomial function?",
     options: [
       "f(x)=3x2+5x−2",
       "f(x)=1x+4xf(x)=x1​+4x",
@@ -232,8 +250,9 @@ List<Question> mathChapterTwoGrade10 = [
         " A polynomial function is an expression consisting of terms with non-negative integer exponents of xx. Option (A) satisfies this condition. Options (B) and (C) involve non-integer or negative exponents, so they are not polynomial functions.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 2,
-    question:
+    questionText:
         "What is the degree of the polynomial f(x)=4x5−3x3+2x2−7f(x)=4x5−3x3+2x2−7?",
     options: [
       "2",
@@ -246,8 +265,9 @@ List<Question> mathChapterTwoGrade10 = [
         "The degree of a polynomial is the highest power of xx with a non-zero coefficient. Here, the highest power is x5x5, so the degree is 5.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 3,
-    question:
+    questionText:
         "If f(x)=x3−4x2+6x−24f(x)=x3−4x2+6x−24, which of the following is a root of f(x)f(x)?",
     options: [
       "x=1",
@@ -261,8 +281,9 @@ List<Question> mathChapterTwoGrade10 = [
         "Thus, x=2x=2 is a root.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 4,
-    question: "Which of the following statements is true for f(x)=x2+2x+1?",
+    questionText: "Which of the following statements is true for f(x)=x2+2x+1?",
     options: [
       "The polynomial has two distinct real roots.",
       "The polynomial has two complex roots.",
@@ -274,8 +295,9 @@ List<Question> mathChapterTwoGrade10 = [
         "The discriminant of a quadratic polynomial ax2+bx+cax2+bx+c is Δ=b2−4acΔ=b2−4ac. For f(x)=x2+2x+1, Δ=22−4(1)(1)=0Δ=22−4(1)(1)=0, indicating a repeated real root.",
   ),
   Question(
+    id: 0,
     sequenceOrder: 5,
-    question:
+    questionText:
         "What is the end behavior of the polynomial f(x)=−2x4+3x3−x+5f(x)=−2x4+3x3−x+5?",
     options: [
       "f(x)→∞ as x→∞x→∞, and f(x)→∞f(x)→∞ as x→−∞x→−∞.",

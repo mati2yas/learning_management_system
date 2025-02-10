@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter_provider.dart';
+import 'package:lms_system/features/exam_questions/provider/current_id_stub_provider.dart';
+import 'package:lms_system/features/exam_questions/provider/exam_questions_provider.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
@@ -144,8 +147,18 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                                   "exam title": "exam titlee",
                                   "exam year": "year.title",
                                   "questions": chapters[index].questions,
-                                  "previusScreen": 8,
+                                  "previousScreen": 8,
+                                  "hasTimerOption": false,
                                 };
+                                ref
+                                    .read(currentIdStubProvider.notifier)
+                                    .changeStub({
+                                  "idType": IdType.all,
+                                  "id": chapters[index].id,
+                                });
+                                ref
+                                    .read(examQuestionsApiProvider.notifier)
+                                    .fetchQuestions();
                                 pageController.navigatePage(6,
                                     arguments: examDataNext);
                               },

@@ -12,14 +12,22 @@ class EditProfileDataSource {
   EditProfileDataSource(this._dio);
 
   Future<void> editUserProfile({
-    required String name,
-    required String email,
-    required String password,
-    required String bio,
-    required String image,
+    String? name,
+    String? email,
+    String? password,
+    String? bio,
+    String? image,
   }) async {
     int? statusCode;
-    try {} on DioException catch (e) {
+    try {
+      var data = {
+        "name": name,
+        "email": email,
+        "password": password,
+        "bio": bio,
+        "image": image,
+      };
+    } on DioException catch (e) {
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
       throw Exception(errorMessage);
     }

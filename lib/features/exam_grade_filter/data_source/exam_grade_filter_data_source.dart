@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:lms_system/features/exams/data_source/exams_data_source.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 
 final examGradeFilterDataSourceProvider = Provider<ExamGradeFilterDataSource>(
