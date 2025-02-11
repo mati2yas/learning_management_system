@@ -6,8 +6,8 @@ import 'package:lms_system/features/courses/presentation/screens/course/courses_
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 import 'package:lms_system/features/exam_grade_filter/presentation/screens/exam_grade_filter_screen.dart';
-import 'package:lms_system/features/exam_year_filter/presentation/screens/exam_year_filter_screen.dart';
 import 'package:lms_system/features/exam_questions/presentation/exam_questions_page.dart';
+import 'package:lms_system/features/exam_year_filter/presentation/screens/exam_year_filter_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
@@ -111,7 +111,10 @@ class WrapperScreen extends ConsumerWidget {
       ref.read(homeScreenApiProvider.notifier).build();
       ref.read(currentUserProvider.notifier).build();
     }
-    
+    // if (currentPage == 3) {
+    //   ref.read(examYearFilterApiProvider.notifier).build();
+    // }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,

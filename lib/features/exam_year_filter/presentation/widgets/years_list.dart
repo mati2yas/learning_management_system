@@ -13,9 +13,10 @@ import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class YearsList extends ConsumerWidget {
   final List<ExamYear> examYears;
+  final String courseName;
   const YearsList({
     super.key,
-    required this.examYears,
+    required this.examYears, required this.courseName,
   });
 
   @override
@@ -48,9 +49,8 @@ class YearsList extends ConsumerWidget {
                           // navigate to the page that
                           // shows the exam
                           Map<String, dynamic> examData = {
-                            "exam title": "exam title",
+                            "exam course": courseName,
                             "exam year": year.title,
-                            "questions": year.questions,
                             "previousScreen": 7,
                             "hasTimerOption": true,
                           };
@@ -84,7 +84,7 @@ class YearsList extends ConsumerWidget {
                           pageController.navigatePage(
                             8,
                             arguments: <String, dynamic>{
-                              "exam title": "exam title",
+                              "exam course": courseName,
                               "exam year": year,
 
                               //"exam title": year.title,
@@ -111,10 +111,10 @@ class YearsList extends ConsumerWidget {
                         // if null then other pages, move on to
                         // questions page
                         Map<String, dynamic> examData = {
-                          "exam title": "exam title",
+                          "exam course": courseName, 
                           "exam year": year.title,
-                          "questions": year.questions,
                           "previousScreen": 7,
+                          "hasTimerOption": false,
                         };
                         pageController.navigatePage(6, arguments: examData);
                       }

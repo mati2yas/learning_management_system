@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Exam {
   final String title;
   final List<ExamCourse> courses;
@@ -96,14 +98,14 @@ class ExamYear {
   });
 
   factory ExamYear.fromJson(Map<String, dynamic> json) {
-    int? id;
-    if (json["id"] == "") {
-      id = 0;
-    } else {
-      id = int.tryParse(json["id"]);
-    }
+    // int? id;
+    // if (json["id"] == "") {
+    //   id = 0;
+    // } else {
+    //   id = int.tryParse(json["id"]);
+    // }
     return ExamYear(
-      id: id ?? 0,
+      id: json["id"] ?? 0,
       title: json["year_name"] ?? "year name",
       courseId: json["course_id"] ?? 0,
       questionCount: json['question_count'] ?? 0,
@@ -133,11 +135,17 @@ class Question {
     this.videoExplanationUrl,
   });
   factory Question.fromJson(Map<String, dynamic> json) {
+    List<dynamic> optionsJson = jsonDecode(json["options"]);
+    List<String> optionsString =
+        optionsJson.map((opt) => opt.toString()).toList();
+
     return Question(
       id: json["id"],
-      sequenceOrder: json["sequence_order"],
+      //sequenceOrder: json["sequence_order"],
+      sequenceOrder: 0,
       questionText: json["question_text"],
-      options: json["options"] as List<String>,
+      //options: json["options"] as List<String>,
+      options: optionsString,
       answer: json["answer"],
       imageUrl: json["question_image_url"],
       imageExplanationUrl: json["image_explanation_url"],

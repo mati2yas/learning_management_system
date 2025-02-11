@@ -144,7 +144,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                               onPressed: () {
                                 Map<String, dynamic> examDataNext = {
                                   //"exam title": examData["exam title"],
-                                  "exam title": "exam titlee",
+                                  "exam course": "examCourse", 
                                   "exam year": "year.title",
                                   "questions": chapters[index].questions,
                                   "previousScreen": 8,

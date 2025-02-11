@@ -4,7 +4,6 @@ import 'package:lms_system/core/utils/connectivity/connectivity_service.dart';
 import 'package:lms_system/features/exam_questions/data_source/exam_questions_data_source.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 
-
 final examQuestionsRepositoryProvider =
     Provider<ExamQuestionsRepository>((ref) {
   return ExamQuestionsRepository(
@@ -18,18 +17,34 @@ class ExamQuestionsRepository {
   final ConnectivityService _connectivityService;
   ExamQuestionsRepository(this._dataSource, this._connectivityService);
 
-  Future<List<Question>> fetchQuestionsByGenericId(
-      Map<String, dynamic> idStub) async {
+  Future<List<Question>> fetchQuestionsByChapterId(int chapterId) async {
     if (!await _connectivityService.hasConnection()) {
       throw Exception("No internet connection");
     }
+    return await _dataSource.fetchQuestionsByChapterId(chapterId);
+  }
+
+  Future<List<Question>> fetchQuestionsByGenericId(
+      Map<String, dynamic> idStub) async {
     // we have to know which function to call.
-    late Function fetchFunction;
-    if (idStub["idType"] == IdType.filtered) {
-      fetchFunction = _dataSource.fetchQuestionsByChapterId;
-    } else if (idStub["idType"] == IdType.all) {
-      fetchFunction = _dataSource.fetchQuestiosnByYearId;
+    if (!await _connectivityService.hasConnection()) {
+      throw Exception("No internet connection");
     }
-    return await fetchFunction(idStub["id"]!);
+    if (idStub["idType"] == IdType.filtered) {
+      return await _dataSource.fetchQuestionsByChapterId(idStub["id"]!);
+    } else if (idStub["idType"] == IdType.all) {
+      List<Question> questions =
+          await _dataSource.fetchQuestionsByYearId(idStub["id"]!);
+
+      return questions;
+    }
+    return [];
+  }
+
+  Future<List<Question>> fetchQuestionsByYearId(int yearId) async {
+    if (!await _connectivityService.hasConnection()) {
+      throw Exception("No internet connection");
+    }
+    return await _dataSource.fetchQuestionsByYearId(yearId);
   }
 }

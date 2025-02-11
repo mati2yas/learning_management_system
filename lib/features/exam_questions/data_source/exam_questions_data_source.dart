@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
@@ -17,6 +18,7 @@ class ExamQuestionsDataSource {
   Future<List<Question>> fetchQuestionsByChapterId(int chapterId) async {
     int? statusCode;
     List<Question> questions = [];
+    debugPrint("chapter id: $chapterId");
     try {
       final response =
           await _dio.get("/exams/exam-questions-chapter/$chapterId");
@@ -36,11 +38,12 @@ class ExamQuestionsDataSource {
     return questions;
   }
 
-  Future<List<Question>> fetchQuestiosnByYearId(int yearId) async {
+  Future<List<Question>> fetchQuestionsByYearId(int yearId) async {
     int? statusCode;
     List<Question> questions = [];
+    debugPrint("year id: $yearId");
     try {
-      final response = await _dio.get("/exams/exam-years/$yearId");
+      final response = await _dio.get("/exams/exam-questions-year/$yearId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];

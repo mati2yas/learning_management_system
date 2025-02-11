@@ -4,6 +4,7 @@ import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/exam_year_filter/presentation/widgets/years_list.dart';
 import 'package:lms_system/features/exam_year_filter/provider/exam_year_filter_provider.dart';
+import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class ExamYearFiltersScreen extends ConsumerStatefulWidget {
@@ -31,6 +32,7 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
     final pageController = ref.read(pageNavigationProvider.notifier);
     final apiState = ref.watch(examYearFilterApiProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -43,7 +45,7 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
         ),
         title: const Text("Filter Exams"),
         centerTitle: true,
-        elevation: 5,
+        //elevation: 5,
         shadowColor: Colors.black87,
         surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
@@ -77,10 +79,12 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
             length: examCourses.length,
             child: Column(
               children: [
-                TabBar(
+                CustomTabBar(
+                  isScrollable: true,
+                  alignment: TabAlignment.start,
                   tabs: examCourses
                       .map(
-                        (course) => Tab(text: course.title),
+                        (course) => Tab(height: 28, text: course.title),
                       )
                       .toList(),
                 ),
@@ -88,7 +92,7 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
                   child: TabBarView(
                     children: examCourses
                         .map(
-                          (course) => YearsList(examYears: course.years),
+                          (course) => YearsList(examYears: course.years, courseName: course.title),
                         )
                         .toList(),
                   ),

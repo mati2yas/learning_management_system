@@ -9,46 +9,6 @@ import 'package:lms_system/features/requests/provider/requests_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/subscription/provider/subscription_provider.dart';
 
-fetchImageWithPlaceHolder(String imageUrl) {
-  return CachedNetworkImage(
-    imageUrl: "",
-    placeholder: (context, url) => placeHolderAssetWidget(),
-    errorWidget: (context, url, error) {
-      //print("url: $url, error: ${error.toString()}");
-      return Container(
-        color: Colors.red,
-        child: Text(
-          error.toString(),
-          style: const TextStyle(color: Colors.yellow),
-        ),
-      );
-    },
-    imageBuilder: (context, imageProvider) => Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: imageProvider,
-          fit: BoxFit.cover,
-          colorFilter: const ColorFilter.mode(
-            Colors.transparent,
-            BlendMode.colorBurn,
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
-Widget placeHolderAssetWidget() {
-  return ClipRRect(
-    child: Image.asset(
-      height: 90,
-      width: double.infinity,
-      'assets/images/bg_placeholder.jpg',
-      fit: BoxFit.cover,
-    ),
-  );
-}
-
 class CourseCardWithImage extends ConsumerWidget {
   final Course course;
   Function? onBookmark;
@@ -64,8 +24,6 @@ class CourseCardWithImage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //print(course.image);
-    String urlee =
-        "http://redonline.cdnds.net/main/thumbs/25788/stack_of_books.jpg";
 
     var subscriptionController =
         ref.watch(subscriptionControllerProvider.notifier);
