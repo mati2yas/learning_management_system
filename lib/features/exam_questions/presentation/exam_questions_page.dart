@@ -36,6 +36,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
   bool allQuestionsAnswered = false;
 
   bool hasTimerOption = false;
+  int questionsIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +77,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                 data: (remainingSeconds) {
                   final minutes = remainingSeconds ~/ 60;
                   final seconds = remainingSeconds % 60;
-                  if (remainingSeconds == 0) {
-                    showDialog(
-                        context: context, builder: (ctx) => const SizedBox());
-                  }
+
                   return Text(
                     "Time Left: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}",
                     style: textTh.bodySmall!.copyWith(color: Colors.red),
@@ -130,10 +128,18 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                         itemCount: questions.length,
                         onPageChanged: (index) {
                           debugPrint("current page index: $index");
+                          setState(() {
+                            questionsIndex = index;
+                          });
                           if (index == questions.length) {
-                            allQuestionsAnswered = answersTrack.every(
-                              (answer) => answer.selectedAnswers.isNotEmpty,
-                            );
+                            setState(() {
+                              allQuestionsAnswered = answersTrack.every(
+                                (answer) => answer.selectedAnswers.isNotEmpty,
+                              );
+                            });
+
+                            debugPrint(
+                                "all questions answered? $allQuestionsAnswered");
                           }
                         },
                         itemBuilder: (_, index) {
@@ -358,9 +364,11 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                               ),
                               onPressed: () {
                                 if (currentQuestionIndexTrack > 0) {
-                                  // setState(() {
-                                  //   currentQuestionIndexTrack--;
-                                  // });
+                                  setState(() {
+                                    currentQuestionIndexTrack--;
+                                  });
+                                  debugPrint(
+                                      "current question index: $currentQuestionIndexTrack, questions length: ${questions.length}");
                                   pageViewController.previousPage(
                                     duration: const Duration(milliseconds: 700),
                                     curve: Curves.decelerate,
@@ -378,34 +386,34 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                 elevation: 4,
                               ),
                               onPressed: () {
+                                allQuestionsAnswered = answersTrack.every(
+                                  (answer) => answer.selectedAnswers.isNotEmpty,
+                                );
+
+                                debugPrint(
+                                    "all questions answered? $allQuestionsAnswered");
                                 if (currentQuestionIndexTrack <
                                     (questions.length - 1)) {
-                                  // setState(() {
-                                  //   currentQuestionIndexTrack++;
-                                  // });
+                                  setState(() {
+                                    currentQuestionIndexTrack++;
+                                  });
+                                  debugPrint(
+                                      "current question index: $currentQuestionIndexTrack, questions length: ${questions.length}");
                                   pageViewController.nextPage(
                                     duration: const Duration(milliseconds: 700),
                                     curve: Curves.decelerate,
                                   );
                                 } else if (allQuestionsAnswered) {
                                   submitExam();
-                                  int rightAnswers = 0;
-                                  for (var qs in questions) {
-                                    // TODO: move this from here
-                                    for (var ans in answersTrack) {
-                                      if (qs.answers[0] ==
-                                          ans.selectedAnswers) {
-                                        rightAnswers++;
-                                        break;
-                                      }
-                                    }
-                                  }
+                                  int rightAnswers =
+                                      answersController.getScore();
+
                                   showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       title: const Text('Exam Results'),
                                       content: Text(
-                                        "You got $rightAnswers out of ${questions.length ?? 0} Questions right.",
+                                        "You got $rightAnswers out of ${questions.length} Questions right.",
                                       ),
                                       actions: [
                                         TextButton(
@@ -435,8 +443,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                 }
                               },
                               child: Text(
-                                currentQuestionIndexTrack ==
-                                        (questions.length - 1)
+                                questionsIndex == (questions.length - 1)
                                     ? 'Submit Exam'
                                     : 'Next',
                                 style: const TextStyle(color: Colors.white),
@@ -500,9 +507,9 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
     layoutConfig.imageExists = questionsList[currentIndex].imageUrl != null;
     layoutConfig.answerRevealed = false;
     debugPrint("current page: $currentIndex");
-    debugPrint(
-        "layout config=> answer revealed: ${layoutConfig.answerRevealed}, image exists: ${layoutConfig.imageExists}");
-    debugPrint("the flex in question $middleExpandedFlex");
+    // debugPrint(
+    //     "layout config=> answer revealed: ${layoutConfig.answerRevealed}, image exists: ${layoutConfig.imageExists}");
+    // debugPrint("the flex in question $middleExpandedFlex");
 
     // once setState is called,
     // this will trigger getMiddleExpandedFlex method.
