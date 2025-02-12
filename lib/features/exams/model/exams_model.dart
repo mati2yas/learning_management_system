@@ -116,7 +116,7 @@ class ExamYear {
 class Question {
   final String questionText;
   final List<String> options;
-  final String answer;
+  final List<String> answers;
   final String explanation;
   final int sequenceOrder;
   final int id;
@@ -127,7 +127,7 @@ class Question {
     required this.id,
     required this.questionText,
     required this.options,
-    required this.answer,
+    required this.answers,
     required this.explanation,
     required this.sequenceOrder,
     this.imageUrl,
@@ -138,6 +138,9 @@ class Question {
     List<dynamic> optionsJson = jsonDecode(json["options"]);
     List<String> optionsString =
         optionsJson.map((opt) => opt.toString()).toList();
+    List<dynamic> answersJson = jsonDecode(json["answer"]);
+    List<String> answersString =
+        answersJson.map((ans) => ans.toString()).toList();
 
     return Question(
       id: json["id"],
@@ -146,7 +149,7 @@ class Question {
       questionText: json["question_text"],
       //options: json["options"] as List<String>,
       options: optionsString,
-      answer: json["answer"],
+      answers: answersString,
       imageUrl: json["question_image_url"],
       imageExplanationUrl: json["image_explanation_url"],
       videoExplanationUrl: json["video_explanation_url"],

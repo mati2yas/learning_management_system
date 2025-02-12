@@ -31,7 +31,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
 
   List<bool> questionContainsImage = [];
   bool initializingPage = false;
-  int currentQuestionImageTrack = 0;
+  int currentQuestionIndexTrack = 0;
   ScreenLayoutConfig layoutConfig = ScreenLayoutConfig();
   bool allQuestionsAnswered = false;
 
@@ -76,6 +76,10 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                 data: (remainingSeconds) {
                   final minutes = remainingSeconds ~/ 60;
                   final seconds = remainingSeconds % 60;
+                  if (remainingSeconds == 0) {
+                    showDialog(
+                        context: context, builder: (ctx) => const SizedBox());
+                  }
                   return Text(
                     "Time Left: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}",
                     style: textTh.bodySmall!.copyWith(color: Colors.red),
@@ -124,11 +128,20 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                         scrollDirection: Axis.horizontal,
                         controller: pageViewController,
                         itemCount: questions.length,
+                        onPageChanged: (index) {
+                          debugPrint("current page index: $index");
+                          if (index == questions.length) {
+                            allQuestionsAnswered = answersTrack.every(
+                              (answer) => answer.selectedAnswers.isNotEmpty,
+                            );
+                          }
+                        },
                         itemBuilder: (_, index) {
                           var currentQuestion = questions[index];
-                          if (index == (questions.length) - 1) {
-                            allQuestionsAnswered = answersTrack.every(
-                                (answer) => answer.selectedAnswer.isNotEmpty);
+                          String multipleQuestionsIndicator = "";
+                          if (currentQuestion.answers.length > 1) {
+                            multipleQuestionsIndicator =
+                                "(Select all that apply.)";
                           }
                           return SizedBox(
                             height: size.height * 0.66,
@@ -176,50 +189,108 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                     ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: FittedBox(
+                                    child: SizedBox(
+                                      height: 50,
                                       child: Text(
-                                        "${questions.indexOf(currentQuestion)}. ${currentQuestion.questionText}",
+                                        "${questions.indexOf(currentQuestion)}. ${currentQuestion.questionText} $multipleQuestionsIndicator",
                                         style: const TextStyle(fontSize: 15),
                                       ),
                                     ),
                                   ),
                                   const SizedBox(height: 10),
-                                  ...currentQuestion.options.map((op) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      child: SizedBox(
+                                  if (currentQuestion.answers.length == 1)
+                                    ...currentQuestion.options.map((op) {
+                                      return SizedBox(
                                         width: size.width * 0.8,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Radio<String>(
-                                              activeColor: AppColors.mainBlue,
-                                              value: op,
-                                              groupValue: answersTrack[index]
-                                                  .selectedAnswer,
-                                              onChanged: (value) {
-                                                setState(() {
+                                        height: 50,
+                                        child: ListTile(
+                                          leading: Radio<String>(
+                                            activeColor: AppColors.mainBlue,
+                                            value: op,
+                                            groupValue: answersTrack[index]
+                                                .selectedAnswers
+                                                .elementAtOrNull(0),
+                                            onChanged: (value) {
+                                              debugPrint(
+                                                  "in ui page: groupValue: ${answersTrack[index].selectedAnswers.elementAtOrNull(0)}, current option's value: $op  selectedAnswer: $value");
+                                              setState(() {
+                                                if (value != null) {
                                                   answersController
                                                       .selectAnswerForQuestion(
-                                                          questions[index],
-                                                          value!);
+                                                    qn: questions[index],
+                                                    selectedAnswer: value,
+                                                    radioButtonValue: op,
+                                                  );
+                                                } else {
+                                                  // this is the logic for tracking the state when an
+                                                  // option is unselected.
+                                                  // in this one we send selectedAnswer as null
+                                                  // intentionally, to track the state where this option is
+                                                  // unselected and thus remove it from the state if it
+                                                  // previously existed. and that's why we also send
+                                                  // radioButtonValue, we check if that value already
+                                                  // exists in the state and then remove it.
+                                                  answersController
+                                                      .selectAnswerForQuestion(
+                                                    qn: questions[index],
+                                                    selectedAnswer: null,
+                                                    radioButtonValue: op,
+                                                  );
+                                                }
+                                              });
+                                            },
+                                          ),
+                                          title: Text(
+                                            op,
+                                            style: const TextStyle(
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    })
+                                  else if (currentQuestion.answers.length > 1)
+                                    ...currentQuestion.options.map(
+                                      (op) {
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: ListTile(
+                                            leading: Checkbox(
+                                              activeColor: AppColors.mainBlue,
+                                              value: answersTrack[index]
+                                                  .selectedAnswers
+                                                  .contains(op),
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  if (value ?? false) {
+                                                    answersController
+                                                        .selectAnswerForQuestion(
+                                                      qn: questions[index],
+                                                      selectedAnswer: op,
+                                                      radioButtonValue: op,
+                                                    );
+                                                  } else {
+                                                    answersController
+                                                        .selectAnswerForQuestion(
+                                                      qn: questions[index],
+                                                      selectedAnswer: null,
+                                                      radioButtonValue: op,
+                                                    );
+                                                  }
                                                 });
                                               },
                                             ),
-                                            const SizedBox(width: 10),
-                                            Text(
+                                            title: Text(
                                               op,
                                               style: const TextStyle(
                                                 fontSize: 13,
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  }),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   const SizedBox(height: 15),
                                   ElevatedButton.icon(
                                     onPressed: () {
@@ -236,7 +307,9 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                     Padding(
                                       padding: const EdgeInsets.all(12.0),
                                       child: Text(
-                                        currentQuestion.answer,
+                                        currentQuestion.answers.length == 1
+                                            ? currentQuestion.answers[0]
+                                            : currentQuestion.answers.join(","),
                                         style: textTh.bodyLarge,
                                       ),
                                     ),
@@ -261,6 +334,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                         ),
                                       ),
                                     ),
+                                    const SizedBox(height: 120),
                                   ],
                                 ],
                               ),
@@ -283,12 +357,12 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                 elevation: 4,
                               ),
                               onPressed: () {
-                                if (currentQuestionImageTrack > 0) {
-                                  setState(() {
-                                    currentQuestionImageTrack--;
-                                  });
+                                if (currentQuestionIndexTrack > 0) {
+                                  // setState(() {
+                                  //   currentQuestionIndexTrack--;
+                                  // });
                                   pageViewController.previousPage(
-                                    duration: const Duration(milliseconds: 850),
+                                    duration: const Duration(milliseconds: 700),
                                     curve: Curves.decelerate,
                                   );
                                 }
@@ -304,22 +378,25 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                 elevation: 4,
                               ),
                               onPressed: () {
-                                if (currentQuestionImageTrack <
-                                    questions.length - 1) {
-                                  setState(() {
-                                    currentQuestionImageTrack++;
-                                  });
+                                if (currentQuestionIndexTrack <
+                                    (questions.length - 1)) {
+                                  // setState(() {
+                                  //   currentQuestionIndexTrack++;
+                                  // });
                                   pageViewController.nextPage(
-                                    duration: const Duration(milliseconds: 850),
+                                    duration: const Duration(milliseconds: 700),
                                     curve: Curves.decelerate,
                                   );
                                 } else if (allQuestionsAnswered) {
                                   submitExam();
                                   int rightAnswers = 0;
                                   for (var qs in questions) {
+                                    // TODO: move this from here
                                     for (var ans in answersTrack) {
-                                      if (qs.answer[0] == ans.selectedAnswer) {
+                                      if (qs.answers[0] ==
+                                          ans.selectedAnswers) {
                                         rightAnswers++;
+                                        break;
                                       }
                                     }
                                   }
@@ -358,8 +435,8 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                 }
                               },
                               child: Text(
-                                currentQuestionImageTrack ==
-                                        (questions.length) - 1
+                                currentQuestionIndexTrack ==
+                                        (questions.length - 1)
                                     ? 'Submit Exam'
                                     : 'Next',
                                 style: const TextStyle(color: Colors.white),
@@ -422,10 +499,10 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
     int currentIndex = current.toInt();
     layoutConfig.imageExists = questionsList[currentIndex].imageUrl != null;
     layoutConfig.answerRevealed = false;
-    print("current page: $currentIndex");
-    print(
+    debugPrint("current page: $currentIndex");
+    debugPrint(
         "layout config=> answer revealed: ${layoutConfig.answerRevealed}, image exists: ${layoutConfig.imageExists}");
-    print("the flex in question $middleExpandedFlex");
+    debugPrint("the flex in question $middleExpandedFlex");
 
     // once setState is called,
     // this will trigger getMiddleExpandedFlex method.
