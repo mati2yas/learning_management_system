@@ -20,6 +20,7 @@ class RegisterScreen extends ConsumerWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: true, // Ensures layout adjusts for keyboard
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
       ),
@@ -97,17 +98,19 @@ class RegisterScreen extends ConsumerWidget {
                                     const SnackBar(
                                       elevation: 4,
                                       backgroundColor: Colors.white,
+                                      duration: Duration(seconds: 3),
                                       behavior: SnackBarBehavior.floating,
                                       content: Text(
-                                        'Registration Successful!',
+                                        "Registration Successful. Check your email for verification",
                                         style: TextStyle(
                                           color: AppColors.mainBlue,
                                         ),
                                       ),
                                     ),
                                   );
+
                                   Navigator.of(context)
-                                      .pushReplacementNamed(Routes.profileAdd);
+                                      .pushReplacementNamed(Routes.login);
                                 }
                               } catch (e) {
                                 if (context.mounted) {

@@ -19,14 +19,18 @@ class RequestsNotifier extends StateNotifier<List<Course>> {
     loadData();
   }
 
-  String addOrRemoveCourse(Course course) {
+  void removeAll() {
+    state = [];
+  }
+
+  (String, List<Course>) addOrRemoveCourse(Course course) {
     if (state.contains(course)) {
       state = state.where((c) => c != course).toList();
-      return "removed";
+      return ("removed", state);
     }
 
     state = [course, ...state];
-    return "added";
+    return ("added", state);
   }
 
   void loadData() {

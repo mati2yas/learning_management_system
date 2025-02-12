@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,7 +23,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
-
+    XFile? profilePic;
     final editProfileController = ref.watch(editProfileProvider.notifier);
     final state = ref.watch(editProfileProvider);
     return Scaffold(
@@ -43,9 +45,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 height: size.height * 0.2,
                 child: Stack(
                   children: [
-                    const CircleAvatar(
-                      backgroundImage:
-                          AssetImage("assets/images/profile_pic.png"),
+                    CircleAvatar(
+                      backgroundImage: profilePic != null
+                          ? FileImage(File(profilePic.path))
+                          : const AssetImage("assets/images/profile_pic.png")
+                              as ImageProvider,
                       radius: 80,
                     ),
                     Positioned(
@@ -59,6 +63,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         ),
                         onPressed: () async {
                           bool imagePicked = await pickProfilePic();
+                          if (imagePicked) {
+                            editProfileController.updateImage(profilePic!.path);
+                          }
                         },
                         icon: const Icon(Icons.image),
                       ),
@@ -68,26 +75,33 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               _buildInputLabel("Name", textTh),
               InputWidget(
-                onSaved: (value) {
-                  editProfileController.updateName(value);
-                },
-                hintText: "",
-                validator: (value) {},
-                initialValue: "mati",
-              ),
+                  onSaved: (value) {
+                    editProfileController.updateName(value!);
+                  },
+                  hintText: "",
+                  validator: (value) {},
+                  initialValue: state.name),
               _buildInputLabel("Email", textTh),
               InputWidget(
-                onSaved: (value) {
-                  editProfileController.updateEmail(value);
-                },
-                hintText: "",
-                validator: (value) {},
-                initialValue: "mati",
-              ),
+                  onSaved: (value) {
+                    editProfileController.updateEmail(value!);
+                  },
+                  hintText: "",
+                  validator: (value) {},
+                  initialValue: state.email),
               _buildInputLabel("Password", textTh),
               InputWidget(
                 onSaved: (value) {
-                  editProfileController.updatePassword(value);
+                  editProfileController.updatePassword(value!);
+                },
+                hintText: "",
+                validator: (value) {},
+                initialValue: state.password,
+              ),
+              _buildInputLabel("Bio", textTh),
+              InputWidget(
+                onSaved: (value) {
+                  editProfileController.updateBio(value!);
                 },
                 hintText: "",
                 validator: (value) {},
@@ -108,6 +122,26 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     ),
                   ),
                   onPressed: () async {
+                    // if (editProfileKey.currentState?.validate() == true) {
+                    //   editProfileKey.currentState!.save();
+                    //   try {
+                    //     await editProfileController.editProfile();
+                    //     if (context.mounted) {
+                    //       ScaffoldMessenger.of(context).showSnackBar(
+                    //         const SnackBar(
+                    //           content: Text('Profile Edit Successful!'),
+                    //         ),
+                    //       );
+                    //     }
+                    //   } catch (e) {
+                    //     if (context.mounted) {
+                    //       ScaffoldMessenger.of(context).showSnackBar(
+                    //         SnackBar(
+                    //           content: Text('Profile Edit Failed: $e'),
+                    //         ),
+                    //       );
+                    //     }
+                    //   }
                     if (editProfileKey.currentState?.validate() == true) {
                       editProfileKey.currentState!.save();
                       try {
@@ -115,16 +149,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Registration Successful!'),
-                            ),
+                                content: Text('Profile Edit Successful!')),
                           );
                         }
                       } catch (e) {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Registration Failed: $e'),
-                            ),
+                            SnackBar(content: Text('Profile Edit Failed: $e')),
                           );
                         }
                       }
@@ -150,7 +181,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   Future<bool> pickProfilePic() async {
     final XFile? image = await showImagePickSheet();
     if (image != null) {
-      profilePic = XFile(image.path);
+      setState(() {
+        profilePic = XFile(image.path);
+      });
       return true;
     }
     return false;

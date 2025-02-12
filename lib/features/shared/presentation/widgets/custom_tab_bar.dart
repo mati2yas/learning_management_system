@@ -4,13 +4,13 @@ import '../../../../core/constants/colors.dart';
 
 class CustomTabBar extends StatelessWidget {
   final List<Widget> tabs;
-  final TabController controller;
+  final TabController? controller;
   final TabAlignment alignment;
   final bool isScrollable;
   const CustomTabBar({
     super.key,
     required this.tabs,
-    required this.controller,
+    this.controller,
     required this.alignment,
     required this.isScrollable,
   });
@@ -36,7 +36,7 @@ class CustomTabBar extends StatelessWidget {
       labelColor: Colors.white,
       splashBorderRadius: BorderRadius.circular(24),
       tabs: tabs,
-      controller: controller,
+      //controller: controller,
     );
   }
 }

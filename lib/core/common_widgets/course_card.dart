@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/requests/provider/requests_provider.dart';
+import 'package:lms_system/features/shared/model/shared_course_model.dart';
+import 'package:lms_system/features/subscription/provider/subscription_provider.dart';
 
 import '../app_router.dart';
 
@@ -23,9 +24,13 @@ class CourseCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var textTh = Theme.of(context).textTheme;
     final requestsController = ref.watch(requestsProvider.notifier);
+    final requestsProv = ref.watch(requestsProvider);
+
+    var subscriptionController =
+        ref.watch(subscriptionControllerProvider.notifier);
     return Container(
       width: double.infinity,
-      height: 160,
+      height: 180,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
@@ -44,7 +49,8 @@ class CourseCard extends ConsumerWidget {
               topRight: Radius.circular(10),
             ),
             child: Image.asset(
-              "assets/images/${course.image}",
+              //"assets/images/${course.image}",
+              "assets/images/applied_math.png",
               height: 90,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -55,6 +61,19 @@ class CourseCard extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               course.title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: AppColors.mainBlue,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              course.grade ?? "no grade",
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
@@ -120,8 +139,10 @@ class CourseCard extends ConsumerWidget {
                 )
               : GestureDetector(
                   onTap: () {
-                    String status =
-                        requestsController.addOrRemoveCourse(course);
+                    
+
+                var (status, courses) = requestsController.addOrRemoveCourse(course);
+                subscriptionController.updateCourses(courses);
                     if (status == "added") {
                       Navigator.of(context).pushNamed(Routes.requests);
                     }
@@ -132,8 +153,10 @@ class CourseCard extends ConsumerWidget {
                     );
                   },
                   onLongPress: () {
-                    String status =
-                        requestsController.addOrRemoveCourse(course);
+                 
+
+                var (status, courses) = requestsController.addOrRemoveCourse(course);
+                subscriptionController.updateCourses(courses);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text("Course has been $status."),

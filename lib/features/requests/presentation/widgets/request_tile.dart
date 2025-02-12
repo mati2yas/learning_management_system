@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
-import 'package:lms_system/features/requests/provider/requests_provider.dart';
 
 class RequestTile extends ConsumerWidget {
   final Course course;
 
   final TextTheme textTh;
   final double selectedPriceType;
+  final Function onTap;
   const RequestTile({
     super.key,
     required this.course,
     required this.textTh,
     required this.selectedPriceType,
+    required this.onTap,
   });
 
   @override
@@ -32,9 +33,33 @@ class RequestTile extends ConsumerWidget {
               Radius.circular(6),
             ),
           ),
-          child: Image.asset(
-            "assets/images/${course.image}",
+          child: Image.network(
+            height: 60,
+            width: double.infinity,
+            "${course.image}.jpg", //?? "",
             fit: BoxFit.cover,
+            loadingBuilder: (BuildContext context, Widget child,
+                ImageChunkEvent? loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              }
+              return Image.asset(
+                fit: BoxFit.cover,
+                "assets/images/applied_math.png",
+                height: 60,
+                width: double.infinity,
+              );
+            },
+            errorBuilder:
+                (BuildContext context, Object error, StackTrace? stackTrace) {
+              // Show an error widget if the image failed to load
+
+              return Image.asset(
+                  height: 60,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  "assets/images/applied_math.png");
+            },
           ),
         ),
         title: Text(course.title),
@@ -58,14 +83,7 @@ class RequestTile extends ConsumerWidget {
         ),
         trailing: GestureDetector(
           onTap: () {
-            // this could be made better via a function that does just 'remove'
-            String status =
-                ref.read(requestsProvider.notifier).addOrRemoveCourse(course);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Course has been $status."),
-              ),
-            );
+            onTap();
           },
           child: const CircleAvatar(
             radius: 12,

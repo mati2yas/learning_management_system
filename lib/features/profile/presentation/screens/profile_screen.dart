@@ -5,6 +5,7 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -154,7 +155,10 @@ class _ProfilePageState extends State<ProfilePage> {
               icon: const Icon((Icons.school)),
             ),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                prefs.remove("userData");
+              },
               label: Text(
                 "Logout",
                 style: textTh.titleMedium!.copyWith(

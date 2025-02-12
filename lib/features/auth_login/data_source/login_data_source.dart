@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginDataSource {
   final Dio _dio;
@@ -9,38 +14,56 @@ class LoginDataSource {
     required String email,
     required String password,
   }) async {
+    int? statusCode;
     try {
       final response = await _dio.post('/login', data: {
         'email': email,
         'password': password,
       });
+      statusCode = response.statusCode;
 
       if (response.statusCode == 200) {
-        final token = response.data['token'];
-        final user = response.data['data']['user'];
-        // for (int i = 0; i < 50; ++i) {
-        //   print(response.data['data']);
-        // }
-        // var name = user["name"];
+        if (response.data["is_verified"] == false) {
+          throw Exception("Email not verified");
+        }
+        //final token = response.data['token'] ?? "";
+        //final user = response.data['data']['user'] ?? "";
+        //var name = user["name"];
 
-        // final prefs = await SharedPreferences.getInstance();
-        // final valueData = jsonEncode({
-        //   "name": "\"$name\"",
-        //   "email": "\"$email\"",
-        //   "token": "\"$token\"",
-        //   "password": "\"$password\"",
-        // });
+        // TODO: fix the email thingy here. it shouldn't be email in the attribute of name
+        final prefs = await SharedPreferences.getInstance();
+        Map<String, dynamic> userData = jsonDecode(
+          prefs.getString("userData") ?? "{\"data\": \"no data\"}",
+        );
+        var name = userData["name"];
+        if (name != null) {
+          name = name.replaceAll("\"", "");
+        } else {
+          name = "user-name";
+        }
+        var token = response.data["token"];
+        final valueData = jsonEncode({
+          "name": "\"$name\"",
+          "email": "\"$email\"",
+          "token": "\"$token\"",
+          "password": "\"$password\"",
+        });
 
-        print("User Data to Save:");
-        // print(valueData);
+        await prefs.setString("userData", valueData);
+
+        debugPrint("User Data to Save:");
+        debugPrint(valueData);
 
         // // Save the JSON string
-        // await prefs.setString("userData", valueData);
+      } else if (response.statusCode == 403) {
+        var msg = response.data["message"];
+        throw Exception(msg);
       } else {
-        throw Exception('Failed to register user');
+        throw Exception('Failed to login: Unknown error');
       }
     } on DioException catch (e) {
-      throw Exception('API Error: ${e.response?.data['message'] ?? e.message}');
+      String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
+      throw Exception(errorMessage);
     }
   }
 }

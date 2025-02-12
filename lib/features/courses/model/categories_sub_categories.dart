@@ -1,6 +1,6 @@
+import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
-enum CategoryType { lowerGrade, highSchool, university, random }
 
 class CourseCategory {
   final String id;

@@ -1,4 +1,3 @@
 
 
-enum MessageType { error, success }
  

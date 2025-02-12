@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
+import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
+import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 import 'package:lms_system/features/home/presentation/widgets/carousel.dart';
 import 'package:lms_system/features/home/presentation/widgets/category_indicator.dart';
 import 'package:lms_system/features/home/presentation/widgets/custom_home_app_bar_widget.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
-import 'package:lms_system/features/wrapper/presentation/widgets/drawer_widget.dart';
+import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../courses/provider/courses_provider.dart';
@@ -17,23 +21,29 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider);
+    //final user = ref.watch(userProvider);
     final courses = ref.watch(coursesProvider);
     final pageviewParts = ref.watch(pageviewPartsProvider);
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
 
+    final pageNavController = ref.read(pageNavigationProvider.notifier);
+
+    final currentCourseFilterController =
+        ref.watch(currentCourseFilterProvider.notifier);
+
     final homeApiState = ref.watch(homeScreenApiProvider);
+    final currentUserState = ref.watch(currentUserProvider);
+
     print("ktoolbarheight: $kToolbarHeight");
     final PageController pageController = PageController();
     return Scaffold(
       backgroundColor: AppColors.mainBlue,
-      drawer: const CustomDrawer(),
       body: SizedBox(
         height: size.height,
         child: Column(
           children: [
-            CustomHomeAppBar(user: user),
+            CustomHomeAppBar(userState: currentUserState),
             ClipRRect(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30),
@@ -102,44 +112,87 @@ class HomePage extends ConsumerWidget {
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.7),
                           ),
-                          Text(
-                            "See All",
-                            style: textTh.titleMedium!.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.mainBlue,
-                            ),
-                          ),
+                          // Text(
+                          //   "See All",
+                          //   style: textTh.titleMedium!.copyWith(
+                          //     fontWeight: FontWeight.w600,
+                          //     color: AppColors.mainBlue,
+                          //   ),
+                          // ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 90,
                         width: double.infinity,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CategoryIndicator(
-                              title: "Marketing",
-                              color: AppColors.courseCategoryColors[0],
-                              image: "marketing_course.png",
+                            GestureDetector(
+                              onTap: () {
+                                currentCourseFilterController
+                                    .changeFilter("lower_grades");
+                                ref
+                                    .read(coursesFilteredProvider.notifier)
+                                    .fetchCoursesFiltered(
+                                        filter: "lower_grades");
+                                pageNavController.navigatePage(4);
+                              },
+                              child: CategoryIndicator(
+                                title: "Lower Grades",
+                                color: AppColors.courseCategoryColors[0],
+                                image: "marketing_course.png",
+                              ),
                             ),
                             const SizedBox(width: 5),
-                            CategoryIndicator(
-                              title: "Web Design",
-                              color: AppColors.courseCategoryColors[1],
-                              image: "web_design.png",
+                            GestureDetector(
+                              onTap: () {
+                                currentCourseFilterController
+                                    .changeFilter("high_school");
+                                ref
+                                    .read(coursesFilteredProvider.notifier)
+                                    .fetchCoursesFiltered(
+                                        filter: "high_school");
+                                pageNavController.navigatePage(4);
+                              },
+                              child: CategoryIndicator(
+                                title: "High School",
+                                color: AppColors.courseCategoryColors[1],
+                                image: "web_design.png",
+                              ),
                             ),
                             const SizedBox(width: 5),
-                            CategoryIndicator(
-                              title: "Freshman Courses",
-                              color: AppColors.courseCategoryColors[2],
-                              image: "marketing_course.png",
+                            GestureDetector(
+                              onTap: () {
+                                currentCourseFilterController
+                                    .changeFilter("university");
+                                ref
+                                    .read(coursesFilteredProvider.notifier)
+                                    .fetchCoursesFiltered(filter: "university");
+                                pageNavController.navigatePage(4);
+                              },
+                              child: CategoryIndicator(
+                                title: "University",
+                                color: AppColors.courseCategoryColors[2],
+                                image: "marketing_course.png",
+                              ),
                             ),
                             const SizedBox(width: 5),
-                            CategoryIndicator(
-                              title: "Lower Grades",
-                              color: AppColors.courseCategoryColors[3],
-                              image: "marketing_course.png",
+                            GestureDetector(
+                              onTap: () {
+                                currentCourseFilterController
+                                    .changeFilter("random_courses");
+                                ref
+                                    .read(coursesFilteredProvider.notifier)
+                                    .fetchCoursesFiltered(
+                                        filter: "random_courses");
+                                pageNavController.navigatePage(4);
+                              },
+                              child: CategoryIndicator(
+                                title: "Other Courses",
+                                color: AppColors.courseCategoryColors[3],
+                                image: "marketing_course.png",
+                              ),
                             ),
                           ],
                         ),
@@ -163,7 +216,8 @@ class HomePage extends ConsumerWidget {
                         ),
                         error: (error, stack) => Center(
                           child: Text(
-                            error.toString(),
+                            ApiExceptions.getExceptionMessage(
+                                error as Exception, 400),
                             style:
                                 textTh.titleMedium!.copyWith(color: Colors.red),
                           ),
@@ -176,6 +230,7 @@ class HomePage extends ConsumerWidget {
                             padding: const EdgeInsets.only(bottom: 30),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisExtent: 190,
                               crossAxisCount: 2,
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 10,

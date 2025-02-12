@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/features/exam_year_filter/provider/current_exam_type_provider.dart';
+import 'package:lms_system/features/exam_year_filter/provider/exam_year_filter_provider.dart';
+import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/exams/presentation/widgets/exam_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-import '../../provider/exams_provider.dart';
 
 class ExamsScreen extends ConsumerStatefulWidget {
   const ExamsScreen({super.key});
@@ -18,8 +20,6 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     final pageNavController = ref.read(pageNavigationProvider.notifier);
-    final examsController = ref.watch(examsProvider.notifier);
-    final exams = ref.read(examsProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -47,36 +47,51 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
           ),
           children: [
             ExamCategoryShow(
-              exam: exams[0],
               onTap: () {
-                pageNavController.navigatePage(7, arguments: exams[0]);
+                ref
+                    .read(currentExamTypeProvider.notifier)
+                    .changeExamType(ExamType.matric);
+                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+                pageNavController.navigatePage(7);
               },
               categoryImage: "high_school",
               categoryName: "Matric",
             ),
             ExamCategoryShow(
-              exam: exams[0],
               onTap: () {
-                pageNavController.navigatePage(7, arguments: exams[0]);
+                ref
+                    .read(currentExamTypeProvider.notifier)
+                    .changeExamType(ExamType.ministry);
+                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+
+                pageNavController.navigatePage(7);
               },
               categoryImage: "high_school",
-              categoryName: "COC",
+              categoryName: "Ministry",
             ),
             ExamCategoryShow(
-              exam: exams[0],
               onTap: () {
-                pageNavController.navigatePage(7, arguments: exams[0]);
+                ref
+                    .read(currentExamTypeProvider.notifier)
+                    .changeExamType(ExamType.coc);
+                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+
+                pageNavController.navigatePage(7);
               },
               categoryImage: "university",
-              categoryName: "COC",
+              categoryName: "Exit Exam",
             ),
             ExamCategoryShow(
-              exam: exams[0],
               onTap: () {
-                pageNavController.navigatePage(7, arguments: exams[0]);
+                ref
+                    .read(currentExamTypeProvider.notifier)
+                    .changeExamType(ExamType.exitexam);
+                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+
+                pageNavController.navigatePage(7);
               },
               categoryImage: "university",
-              categoryName: "COC",
+              categoryName: "NGAT",
             ),
           ],
         ),

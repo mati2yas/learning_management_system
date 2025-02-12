@@ -6,6 +6,8 @@ import 'core/app_router.dart';
 import 'core/constants/colors.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
   runApp(
     const ProviderScope(child: MyApp()),
   );
@@ -14,18 +16,20 @@ void main() async {
 final localhostServer = InAppLocalhostServer(documentRoot: 'assets');
 WebViewEnvironment? webViewEnvironment;
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.mainBlue),
-        useMaterial3: true,
-      ),
-      initialRoute: Routes.onboarding,
-      onGenerateRoute: Approuter.generateRoute,
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    return OrientationBuilder(builder: (context, orientation) {
+      return MaterialApp(
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.mainBlue),
+          useMaterial3: true,
+        ),
+        initialRoute: Routes.onboarding,
+        onGenerateRoute: Approuter.generateRoute,
+      );
+    });
   }
 }

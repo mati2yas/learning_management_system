@@ -19,6 +19,8 @@ class RegistrationStatusController extends StateNotifier<bool> {
     return state;
   }
 
+  
+
   Future<void> clearStatus() async {
     await _repository.clearRegistrationStatus();
     state = false; // Reset state

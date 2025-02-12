@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lms_system/features/auth_login/presentation/screens/login_screen.dart';
 import 'package:lms_system/features/auth_sign_up/presentation/screens/profile_add.dart';
 import 'package:lms_system/features/auth_sign_up/presentation/screens/register_screen.dart';
-import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_detail.dart';
+import 'package:lms_system/features/auth_sign_up/presentation/screens/temporary_screen.dart';
+import 'package:lms_system/features/chapter_content/presentation/screens/chapter_content_screen.dart';
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_videos.dart';
-import 'package:lms_system/features/courses_filtered/presentation/screens/courses_per_category_list.dart';
+import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
 import 'package:lms_system/features/edit_profile/presentation/screens/edit_profile_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/notification/presentation/screens/notification_screen.dart';
@@ -21,7 +22,7 @@ class Approuter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.wrapper:
-        return MaterialPageRoute(builder: (_) => WrapperScreen());
+        return MaterialPageRoute(builder: (_) => const WrapperScreen());
 
       case Routes.onboarding:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
@@ -35,6 +36,9 @@ class Approuter {
       case Routes.signup:
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
 
+      case Routes.tempScreen:
+        return MaterialPageRoute(builder: (_) => const TemporaryScreen());
+
       case Routes.profileAdd:
         return MaterialPageRoute(builder: (_) => const ProfileAddScreen());
 
@@ -44,14 +48,13 @@ class Approuter {
       case Routes.requests:
         return MaterialPageRoute(builder: (_) => const RequestsScreen());
       case Routes.courseDetails:
-        final category = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (_) => const CoursesPerCategoryListPage(),
+          builder: (_) => const CoursesFilterScreen(),
         );
-      case Routes.chapterDetails:
+      case Routes.chapterContent:
         final chapter = settings.arguments as Chapter;
         return MaterialPageRoute(
-          builder: (_) => ChapterDetailPage(
+          builder: (_) => ChapterContentScreen(
             chapter: chapter,
           ),
         );
@@ -73,6 +76,7 @@ class Approuter {
 
       case Routes.notifications:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
+
       // case Routes.signUp:
       //   final prevRoute = settings.arguments as String;
       //   return MaterialPageRoute(
@@ -103,10 +107,11 @@ class Routes {
   static const String signup = "signup";
   static const String courses = "courses";
   static const String courseDetails = "courseDetails";
-  static const String chapterDetails = "chapterDetails";
+  static const String chapterContent = "chapterDetails";
   static const String saved = "saved";
   static const String requests = "requests";
   static const String profile = "profile";
   static const String notifications = "notifications";
   static const String chapterVideo = "chapterVideo";
+  static const String tempScreen = "tempScreen";
 }
