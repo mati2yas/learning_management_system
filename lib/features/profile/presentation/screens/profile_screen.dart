@@ -15,7 +15,6 @@ class ProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userState = ref.watch(profileControlerProvider);
     final profileController = ref.watch(profileControlerProvider.notifier);
-
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     return Scaffold(

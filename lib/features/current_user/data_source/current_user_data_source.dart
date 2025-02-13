@@ -23,7 +23,6 @@ class CurrentUserDataSource {
 
     return User(
       name: userMap["name"] ?? "no name",
-      lastName: userMap["name"] ?? "no email",
       email: userMap["email"] ?? "no password",
       password: "",
     );

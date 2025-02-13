@@ -7,6 +7,7 @@ import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
+import 'package:lms_system/features/profile/provider/profile_provider.dart';
 
 final editProfileKey = GlobalKey<FormState>();
 
@@ -21,6 +22,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   XFile? profilePic;
   @override
   Widget build(BuildContext context) {
+    final userState = ref.watch(profileControlerProvider);
+    final profileController = ref.watch(profileControlerProvider.notifier);
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     XFile? profilePic;

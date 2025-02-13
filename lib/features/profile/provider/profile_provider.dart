@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 import 'package:lms_system/features/profile/repository/profile_repository.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
