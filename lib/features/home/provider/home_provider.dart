@@ -7,16 +7,6 @@ import 'package:riverpod/riverpod.dart';
 import '../../shared/model/shared_course_model.dart';
 import '../../shared/model/shared_user.dart';
 
-final homeDataSourceProvider = Provider<HomeDataSource>((ref) {
-  return HomeDataSource(DioClient.instance);
-});
-
-final homeRepositoryProvider = Provider<HomeRepository>((ref) {
-  return HomeRepository(
-    ref.watch(homeDataSourceProvider),
-    ref.watch(connectivityServiceProvider),
-  );
-});
 
 final pageviewPartsProvider = Provider<Map<String, String>>((ref) {
   return {
@@ -28,7 +18,6 @@ final pageviewPartsProvider = Provider<Map<String, String>>((ref) {
 final userProvider = Provider<User>((ref) {
   return User(
     name: "Biruk",
-    lastName: "Lemma",
     email: "Biruk@gmail.com",
     password: "123",
     bio: "mi casa es tu casa",

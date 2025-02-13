@@ -1,7 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/features/auth_login/provider/login_repository_provider.dart';
 import 'package:lms_system/features/auth_login/repository/login_repository.dart';
-import 'package:riverpod/riverpod.dart';
 
 final loginControllerProvider =
     StateNotifierProvider<LoginController, LoginState>(

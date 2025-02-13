@@ -17,17 +17,20 @@ class SubscriptionController extends StateNotifier<SubscriptionModel> {
   Future<String> subscribe() async {
     try {
       state = state.copyWith(apiStatus: ApiStatus.busy);
+
       final response = await _repository.subscribe(state);
       if (response.statusCode == 200) {
-        state = state.copyWith(statusMsg: "Subscription successful", apiStatus: ApiStatus.idle);
-        
-        return "success";
+        state = state.copyWith(
+            statusMsg: "Subscription successful", apiStatus: ApiStatus.idle);
+
+        return "success, ${response.data["data"]}";
       } else {
         state = state.copyWith(statusMsg: "Subscription failed");
-        return "error";
+        return "error ${response.statusMessage}";
       }
     } catch (e) {
-      state = state.copyWith(statusMsg: "An error occurred", apiStatus: ApiStatus.error);
+      state = state.copyWith(
+          statusMsg: "An error occurred", apiStatus: ApiStatus.error);
       return "error";
     }
   }

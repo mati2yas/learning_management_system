@@ -2,8 +2,14 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+final loginDataSourceProvider = Provider<LoginDataSource>((ref) {
+  return LoginDataSource(DioClient.instance);
+});
 
 class LoginDataSource {
   final Dio _dio;
@@ -31,11 +37,13 @@ class LoginDataSource {
         //var name = user["name"];
 
         // TODO: fix the email thingy here. it shouldn't be email in the attribute of name
+
         final prefs = await SharedPreferences.getInstance();
         Map<String, dynamic> userData = jsonDecode(
           prefs.getString("userData") ?? "{\"data\": \"no data\"}",
         );
         var name = userData["name"];
+        var id = userData["id"];
         if (name != null) {
           name = name.replaceAll("\"", "");
         } else {
@@ -43,6 +51,7 @@ class LoginDataSource {
         }
         var token = response.data["token"];
         final valueData = jsonEncode({
+          "id": id ?? -1,
           "name": "\"$name\"",
           "email": "\"$email\"",
           "token": "\"$token\"",

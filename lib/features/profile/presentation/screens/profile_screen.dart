@@ -1,31 +1,21 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/features/shared/model/shared_user.dart';
+import 'package:lms_system/features/profile/provider/profile_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userState = ref.watch(profileControlerProvider);
+    final profileController = ref.watch(profileControlerProvider.notifier);
 
-class _ProfilePageState extends State<ProfilePage> {
-  User user = User(
-    name: "Matu",
-    lastName: "Sala",
-    email: "matusala@gmail.com",
-    password: "12343",
-    bio:
-        "Explorer of life's wonders | Coffee enthusiast ☕ | Aspiring [Your Profession] | 🌍 Traveler | Cat lover 🐾 | Sharing my journey and thoughts. Let's connect!",
-    image: "matusala.png",
-  );
-  @override
-  Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     return Scaffold(
@@ -89,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 16),
             Center(
               child: Text(
-                "${user.name} ${user.lastName}",
+                userState.name,
                 style: textTh.titleMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -98,7 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 12),
             Center(
               child: Text(
-                user.email,
+                userState.email,
                 style: textTh.titleMedium!.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -106,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 12),
             Text(
-              user.bio,
+              userState.bio,
               style: textTh.bodyMedium!.copyWith(
                 color: AppColors.mainGrey,
               ),

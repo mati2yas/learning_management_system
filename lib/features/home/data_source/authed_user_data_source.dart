@@ -12,7 +12,6 @@ class AuthedUserDataSource {
     final userData = jsonDecode(userDataJson);
     return User(
       name: userData["name"],
-      lastName: userData["name"],
       email: userData["email"],
       password: userData["password"],
     );

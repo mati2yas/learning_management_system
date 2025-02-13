@@ -63,7 +63,7 @@ class _ProfileAddScreenState extends State<ProfileAddScreen> {
                         initialValue: "",
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'enter correct name';
+                            return 'Enter Correct Bio';
                           }
                           return null;
                         },
