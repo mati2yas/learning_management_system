@@ -6,8 +6,6 @@ import 'core/app_router.dart';
 import 'core/constants/colors.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  
   runApp(
     const ProviderScope(child: MyApp()),
   );

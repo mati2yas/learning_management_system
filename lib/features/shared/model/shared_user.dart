@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 
-
-
 class User {
   final String name, email, password, bio, image, token;
+  final int id;
 
   User({
+    this.id = -1,
     required this.name,
     required this.email,
     required this.password,
@@ -54,8 +54,19 @@ class User {
     };
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "name": name,
+      "email": email,
+      "token": token,
+      "password": password,
+      "image": image,
+      "bio": bio,
+    };
+  }
+
   static User initial() {
     return User(name: "", email: "", password: "");
   }
 }
-

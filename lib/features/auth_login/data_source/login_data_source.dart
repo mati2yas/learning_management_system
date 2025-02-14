@@ -1,20 +1,19 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/utils/db_service.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lms_system/features/shared/model/shared_user.dart';
 
 final loginDataSourceProvider = Provider<LoginDataSource>((ref) {
-  return LoginDataSource(DioClient.instance);
+  return LoginDataSource(DioClient.instance, DatabaseService());
 });
 
 class LoginDataSource {
   final Dio _dio;
+  final DatabaseService _databaseService;
 
-  LoginDataSource(this._dio);
+  LoginDataSource(this._dio, this._databaseService);
 
   Future<void> loginUser({
     required String email,
@@ -32,38 +31,18 @@ class LoginDataSource {
         if (response.data["is_verified"] == false) {
           throw Exception("Email not verified");
         }
-        //final token = response.data['token'] ?? "";
-        //final user = response.data['data']['user'] ?? "";
-        //var name = user["name"];
 
-        // TODO: fix the email thingy here. it shouldn't be email in the attribute of name
-
-        final prefs = await SharedPreferences.getInstance();
-        Map<String, dynamic> userData = jsonDecode(
-          prefs.getString("userData") ?? "{\"data\": \"no data\"}",
+        final token = response.data["token"];
+        final user = User(
+          id: response.data["data"]["user"]["id"],
+          name: response.data["data"]["user"]["name"],
+          email: email,
+          password: password,
+          token: token,
         );
-        var name = userData["name"];
-        var id = userData["id"];
-        if (name != null) {
-          name = name.replaceAll("\"", "");
-        } else {
-          name = "user-name";
-        }
-        var token = response.data["token"];
-        final valueData = jsonEncode({
-          "id": id ?? -1,
-          "name": "\"$name\"",
-          "email": "\"$email\"",
-          "token": "\"$token\"",
-          "password": "\"$password\"",
-        });
 
-        await prefs.setString("userData", valueData);
-
-        debugPrint("User Data to Save:");
-        debugPrint(valueData);
-
-        // // Save the JSON string
+        // Save the user data to the database
+        await _databaseService.saveUserToDatabase(user);
       } else if (response.statusCode == 403) {
         var msg = response.data["message"];
         throw Exception(msg);

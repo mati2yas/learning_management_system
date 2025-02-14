@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lms_system/core/utils/db_service.dart';
 
 import '../../../../core/constants/colors.dart';
 
@@ -15,7 +13,7 @@ class ProfileAddScreen extends StatefulWidget {
 }
 
 class _ProfileAddScreenState extends State<ProfileAddScreen> {
-  final _key = GlobalKey<FormState>();
+  final _profileAddKey = GlobalKey<FormState>();
   String name = '', username = '', phone = '', password = '';
   @override
   Widget build(BuildContext context) {
@@ -48,7 +46,7 @@ class _ProfileAddScreenState extends State<ProfileAddScreen> {
                 height: size.height * .45,
                 width: size.width - 80,
                 child: Form(
-                  key: _key,
+                  key: _profileAddKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -170,10 +168,13 @@ class _ProfileAddScreenState extends State<ProfileAddScreen> {
   }
 
   Future<void> getUserName() async {
-    final prefs = await SharedPreferences.getInstance();
-    var stringVal = prefs.getString("userData") ?? "{}";
-    var mapVal = jsonDecode(stringVal);
-    name = mapVal["name"]!;
+    final databaseService = DatabaseService();
+    final user = await databaseService.getUserFromDatabase();
+    if (user != null) {
+      name = user.name;
+    } else {
+      name = "No name";
+    }
   }
 
   @override

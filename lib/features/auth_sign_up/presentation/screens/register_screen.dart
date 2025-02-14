@@ -6,7 +6,7 @@ import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/auth_sign_up/provider/register_controller.dart';
 
-final formKey = GlobalKey<FormState>();
+final registerScreenKey = GlobalKey<FormState>();
 
 class RegisterScreen extends ConsumerWidget {
   const RegisterScreen({super.key});
@@ -34,7 +34,7 @@ class RegisterScreen extends ConsumerWidget {
               ),
               child: IntrinsicHeight(
                 child: Form(
-                  key: formKey,
+                  key: registerScreenKey,
                   child: Column(
                     spacing: 12,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -89,8 +89,8 @@ class RegisterScreen extends ConsumerWidget {
                             ),
                           ),
                           onPressed: () async {
-                            if (formKey.currentState?.validate() == true) {
-                              formKey.currentState!.save();
+                            if (registerScreenKey.currentState?.validate() == true) {
+                              registerScreenKey.currentState!.save();
                               try {
                                 await regController.registerUser();
                                 if (context.mounted) {

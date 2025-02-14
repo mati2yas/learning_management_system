@@ -2,41 +2,21 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/utils/db_service.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
-import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:lms_system/core/utils/shared_pref/shared_pref.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final profileDataSourceProvider =
-    Provider<ProfileDataSource>((ref) => ProfileDataSource(DioClient.instance));
+final profileDataSourceProvider = Provider<ProfileDataSource>(
+    (ref) => ProfileDataSource(DioClient.instance, DatabaseService()));
 
 class ProfileDataSource {
   final Dio _dio;
-  ProfileDataSource(this._dio);
+  final DatabaseService _databaseService;
 
-  Future<Response> editProfile(
-    User user,
-  ) async {
-    int? statusCode;
-    FormData formData = await user.toFormData();
-    var token = await SharedPrefService.getUserToken();
-    DioClient.setToken(token);
-    try {
-      _dio.options.headers['Content-Type'] = 'multipart/form-data';
-      final response = await _dio.post(
-        "/user-update",
-        data: formData,
-      );
-      statusCode = response.statusCode;
-      return response;
-    } on DioException catch (e) {
-      String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
-      throw Exception(errorMessage);
-    }
-  }
+  ProfileDataSource(this._dio, this._databaseService);
 
-  Future<User> fetchProfile() async {
+  Future<User> fetchProfileFromBackend() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString("userData") != null
@@ -46,8 +26,7 @@ class ProfileDataSource {
       if (token == null) throw Exception("No token found. Please log in.");
 
       final response = await _dio.get(
-        "https://your-api.com/profile",
-        options: Options(headers: {"Authorization": "Bearer $token"}),
+        "/user",
       );
 
       if (response.statusCode == 200) {
@@ -67,6 +46,10 @@ class ProfileDataSource {
     }
   }
 
+  Future<User?> fetchProfileFromDatabase() async {
+    return await _databaseService.getUserFromDatabase();
+  }
+
   Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     final userData = prefs.getString("userData");
@@ -75,5 +58,13 @@ class ProfileDataSource {
       return decodedData["token"];
     }
     return null;
+  }
+
+  Future<void> saveProfileToDatabase(User user) async {
+    await _databaseService.saveUserToDatabase(user);
+  }
+
+  Future<void> updateProfileInDatabase(User user) async {
+    await _databaseService.updateUserInDatabase(user);
   }
 }

@@ -1,51 +1,41 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
+import 'package:lms_system/features/profile/provider/profile_fetch_type_prov.dart';
 import 'package:lms_system/features/profile/repository/profile_repository.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
-final profileControlerProvider =
-    StateNotifierProvider<ProfileController, UserWrapper>((ref) {
-  return ProfileController(ref.watch(profileRepositoryProvider));
+final profileNotifierProvider = Provider(
+  (ref) => ProfileController(
+    ref.read(profileRepositoryProvider),
+  ),
+);
+
+final profileProvider = AsyncNotifierProvider<ProfileController, User>(() {
+  final container = ProviderContainer(overrides: [
+    profileRepositoryProvider,
+  ]);
+  return container.read(profileNotifierProvider);
 });
 
-class ProfileController extends StateNotifier<UserWrapper> {
+class ProfileController extends AsyncNotifier<User> {
   final ProfileRepository _repository;
-  ProfileController(this._repository) : super(UserWrapper.initial());
 
-  Future<String> editProfile() async {
+  ProfileController(this._repository);
+
+  @override
+  Future<User> build() async {
+    return fetchUserData();
+  }
+
+  Future<User> fetchUserData() async {
+    User user = User.initial();
+    final fetchType = ref.read(profileFetchTypeProvider);
+    state = const AsyncValue.loading();
     try {
-      state = state.copyWith(apiState: ApiState.busy);
-
-      final response = await _repository.editProfile(state);
-      if (response.statusCode == 200) {
-        state = state.copyWith(
-            statusMsg: "Subscription successful", apiState: ApiState.idle);
-
-        return "success, ${response.data["data"]}";
-      } else {
-        state = state.copyWith(statusMsg: "Subscription failed");
-        return "error ${response.statusMessage}";
-      }
-    } catch (e) {
-      state = state.copyWith(
-          statusMsg: "An error occurred", apiState: ApiState.error);
-      return "error";
+      user = await _repository.fetchUserData(fetchType);
+      state = AsyncValue.data(user);
+    } catch (e, stack) {
+      state = AsyncValue.error(e, stack);
     }
-  }
-
-  void updateBio(String newBio) {
-    state = state.copyWith(bio: newBio);
-  }
-
-  void updateEmail(String newEmail) {
-    state = state.copyWith(email: newEmail);
-  }
-
-  void updateImagePath(String imagePath) {
-    state = state.copyWith(image: imagePath);
-  }
-
-  void updateName(String newName) {
-    state = state.copyWith(name: newName);
+    return user;
   }
 }

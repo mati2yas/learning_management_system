@@ -1,16 +1,16 @@
-
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lms_system/core/utils/db_service.dart';
 
 class RegistrationStatusDataSource {
+  final DatabaseService _databaseService;
+
+  RegistrationStatusDataSource(this._databaseService);
+
   Future<void> clearRegistrationStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.clear(); // Clear all registration data
+    await _databaseService.deleteUser(1); // Assuming the user has an id of 1
   }
 
-  
-
   Future<bool> isUserRegistered() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.containsKey('userData'); // Check if the token exists
+    final user = await _databaseService.getUserFromDatabase();
+    return user != null;
   }
 }

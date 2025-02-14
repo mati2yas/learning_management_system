@@ -22,8 +22,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   XFile? profilePic;
   @override
   Widget build(BuildContext context) {
-    final userState = ref.watch(profileControlerProvider);
-    final profileController = ref.watch(profileControlerProvider.notifier);
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     XFile? profilePic;

@@ -1,13 +1,16 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:lms_system/core/utils/db_service.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/features/shared/model/shared_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterDataSource {
   final Dio _dio;
+  final DatabaseService _databaseService;
 
-  RegisterDataSource(this._dio);
+  RegisterDataSource(this._dio, this._databaseService);
 
   Future<void> deleteAccount() async {
     final prefs = await SharedPreferences.getInstance();
@@ -49,21 +52,21 @@ class RegisterDataSource {
       if (response.statusCode == 200 && response.data['status'] == true) {
         // Parse and store the token and user data in SharedPreferences
 
-        final user = response.data['data']['user'];
-        print("User Data to Save:");
-        final prefs = await SharedPreferences.getInstance();
-        var userId = user["id"] ?? "0";
-        print("user id: $userId");
-        final valueData = jsonEncode({
-          "id": "\"$userId\"",
-          "name": "\"$name\"",
-          "email": "\"$email\"",
-          "token": "",
-          "password": "\"$password\"",
-        });
+        final userJson = response.data['data']['user'];
+        final user = User(
+          id: userJson["id"],
+          name: name,
+          email: email,
+          password: password,
+          token: userJson["token"],
+        );
 
-        await prefs.setString("userData", valueData);
+        await _databaseService.saveUserToDatabase(user);
+
         // Save the JSON string
+      } else if (response.statusCode == 403) {
+        var msg = response.data["message"];
+        throw Exception(msg);
       } else {
         throw Exception('Failed to register user: ${response.data['message']}');
       }
