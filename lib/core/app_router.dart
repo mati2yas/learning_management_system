@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/features/auth_login/presentation/screens/login_screen.dart';
-import 'package:lms_system/features/auth_sign_up/presentation/screens/profile_add.dart';
+import 'package:lms_system/features/profile_add/presentation/screens/profile_add_screen.dart';
 import 'package:lms_system/features/auth_sign_up/presentation/screens/register_screen.dart';
 import 'package:lms_system/features/auth_sign_up/presentation/screens/temporary_screen.dart';
 import 'package:lms_system/features/chapter_content/presentation/screens/chapter_content_screen.dart';

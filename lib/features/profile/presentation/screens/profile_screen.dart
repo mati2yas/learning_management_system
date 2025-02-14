@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -52,10 +53,11 @@ class ProfilePage extends ConsumerWidget {
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.7),
                             ),
-                            child: Image.asset(
+                            child: Image.file(
+                              File(
+                                  user.image), // Replace 'imagePath' with the actual path obtained from the database
                               width: size.width,
                               height: size.height * 0.18,
-                              "assets/images/web_design.png",
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -65,9 +67,11 @@ class ProfilePage extends ConsumerWidget {
                           left: size.width * 0.5 -
                               (50 +
                                   12), // 50 for radius of circle and 12 for the padding of screen on left
-                          child: const CircleAvatar(
-                            backgroundImage:
-                                AssetImage("assets/images/profile_pic.png"),
+                          child: CircleAvatar(
+                            backgroundImage: FileImage(
+                              File(
+                                  user.image), // Replace 'imagePath' with the actual path obtained from the database
+                            ),
                             radius: 50,
                           ),
                         ),

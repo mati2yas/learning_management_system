@@ -7,7 +7,6 @@ import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
-import 'package:lms_system/features/profile/provider/profile_provider.dart';
 
 final editProfileKey = GlobalKey<FormState>();
 
@@ -65,7 +64,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         onPressed: () async {
                           bool imagePicked = await pickProfilePic();
                           if (imagePicked) {
-                            editProfileController.updateImage(profilePic!.path);
+                            editProfileController.updateImage(profilePic);
                           }
                         },
                         icon: const Icon(Icons.image),
@@ -123,26 +122,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     ),
                   ),
                   onPressed: () async {
-                    // if (editProfileKey.currentState?.validate() == true) {
-                    //   editProfileKey.currentState!.save();
-                    //   try {
-                    //     await editProfileController.editProfile();
-                    //     if (context.mounted) {
-                    //       ScaffoldMessenger.of(context).showSnackBar(
-                    //         const SnackBar(
-                    //           content: Text('Profile Edit Successful!'),
-                    //         ),
-                    //       );
-                    //     }
-                    //   } catch (e) {
-                    //     if (context.mounted) {
-                    //       ScaffoldMessenger.of(context).showSnackBar(
-                    //         SnackBar(
-                    //           content: Text('Profile Edit Failed: $e'),
-                    //         ),
-                    //       );
-                    //     }
-                    //   }
                     if (editProfileKey.currentState?.validate() == true) {
                       editProfileKey.currentState!.save();
                       try {

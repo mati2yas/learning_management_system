@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:lms_system/core/utils/db_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../shared/model/shared_user.dart';
+
+enum ApiState { busy, error, idle }
 
 class EditProfileState {
   String name;
@@ -45,7 +48,7 @@ class EditProfileState {
     );
   }
 }
-enum ApiState { busy, error, idle }
+
 class UserWrapper extends User {
   ApiState apiState;
   String statusMsg;
@@ -80,6 +83,21 @@ class UserWrapper extends User {
       statusMsg: statusMsg ?? this.statusMsg,
       apiState: apiState ?? this.apiState,
     );
+  }
+
+  static Future<UserWrapper> fromDb() async {
+    final dbserv = DatabaseService();
+    final user = await dbserv.getUserFromDatabase();
+    if (user != null) {
+      return UserWrapper(
+        name: user.name,
+        email: user.email,
+        password: "",
+        bio: user.bio,
+        image: user.image,
+      );
+    }
+    return UserWrapper.initial();
   }
 
   static UserWrapper initial() {

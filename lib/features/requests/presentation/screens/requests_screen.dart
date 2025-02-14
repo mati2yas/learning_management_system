@@ -288,19 +288,19 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                                 return;
                               } else if (_errorMessageTransactionId == null) {
                                 // Proceed with the valid input
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      elevation: 4,
-                                      backgroundColor: Colors.white,
-                                      behavior: SnackBarBehavior.floating,
-                                      content: Text('Input is valid!')),
-                                );
+                                // ScaffoldMessenger.of(context).showSnackBar(
+                                //   const SnackBar(
+                                //       elevation: 4,
+                                //       backgroundColor: Colors.white,
+                                //       behavior: SnackBarBehavior.floating,
+                                //       content: Text('Input is valid!')),
+                                // );
 
                                 final result =
                                     await subscriptionController.subscribe();
 
                                 if (context.mounted) {
-                                  if (result == "success") {
+                                  if (result.startsWith("success")) {
                                     ref
                                         .read(requestsProvider.notifier)
                                         .removeAll();
