@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/features/auth_login/presentation/screens/login_screen.dart';
-import 'package:lms_system/features/profile_add/presentation/screens/profile_add_screen.dart';
 import 'package:lms_system/features/auth_sign_up/presentation/screens/register_screen.dart';
 import 'package:lms_system/features/auth_sign_up/presentation/screens/temporary_screen.dart';
 import 'package:lms_system/features/chapter_content/presentation/screens/chapter_content_screen.dart';
@@ -11,8 +10,10 @@ import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/notification/presentation/screens/notification_screen.dart';
 import 'package:lms_system/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:lms_system/features/profile/presentation/screens/profile_screen.dart';
+import 'package:lms_system/features/profile_add/presentation/screens/profile_add_screen.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
+import 'package:lms_system/features/shared/model/shared_user.dart';
 import 'package:lms_system/features/wrapper/presentation/screens/wrapper_screen.dart';
 
 import '../features/courses/presentation/screens/course/courses_screen.dart';
@@ -71,8 +72,12 @@ class Approuter {
 
       case Routes.profile:
         return MaterialPageRoute(builder: (_) => const ProfilePage());
+
       case Routes.profileEdit:
-        return MaterialPageRoute(builder: (_) => const EditProfileScreen());
+        final user = settings.arguments as User;
+        return MaterialPageRoute(
+          builder: (_) => const EditProfileScreen(),
+        );
 
       case Routes.notifications:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());

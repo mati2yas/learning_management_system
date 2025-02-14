@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/utils/db_service.dart';
@@ -19,15 +20,20 @@ class EditProfileController extends StateNotifier<UserWrapper> {
   }
   Future<String> editProfile() async {
     try {
+      var usrr = await DatabaseService().getUserFromDatabase();
+
+      state = state.copyWith(password: usrr?.password);
       state = state.copyWith(apiState: ApiState.busy);
 
-      final response = await _repository.editProfile(state);
+      final response = await _repository.editProfile(state.toUser());
+
+      final databaseService = DatabaseService();
+      await databaseService.updateUserInDatabase(state.toUser());
+      debugPrint("editProfController status code: ${response.statusCode}");
       if (response.statusCode == 200) {
         state = state.copyWith(
             statusMsg: "Profile edit successful", apiState: ApiState.idle);
 
-        final databaseService = DatabaseService();
-        await databaseService.updateUserInDatabase(state);
         return "success, ${response.data["data"]}";
       } else {
         state = state.copyWith(statusMsg: "Profile edit failed");

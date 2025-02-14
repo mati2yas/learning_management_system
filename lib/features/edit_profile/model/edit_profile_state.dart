@@ -85,6 +85,16 @@ class UserWrapper extends User {
     );
   }
 
+  User toUser() {
+    return User(
+      name: name,
+      email: email,
+      password: password,
+      image: image,
+      bio: bio,
+    );
+  }
+
   static Future<UserWrapper> fromDb() async {
     final dbserv = DatabaseService();
     final user = await dbserv.getUserFromDatabase();

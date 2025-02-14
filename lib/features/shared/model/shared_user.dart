@@ -33,9 +33,10 @@ class User {
   Future<FormData> toFormData() async {
     FormData formData = FormData();
     formData.fields.add(MapEntry("name", name));
+    formData.fields.add(MapEntry("bio", bio));
     formData.fields.add(MapEntry("email", email));
     formData.fields.add(MapEntry("password", password));
-    formData.fields.add(MapEntry("bio", bio));
+    formData.fields.add(MapEntry("password_confirmation", password));
     formData.files.add(
       MapEntry(
         "avatar",

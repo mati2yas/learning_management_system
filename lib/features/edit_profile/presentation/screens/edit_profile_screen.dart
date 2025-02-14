@@ -105,7 +105,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 },
                 hintText: "",
                 validator: (value) {},
-                initialValue: "mati",
+                initialValue: state.bio,
               ),
               const SizedBox(height: 40),
               Center(

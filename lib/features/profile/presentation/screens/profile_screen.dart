@@ -54,8 +54,8 @@ class ProfilePage extends ConsumerWidget {
                               color: Colors.white.withValues(alpha: 0.7),
                             ),
                             child: Image.file(
-                              File(
-                                  user.image), // Replace 'imagePath' with the actual path obtained from the database
+                              File(user
+                                  .image), // Replace 'imagePath' with the actual path obtained from the database
                               width: size.width,
                               height: size.height * 0.18,
                               fit: BoxFit.cover,
@@ -69,8 +69,8 @@ class ProfilePage extends ConsumerWidget {
                                   12), // 50 for radius of circle and 12 for the padding of screen on left
                           child: CircleAvatar(
                             backgroundImage: FileImage(
-                              File(
-                                  user.image), // Replace 'imagePath' with the actual path obtained from the database
+                              File(user
+                                  .image), // Replace 'imagePath' with the actual path obtained from the database
                             ),
                             radius: 50,
                           ),
@@ -119,6 +119,7 @@ class ProfilePage extends ConsumerWidget {
                   const SizedBox(height: 28),
                   TextButton.icon(
                     onPressed: () {
+                      
                       Navigator.of(context).pushNamed(Routes.profileEdit);
                     },
                     label: Text(

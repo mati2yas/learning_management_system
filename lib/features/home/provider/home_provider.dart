@@ -15,16 +15,6 @@ final pageviewPartsProvider = Provider<Map<String, String>>((ref) {
   };
 });
 
-final userProvider = Provider<User>((ref) {
-  return User(
-    name: "Biruk",
-    email: "Biruk@gmail.com",
-    password: "123",
-    bio: "mi casa es tu casa",
-    image: "image.png",
-  );
-});
-
 class HomeNotifier extends StateNotifier<AsyncValue<List<Course>>> {
   final HomeRepository repository;
 
