@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/course_chapters_screen.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/courses_screen.dart';
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
@@ -17,9 +18,7 @@ import '../../../exams/presentation/screens/exams_screen.dart';
 import '../../provider/wrapper_provider.dart';
 import '../widgets/drawer_widget.dart';
 
-class Keys {
-  static final globalkey = GlobalKey<ScaffoldState>();
-}
+
 
 class NavItem extends StatelessWidget {
   final IconData icon;
@@ -118,7 +117,7 @@ class WrapperScreen extends ConsumerWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        key: Keys.globalkey,
+        key: AppKeys.drawerKey,
         drawer: const Drawer(
           child: CustomDrawer(),
         ),

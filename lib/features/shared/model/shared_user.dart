@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 
 class User {
-  final String name, email, password, bio, image, token;
+  final String name, email, password;
+  String bio, image, token;
   final int id;
 
   User({
@@ -35,14 +36,15 @@ class User {
     formData.fields.add(MapEntry("name", name));
     formData.fields.add(MapEntry("bio", bio));
     formData.fields.add(MapEntry("email", email));
-    formData.fields.add(MapEntry("password", password));
-    formData.fields.add(MapEntry("password_confirmation", password));
-    formData.files.add(
-      MapEntry(
-        "avatar",
-        await MultipartFile.fromFile(image),
-      ),
+
+    final fileExt = image.split(".").last;
+    final fileName = 'avatar.$fileExt';
+    final file = await MultipartFile.fromFile(
+      image,
+      filename: fileName,
     );
+    formData.files.add(MapEntry('avatar', file));
+
     return formData;
   }
 
@@ -60,11 +62,16 @@ class User {
       "id": id,
       "name": name,
       "email": email,
-      "token": token,
       "password": password,
-      "image": image,
+      "token": token,
       "bio": bio,
+      "image": image,
     };
+  }
+
+  @override
+  String toString() {
+    return "User{name: $name, email: $email, token: $token, bio: $bio}";
   }
 
   static User initial() {

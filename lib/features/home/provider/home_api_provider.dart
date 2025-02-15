@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/home/provider/home_provider.dart';
 import 'package:lms_system/features/home/repository/home_repository.dart';
@@ -34,7 +35,7 @@ class HomeScreenApiNotifier extends AsyncNotifier<List<Course>> {
       final courses = await _repository.getCourses();
       return courses; // Automatically updates the state
     } catch (e, stack) {
-      print(e);
+      debugPrint(e.toString());
       // Set error state and rethrow
       state = AsyncError(e, stack);
       rethrow;

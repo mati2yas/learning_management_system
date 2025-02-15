@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/features/auth_sign_up/provider/register_controller.dart';
 
-final registerScreenKey = GlobalKey<FormState>();
 
 class RegisterScreen extends ConsumerWidget {
   const RegisterScreen({super.key});
@@ -34,7 +34,7 @@ class RegisterScreen extends ConsumerWidget {
               ),
               child: IntrinsicHeight(
                 child: Form(
-                  key: registerScreenKey,
+                  key: AppKeys.registerScreenKey,
                   child: Column(
                     spacing: 12,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -89,8 +89,8 @@ class RegisterScreen extends ConsumerWidget {
                             ),
                           ),
                           onPressed: () async {
-                            if (registerScreenKey.currentState?.validate() == true) {
-                              registerScreenKey.currentState!.save();
+                            if (AppKeys.registerScreenKey.currentState?.validate() == true) {
+                              AppKeys.registerScreenKey.currentState!.save();
                               try {
                                 await regController.registerUser();
                                 if (context.mounted) {

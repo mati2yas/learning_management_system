@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/utils/db_service.dart';
+import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
 
 import '../../../../core/constants/colors.dart';
@@ -26,6 +27,7 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
   @override
   Widget build(BuildContext context) {
     final editProfileController = ref.watch(editProfileProvider.notifier);
+    final editState = ref.watch(editProfileProvider);
     Size size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     return Scaffold(
@@ -36,6 +38,7 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
+            spacing: 12,
             children: [
               Text(
                 'Welcome $name',
@@ -43,14 +46,12 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              const SizedBox(height: 20),
               Text(
                 "Let's complete your profile",
                 style: textTh.titleLarge!.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 25),
               SizedBox(
                 height: size.height * .45,
                 width: size.width - 80,
@@ -109,7 +110,7 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
                           borderRadius: BorderRadius.circular(4),
                         ),
                         height: 40,
-                        width: size.width * 0.6,
+                        width: double.infinity,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -197,9 +198,9 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
 
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(result == "success"
-                                    ? "Subscription successful!"
-                                    : "Subscription failed!"),
+                                content: Text(result.contains("success")
+                                    ? "Edit Profile successful!"
+                                    : "Edit Profile failed!"),
                                 backgroundColor: result == "success"
                                     ? Colors.green
                                     : Colors.red,
@@ -210,13 +211,19 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
                         Navigator.of(context)
                             .pushReplacementNamed(Routes.profileAdd);
                       },
-                      child: Text(
-                        'Submit',
-                        style: textTh.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
+                      child: editState.apiState == ApiState.busy
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              'Submit',
+                              style: textTh.bodyLarge!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
                     ),
                   ],
                 ),

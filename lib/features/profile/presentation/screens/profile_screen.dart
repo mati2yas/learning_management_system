@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,36 +42,16 @@ class ProfilePage extends ConsumerWidget {
                     height: size.height * 0.25,
                     child: Stack(
                       children: [
-                        BackdropFilter(
-                          filter: ImageFilter.blur(
-                            sigmaX: 30,
-                            sigmaY: 30,
-                            tileMode: TileMode.clamp,
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.7),
                           ),
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.7),
-                            ),
-                            child: Image.file(
-                              File(user
-                                  .image), // Replace 'imagePath' with the actual path obtained from the database
-                              width: size.width,
-                              height: size.height * 0.18,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 15,
-                          left: size.width * 0.5 -
-                              (50 +
-                                  12), // 50 for radius of circle and 12 for the padding of screen on left
-                          child: CircleAvatar(
-                            backgroundImage: FileImage(
-                              File(user
-                                  .image), // Replace 'imagePath' with the actual path obtained from the database
-                            ),
-                            radius: 50,
+                          child: Image.file(
+                            File(user
+                                .image), // Replace 'imagePath' with the actual path obtained from the database
+                            width: size.width,
+                            height: size.height * 0.18,
+                            fit: BoxFit.cover,
                           ),
                         ),
                         Positioned(
@@ -118,9 +97,12 @@ class ProfilePage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 28),
                   TextButton.icon(
-                    onPressed: () {
-                      
-                      Navigator.of(context).pushNamed(Routes.profileEdit);
+                    onPressed: () async {
+                      bool? result = await Navigator.of(context)
+                          .pushNamed<bool>(Routes.profileEdit);
+                      if (result == true) {
+                        ref.read(profileProvider.notifier).fetchUserData();
+                      }
                     },
                     label: Text(
                       "Edit Profile",

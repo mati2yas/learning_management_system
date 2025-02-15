@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/features/requests/provider/requests_provider.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
-
-import '../../../wrapper/presentation/screens/wrapper_screen.dart';
 
 class CustomHomeAppBar extends ConsumerWidget {
   final AsyncValue<User> userState;
@@ -32,7 +31,7 @@ class CustomHomeAppBar extends ConsumerWidget {
                 child: GestureDetector(
                   onTap: () {
                     //Scaffold.of(context).openDrawer();
-                    Keys.globalkey.currentState!.openDrawer();
+                    AppKeys.drawerKey.currentState!.openDrawer();
                   },
                   child: SvgPicture.asset(
                     "assets/svgs/hamburger_menu.svg",

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 import 'package:lms_system/features/profile/provider/profile_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,7 +12,9 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
     return Consumer(builder: (context, ref, child) {
+      var userState = ref.watch(currentUserProvider);
       return Drawer(
         width: size.width * 0.6,
         backgroundColor: AppColors.mainBlue,
@@ -41,13 +44,23 @@ class CustomDrawer extends StatelessWidget {
                         radius: 75,
                       ),
                     ),
-                    Text(
-                      "Matiyas Seifu",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                    ),
+                    userState.when(
+                        error: (error, stack) {
+                          return Text(error.toString());
+                        },
+                        loading: () => const Text("Loading User..."),
+                        data: (user) {
+                          return Text(
+                            user.name,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                          );
+                        }),
                   ],
                 ),
               ),

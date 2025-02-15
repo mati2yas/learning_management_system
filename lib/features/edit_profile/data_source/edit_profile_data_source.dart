@@ -19,6 +19,7 @@ class EditProfileDataSource {
     FormData formData = await user.toFormData();
     try {
       _dio.options.headers['Content-Type'] = 'multipart/form-data';
+      _dio.options.headers['Accept'] = 'application/json';
       final response = await _dio.post(
         "/user-update",
         data: formData,

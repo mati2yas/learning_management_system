@@ -22,4 +22,3 @@ class ConnectivityService {
     return !result.contains(ConnectivityResult.none);
   }
 }
- 

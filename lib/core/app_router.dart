@@ -74,7 +74,6 @@ class Approuter {
         return MaterialPageRoute(builder: (_) => const ProfilePage());
 
       case Routes.profileEdit:
-        final user = settings.arguments as User;
         return MaterialPageRoute(
           builder: (_) => const EditProfileScreen(),
         );

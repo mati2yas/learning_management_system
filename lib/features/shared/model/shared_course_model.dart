@@ -39,6 +39,7 @@ class Course {
   });
   factory Course.fromJson(Map<String, dynamic> json) {
     var categ = json["category"]?["name"];
+
     var dep = json["department"];
 
     Map<SubscriptionType, double?> onSalePrices = {
@@ -48,9 +49,9 @@ class Course {
       SubscriptionType.yearly: null,
     };
 
-    if (json["on_sale_month"] != null) {
+    if (json["on_sale_one_month"] != null) {
       onSalePrices[SubscriptionType.oneMonth] =
-          double.tryParse(json["on_sale_month"]);
+          double.tryParse(json["on_sale_one_month"]);
     }
     if (json["on_sale_three_month"] != null) {
       onSalePrices[SubscriptionType.threeMonths] =
@@ -78,11 +79,11 @@ class Course {
       stream: json["grade"]?["stream"],
       batch: json["batch"]?["batch_name"],
       grade: json["grade"]?["grade_name"],
-      topics: 4,
-      saves: 5,
-      liked: json["liked"],
-      saved: json["saved"],
-      likes: 10,
+      topics: 0,
+      likes: json["likes_count"] ?? 0,
+      saves: json["saves_count"] ?? 0,
+      liked: json["liked"] ?? false,
+      saved: json["saved"] ?? false,
       image: json["thumbnail"],
       category: categ,
       price: {

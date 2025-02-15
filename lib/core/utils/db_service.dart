@@ -37,15 +37,21 @@ class DatabaseService {
         'name': name as String,
         'email': email as String,
         'password': password as String,
-        'token': token as String
+        'token': token as String,
+        'bio': bio as String,
+        'image': image as String,
       } = userMaps.first;
-      return User(
+      final user = User(
         id: id,
         name: name,
         email: email,
         password: password,
         token: token,
+        bio: bio,
+        image: image,
       );
+      user.bio = bio;
+      user.image = image;
     }
 
     return null;
@@ -59,13 +65,33 @@ class DatabaseService {
     );
   }
 
+  Future<void> updateUserBioAndPfp(
+      User user, String bio, String imagePath) async {
+    try {
+      await _database.update(
+        'users', // Table name
+        {'bio': bio, 'image': imagePath}, // New values
+        where: 'id = ?',
+        whereArgs: [user.id], // Make sure userId is correctly assigned
+      );
+      user.bio = bio;
+      user.image = imagePath;
+    } on DatabaseException catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   Future<void> updateUserInDatabase(User user) async {
-    await _database.update(
-      'users',
-      user.toMap(),
-      where: 'id = ?',
-      whereArgs: [user.id],
-    );
+    try {
+      await _database.update(
+        'users',
+        user.toMap(),
+        where: 'id = ?',
+        whereArgs: [user.id],
+      );
+    } on DatabaseException catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   Future<void> _initDatabase() async {

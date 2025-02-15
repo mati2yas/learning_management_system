@@ -4,9 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/features/auth_login/provider/login_controller.dart';
 
-final formKey = GlobalKey<FormState>();
+
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
@@ -33,7 +34,7 @@ class LoginScreen extends ConsumerWidget {
             ),
             child: IntrinsicHeight(
               child: Form(
-                key: formKey,
+                key: AppKeys.loginFormKey,
                 child: Column(
                   spacing: 12,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,8 +105,8 @@ class LoginScreen extends ConsumerWidget {
                           ),
                         ),
                         onPressed: () async {
-                          if (formKey.currentState?.validate() == true) {
-                            formKey.currentState!.save();
+                          if (AppKeys.loginFormKey.currentState?.validate() == true) {
+                            AppKeys.loginFormKey.currentState!.save();
                             try {
                               await loginController.loginUser();
                               if (context.mounted) {

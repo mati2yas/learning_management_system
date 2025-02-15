@@ -32,7 +32,7 @@ class _InputWidgetState extends State<InputWidget> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 50,
+      height: 60,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0),
         child: DecoratedBox(
@@ -50,26 +50,27 @@ class _InputWidgetState extends State<InputWidget> {
             initialValue: widget.initialValue,
             style: const TextStyle(color: AppColors.mainBlue),
             decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                hintText: widget.hintText,
-                hintStyle: const TextStyle(
-                  color: AppColors.darkerGrey,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                ),
-                suffix: widget.obscure
-                    ? IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isObscured = !isObscured;
-                          });
-                        },
-                        icon: Icon(
-                          isObscured ? Icons.visibility : Icons.visibility_off,
-                        ),
-                      )
-                    : null),
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+              hintText: widget.hintText,
+              hintStyle: const TextStyle(
+                color: AppColors.darkerGrey,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+              suffix: widget.obscure
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isObscured = !isObscured;
+                        });
+                      },
+                      icon: Icon(
+                        isObscured ? Icons.visibility : Icons.visibility_off,
+                      ),
+                    )
+                  : null,
+            ),
           ),
         ),
       ),

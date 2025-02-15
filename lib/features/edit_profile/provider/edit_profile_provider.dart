@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/utils/db_service.dart';
+import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 import 'package:lms_system/features/edit_profile/repository/edit_profile_repository.dart';
 import 'package:path_provider/path_provider.dart';
@@ -25,10 +26,25 @@ class EditProfileController extends StateNotifier<UserWrapper> {
       state = state.copyWith(password: usrr?.password);
       state = state.copyWith(apiState: ApiState.busy);
 
-      final response = await _repository.editProfile(state.toUser());
+      if (usrr?.token != null) {
+        DioClient.setToken(usrr?.token);
+
+        state = state.copyWith(token: usrr?.token);
+      }
+      var user = state.toUser();
+
+      debugPrint("user bio: ${user.bio}, user pfp: ${user.image}");
+      debugPrint(user.toString());
 
       final databaseService = DatabaseService();
-      await databaseService.updateUserInDatabase(state.toUser());
+      await databaseService.updateUserBioAndPfp(user, user.bio, user.image);
+
+      await databaseService.updateUserInDatabase(user);
+      final response = await _repository.editProfile(user);
+
+      final newUser = await databaseService.getUserFromDatabase();
+      debugPrint("user after... User{name: ${newUser?.name}, bio: ${newUser?.bio}, image: ${newUser?.image}}");
+
       debugPrint("editProfController status code: ${response.statusCode}");
       if (response.statusCode == 200) {
         state = state.copyWith(
