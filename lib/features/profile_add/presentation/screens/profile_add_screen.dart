@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/app_router.dart';
-import 'package:lms_system/core/utils/db_service.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
 
@@ -236,8 +236,8 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
   }
 
   Future<void> getUserName() async {
-    final databaseService = DatabaseService();
-    final user = await databaseService.getUserFromDatabase();
+    final storageService = SecureStorageService();
+    final user = await storageService.getUserFromStorage();
     if (user != null) {
       name = user.name;
     } else {

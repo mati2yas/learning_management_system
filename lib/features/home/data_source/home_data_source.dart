@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/db_service.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 
 import '../../shared/model/shared_course_model.dart';
 
@@ -19,8 +20,8 @@ class HomeDataSource {
     List<Course> courses = [];
     int? statusCode;
     try {
-      //var token = mapVal["token"];
-      var user = await DatabaseService().getUserFromDatabase();
+      
+      var user = await SecureStorageService().getUserFromStorage();
       var token = user?.token;
 
       if (token != null) {

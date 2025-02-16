@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
@@ -32,36 +34,34 @@ class CustomDrawer extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 height: 128,
-                child: Row(
-                  spacing: 10,
-                  children: [
-                    const SizedBox(
-                      height: 75,
-                      width: 75,
-                      child: CircleAvatar(
-                        backgroundImage:
-                            AssetImage("assets/images/profile_pic.png"),
-                        radius: 75,
-                      ),
-                    ),
-                    userState.when(
-                        error: (error, stack) {
-                          return Text(error.toString());
-                        },
-                        loading: () => const Text("Loading User..."),
-                        data: (user) {
-                          return Text(
-                            user.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ),
-                          );
-                        }),
-                  ],
+                child: userState.when(
+                  error: (error, stack) {
+                    return Text(error.toString());
+                  },
+                  loading: () => const Text("Loading User..."),
+                  data: (user) {
+                    return Row(
+                      spacing: 10,
+                      children: [
+                        SizedBox(
+                          height: 75,
+                          width: 75,
+                          child: CircleAvatar(
+                            backgroundImage: FileImage(File(user.image)),
+                            radius: 75,
+                          ),
+                        ),
+                        Text(
+                          user.name,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
               const Divider(),

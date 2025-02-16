@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/utils/db_service.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 import 'package:lms_system/features/edit_profile/repository/edit_profile_repository.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,7 +22,7 @@ class EditProfileController extends StateNotifier<UserWrapper> {
   }
   Future<String> editProfile() async {
     try {
-      var usrr = await DatabaseService().getUserFromDatabase();
+      var usrr = await SecureStorageService().getUserFromStorage();
 
       state = state.copyWith(password: usrr?.password);
       state = state.copyWith(apiState: ApiState.busy);
@@ -36,14 +37,17 @@ class EditProfileController extends StateNotifier<UserWrapper> {
       debugPrint("user bio: ${user.bio}, user pfp: ${user.image}");
       debugPrint(user.toString());
 
-      final databaseService = DatabaseService();
-      await databaseService.updateUserBioAndPfp(user, user.bio, user.image);
+      //final databaseService = DatabaseService();
+      final storageService = SecureStorageService();
+      //await databaseService.updateUserBioAndPfp(user, user.bio, user.image);
+      //await storageService.updateUserBioAndPfp(user, user.bio, user.image);
 
-      await databaseService.updateUserInDatabase(user);
+      await storageService.updateUserInStorage(user);
       final response = await _repository.editProfile(user);
 
-      final newUser = await databaseService.getUserFromDatabase();
-      debugPrint("user after... User{name: ${newUser?.name}, bio: ${newUser?.bio}, image: ${newUser?.image}}");
+      final newUser = await storageService.getUserFromStorage();
+      debugPrint(
+          "user after... User{name: ${newUser?.name}, bio: ${newUser?.bio}, image: ${newUser?.image}}");
 
       debugPrint("editProfController status code: ${response.statusCode}");
       if (response.statusCode == 200) {
@@ -64,7 +68,7 @@ class EditProfileController extends StateNotifier<UserWrapper> {
 
   void updateBio(String newBio) {
     state = state.copyWith(bio: newBio);
-  }
+  } 
 
   void updateEmail(String newEmail) {
     state = state.copyWith(email: newEmail);
@@ -97,3 +101,4 @@ class EditProfileController extends StateNotifier<UserWrapper> {
     state = user;
   }
 }
+

@@ -13,7 +13,6 @@ import 'package:lms_system/features/profile/presentation/screens/profile_screen.
 import 'package:lms_system/features/profile_add/presentation/screens/profile_add_screen.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
-import 'package:lms_system/features/shared/model/shared_user.dart';
 import 'package:lms_system/features/wrapper/presentation/screens/wrapper_screen.dart';
 
 import '../features/courses/presentation/screens/course/courses_screen.dart';
@@ -74,7 +73,7 @@ class Approuter {
         return MaterialPageRoute(builder: (_) => const ProfilePage());
 
       case Routes.profileEdit:
-        return MaterialPageRoute(
+        return MaterialPageRoute<bool>(
           builder: (_) => const EditProfileScreen(),
         );
 

@@ -33,13 +33,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       appBar: CommonAppBar(
         titleText: "Edit Profile",
         leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context, profileEditSuccess);
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            )),
+          onPressed: () {
+            Navigator.pop(context, profileEditSuccess);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(

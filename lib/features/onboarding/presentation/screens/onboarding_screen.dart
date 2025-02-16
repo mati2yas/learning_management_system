@@ -90,12 +90,12 @@ class OnboardingScreen extends ConsumerWidget {
                           final registered = await registeredStatController
                               .checkRegistrationStatus();
 
-                          if (registered) {
+                          String nextRoute =
+                              registered ? Routes.wrapper : Routes.signup;
+
+                          if (context.mounted) {
                             Navigator.of(context)
-                                .pushReplacementNamed(Routes.wrapper);
-                          } else {
-                            Navigator.of(context)
-                                .pushReplacementNamed(Routes.signup);
+                                .pushReplacementNamed(nextRoute);
                           }
                         } else {
                           onboardingController.nextPage();

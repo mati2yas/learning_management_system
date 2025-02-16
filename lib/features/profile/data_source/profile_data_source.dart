@@ -4,17 +4,18 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/db_service.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final profileDataSourceProvider = Provider<ProfileDataSource>(
-    (ref) => ProfileDataSource(DioClient.instance, DatabaseService()));
+    (ref) => ProfileDataSource(DioClient.instance, SecureStorageService()));
 
 class ProfileDataSource {
   final Dio _dio;
-  final DatabaseService _databaseService;
+  final SecureStorageService _storageService;
 
-  ProfileDataSource(this._dio, this._databaseService);
+  ProfileDataSource(this._dio, this._storageService);
 
   Future<User> fetchProfileFromBackend() async {
     try {
@@ -47,7 +48,7 @@ class ProfileDataSource {
   }
 
   Future<User?> fetchProfileFromDatabase() async {
-    return await _databaseService.getUserFromDatabase();
+    return await _storageService.getUserFromStorage();
   }
 
   Future<String?> getToken() async {
@@ -61,10 +62,10 @@ class ProfileDataSource {
   }
 
   Future<void> saveProfileToDatabase(User user) async {
-    await _databaseService.saveUserToDatabase(user);
+    await _storageService.saveUserToStorage(user);
   }
 
   Future<void> updateProfileInDatabase(User user) async {
-    await _databaseService.updateUserInDatabase(user);
+    await _storageService.updateUserInStorage(user);
   }
 }

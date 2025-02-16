@@ -19,7 +19,7 @@ class SubscriptionController extends StateNotifier<SubscriptionModel> {
       state = state.copyWith(apiStatus: ApiStatus.busy);
 
       final response = await _repository.subscribe(state);
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         state = state.copyWith(
             statusMsg: "Subscription successful", apiStatus: ApiStatus.idle);
 

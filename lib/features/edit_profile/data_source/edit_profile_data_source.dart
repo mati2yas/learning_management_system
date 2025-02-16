@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
@@ -17,6 +18,11 @@ class EditProfileDataSource {
   ) async {
     int? statusCode;
     FormData formData = await user.toFormData();
+
+    debugPrint("client token: [${_dio.options.headers["Authorization"]}]");
+    if (user.token != "") {
+      DioClient.setToken(user.token);
+    }
     try {
       _dio.options.headers['Content-Type'] = 'multipart/form-data';
       _dio.options.headers['Accept'] = 'application/json';

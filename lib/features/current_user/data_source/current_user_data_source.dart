@@ -1,12 +1,13 @@
 import 'package:lms_system/core/utils/db_service.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
 class CurrentUserDataSource {
-  final DatabaseService _databaseService;
+  final SecureStorageService _storageService;
 
-  CurrentUserDataSource(this._databaseService);
+  CurrentUserDataSource(this._storageService);
   Future<User> getUser() async {
-    final user = await _databaseService.getUserFromDatabase();
+    final user = await _storageService.getUserFromStorage();
     if (user != null) {
       return user;
     } else {

@@ -1,16 +1,16 @@
-import 'package:lms_system/core/utils/db_service.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 
 class RegistrationStatusDataSource {
-  final DatabaseService _databaseService;
+  final SecureStorageService _storageService;
 
-  RegistrationStatusDataSource(this._databaseService);
+  RegistrationStatusDataSource(this._storageService);
 
   Future<void> clearRegistrationStatus() async {
-    await _databaseService.deleteUser(1); // Assuming the user has an id of 1
+    await _storageService.deleteUser(); // Assuming the user has an id of 1
   }
 
   Future<bool> isUserRegistered() async {
-    final user = await _databaseService.getUserFromDatabase();
+    final user = await _storageService.getUserFromStorage();
     return user != null;
   }
 }

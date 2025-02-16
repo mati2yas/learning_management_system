@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:lms_system/core/utils/db_service.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../shared/model/shared_user.dart';
@@ -92,12 +93,13 @@ class UserWrapper extends User {
       password: password,
       image: image,
       bio: bio,
+      token: token,
     );
   }
 
   static Future<UserWrapper> fromDb() async {
-    final dbserv = DatabaseService();
-    final user = await dbserv.getUserFromDatabase();
+    final storServ = SecureStorageService();
+    final user = await storServ.getUserFromStorage();
     if (user != null) {
       return UserWrapper(
         name: user.name,

@@ -1,19 +1,21 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/db_service.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
 final loginDataSourceProvider = Provider<LoginDataSource>((ref) {
-  return LoginDataSource(DioClient.instance, DatabaseService());
+  return LoginDataSource(DioClient.instance, SecureStorageService());
 });
 
 class LoginDataSource {
   final Dio _dio;
-  final DatabaseService _databaseService;
+  final SecureStorageService _storageService;
 
-  LoginDataSource(this._dio, this._databaseService);
+  LoginDataSource(this._dio, this._storageService);
 
   Future<void> loginUser({
     required String email,
@@ -40,9 +42,10 @@ class LoginDataSource {
           password: password,
           token: token,
         );
+        debugPrint("token: $token");
 
         // Save the user data to the database
-        await _databaseService.saveUserToDatabase(user);
+        await _storageService.saveUserToStorage(user);
       } else if (response.statusCode == 403) {
         var msg = response.data["message"];
         throw Exception(msg);

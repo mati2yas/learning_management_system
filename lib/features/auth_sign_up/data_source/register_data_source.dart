@@ -3,14 +3,15 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:lms_system/core/utils/db_service.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterDataSource {
   final Dio _dio;
-  final DatabaseService _databaseService;
+  final SecureStorageService _storageService;
 
-  RegisterDataSource(this._dio, this._databaseService);
+  RegisterDataSource(this._dio, this._storageService);
 
   Future<void> deleteAccount() async {
     final prefs = await SharedPreferences.getInstance();
@@ -61,7 +62,7 @@ class RegisterDataSource {
           token: userJson["token"],
         );
 
-        await _databaseService.saveUserToDatabase(user);
+        await _storageService.saveUserToStorage(user);
 
         // Save the JSON string
       } else if (response.statusCode == 403) {
