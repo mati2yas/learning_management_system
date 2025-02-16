@@ -25,7 +25,10 @@ class HomeDataSource {
 
       if (token != null) {
         DioClient.setToken(token);
+        debugPrint("token: $token");
+        print("token: $token");
       }
+      print("token: $token");
 
       _dio.options.headers['Accept'] = 'application/json';
       final response = await _dio.get("/homepage/courses");
