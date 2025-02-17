@@ -7,9 +7,10 @@ import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
+import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
-
-import '../../model/edit_profile_state.dart';
+import 'package:lms_system/features/shared/model/shared_user.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -20,14 +21,27 @@ class EditProfileScreen extends ConsumerStatefulWidget {
 
 class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   XFile? profilePic;
+  String? _errorMessageImagePath;
   bool profileEditSuccess = false;
+
+  bool profilePicPicked = false;
+  User user = User.initial();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController bioController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final editProfileController = ref.watch(editProfileProvider.notifier);
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
+    final editState = ref.watch(editProfileProvider);
+    debugPrint(
+        "User{name: ${user.name}, email: ${user.email}, bio: ${user.bio}}");
+
     XFile? profilePic;
-    final editProfileController = ref.watch(editProfileProvider.notifier);
-    final state = ref.watch(editProfileProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CommonAppBar(
@@ -44,7 +58,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 40.0,
+          horizontal: 25.0,
           vertical: 20,
         ),
         child: Form(
@@ -55,20 +69,31 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: size.width * 0.4,
-                  height: size.height * 0.2,
+                  width: double.infinity,
+                  height: size.height * 0.25,
                   child: Stack(
                     children: [
-                      CircleAvatar(
-                        backgroundImage: profilePic != null
-                            ? FileImage(File(profilePic.path))
-                            : const AssetImage("assets/images/profile_pic.png")
-                                as ImageProvider,
-                        radius: 80,
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.7),
+                        ),
+                        child: user.image.isNotEmpty
+                            ? Image.file(
+                                File(user.image),
+                                width: size.width,
+                                height: size.height * 0.25,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                "assets/images/pfp-placeholder.jpg",
+                                width: size.width,
+                                height: size.height * 0.18,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                       Positioned(
-                        bottom: 0,
-                        right: 0,
+                        top: 10,
+                        right: 10,
                         child: IconButton(
                           style: IconButton.styleFrom(
                             backgroundColor: AppColors.mainGrey,
@@ -76,12 +101,17 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             iconSize: 24,
                           ),
                           onPressed: () async {
-                            bool imagePicked = await pickProfilePic();
-                            if (imagePicked) {
+                            bool success = await pickProfilePic();
+
+                            if (success) {
                               editProfileController.updateImage(profilePic);
+                              setState(() {
+                                profilePicPicked = true;
+                                //listViewSize = size.height * 0.35;
+                              });
                             }
                           },
-                          icon: const Icon(Icons.image),
+                          icon: const Icon(Icons.edit),
                         ),
                       ),
                     ],
@@ -89,20 +119,22 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 ),
                 _buildInputLabel("Name", textTh),
                 InputWidget(
-                    onSaved: (value) {
-                      editProfileController.updateName(value!);
-                    },
-                    hintText: "",
-                    validator: (value) {},
-                    initialValue: state.name),
+                  onSaved: (value) {
+                    editProfileController.updateName(value!);
+                  },
+                  hintText: "",
+                  validator: (value) {},
+                  controller: nameController,
+                ),
                 _buildInputLabel("Email", textTh),
                 InputWidget(
-                    onSaved: (value) {
-                      editProfileController.updateEmail(value!);
-                    },
-                    hintText: "",
-                    validator: (value) {},
-                    initialValue: state.email),
+                  onSaved: (value) {
+                    editProfileController.updateEmail(value!);
+                  },
+                  hintText: "",
+                  validator: (value) {},
+                  controller: emailController,
+                ),
                 _buildInputLabel("Password", textTh),
                 InputWidget(
                   onSaved: (value) {
@@ -110,18 +142,20 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   },
                   hintText: "",
                   validator: (value) {},
-                  initialValue: state.password,
+                  controller: passwordController,
                 ),
                 _buildInputLabel("Bio", textTh),
                 InputWidget(
                   onSaved: (value) {
                     editProfileController.updateBio(value!);
                   },
+                  maxLines: 2,
+                  maxLength: 250,
                   hintText: "",
                   validator: (value) {},
-                  initialValue: state.bio,
+                  controller: bioController,
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 Center(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -130,12 +164,19 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         horizontal: 50,
                         vertical: 15,
                       ),
-                      fixedSize: Size(size.width * 0.45, 50),
+                      fixedSize: Size(size.width * 0.6, 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     onPressed: () async {
+                      _validateImagePath();
+                      if (_errorMessageImagePath != null && user.image == "") {
+                        setState(() {
+                          profileEditSuccess = true;
+                        });
+                        return;
+                      }
                       if (AppKeys.editProfileKey.currentState?.validate() ==
                           true) {
                         AppKeys.editProfileKey.currentState!.save();
@@ -161,7 +202,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         }
                       }
                     },
-                    child: state.apiState == ApiState.busy
+                    child: editState.apiState == ApiState.busy
                         ? const Center(
                             child: CircularProgressIndicator(
                               color: Colors.white,
@@ -183,6 +224,26 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> getUser() async {
+    final storageService = SecureStorageService();
+    final usr = await storageService.getUserFromStorage();
+    if (usr != null) {
+      setState(() {
+        user = usr;
+        nameController.text = user.name;
+        emailController.text = user.email;
+        passwordController.text = user.password;
+        bioController.text = user.bio;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
   }
 
   Future<bool> pickProfilePic() async {
@@ -271,5 +332,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         ),
       ),
     );
+  }
+
+  void _validateImagePath() {
+    setState(() {
+      if (!profilePicPicked) {
+        _errorMessageImagePath = "This field cannot be empty";
+      } else {
+        _errorMessageImagePath = null;
+      }
+    });
   }
 }

@@ -3,8 +3,9 @@ import 'package:dio/dio.dart';
 class ApiExceptions {
   static String getExceptionMessage(Exception exc, int? statusCode) {
     if (exc is! DioException) {
-      if (exc.toString().contains("No internet connection")) {
-        return "No connection. Connect to the internet";
+      if (exc.toString().contains("No internet connection") ||
+          exc.toString().contains("Connection Timeout")) {
+        return "No connection. Check your internet.";
       }
       return "Unknown Error Occurred";
     }

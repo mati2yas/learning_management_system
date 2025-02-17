@@ -12,6 +12,9 @@ class CoursesRepository {
   }
 
   Future<List<Course>> fetchCourses() async {
+     if (!await _connectivityService.hasConnection()) {
+      throw Exception("No internet connection");
+    }
     return _dataSource.fetchCourses();
   }
 

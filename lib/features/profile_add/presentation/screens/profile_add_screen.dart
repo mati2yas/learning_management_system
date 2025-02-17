@@ -23,6 +23,7 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
   String name = "";
   XFile? avatarImage;
   bool imagePicked = false;
+
   String? _errorMessageImagePath;
   @override
   Widget build(BuildContext context) {
@@ -187,29 +188,28 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
                         } else if (_errorMessageBio == null) {
                           final result =
                               await editProfileController.editProfile();
+                          if (result.responseStatus) {
+                            resetImagePicked();
+                            _bioController.clear();
+
+                            // we need this so that next time home page fetches
+                            // courses that are not bought.
+                          }
                           if (context.mounted) {
-                            if (result.startsWith("success")) {
-                              resetImagePicked();
-                              _bioController.clear();
-
-                              // we need this so that next time home page fetches
-                              // courses that are not bought.
-                            }
-
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(result.contains("success")
-                                    ? "Edit Profile successful!"
-                                    : "Edit Profile failed!"),
-                                backgroundColor: result == "success"
+                                content: Text(result.message),
+                                backgroundColor: result.responseStatus
                                     ? Colors.green
                                     : Colors.red,
                               ),
                             );
                           }
                         }
-                        Navigator.of(context)
-                            .pushReplacementNamed(Routes.profileAdd);
+                        if (context.mounted) {
+                          Navigator.of(context)
+                              .pushReplacementNamed(Routes.profileAdd);
+                        }
                       },
                       child: editState.apiState == ApiState.busy
                           ? const Center(

@@ -46,16 +46,23 @@ class ProfilePage extends ConsumerWidget {
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.7),
                           ),
-                          child: Image.file(
-                            File(user
-                                .image), // Replace 'imagePath' with the actual path obtained from the database
-                            width: size.width,
-                            height: size.height * 0.18,
-                            fit: BoxFit.cover,
-                          ),
+                          child: user.image.isNotEmpty
+                              ? Image.file(
+                                  File(user
+                                      .image), // Replace 'imagePath' with the actual path obtained from the database
+                                  width: size.width,
+                                  height: size.height * 0.18,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  "assets/images/pfp-placeholder.jpg",
+                                  width: size.width,
+                                  height: size.height * 0.18,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                         Positioned(
-                          bottom: 20,
+                          top: 20,
                           left: size.width * 0.5,
                           child: IconButton(
                             style: IconButton.styleFrom(
@@ -64,7 +71,7 @@ class ProfilePage extends ConsumerWidget {
                               iconSize: 24,
                             ),
                             onPressed: () {},
-                            icon: const Icon(Icons.image),
+                            icon: const Icon(Icons.edit),
                           ),
                         ),
                       ],
@@ -89,12 +96,14 @@ class ProfilePage extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  Text(
-                    user.bio,
-                    style: textTh.bodyMedium!.copyWith(
-                      color: AppColors.mainGrey,
+                  const Divider(),
+                  Center(
+                    child: Text(
+                      user.bio,
+                      style: textTh.bodyMedium!.copyWith(color: Colors.black),
                     ),
                   ),
+                  const Divider(),
                   const SizedBox(height: 28),
                   TextButton.icon(
                     onPressed: () async {

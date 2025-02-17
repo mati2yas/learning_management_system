@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lms_system/core/utils/db_service.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
+import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 import 'package:lms_system/features/edit_profile/repository/edit_profile_repository.dart';
+import 'package:lms_system/features/shared/model/api_response_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 final editProfileProvider =
@@ -20,20 +21,21 @@ class EditProfileController extends StateNotifier<UserWrapper> {
   EditProfileController(this._repository) : super(UserWrapper.initial()) {
     _loadUser();
   }
-  Future<String> editProfile() async {
+  Future<ApiResponse> editProfile() async {
+    String responseMessage = "";
+    bool responseStatus = false;
+    int? statusCode;
+
+    var usrr = await SecureStorageService().getUserFromStorage();
+    state = state.copyWith(password: usrr?.password);
+    state = state.copyWith(apiState: ApiState.busy);
+    if (usrr?.token != null) {
+      DioClient.setToken(usrr?.token);
+
+      state = state.copyWith(token: usrr?.token);
+    }
     try {
-      var usrr = await SecureStorageService().getUserFromStorage();
-
-      state = state.copyWith(password: usrr?.password);
-      state = state.copyWith(apiState: ApiState.busy);
-
-      if (usrr?.token != null) {
-        DioClient.setToken(usrr?.token);
-
-        state = state.copyWith(token: usrr?.token);
-      }
       var user = state.toUser();
-
       debugPrint("user bio: ${user.bio}, user pfp: ${user.image}");
       debugPrint(user.toString());
 
@@ -43,32 +45,41 @@ class EditProfileController extends StateNotifier<UserWrapper> {
       //await storageService.updateUserBioAndPfp(user, user.bio, user.image);
 
       await storageService.updateUserInStorage(user);
-      final response = await _repository.editProfile(user);
 
       final newUser = await storageService.getUserFromStorage();
       debugPrint(
           "user after... User{name: ${newUser?.name}, bio: ${newUser?.bio}, image: ${newUser?.image}}");
 
+      final response = await _repository.editProfile(user);
+      statusCode = response.statusCode;
       debugPrint("editProfController status code: ${response.statusCode}");
+
       if (response.statusCode == 200) {
         state = state.copyWith(
             statusMsg: "Profile edit successful", apiState: ApiState.idle);
 
-        return "success, ${response.data["data"]}";
+        (responseMessage, responseStatus) =
+            (response.data["message"], response.data["status"]);
       } else {
         state = state.copyWith(statusMsg: "Profile edit failed");
-        return "error ${response.statusMessage}";
+
+        (responseMessage, responseStatus) =
+            (response.data["message"], response.data["status"]);
       }
-    } catch (e) {
+    } on Exception catch (e) {
       state = state.copyWith(
-          statusMsg: "An error occurred", apiState: ApiState.error);
-      return "error";
+          statusMsg: ApiExceptions.getExceptionMessage(e, statusCode),
+          apiState: ApiState.error);
+
+      (responseMessage, responseStatus) = (state.statusMsg, false);
     }
+    return ApiResponse(
+        message: responseMessage, responseStatus: responseStatus);
   }
 
   void updateBio(String newBio) {
     state = state.copyWith(bio: newBio);
-  } 
+  }
 
   void updateEmail(String newEmail) {
     state = state.copyWith(email: newEmail);
@@ -101,4 +112,3 @@ class EditProfileController extends StateNotifier<UserWrapper> {
     state = user;
   }
 }
-

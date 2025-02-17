@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/utils/db_service.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
@@ -20,14 +19,12 @@ class HomeDataSource {
     List<Course> courses = [];
     int? statusCode;
     try {
-      
       var user = await SecureStorageService().getUserFromStorage();
       var token = user?.token;
 
       if (token != null) {
         DioClient.setToken(token);
         debugPrint("token: $token");
-        print("token: $token");
       }
       print("token: $token");
 

@@ -30,7 +30,6 @@ class CustomHomeAppBar extends ConsumerWidget {
                 width: 47,
                 child: GestureDetector(
                   onTap: () {
-                    //Scaffold.of(context).openDrawer();
                     AppKeys.drawerKey.currentState!.openDrawer();
                   },
                   child: SvgPicture.asset(

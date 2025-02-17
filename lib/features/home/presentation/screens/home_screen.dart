@@ -22,7 +22,6 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //final user = ref.watch(userProvider);
-    final courses = ref.watch(coursesProvider);
     final pageviewParts = ref.watch(pageviewPartsProvider);
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
@@ -33,6 +32,7 @@ class HomePage extends ConsumerWidget {
         ref.watch(currentCourseFilterProvider.notifier);
 
     final homeApiState = ref.watch(homeScreenApiProvider);
+    final homeApiController = ref.watch(homeScreenApiProvider.notifier);
     final currentUserState = ref.watch(currentUserProvider);
 
     print("ktoolbarheight: $kToolbarHeight");
@@ -240,13 +240,10 @@ class HomePage extends ConsumerWidget {
                             itemBuilder: (_, index) {
                               return CourseCardWithImage(
                                 onBookmark: () {
-                                  ref
-                                      .read(coursesProvider.notifier)
-                                      .toggleSaved(courses[index]);
+                                      homeApiController.toggleSaved(courses[index]);
                                 },
                                 onLike: () {
-                                  ref
-                                      .read(coursesProvider.notifier)
+                                      homeApiController
                                       .toggleLiked(courses[index]);
                                 },
                                 course: courses[index],

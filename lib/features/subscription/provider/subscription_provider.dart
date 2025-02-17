@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
+import 'package:lms_system/features/shared/model/api_response_model.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/subscription/model/subscription_model.dart';
 import 'package:lms_system/features/subscription/repository/subscription_repository.dart';
@@ -14,7 +15,9 @@ class SubscriptionController extends StateNotifier<SubscriptionModel> {
   final SubscriptionRepository _repository;
   SubscriptionController(this._repository) : super(SubscriptionModel());
 
-  Future<String> subscribe() async {
+  Future<ApiResponse> subscribe() async {
+    String responseMessage = "";
+    bool responseStatus = false;
     try {
       state = state.copyWith(apiStatus: ApiStatus.busy);
 
@@ -23,16 +26,25 @@ class SubscriptionController extends StateNotifier<SubscriptionModel> {
         state = state.copyWith(
             statusMsg: "Subscription successful", apiStatus: ApiStatus.idle);
 
-        return "success, ${response.data["data"]}";
+        (responseMessage, responseStatus) =
+            (response.data["message"], response.data["status"]);
+        //return "success, ${response.data["data"]}";
       } else {
         state = state.copyWith(statusMsg: "Subscription failed");
-        return "error ${response.statusMessage}";
+
+        (responseMessage, responseStatus) =
+            (response.data["message"], response.data["status"]);
+        //return "error ${response.statusMessage}";
       }
     } catch (e) {
       state = state.copyWith(
           statusMsg: "An error occurred", apiStatus: ApiStatus.error);
-      return "error";
+      //return "error";
+
+      (responseMessage, responseStatus) = (state.statusMessage, false);
     }
+    return ApiResponse(
+        message: responseMessage, responseStatus: responseStatus);
   }
 
   void updateCourses(List<Course> newCourses) {

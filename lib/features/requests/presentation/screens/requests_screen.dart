@@ -32,9 +32,7 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
-    var listViewSize = size.width * 0.5;
     var requestsProv = ref.watch(requestsProvider);
-    bool listIsEmpty = requestsProv.isEmpty;
     double price = 0;
     if (requestsProv.isNotEmpty) {
       price = requestsProv
@@ -224,7 +222,6 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                                     transactionImage?.path ?? "");
                                 setState(() {
                                   imagePicked = true;
-                                  listViewSize = size.height * 0.35;
                                 });
                               }
                             },
@@ -287,40 +284,34 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                               if (_errorMessageTransactionId != null) {
                                 return;
                               } else if (_errorMessageTransactionId == null) {
-                                // Proceed with the valid input
-                                // ScaffoldMessenger.of(context).showSnackBar(
-                                //   const SnackBar(
-                                //       elevation: 4,
-                                //       backgroundColor: Colors.white,
-                                //       behavior: SnackBarBehavior.floating,
-                                //       content: Text('Input is valid!')),
-                                // );
+                                
 
                                 final result =
                                     await subscriptionController.subscribe();
-
+                                if (result.responseStatus) {
+                                  ref
+                                      .read(requestsProvider.notifier)
+                                      .removeAll();
+                                  resetImagePicked();
+                                  _transactionIdController.clear();
+                                  await ref
+                                      .read(homeScreenApiProvider.notifier)
+                                      .fetchHomeScreenData();
+                                  // we need this so that next time home page fetches
+                                  // courses that are not bought.
+                                }
                                 if (context.mounted) {
-                                  if (result.startsWith("success")) {
-                                    ref
-                                        .read(requestsProvider.notifier)
-                                        .removeAll();
-                                    resetImagePicked();
-                                    _transactionIdController.clear();
-                                    ref
-                                        .read(homeScreenApiProvider.notifier)
-                                        .fetchHomeScreenData();
-                                    // we need this so that next time home page fetches
-                                    // courses that are not bought.
-                                  }
-
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(result == "success"
-                                          ? "Subscription successful!"
-                                          : "Subscription failed!"),
-                                      backgroundColor: result == "success"
-                                          ? Colors.green
-                                          : Colors.red,
+                                      behavior: SnackBarBehavior.floating,
+                                      content: Text(
+                                        result.message,
+                                        style: TextStyle(
+                                          color: result.responseStatus
+                                              ? Colors.green
+                                              : Colors.red,
+                                        ),
+                                      ),
                                     ),
                                   );
                                 }
@@ -342,7 +333,7 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                                         ),
                                       )
                                     : Text(
-                                        'Error',
+                                        'Retry',
                                         style: TextStyle(
                                           color: Colors.grey,
                                           fontSize: size.width * 0.04,

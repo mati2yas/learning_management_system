@@ -4,10 +4,11 @@ import 'package:lms_system/core/constants/colors.dart';
 class InputWidget extends StatefulWidget {
   final Function(String?) onSaved;
 
+  TextEditingController? controller;
   final dynamic Function(String) validator;
   TextInputType? keyboardType;
   final String hintText;
-  final String initialValue;
+  String? initialValue;
   bool obscure;
   int? maxLines, maxLength;
   InputWidget({
@@ -16,10 +17,11 @@ class InputWidget extends StatefulWidget {
     this.keyboardType,
     required this.hintText,
     required this.validator,
-    required this.initialValue,
+    this.initialValue,
     this.obscure = false,
     this.maxLength,
     this.maxLines,
+    this.controller,
   });
 
   @override
@@ -44,6 +46,7 @@ class _InputWidgetState extends State<InputWidget> {
             onSaved: widget.onSaved,
             keyboardType: widget.keyboardType ?? TextInputType.name,
             obscureText: widget.obscure ? isObscured : false,
+            controller: widget.controller,
             validator: (value) {
               return widget.validator(value!);
             },
