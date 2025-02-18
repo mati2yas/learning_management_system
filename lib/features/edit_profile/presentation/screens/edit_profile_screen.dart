@@ -177,6 +177,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         });
                         return;
                       }
+                      if (profilePicPicked) {
+                        editProfileController.updateImage(profilePic);
+                      }
                       if (AppKeys.editProfileKey.currentState?.validate() ==
                           true) {
                         AppKeys.editProfileKey.currentState!.save();

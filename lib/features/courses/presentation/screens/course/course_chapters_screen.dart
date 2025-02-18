@@ -22,7 +22,9 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     final pageController = ref.read(pageNavigationProvider.notifier);
-    final course = pageController.getArgumentsForPage(5);
+    final Map<String, dynamic> args = pageController.getArgumentsForPage(5);
+    final course = args["course"];
+    final previousScreen = args["previousScreenIndex"];
     // 5 cause the 5th page in the wrapper screen pages list
     //final courseIdcurrent = ref.watch(currentCourseIdProvider);
     final apiState = ref.watch(courseChaptersProvider);
@@ -32,7 +34,7 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
       appBar: CommonAppBar(
         leading: IconButton(
           onPressed: () {
-            pageController.navigatePage(4);
+            pageController.navigatePage(previousScreen);
           },
           icon: const Icon(Icons.arrow_back),
         ),

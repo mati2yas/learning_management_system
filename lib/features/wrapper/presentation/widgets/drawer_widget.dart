@@ -80,6 +80,7 @@ class CustomDrawer extends StatelessWidget {
               ListTileButton(
                 onTap: () {
                   ref.read(profileProvider.notifier).fetchUserData();
+                  Navigator.pop(context);
                   Navigator.of(context).pushNamed(Routes.profile);
                 },
                 iconData: Icons.person_outline,

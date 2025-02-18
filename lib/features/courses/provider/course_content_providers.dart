@@ -24,11 +24,11 @@ class CourseContentNotifier extends AsyncNotifier<List<Chapter>> {
 
   @override
   Future<List<Chapter>> build() async {
-    final courseId = ref.watch(currentCourseIdProvider);
-    return fetchCourseChapters(courseId);
+    return fetchCourseChapters();
   }
 
-  Future<List<Chapter>> fetchCourseChapters(String courseId) async {
+  Future<List<Chapter>> fetchCourseChapters() async {
+    final courseId = ref.watch(currentCourseIdProvider);
     state = const AsyncValue.loading();
     try {
       final courseChapters = await _repository.fetchCourseChapters(courseId);

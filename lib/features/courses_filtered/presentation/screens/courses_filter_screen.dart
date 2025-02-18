@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
@@ -75,7 +76,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     var category = ref.watch(currentCourseFilterProvider);
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
-    final pageController = ref.read(pageNavigationProvider.notifier);
+    final pageNavController = ref.read(pageNavigationProvider.notifier);
 
     final courseIdController = ref.watch(currentCourseIdProvider.notifier);
     final apiState = ref.watch(coursesFilteredProvider);
@@ -96,7 +97,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {
-                pageController.navigatePage(1);
+                pageNavController.navigatePage(1);
               },
               icon: const Icon(Icons.arrow_back),
             ),
@@ -155,19 +156,20 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                         ],
                       ),
                     ),
-                    CustomTabBar(
-                      alignment: TabAlignment.start,
-                      isScrollable: true,
-                      tabs: filterGrades(category)
-                          .map(
-                            (grd) => Tab(
-                              height: 24,
-                              text: grd,
-                            ),
-                          )
-                          .toList(),
-                      //controller: tabController,
-                    )
+                    if (category != "random_courses")
+                      CustomTabBar(
+                        alignment: TabAlignment.start,
+                        isScrollable: true,
+                        tabs: filterGrades(category)
+                            .map(
+                              (grd) => Tab(
+                                height: 24,
+                                text: grd,
+                              ),
+                            )
+                            .toList(),
+                        //controller: tabController,
+                      )
                   ],
                 ),
               ),
@@ -193,80 +195,122 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                 data: (courses) {
                   debugPrint("current category: $category");
                   debugPrint("courses len: ${courses.length}");
-                  return TabBarView(
-                    controller: tabController,
-                    children: filterGrades(category).map((grade) {
-                      //
-                      switch (category) {
-                        case "university":
-                          selectedCourses = courses
-                              .where((course) =>
-                                  course.batch ==
-                                  universityGrades[currentTabIndex ?? 0])
-                              .toList();
-                          break;
-                        case "high_school":
-                          if (grade == "Grade 9" || grade == "Grade 10") {
-                            selectedCourses = courses
-                                .where((course) =>
-                                    course.grade ==
-                                    highSchoolGrades[currentTabIndex ?? 0])
-                                .toList();
-                          } else if (grade == "Grade 11" ||
-                              grade == "Grade 12") {
-                            selectedCourses = courses
-                                .where((course) =>
-                                    course.grade ==
-                                        highSchoolGrades[
-                                            currentTabIndex ?? 0] &&
-                                    course.stream?.toLowerCase() ==
-                                        dropDownValue?.toLowerCase())
-                                .toList();
-                          }
-                          String theList = selectedCourses
-                              .take((selectedCourses.length * 0.75).toInt())
-                              .map((course) =>
-                                  "{${course.grade},${course.stream}}")
-                              .join("|");
-                          debugPrint("current Courses: $theList");
-                          break;
-                        case "lower_grades":
-                          selectedCourses = courses
-                              .where((course) =>
-                                  course.grade ==
-                                  lowerGrades[currentTabIndex ?? 0])
-                              .toList();
-                          break;
-                        default:
-                          selectedCourses = courses;
-                          break;
-                      }
-                      return GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                          childAspectRatio: 0.8,
-                          mainAxisExtent: 200,
-                        ),
-                        itemCount: selectedCourses.length,
-                        itemBuilder: (_, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              courseIdController
-                                  .changeCourseId(selectedCourses[index].id);
-                              pageController.navigatePage(
-                                5,
-                                arguments: selectedCourses[index],
-                              );
-                            },
-                            child: CourseCard(course: selectedCourses[index]),
-                          );
-                        },
-                      );
-                    }).toList(),
-                  );
+                  return category == "random_courses"
+                      ? GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            childAspectRatio: 0.8,
+                            mainAxisExtent: 200,
+                          ),
+                          itemCount: courses.length,
+                          itemBuilder: (_, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                courseIdController
+                                    .changeCourseId(courses[index].id);
+
+                                ref
+                                    .read(courseChaptersProvider.notifier)
+                                    .fetchCourseChapters();
+                                pageNavController.navigatePage(
+                                  5,
+                                  arguments: {
+                                    "previousScreenIndex": 4,
+                                    "course": courses[index],
+                                  },
+                                );
+                              },
+                              child: CourseCard(course: courses[index]),
+                            );
+                          },
+                        )
+                      : TabBarView(
+                          controller: tabController,
+                          children: filterGrades(category).map((grade) {
+                            //
+                            switch (category) {
+                              case "university":
+                                selectedCourses = courses
+                                    .where((course) =>
+                                        course.batch ==
+                                        universityGrades[currentTabIndex ?? 0])
+                                    .toList();
+                                break;
+                              case "high_school":
+                                if (grade == "Grade 9" || grade == "Grade 10") {
+                                  selectedCourses = courses
+                                      .where((course) =>
+                                          course.grade ==
+                                          highSchoolGrades[
+                                              currentTabIndex ?? 0])
+                                      .toList();
+                                } else if (grade == "Grade 11" ||
+                                    grade == "Grade 12") {
+                                  selectedCourses = courses
+                                      .where((course) =>
+                                          course.grade ==
+                                              highSchoolGrades[
+                                                  currentTabIndex ?? 0] &&
+                                          course.stream?.toLowerCase() ==
+                                              dropDownValue?.toLowerCase())
+                                      .toList();
+                                }
+                                String theList = selectedCourses
+                                    .take(
+                                        (selectedCourses.length * 0.75).toInt())
+                                    .map((course) =>
+                                        "{${course.grade},${course.stream}}")
+                                    .join("|");
+                                debugPrint("current Courses: $theList");
+                                break;
+                              case "lower_grades":
+                                selectedCourses = courses
+                                    .where((course) =>
+                                        course.grade ==
+                                        lowerGrades[currentTabIndex ?? 0])
+                                    .toList();
+                                break;
+                              default:
+                                selectedCourses = courses;
+                                break;
+                            }
+                            return GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                childAspectRatio: 0.8,
+                                mainAxisExtent: 200,
+                              ),
+                              itemCount: selectedCourses.length,
+                              itemBuilder: (_, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    courseIdController.changeCourseId(
+                                        selectedCourses[index].id);
+
+                                    ref
+                                        .read(courseChaptersProvider.notifier)
+                                        .fetchCourseChapters();
+                                    pageNavController.navigatePage(
+                                      5,
+                                      arguments: {
+                                        "previousScreenIndex": 4,
+                                        "course": selectedCourses[index],
+                                      },
+                                    );
+                                  },
+                                  child: CourseCard(
+                                      course: selectedCourses[index]),
+                                );
+                              },
+                            );
+                          }).toList(),
+                        );
                 },
               )),
         );

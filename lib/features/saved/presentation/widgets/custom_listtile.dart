@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/core/constants/enums.dart';
-import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
+import 'package:lms_system/features/courses/provider/course_content_providers.dart';
+import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
@@ -20,6 +19,7 @@ class ListTilewidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pageController = ref.read(pageNavigationProvider.notifier);
+    final courseIdController = ref.watch(currentCourseIdProvider.notifier);
     return GestureDetector(
       child: Card(
         elevation: 3,
@@ -29,12 +29,13 @@ class ListTilewidget extends ConsumerWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: ListTile(
-          onTap: () {
-            Navigator.of(context).pushNamed(
-              Routes.courseDetails,
-              arguments: course,
-            );
-          },
+          // onTap: () {
+          //   courseIdController.changeCourseId(course.id);
+          //   pageController.navigatePage(
+          //     5,
+          //     arguments: course,
+          //   );
+          // },
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(6),
@@ -70,7 +71,6 @@ class ListTilewidget extends ConsumerWidget {
                 errorBuilder: (BuildContext context, Object error,
                     StackTrace? stackTrace) {
                   // Show an error widget if the image failed to load
-
                   return Image.asset(
                       height: 80,
                       width: double.infinity,
@@ -84,27 +84,6 @@ class ListTilewidget extends ConsumerWidget {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // SizedBox(
-              //   height: 30,
-              //   width: 220,
-              //   child: Row(
-              //     children: [
-              //       SizedBox(
-              //         width: 100,
-              //         child: LinearProgressIndicator(
-              //           value: course.progress / 100,
-              //           color: AppColors.mainBlue,
-              //           backgroundColor: AppColors.mainGrey,
-              //         ),
-              //       ),
-              //       const SizedBox(width: 5),
-              //       Text(
-              //         "${course.progress.toInt()} %",
-              //         style: textTh.labelMedium,
-              //       ),
-              //     ],
-              //   ),
-              // ),
               Text("${course.topics} topics"),
             ],
           ),
@@ -115,18 +94,15 @@ class ListTilewidget extends ConsumerWidget {
               minimumSize: const Size(20, 20),
             ),
             onPressed: () {
-              pageController.navigatePage(5,
-                  arguments: CourseCategory(
-                      id: "0",
-                      name: course.title,
-                      grades: [
-                        Grade(
-                          id: "",
-                          name: "name",
-                          courses: [course],
-                        ),
-                      ],
-                      categoryType: CategoryType.highSchool));
+              courseIdController.changeCourseId(course.id);
+              ref.read(courseChaptersProvider.notifier).fetchCourseChapters();
+              pageController.navigatePage(
+                5,
+                arguments: {
+                  "previousScreenIndex": 2,
+                  "course": course,
+                },
+              );
             },
             icon: const Icon(
               Icons.arrow_forward,

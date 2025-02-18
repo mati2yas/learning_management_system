@@ -47,7 +47,7 @@ class Approuter {
 
       case Routes.requests:
         return MaterialPageRoute(builder: (_) => const RequestsScreen());
-      case Routes.courseDetails:
+      case Routes.filterCourses:
         return MaterialPageRoute(
           builder: (_) => const CoursesFilterScreen(),
         );
@@ -109,7 +109,7 @@ class Routes {
   static const String profileEdit = "profile_edit";
   static const String signup = "signup";
   static const String courses = "courses";
-  static const String courseDetails = "courseDetails";
+  static const String filterCourses = "courseDetails";
   static const String chapterContent = "chapterDetails";
   static const String saved = "saved";
   static const String requests = "requests";

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/common_widgets/course_card.dart';
+import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
+import 'package:lms_system/features/courses/provider/course_content_providers.dart';
+import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-import '../../../../../core/app_router.dart';
 import '../../../provider/courses_provider.dart';
 import '../../widgets/category_show.dart';
 
@@ -125,12 +126,23 @@ class CoursePage extends ConsumerWidget {
               itemBuilder: (_, index) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed(
-                      Routes.courseDetails,
-                      arguments: courses[index],
+                    final courseIdController =
+                        ref.watch(currentCourseIdProvider.notifier);
+                    courseIdController
+                        .changeCourseId(courses[index].id);
+
+                    ref
+                        .read(courseChaptersProvider.notifier)
+                        .fetchCourseChapters();
+                    pageController.navigatePage(
+                      5,
+                      arguments: {
+                        "course": courses[index],
+                        "previousScreenIndex": 1,
+                      },
                     );
                   },
-                  child: CourseCard(
+                  child: CourseCardWithImage(
                     course: courses[index],
                     onLike: () {
                       ref

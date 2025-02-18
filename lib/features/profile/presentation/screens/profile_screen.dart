@@ -7,6 +7,7 @@ import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/profile/provider/profile_provider.dart';
+import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends ConsumerWidget {
@@ -15,11 +16,21 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userState = ref.watch(profileProvider);
+
+    final pageNavController = ref.read(pageNavigationProvider.notifier);
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CommonAppBar(titleText: "Profile"),
+      appBar: CommonAppBar(
+        titleText: "Profile",
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
+      ),
       body: userState.when(
           loading: () => const CircularProgressIndicator(
                 color: AppColors.mainBlue,
@@ -132,9 +143,12 @@ class ProfilePage extends ConsumerWidget {
                     icon: const Icon((Icons.notifications)),
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      pageNavController.navigatePage(2);
+                      Navigator.pop(context);
+                    },
                     label: Text(
-                      "My Exam",
+                      "My Courses",
                       style: textTh.titleMedium!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -144,7 +158,7 @@ class ProfilePage extends ConsumerWidget {
                   TextButton.icon(
                     onPressed: () {},
                     label: Text(
-                      "My Education",
+                      "My Exams",
                       style: textTh.titleMedium!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
