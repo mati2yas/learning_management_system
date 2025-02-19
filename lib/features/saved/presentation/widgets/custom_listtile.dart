@@ -29,13 +29,7 @@ class ListTilewidget extends ConsumerWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: ListTile(
-          // onTap: () {
-          //   courseIdController.changeCourseId(course.id);
-          //   pageController.navigatePage(
-          //     5,
-          //     arguments: course,
-          //   );
-          // },
+          
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(6),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 import 'package:lms_system/features/requests/provider/requests_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
@@ -29,6 +30,8 @@ class CourseCardWithImage extends ConsumerWidget {
 
     var requestsProv = ref.watch(requestsProvider);
     var textTh = Theme.of(context).textTheme;
+
+    final paidToggleController = ref.watch(paidCoursesApiProvider.notifier);
     final requestsController = ref.watch(requestsProvider.notifier);
     return Container(
       width: double.infinity,
@@ -123,10 +126,11 @@ class CourseCardWithImage extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextButton.icon(
-                  onPressed: () {
+                  onPressed: () async {
                     if (onLike != null) {
                       onLike!();
                     }
+                    await paidToggleController.toggleLiked(course);
                   },
                   icon: Icon(
                     course.liked ? Icons.thumb_up : Icons.thumb_up_outlined,
@@ -138,10 +142,11 @@ class CourseCardWithImage extends ConsumerWidget {
                 TextButton.icon(
                   // style: TextButton.styleFrom(
                   //     padding: const EdgeInsets.only(left: 8)),
-                  onPressed: () {
+                  onPressed: () async {
                     if (onBookmark != null) {
                       onBookmark!();
                     }
+                    await paidToggleController.toggleSaved(course);
                   },
                   icon: Icon(
                     course.saved ? Icons.bookmark : Icons.bookmark_outline,

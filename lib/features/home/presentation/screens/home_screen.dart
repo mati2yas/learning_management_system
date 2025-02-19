@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
@@ -23,7 +24,6 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //final user = ref.watch(userProvider);
     final pageviewParts = ref.watch(pageviewPartsProvider);
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
@@ -237,7 +237,8 @@ class HomePage extends ConsumerWidget {
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 10,
                               childAspectRatio:
-                                  getResponsiveChildAspectRatio(size),
+                                  UtilFunctions.getResponsiveChildAspectRatio(
+                                      size),
                             ),
                             itemBuilder: (_, index) {
                               return GestureDetector(
@@ -284,16 +285,5 @@ class HomePage extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  getResponsiveChildAspectRatio(Size size) {
-    print("width: ${size.width}");
-    if (size.width <= 200) return 0.65;
-    if (size.width <= 400) return 0.85;
-
-    if (size.width < 500) return 1.0;
-    if (size.width < 600) return 1.3;
-    if (size.width < 700) return 1.4;
-    return 1.7;
   }
 }

@@ -11,11 +11,15 @@ class SecureStorageService {
   factory SecureStorageService() {
     return _instance;
   }
-
   SecureStorageService._internal();
 
   Future<void> deleteUser() async {
     await _storage.delete(key: 'user');
+  }
+
+  Future<bool> getOnboardingStatus() async {
+    final status = await _storage.read(key: 'onboarding_status');
+    return status == 'true';
   }
 
   Future<User?> getUserFromStorage() async {
@@ -29,6 +33,10 @@ class SecureStorageService {
 
   Future<void> saveUserToStorage(User user) async {
     await _storage.write(key: 'user', value: jsonEncode(user.toMap()));
+  }
+
+  Future<void> setOnboardingStatus(bool status) async {
+    await _storage.write(key: 'onboarding_status', value: status.toString());
   }
 
   Future<void> updateUserBioAndPfp(

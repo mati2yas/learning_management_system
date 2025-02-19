@@ -44,7 +44,7 @@ class SavedApiNotifier extends AsyncNotifier<List<Course>> {
   Future<List<Course>> fetchSavedCoursesData() async {
     state = const AsyncLoading();
     try {
-      final courses = await _repository.getCourses();
+      final courses = await _repository.getSavedCourses();
       state = AsyncData(courses);
       return courses; // Automatically updates the state
     } catch (e, stack) {

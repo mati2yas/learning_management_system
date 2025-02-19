@@ -34,7 +34,7 @@ class Navbar extends StatelessWidget {
     List<String> routes = [
       Routes.home,
       Routes.courses,
-      Routes.saved,
+      Routes.savedCourses,
       Routes.profile,
     ];
     return BottomNavigationBar(

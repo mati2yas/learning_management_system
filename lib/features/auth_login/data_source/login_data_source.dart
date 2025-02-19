@@ -37,7 +37,7 @@ class LoginDataSource {
         final token = response.data["token"];
         String avatar = response.data["data"]["user"]["avatar"];
         avatar.replaceAll("\\", "");
-        avatar = "https://lms.biruklemma.com/$avatar";
+        avatar = "https://lms.biruklemma.com/storage/$avatar";
         debugPrint(avatar);
 
         final directory = await getApplicationDocumentsDirectory();

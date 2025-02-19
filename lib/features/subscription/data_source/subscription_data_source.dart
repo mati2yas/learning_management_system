@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/utils/db_service.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/subscription/model/subscription_model.dart';
 
 final subscriptionDataSourceProvider = Provider<SubscriptionDataSource>((ref) {
@@ -38,13 +38,7 @@ class SubscriptionDataSource {
       ),
     );
 
-    //var user = await DatabaseService().getUserFromDatabase();
-      var user = await SecureStorageService().getUserFromStorage();
-    var token = user?.token;
-
-    if (token != null) {
-      DioClient.setToken(token);
-    }
+    await UtilFunctions.setToken();
 
     debugPrint("➡️ Request: POST /subscription-request");
     debugPrint("Headers: ${_dio.options.headers}");

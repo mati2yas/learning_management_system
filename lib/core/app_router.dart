@@ -66,7 +66,7 @@ class Approuter {
                   video: video,
                 ));
 
-      case Routes.saved:
+      case Routes.savedCourses:
         return MaterialPageRoute(builder: (_) => const SavedCoursesPage());
 
       case Routes.profile:
@@ -111,7 +111,7 @@ class Routes {
   static const String courses = "courses";
   static const String filterCourses = "courseDetails";
   static const String chapterContent = "chapterDetails";
-  static const String saved = "saved";
+  static const String savedCourses = "saved";
   static const String requests = "requests";
   static const String profile = "profile";
   static const String notifications = "notifications";

@@ -84,6 +84,7 @@ class Course {
       saves: json["saves_count"] ?? 0,
       liked: json["liked"] ?? false,
       saved: json["saved"] ?? false,
+      subscribed: json["paid"] ?? false,
       image: json["thumbnail"],
       category: categ,
       price: {

@@ -11,77 +11,14 @@ import 'package:lms_system/features/exam_questions/presentation/exam_questions_p
 import 'package:lms_system/features/exam_year_filter/presentation/screens/exam_year_filter_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
-import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
+import 'package:lms_system/features/paid_courses/presentation/screens/paid_courses_screen.dart';
+import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
+import 'package:lms_system/features/wrapper/presentation/widgets/nav_item.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 
 import '../../../exams/presentation/screens/exams_screen.dart';
 import '../../provider/wrapper_provider.dart';
 import '../widgets/drawer_widget.dart';
-
-class NavItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final WidgetRef ref;
-  final Function onTap;
-  final bool isCurr;
-  const NavItem({
-    super.key,
-    required this.icon,
-    required this.label,
-    required this.isCurr,
-    required this.onTap,
-    required this.ref,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    var textTh = Theme.of(context).textTheme;
-    return GestureDetector(
-      onTap: () {
-        onTap();
-      },
-      child: SizedBox(
-        height: 40,
-        child: isCurr
-            ? Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: isCurr ? 12 : 0),
-                    decoration: BoxDecoration(
-                      color: isCurr ? Colors.white : AppColors.mainBlue,
-                      borderRadius: BorderRadius.circular(45),
-                    ),
-                    child: Icon(
-                      icon,
-                      color: AppColors.mainBlue,
-                    ),
-                  ),
-                  Text(
-                    label,
-                    style: textTh.labelSmall!.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              )
-            : Column(
-                children: [
-                  Icon(
-                    icon,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    label,
-                    style: textTh.labelSmall!.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-      ),
-    );
-  }
-}
 
 class WrapperScreen extends ConsumerWidget {
   const WrapperScreen({super.key});
@@ -94,7 +31,7 @@ class WrapperScreen extends ConsumerWidget {
     final List<Widget> pages = [
       const HomePage(), // 0
       const CoursePage(), // 1
-      const SavedCoursesPage(), // 2
+      const PaidCoursesScreen(), // 2
       const ExamsScreen(), // 3
       const CoursesFilterScreen(), // 4
       const CourseChaptersScreen(), // 5
@@ -105,6 +42,9 @@ class WrapperScreen extends ConsumerWidget {
     if (currentPage == 0) {
       ref.read(homeScreenApiProvider.notifier).build();
       ref.read(currentUserProvider.notifier).build();
+    }
+    if (currentPage == 2) {
+      ref.read(paidCoursesApiProvider.notifier).build();
     }
     // if (currentPage == 3) {
     //   ref.read(examYearFilterApiProvider.notifier).build();
@@ -153,7 +93,7 @@ class WrapperScreen extends ConsumerWidget {
                             ref: ref,
                           ),
                           NavItem(
-                            icon: Icons.bookmark_outline,
+                            icon: Icons.workspace_premium,
                             onTap: () => pageController.navigatePage(2),
                             label: "My Courses",
                             isCurr: currentPage == 2,

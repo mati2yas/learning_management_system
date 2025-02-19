@@ -128,8 +128,7 @@ class CoursePage extends ConsumerWidget {
                   onTap: () {
                     final courseIdController =
                         ref.watch(currentCourseIdProvider.notifier);
-                    courseIdController
-                        .changeCourseId(courses[index].id);
+                    courseIdController.changeCourseId(courses[index].id);
 
                     ref
                         .read(courseChaptersProvider.notifier)

@@ -7,6 +7,7 @@ import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/profile/provider/profile_provider.dart';
+import 'package:lms_system/features/saved/provider/saved_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -72,19 +73,6 @@ class ProfilePage extends ConsumerWidget {
                                   fit: BoxFit.cover,
                                 ),
                         ),
-                        Positioned(
-                          top: 20,
-                          left: size.width * 0.5,
-                          child: IconButton(
-                            style: IconButton.styleFrom(
-                              backgroundColor: AppColors.mainGrey,
-                              foregroundColor: Colors.black,
-                              iconSize: 24,
-                            ),
-                            onPressed: () {},
-                            icon: const Icon(Icons.edit),
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -143,12 +131,17 @@ class ProfilePage extends ConsumerWidget {
                     icon: const Icon((Icons.notifications)),
                   ),
                   TextButton.icon(
-                    onPressed: () {
-                      pageNavController.navigatePage(2);
-                      Navigator.pop(context);
+                    onPressed: () async {
+                      //pageNavController.navigatePage(2);
+                      await ref
+                          .read(savedApiProvider.notifier)
+                          .fetchSavedCoursesData();
+                      if (context.mounted) {
+                        Navigator.of(context).pushNamed(Routes.savedCourses);
+                      }
                     },
                     label: Text(
-                      "My Courses",
+                      "Saved Courses",
                       style: textTh.titleMedium!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
