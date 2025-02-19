@@ -130,7 +130,7 @@ class CourseCardWithImage extends ConsumerWidget {
                     if (onLike != null) {
                       onLike!();
                     }
-                    await paidToggleController.toggleLiked(course);
+                    //await paidToggleController.toggleLiked(course);
                   },
                   icon: Icon(
                     course.liked ? Icons.thumb_up : Icons.thumb_up_outlined,
@@ -146,7 +146,7 @@ class CourseCardWithImage extends ConsumerWidget {
                     if (onBookmark != null) {
                       onBookmark!();
                     }
-                    await paidToggleController.toggleSaved(course);
+                    //await paidToggleController.toggleSaved(course);
                   },
                   icon: Icon(
                     course.saved ? Icons.bookmark : Icons.bookmark_outline,

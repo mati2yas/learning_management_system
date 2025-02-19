@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lms_system/features/exams/provider/timer_provider.dart';
 import 'package:lms_system/features/quiz/presentation/quiz_questions_screen.dart';
+import 'package:lms_system/features/quiz/provider/current_quiz_id_provider.dart';
 import 'package:lms_system/features/quiz/provider/quiz_provider.dart';
 
 import '../../../../core/constants/colors.dart';
@@ -108,17 +109,22 @@ class ChapterQuizTile extends ConsumerWidget {
                                 horizontal: 10, vertical: 5),
                           ),
                           onPressed: () async {
+                            ref
+                                .read(currentQuizIdProvider.notifier)
+                                .changeQuizId(quiz.id.toString());
                             Quiz quize = await ref
                                 .read(quizProvider.notifier)
                                 .fetchQuizData();
                             ref.read(examTimerProvider.notifier).resetTimer();
 
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    QuizQuestionsPage(quiz: quize),
-                              ),
-                            );
+                            if (context.mounted) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      QuizQuestionsPage(quiz: quize),
+                                ),
+                              );
+                            }
                           },
                           child: const Text(
                             "Take",

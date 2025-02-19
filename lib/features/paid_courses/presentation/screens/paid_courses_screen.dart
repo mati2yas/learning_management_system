@@ -37,8 +37,6 @@ class PaidCoursesScreen extends ConsumerWidget {
         data: (courses) => SizedBox(
           width: double.infinity,
           child: GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
             padding: const EdgeInsets.all(16),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisExtent: 175,
@@ -62,17 +60,17 @@ class PaidCoursesScreen extends ConsumerWidget {
                     5,
                     arguments: {
                       "course": courses[index],
-                      "previousScreenIndex": 0,
+                      "previousScreenIndex": 2,
                     },
                   );
                 },
                 child: CourseCardWithImage(
-                  // onBookmark: () {
-                  //   apiController.toggleSaved(courses[index]);
-                  // },
-                  // onLike: () {
-                  //   apiController.toggleLiked(courses[index]);
-                  // },
+                  onBookmark: () {
+                    apiController.toggleSaved(courses[index]);
+                  },
+                  onLike: () {
+                    apiController.toggleLiked(courses[index]);
+                  },
                   course: courses[index],
                 ),
               );

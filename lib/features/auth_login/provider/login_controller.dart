@@ -21,6 +21,7 @@ class LoginController extends StateNotifier<LoginState> {
 
       state = state.copyWith(apiState: ApiState.idle);
     } catch (e) {
+      state = state.copyWith(apiState: ApiState.error);
       rethrow;
     }
   }

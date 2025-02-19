@@ -50,27 +50,29 @@ class PaidCoursesNotifier extends AsyncNotifier<List<Course>> {
     bool responseStatus = false;
     try {
       final response = await _repository.toggleCourseLiked(course);
-      update((state) {
-        return state.map((c) {
-          if (c == course) {
-            return Course(
-              id: c.id,
-              category: c.category,
-              title: c.title,
-              topics: c.topics,
-              saves: c.saves,
-              likes: c.likes + (c.liked ? -1 : 1),
-              image: c.image,
-              saved: c.saved,
-              liked: !c.liked,
-              price: c.price,
-              subscribed: c.subscribed,
-              chapters: c.chapters,
-            );
-          }
-          return c;
-        }).toList();
-      });
+      if (response.statusCode == 200) {
+        update((state) {
+          return state.map((c) {
+            if (c == course) {
+              return Course(
+                id: c.id,
+                category: c.category,
+                title: c.title,
+                topics: c.topics,
+                saves: c.saves,
+                likes: c.likes + (c.liked ? -1 : 1),
+                image: c.image,
+                saved: c.saved,
+                liked: !c.liked,
+                price: c.price,
+                subscribed: c.subscribed,
+                chapters: c.chapters,
+              );
+            }
+            return c;
+          }).toList();
+        });
+      }
       (responseMessage, responseStatus) =
           (response.data["message"] ?? "Ok", response.data["status"] ?? true);
     } on Exception catch (error, stack) {
@@ -87,27 +89,30 @@ class PaidCoursesNotifier extends AsyncNotifier<List<Course>> {
     String responseMessage = "";
     bool responseStatus = false;
     try {
-      update((state) {
-        return state.map((c) {
-          if (c == course) {
-            return Course(
-              id: c.id,
-              title: c.title,
-              category: c.category,
-              topics: c.topics,
-              saves: c.saves + (c.saved ? -1 : 1),
-              likes: c.likes,
-              liked: c.liked,
-              image: c.image,
-              saved: !c.saved,
-              subscribed: c.subscribed,
-              price: c.price,
-              chapters: c.chapters,
-            );
-          }
-          return c;
-        }).toList();
-      });
+      final response = await _repository.toggleCourseSaved(course);
+      if (response.statusCode == 200) {
+        update((state) {
+          return state.map((c) {
+            if (c == course) {
+              return Course(
+                id: c.id,
+                title: c.title,
+                category: c.category,
+                topics: c.topics,
+                saves: c.saves + (c.saved ? -1 : 1),
+                likes: c.likes,
+                liked: c.liked,
+                image: c.image,
+                saved: !c.saved,
+                subscribed: c.subscribed,
+                price: c.price,
+                chapters: c.chapters,
+              );
+            }
+            return c;
+          }).toList();
+        });
+      }
     } on Exception catch (error, stack) {
       state = AsyncError(error, stack);
 

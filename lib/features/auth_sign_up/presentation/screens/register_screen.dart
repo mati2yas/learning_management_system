@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
-import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
+import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/auth_sign_up/provider/register_controller.dart';
-
+import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 
 class RegisterScreen extends ConsumerWidget {
   const RegisterScreen({super.key});
@@ -89,7 +89,9 @@ class RegisterScreen extends ConsumerWidget {
                             ),
                           ),
                           onPressed: () async {
-                            if (AppKeys.registerScreenKey.currentState?.validate() == true) {
+                            if (AppKeys.registerScreenKey.currentState
+                                    ?.validate() ==
+                                true) {
                               AppKeys.registerScreenKey.currentState!.save();
                               try {
                                 await regController.registerUser();
@@ -131,14 +133,33 @@ class RegisterScreen extends ConsumerWidget {
                               }
                             }
                           },
-                          child: Text(
-                            'Register',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: size.width * 0.04,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          child: state.apiStatus == ApiState.busy
+                              ? const Center(
+                                  child: SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              : state.apiStatus == ApiState.error
+                                  ? Text(
+                                      'Retry',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: size.width * 0.04,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )
+                                  : Text(
+                                      'Register',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: size.width * 0.04,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
                         ),
                       ),
                       const SizedBox(height: 10),

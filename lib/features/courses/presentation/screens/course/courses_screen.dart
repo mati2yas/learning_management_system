@@ -6,6 +6,7 @@ import 'package:lms_system/features/courses/provider/course_content_providers.da
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
+import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
@@ -37,6 +38,7 @@ class CoursePage extends ConsumerWidget {
     final pageController = ref.read(pageNavigationProvider.notifier);
     final categoryController = ref.watch(currentCategoryProvider.notifier);
 
+    final paidApiController = ref.watch(paidCoursesApiProvider.notifier);
     final currentCourseFilterController =
         ref.watch(currentCourseFilterProvider.notifier);
     return Scaffold(
@@ -143,15 +145,19 @@ class CoursePage extends ConsumerWidget {
                   },
                   child: CourseCardWithImage(
                     course: courses[index],
-                    onLike: () {
+                    onLike: () async {
                       ref
                           .read(coursesProvider.notifier)
                           .toggleLiked(courses[index]);
+
+                      await paidApiController.toggleLiked(courses[index]);
                     },
-                    onBookmark: () {
+                    onBookmark: () async {
                       ref
                           .read(coursesProvider.notifier)
                           .toggleSaved(courses[index]);
+
+                      await paidApiController.toggleLiked(courses[index]);
                     },
                   ),
                 );

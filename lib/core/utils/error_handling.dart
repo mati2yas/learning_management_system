@@ -12,9 +12,9 @@ class ApiExceptions {
     switch (exc.type) {
       case DioExceptionType.badResponse:
         if (statusCode == 500) {
-          return "Server Error. Try again later.";
+          return "The error is on our side. We're working on it.";
         } else if (statusCode == 419) {
-          return "Unauthorized Access. Please log in again.";
+          return "Access. Please log in again.";
         } else if (statusCode == 401) {
           return "Unauthorized. No valid credentials or permissions.";
         } else if (statusCode == 404) {

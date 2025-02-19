@@ -31,6 +31,7 @@ class OnboardingScreen extends HookConsumerWidget {
       }
       return null;
     }, [ref.watch(onboardingStatusProvider)]);
+    // Listen for onboarding status changes and navigate if needed
 
     // If the user has not seen the onboarding screens, show them
     if (!ref.watch(onboardingStatusProvider)) {
@@ -43,7 +44,7 @@ class OnboardingScreen extends HookConsumerWidget {
                 if (currentPage < 2) {
                   onboardingController.skipToLastPage();
                 } else {
-                  Navigator.of(context).pushReplacementNamed('/signup');
+                  Navigator.of(context).pushReplacementNamed(Routes.signup);
                 }
               },
               child: Text(
@@ -124,10 +125,11 @@ class OnboardingScreen extends HookConsumerWidget {
           ],
         ),
       );
+    } else {
+      return const Scaffold(
+        backgroundColor: Colors.white,
+      );
     }
-
-    // If the user has seen the onboarding screens, return an empty widget
-    return const SizedBox.shrink();
   }
 
   Future<void> checkOnboardingAndNavigate(WidgetRef ref) async {

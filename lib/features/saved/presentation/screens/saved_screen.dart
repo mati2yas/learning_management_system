@@ -35,17 +35,7 @@ class _SavedCoursesPageState extends ConsumerState<SavedCoursesPage> {
           shadowColor: Colors.black87,
           surfaceTintColor: Colors.transparent,
           elevation: 4,
-          bottom: PreferredSize(
-            preferredSize: Size(
-              MediaQuery.of(context).size.width,
-              56,
-            ),
-            child: Container(
-              padding: const EdgeInsets.only(bottom: 5),
-              color: Colors.white,
-              child: CustomSearchBar(hintText: "Search Courses", size: size),
-            ),
-          ),
+          
         ),
         body: savedApiState.when(
             loading: () => const Center(

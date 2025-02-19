@@ -19,7 +19,6 @@ class ListTilewidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pageController = ref.read(pageNavigationProvider.notifier);
-    final courseIdController = ref.watch(currentCourseIdProvider.notifier);
     return GestureDetector(
       child: Card(
         elevation: 3,
@@ -29,7 +28,6 @@ class ListTilewidget extends ConsumerWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: ListTile(
-          
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(6),
@@ -88,15 +86,18 @@ class ListTilewidget extends ConsumerWidget {
               minimumSize: const Size(20, 20),
             ),
             onPressed: () {
+              final courseIdController =
+                  ref.watch(currentCourseIdProvider.notifier);
               courseIdController.changeCourseId(course.id);
               ref.read(courseChaptersProvider.notifier).fetchCourseChapters();
               pageController.navigatePage(
                 5,
                 arguments: {
-                  "previousScreenIndex": 2,
+                  "previousScreenIndex": 0,
                   "course": course,
                 },
               );
+              Navigator.pop(context);
             },
             icon: const Icon(
               Icons.arrow_forward,

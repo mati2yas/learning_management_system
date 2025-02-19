@@ -17,8 +17,10 @@ class CoursesListWidget extends StatelessWidget {
     return ListView.separated(
       padding: const EdgeInsets.all(12),
       itemCount: courses.length,
-      itemBuilder: (_, index) =>
-          ListTilewidget(course: courses[index], textTh: textTh),
+      itemBuilder: (_, index) => ListTilewidget(
+        course: courses[index],
+        textTh: textTh,
+      ),
       separatorBuilder: (_, ind) => const SizedBox(height: 15),
     );
   }

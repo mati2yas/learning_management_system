@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
@@ -16,7 +16,6 @@ import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../courses/provider/courses_provider.dart';
 import '../../provider/home_provider.dart';
 
 class HomePage extends ConsumerWidget {
@@ -212,17 +211,18 @@ class HomePage extends ConsumerWidget {
                         height: 5,
                       ),
                       homeApiState.when(
-                        loading: () => const CircularProgressIndicator(
-                          color: AppColors.mainBlue,
-                          strokeWidth: 5,
-                        ),
-                        error: (error, stack) => Center(
-                          child: Text(
-                            ApiExceptions.getExceptionMessage(
-                                error as Exception, 400),
-                            style:
-                                textTh.titleMedium!.copyWith(color: Colors.red),
+                        loading: () => const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.mainBlue,
+                            strokeWidth: 5,
                           ),
+                        ),
+                        error: (error, stack) => AsyncErrorWidget(
+                          errorMsg:
+                              error.toString().replaceAll("Exception: ", ""),
+                          callback: () async {
+                            await homeApiController.fetchHomeScreenData();
+                          },
                         ),
                         data: (courses) => SizedBox(
                           width: double.infinity,

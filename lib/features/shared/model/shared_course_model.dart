@@ -71,6 +71,13 @@ class Course {
     //   debugPrint(
     //       "grade: ${json["grade"]?["grade_name"]}, stream: ${json["grade"]?["stream"]}");
     // }
+    int likedNum = 0, savedNum = 0;
+    if (json["liked"] == true) {
+      likedNum = 1;
+    }
+    if (json["saved"] == true) {
+      savedNum = 1;
+    }
 
     return Course(
       id: json["id"].toString(),
@@ -80,8 +87,10 @@ class Course {
       batch: json["batch"]?["batch_name"],
       grade: json["grade"]?["grade_name"],
       topics: 0,
-      likes: json["likes_count"] ?? 0,
-      saves: json["saves_count"] ?? 0,
+      //likes: json["likes_count"] ?? 0,
+      //saves: json["saves_count"] ?? 0,
+      likes: likedNum,
+      saves: savedNum,
       liked: json["liked"] ?? false,
       saved: json["saved"] ?? false,
       subscribed: json["paid"] ?? false,

@@ -137,7 +137,8 @@ class ProfilePage extends ConsumerWidget {
                           .read(savedApiProvider.notifier)
                           .fetchSavedCoursesData();
                       if (context.mounted) {
-                        Navigator.of(context).pushNamed(Routes.savedCourses);
+                        Navigator.of(context)
+                            .pushReplacementNamed(Routes.savedCourses);
                       }
                     },
                     label: Text(

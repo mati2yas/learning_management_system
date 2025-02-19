@@ -48,6 +48,7 @@ class PaidCoursesDataSource {
     int? statusCode;
     try {
       final response = await _dio.post("/toggle-like/${course.id}");
+      debugPrint("${_dio.options.baseUrl}/toggle-like/${course.id}");
       statusCode = response.statusCode;
       return response;
     } on DioException catch (e) {
@@ -60,6 +61,7 @@ class PaidCoursesDataSource {
     int? statusCode;
     try {
       final response = await _dio.post("/toggle-save/${course.id}");
+      debugPrint("${_dio.options.baseUrl}/toggle-save/${course.id}");
       statusCode = response.statusCode;
       return response;
     } on DioException catch (e) {

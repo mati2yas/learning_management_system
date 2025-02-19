@@ -12,6 +12,7 @@ class SavedDataSource {
     int? statusCode;
     try {
       final response = await _dio.get("/saved-courses");
+      debugPrint("${_dio.options.baseUrl}/saved-courses");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];

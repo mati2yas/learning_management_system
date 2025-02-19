@@ -55,7 +55,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 pageNavController.navigatePage(7);
               },
               categoryImage: "high_school",
-              categoryName: "Matric",
+              categoryName: "ESSLCE",
             ),
             ExamCategoryShow(
               onTap: () {
@@ -67,7 +67,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 pageNavController.navigatePage(7);
               },
               categoryImage: "high_school",
-              categoryName: "Ministry",
+              categoryName: "8th Grade Ministry",
             ),
             ExamCategoryShow(
               onTap: () {
