@@ -8,7 +8,6 @@ import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
-import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 
 import '../../../wrapper/provider/wrapper_provider.dart';
@@ -39,11 +38,10 @@ List<String> lowerGrades = [
 
 List<String> universityGrades = [
   "Freshman",
-  "1st year",
-  "2nd year",
-  "3rd year",
-  "4th year",
-  "5th year"
+  "2nd Year",
+  "3rd Year",
+  "4th Year",
+  "5th Year"
 ];
 
 class CoursesFilterScreen extends ConsumerStatefulWidget {
@@ -114,15 +112,15 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
             shadowColor: Colors.black87,
             backgroundColor: Colors.white,
             bottom: PreferredSize(
-              preferredSize: Size(size.width, 121),
+              preferredSize: Size(size.width, 76),
               child: Container(
                 width: size.width,
                 color: Colors.white,
-                height: 121,
+                height: 76,
                 child: Column(
                   spacing: 5,
                   children: [
-                    CustomSearchBar(hintText: "Search Courses", size: size),
+                    //CustomSearchBar(hintText: "Search Courses", size: size),
                     SizedBox(
                       width: size.width * 0.85,
                       height: 45,

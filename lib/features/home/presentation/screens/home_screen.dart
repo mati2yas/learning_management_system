@@ -4,8 +4,6 @@ import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
-import 'package:lms_system/features/courses/provider/course_content_providers.dart';
-import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
@@ -241,35 +239,14 @@ class HomePage extends ConsumerWidget {
                                       size),
                             ),
                             itemBuilder: (_, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  final courseIdController = ref
-                                      .watch(currentCourseIdProvider.notifier);
-                                  courseIdController
-                                      .changeCourseId(courses[index].id);
-
-                                  ref
-                                      .read(courseChaptersProvider.notifier)
-                                      .fetchCourseChapters();
-                                  pageNavController.navigatePage(
-                                    5,
-                                    arguments: {
-                                      "course": courses[index],
-                                      "previousScreenIndex": 0,
-                                    },
-                                  );
+                              return CourseCardWithImage(
+                                onBookmark: () {
+                                  homeApiController.toggleSaved(courses[index]);
                                 },
-                                child: CourseCardWithImage(
-                                  onBookmark: () {
-                                    homeApiController
-                                        .toggleSaved(courses[index]);
-                                  },
-                                  onLike: () {
-                                    homeApiController
-                                        .toggleLiked(courses[index]);
-                                  },
-                                  course: courses[index],
-                                ),
+                                onLike: () {
+                                  homeApiController.toggleLiked(courses[index]);
+                                },
+                                course: courses[index],
                               );
                             },
                             itemCount: courses.length,

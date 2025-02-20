@@ -84,25 +84,31 @@ class CustomHomeAppBar extends ConsumerWidget {
           const SizedBox(
             height: 10,
           ),
-          const Text(
-            "👋 Hello",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
+          const Padding(
+            padding: EdgeInsets.only(left: 4.0),
+            child: Text(
+              "👋 Hello",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
             ),
           ),
-          userState.when(
-            error: (error, stack) {
-              return Text(error.toString());
-            },
-            loading: () => const Text("Loading User..."),
-            data: (user) {
-              String name = user.name.replaceAll("\"", "");
-              return Text(
-                name,
-                style: const TextStyle(color: Colors.white, fontSize: 18),
-              );
-            },
+          Padding(
+            padding: const EdgeInsets.only(left: 4.0),
+            child: userState.when(
+              error: (error, stack) {
+                return Text(error.toString());
+              },
+              loading: () => const Text("Loading User..."),
+              data: (user) {
+                String name = user.name.replaceAll("\"", "");
+                return Text(
+                  name,
+                  style: const TextStyle(color: Colors.white, fontSize: 18),
+                );
+              },
+            ),
           ),
         ],
       ),

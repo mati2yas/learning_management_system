@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
+import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
-import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
@@ -32,7 +33,7 @@ class CoursePage extends ConsumerWidget {
   const CoursePage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final courses = ref.watch(coursesProvider);
+    final courses = ref.watch(allCoursesApiProvider);
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     final pageController = ref.read(pageNavigationProvider.notifier);
@@ -41,6 +42,8 @@ class CoursePage extends ConsumerWidget {
     final paidApiController = ref.watch(paidCoursesApiProvider.notifier);
     final currentCourseFilterController =
         ref.watch(currentCourseFilterProvider.notifier);
+    final allCourseApiState = ref.watch(allCoursesApiProvider);
+    final allCourseController = ref.watch(allCoursesApiProvider.notifier);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -56,16 +59,16 @@ class CoursePage extends ConsumerWidget {
         surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
         elevation: 4,
-        bottom: PreferredSize(
-          preferredSize: Size(
-            MediaQuery.of(context).size.width,
-            70,
-          ),
-          child: Container(
-            color: Colors.white,
-            child: CustomSearchBar(hintText: "Search Courses", size: size),
-          ),
-        ),
+        // bottom: PreferredSize(
+        //   preferredSize: Size(
+        //     MediaQuery.of(context).size.width,
+        //     70,
+        //   ),
+        //   child: Container(
+        //     color: Colors.white,
+        //     child: CustomSearchBar(hintText: "Search Courses", size: size),
+        //   ),
+        // ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(12),
@@ -113,58 +116,74 @@ class CoursePage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 15),
-          SizedBox(
-            height: size.height * 1.35,
-            width: double.infinity,
-            child: GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                childAspectRatio: getResponsiveChildAspectRatio(size),
-                mainAxisExtent: 200,
-              ),
-              itemBuilder: (_, index) {
-                return GestureDetector(
-                  onTap: () {
-                    final courseIdController =
-                        ref.watch(currentCourseIdProvider.notifier);
-                    courseIdController.changeCourseId(courses[index].id);
-
-                    ref
-                        .read(courseChaptersProvider.notifier)
-                        .fetchCourseChapters();
-                    pageController.navigatePage(
-                      5,
-                      arguments: {
-                        "course": courses[index],
-                        "previousScreenIndex": 1,
-                      },
-                    );
-                  },
-                  child: CourseCardWithImage(
-                    course: courses[index],
-                    onLike: () async {
-                      ref
-                          .read(coursesProvider.notifier)
-                          .toggleLiked(courses[index]);
-
-                      await paidApiController.toggleLiked(courses[index]);
-                    },
-                    onBookmark: () async {
-                      ref
-                          .read(coursesProvider.notifier)
-                          .toggleSaved(courses[index]);
-
-                      await paidApiController.toggleLiked(courses[index]);
+          allCourseApiState.when(
+              loading: () => const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.mainBlue,
+                      strokeWidth: 5,
+                    ),
+                  ),
+              error: (error, stack) => AsyncErrorWidget(
+                    errorMsg: error.toString().replaceAll("Exception: ", ""),
+                    callback: () async {
+                      await allCourseController.loadCourses();
                     },
                   ),
+              data: (courses) {
+                return SizedBox(
+                  height: size.height * 1.6,
+                  width: double.infinity,
+                  child: GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: getResponsiveChildAspectRatio(size),
+                      mainAxisExtent: 200,
+                    ),
+                    itemBuilder: (_, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          final courseIdController =
+                              ref.watch(currentCourseIdProvider.notifier);
+                          courseIdController.changeCourseId(courses[index].id);
+
+                          ref
+                              .read(courseChaptersProvider.notifier)
+                              .fetchCourseChapters();
+                          pageController.navigatePage(
+                            5,
+                            arguments: {
+                              "course": courses[index],
+                              "previousScreenIndex": 1,
+                            },
+                          );
+                        },
+                        child: CourseCardWithImage(
+                          course: courses[index],
+                          onLike: () async {
+                            ref
+                                .read(allCoursesApiProvider.notifier)
+                                .toggleLiked(courses[index]);
+
+                            await paidApiController.toggleLiked(courses[index]);
+                          },
+                          onBookmark: () async {
+                            ref
+                                .read(allCoursesApiProvider.notifier)
+                                .toggleSaved(courses[index]);
+
+                            await paidApiController.toggleLiked(courses[index]);
+                          },
+                        ),
+                      );
+                    },
+                    itemCount: courses.length,
+                  ),
                 );
-              },
-              itemCount: courses.length,
-            ),
-          ),
+              }),
+          const SizedBox(height: 50),
         ],
       ),
     );

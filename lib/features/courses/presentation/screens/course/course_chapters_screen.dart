@@ -38,7 +38,7 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        titleText: "${course.title}",
+        titleText: "${course.title} Chapters",
       ),
       body: apiState.when(
         loading: () => const Center(

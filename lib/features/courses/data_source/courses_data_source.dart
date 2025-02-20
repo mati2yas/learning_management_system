@@ -1,8 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:lms_system/core/utils/shared_pref/shared_pref.dart';
 
 import '../../shared/model/shared_course_model.dart';
+
+final courseDataSourceProvider =
+    Provider<CourseDataSource>((ref) => CourseDataSource(DioClient.instance));
 
 class CourseDataSource {
   final Dio _dio;
@@ -17,7 +22,7 @@ class CourseDataSource {
 
     List<Course> courses = [];
     try {
-      final response = await _dio.get("/courses");
+      final response = await _dio.get("/random-courses");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         print("response is 200");

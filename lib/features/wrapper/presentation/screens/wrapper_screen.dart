@@ -4,6 +4,7 @@ import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/course_chapters_screen.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/courses_screen.dart';
+import 'package:lms_system/features/courses/provider/courses_provider.dart';
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 import 'package:lms_system/features/exam_grade_filter/presentation/screens/exam_grade_filter_screen.dart';
@@ -42,6 +43,9 @@ class WrapperScreen extends ConsumerWidget {
     if (currentPage == 0) {
       ref.read(homeScreenApiProvider.notifier).build();
       ref.read(currentUserProvider.notifier).build();
+    }
+    if (currentPage == 1) {
+      ref.read(allCoursesApiProvider.notifier).build();
     }
     if (currentPage == 2) {
       ref.read(paidCoursesApiProvider.notifier).build();

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/core/utils/shared_pref/shared_pref.dart';
 import 'package:lms_system/features/chapter_content/provider/chapter_content_provider.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_document_tile.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_quiz_tile.dart';
@@ -202,8 +203,9 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                         callBack: () async {
                           var docProcessor =
                               ref.read(documentProvider.notifier);
-                          const urll =
-                              "https://www.cs.umd.edu/~atif/Teaching/Spring2011/Slides/8.pdf";
+                          String urll = chapterContent.documents[index].fileUrl;
+                          urll = "https://lms.biruklemma.com/storage/$urll";
+
                           String identifier =
                               chapterContent.documents[index].title;
                           await docProcessor.processPDF(urll, identifier);
@@ -233,19 +235,19 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                     width: size.width,
                     color: Colors.black.withOpacity(0.3),
                   ),
-                  const Center(
+                  Center(
                     child: SizedBox(
                       width: 200,
                       height: 100,
                       child: Column(
                         spacing: 10,
                         children: [
-                          CircularProgressIndicator(
+                          const CircularProgressIndicator(
                             color: AppColors.mainBlue,
                           ),
                           Text(
-                            "Preparing Document...",
-                            style: TextStyle(
+                            "${capitalize(documentState.status.name)} Document...",
+                            style: const TextStyle(
                               fontSize: 16,
                               color: AppColors.mainBlue,
                             ),
@@ -261,6 +263,12 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
         ),
       ),
     );
+  }
+
+  String capitalize(String input) {
+    String first = input[0];
+    input = input.replaceFirst(first, first.toUpperCase());
+    return input;
   }
 
   @override
