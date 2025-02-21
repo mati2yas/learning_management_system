@@ -15,8 +15,8 @@ class Chapter {
   });
 
   factory Chapter.fromJson(Map<String, dynamic> json) {
-    print("json:");
-    print(json);
+    // print("json:");
+    // print(json);
     return Chapter(
       id: json["id"].toString(),
       name: json["name"],

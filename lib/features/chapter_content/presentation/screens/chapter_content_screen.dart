@@ -39,6 +39,8 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
     Chapter chapter = widget.chapter;
     var documentState = ref.watch(documentProvider);
     final currentCourse = ref.watch(courseSubTrackProvider);
+    debugPrint(
+        "current course: Course{ id: ${currentCourse.id}, title: ${currentCourse.title} }");
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -151,6 +153,8 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                         callBack: () async {
                           if (!currentCourse.subscribed) {
                             if (index == 0) {
+                              debugPrint("course not subbed, index 0");
+
                               var docProcessor =
                                   ref.read(documentProvider.notifier);
                               String urll =
@@ -170,6 +174,7 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                                 );
                               }
                             } else {
+                              debugPrint("course not subbed, index not 0");
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
@@ -187,6 +192,7 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                               );
                             }
                           } else {
+                            debugPrint("course subbed");
                             var docProcessor =
                                 ref.read(documentProvider.notifier);
                             String urll =

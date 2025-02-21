@@ -153,7 +153,7 @@ class Question {
       imageUrl: json["question_image_url"],
       imageExplanationUrl: json["image_explanation_url"],
       videoExplanationUrl: json["video_explanation_url"],
-      explanation: json["text_explanation"],
+      explanation: json["text_explanation"] ?? "",
     );
   }
 }

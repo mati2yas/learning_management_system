@@ -97,6 +97,9 @@ class ListTilewidget extends ConsumerWidget {
               ref
                   .read(courseSubTrackProvider.notifier)
                   .changeCurrentCourse(course);
+
+              debugPrint(
+                  "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
               pageController.navigatePage(
                 5,
                 arguments: {

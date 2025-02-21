@@ -2,9 +2,20 @@ import 'dart:ui';
 
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
+import 'package:lms_system/features/exams/model/exams_model.dart';
 
 class UtilFunctions {
+  String getExamStringValue(ExamType type) {
+    return switch (type) {
+      ExamType.matric => "ESSLCE",
+      ExamType.ministry => "8th Grade Ministry",
+      ExamType.exitexam => "EXIT",
+      ExamType.ngat => "NGAT",
+      _ => "ESSLCE"
+    };
+  }
   static double getResponsiveChildAspectRatio(Size size) {
+
     print("width: ${size.width}");
     if (size.width <= 200) return 0.65;
     if (size.width <= 400) return 0.85;

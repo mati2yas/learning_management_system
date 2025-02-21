@@ -11,9 +11,11 @@ import '../../../quiz/model/quiz_model.dart';
 
 class ChapterQuizTile extends ConsumerWidget {
   final Quiz quiz;
+  final Function callback;
   const ChapterQuizTile({
     super.key,
     required this.quiz,
+    required this.callback,
   });
 
   @override
@@ -109,22 +111,7 @@ class ChapterQuizTile extends ConsumerWidget {
                                 horizontal: 10, vertical: 5),
                           ),
                           onPressed: () async {
-                            ref
-                                .read(currentQuizIdProvider.notifier)
-                                .changeQuizId(quiz.id.toString());
-                            Quiz quize = await ref
-                                .read(quizProvider.notifier)
-                                .fetchQuizData();
-                            ref.read(examTimerProvider.notifier).resetTimer();
-
-                            if (context.mounted) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      QuizQuestionsPage(quiz: quize),
-                                ),
-                              );
-                            }
+                            await callback();
                           },
                           child: const Text(
                             "Take",

@@ -31,6 +31,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
     print("Current Tab: $currentTab");
     print("exam titleee: ${examData["exam title"]}");
     final pageController = ref.read(pageNavigationProvider.notifier);
+    examData = pageController.getArgumentsForPage(8);
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     return DefaultTabController(
@@ -144,8 +145,8 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                               onPressed: () {
                                 Map<String, dynamic> examDataNext = {
                                   //"exam title": examData["exam title"],
-                                  "exam course": "examCourse", 
-                                  "exam year": "year.title",
+                                  "exam course": examData["exam course"]!,
+                                  "exam year": examData["exam year"]!,
                                   "questions": chapters[index].questions,
                                   "previousScreen": 8,
                                   "hasTimerOption": false,
@@ -162,7 +163,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                                 pageController.navigatePage(6,
                                     arguments: examDataNext);
                               },
-                              child: const Text("Take?"),
+                              child: const Text("Take"),
                             ),
                           ),
                         );

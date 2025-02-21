@@ -61,6 +61,9 @@ class PaidCoursesScreen extends ConsumerWidget {
                   ref
                       .read(courseSubTrackProvider.notifier)
                       .changeCurrentCourse(courses[index]);
+
+                  debugPrint(
+                      "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
                   pageNavController.navigatePage(
                     5,
                     arguments: {
