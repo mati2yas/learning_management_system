@@ -4,6 +4,7 @@ import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
+import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class ListTilewidget extends ConsumerWidget {
@@ -90,6 +91,12 @@ class ListTilewidget extends ConsumerWidget {
                   ref.watch(currentCourseIdProvider.notifier);
               courseIdController.changeCourseId(course.id);
               ref.read(courseChaptersProvider.notifier).fetchCourseChapters();
+
+              // we need this one later on to check if the course has been subbed
+              // after we see the screen with chapter content such as documents and videos.
+              ref
+                  .read(courseSubTrackProvider.notifier)
+                  .changeCurrentCourse(course);
               pageController.navigatePage(
                 5,
                 arguments: {

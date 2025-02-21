@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:lms_system/core/utils/shared_pref/shared_pref.dart';
+import 'package:lms_system/features/chapter_content/presentation/screens/widgets/quizzes_listview.dart';
+import 'package:lms_system/features/chapter_content/presentation/screens/widgets/vids_listview.dart';
 import 'package:lms_system/features/chapter_content/provider/chapter_content_provider.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_document_tile.dart';
-import 'package:lms_system/features/courses/presentation/widgets/chapter_quiz_tile.dart';
-import 'package:lms_system/features/courses/presentation/widgets/course_video_tile.dart';
 import 'package:lms_system/features/document_viewer/model/document_status.dart';
 import 'package:lms_system/features/document_viewer/presentation/screens/document_viewer_screen.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
+import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 
 import '../../../document_viewer/provider/document_viewer_provider.dart';
-import '../../../quiz/model/quiz_model.dart';
 
 class ChapterContentScreen extends ConsumerStatefulWidget {
   final Chapter chapter;
@@ -26,102 +24,6 @@ class ChapterContentScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<ChapterContentScreen> createState() =>
       _ChapterContentScreenState();
-}
-
-class DocumentsListView extends ConsumerWidget {
-  final List<Document> documents;
-  const DocumentsListView({
-    super.key,
-    required this.documents,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(12),
-      itemCount: documents.length,
-      itemBuilder: (context, index) => ChapterDocumentTile(
-        document: documents[index],
-        callBack: () async {
-          var docProcessor = ref.read(documentProvider.notifier);
-          const urll =
-              "https://www.cs.umd.edu/~atif/Teaching/Spring2011/Slides/8.pdf";
-
-          await docProcessor.processPDF(urll, documents[index].title);
-
-          if (context.mounted) {
-            if (ref.read(documentProvider).status ==
-                DocumentStatus.downloading) {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  content: Container(
-                    color: Colors.white,
-                    width: 120,
-                    height: 150,
-                    child: const Column(
-                      children: [
-                        CircularProgressIndicator(
-                          color: AppColors.mainBlue,
-                        ),
-                        Text("Downloading File:"),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const SecurePDFViewer(),
-              ),
-            );
-          }
-        },
-      ),
-    );
-  }
-}
-
-class QuizzesListView extends StatelessWidget {
-  final List<Quiz> quizzes;
-  const QuizzesListView({
-    super.key,
-    required this.quizzes,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: quizzes.length,
-      itemBuilder: (_, index) => ChapterQuizTile(quiz: quizzes[index]),
-      separatorBuilder: (_, index) => const SizedBox(height: 10),
-    );
-  }
-}
-
-class VideosListView extends StatelessWidget {
-  final List<Video> videos;
-  const VideosListView({
-    super.key,
-    required this.videos,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.all(12),
-      itemCount: videos.length,
-      itemBuilder: (context, index) => VideoTile(
-        onTap: () {
-          Navigator.of(context)
-              .pushNamed(Routes.chapterVideo, arguments: videos[index]);
-        },
-        video: videos[index],
-      ),
-      separatorBuilder: (_, index) => const SizedBox(height: 10),
-    );
-  }
 }
 
 class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
@@ -136,6 +38,7 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
     final apiState = ref.watch(chapterContentProvider);
     Chapter chapter = widget.chapter;
     var documentState = ref.watch(documentProvider);
+    final currentCourse = ref.watch(courseSubTrackProvider);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -195,31 +98,117 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                   children: [
                     VideosListView(videos: chapterContent.videos),
                     //DocumentsListView(documents: chapterContent.documents),
+                    // ListView.builder(
+                    //   padding: const EdgeInsets.all(12),
+                    //   itemCount: chapterContent.documents.length,
+                    //   itemBuilder: (context, index) => ChapterDocumentTile(
+                    //     document: chapterContent.documents[index],
+                    //     callBack: () async {
+                    //       if (!currentCourse.subscribed) {
+                    //         if (index > 0) {
+                    //           showDialog(
+                    //             context: context,
+                    //             builder: (context) => AlertDialog(
+                    //               title: const Text('Cannot access contents'),
+                    //               content: const Text(
+                    //                 "You need to buy this course to access more contents",
+                    //               ),
+                    //               actions: [
+                    //                 TextButton(
+                    //                   onPressed: () => Navigator.pop(context),
+                    //                   child: const Text('OK'),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           );
+                    //         }
+                    //         return;
+                    //       }
+                    //       var docProcessor =
+                    //           ref.read(documentProvider.notifier);
+                    //       String urll = chapterContent.documents[index].fileUrl;
+                    //       urll = "https://lms.biruklemma.com/storage/$urll";
+
+                    //       String identifier =
+                    //           chapterContent.documents[index].title;
+                    //       await docProcessor.processPDF(urll, identifier);
+
+                    //       if (context.mounted) {
+                    //         Navigator.of(context).push(
+                    //           MaterialPageRoute(
+                    //             builder: (context) => const SecurePDFViewer(),
+                    //           ),
+                    //         );
+                    //       }
+                    //     },
+                    //   ),
+                    // ),
                     ListView.builder(
                       padding: const EdgeInsets.all(12),
                       itemCount: chapterContent.documents.length,
                       itemBuilder: (context, index) => ChapterDocumentTile(
                         document: chapterContent.documents[index],
                         callBack: () async {
-                          var docProcessor =
-                              ref.read(documentProvider.notifier);
-                          String urll = chapterContent.documents[index].fileUrl;
-                          urll = "https://lms.biruklemma.com/storage/$urll";
+                          if (!currentCourse.subscribed) {
+                            if (index == 0) {
+                              var docProcessor =
+                                  ref.read(documentProvider.notifier);
+                              String urll =
+                                  chapterContent.documents[index].fileUrl;
+                              urll = "https://lms.biruklemma.com/storage/$urll";
 
-                          String identifier =
-                              chapterContent.documents[index].title;
-                          await docProcessor.processPDF(urll, identifier);
+                              String identifier =
+                                  chapterContent.documents[index].title;
+                              await docProcessor.processPDF(urll, identifier);
 
-                          if (context.mounted) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const SecurePDFViewer(),
-                              ),
-                            );
+                              if (context.mounted) {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SecurePDFViewer(),
+                                  ),
+                                );
+                              }
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Cannot access contents'),
+                                  content: const Text(
+                                    "You need to buy this course to access more contents",
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          } else {
+                            var docProcessor =
+                                ref.read(documentProvider.notifier);
+                            String urll =
+                                chapterContent.documents[index].fileUrl;
+                            urll = "https://lms.biruklemma.com/storage/$urll";
+
+                            String identifier =
+                                chapterContent.documents[index].title;
+                            await docProcessor.processPDF(urll, identifier);
+
+                            if (context.mounted) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const SecurePDFViewer(),
+                                ),
+                              );
+                            }
                           }
                         },
                       ),
                     ),
+
                     QuizzesListView(
                       quizzes: chapterContent.quizzes,
                     ),

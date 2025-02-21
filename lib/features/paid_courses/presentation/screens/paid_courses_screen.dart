@@ -8,6 +8,7 @@ import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
+import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class PaidCoursesScreen extends ConsumerWidget {
@@ -56,6 +57,10 @@ class PaidCoursesScreen extends ConsumerWidget {
                   ref
                       .read(courseChaptersProvider.notifier)
                       .fetchCourseChapters();
+
+                  ref
+                      .read(courseSubTrackProvider.notifier)
+                      .changeCurrentCourse(courses[index]);
                   pageNavController.navigatePage(
                     5,
                     arguments: {

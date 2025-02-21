@@ -5,6 +5,7 @@ import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/chapter_content/provider/current_chapter_id_provider.dart';
 import 'package:lms_system/features/courses/presentation/widgets/capter_tile.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
+import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
 import '../../../../wrapper/provider/wrapper_provider.dart';
 
@@ -23,7 +24,7 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
     var textTh = Theme.of(context).textTheme;
     final pageController = ref.read(pageNavigationProvider.notifier);
     final Map<String, dynamic> args = pageController.getArgumentsForPage(5);
-    final course = args["course"];
+    final course = args["course"] as Course;
     final previousScreen = args["previousScreenIndex"];
     // 5 cause the 5th page in the wrapper screen pages list
     //final courseIdcurrent = ref.watch(currentCourseIdProvider);

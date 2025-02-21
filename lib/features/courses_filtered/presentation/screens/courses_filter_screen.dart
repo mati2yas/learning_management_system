@@ -9,6 +9,7 @@ import 'package:lms_system/features/courses_filtered/providers/courses_filtered_
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
+import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 
 import '../../../wrapper/provider/wrapper_provider.dart';
 
@@ -213,6 +214,10 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                 ref
                                     .read(courseChaptersProvider.notifier)
                                     .fetchCourseChapters();
+
+                                ref
+                                    .read(courseSubTrackProvider.notifier)
+                                    .changeCurrentCourse(courses[index]);
                                 pageNavController.navigatePage(
                                   5,
                                   arguments: {
@@ -294,6 +299,10 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                     ref
                                         .read(courseChaptersProvider.notifier)
                                         .fetchCourseChapters();
+
+                                    ref
+                                        .read(courseSubTrackProvider.notifier)
+                                        .changeCurrentCourse(courses[index]);
                                     pageNavController.navigatePage(
                                       5,
                                       arguments: {

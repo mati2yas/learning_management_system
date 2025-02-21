@@ -9,6 +9,7 @@ import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
+import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
@@ -149,6 +150,9 @@ class CoursePage extends ConsumerWidget {
                               ref.watch(currentCourseIdProvider.notifier);
                           courseIdController.changeCourseId(courses[index].id);
 
+                          ref
+                              .read(courseSubTrackProvider.notifier)
+                              .changeCurrentCourse(courses[index]);
                           ref
                               .read(courseChaptersProvider.notifier)
                               .fetchCourseChapters();

@@ -4,6 +4,8 @@ import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
+import 'package:lms_system/features/courses/provider/course_content_providers.dart';
+import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
@@ -11,6 +13,7 @@ import 'package:lms_system/features/home/presentation/widgets/carousel.dart';
 import 'package:lms_system/features/home/presentation/widgets/category_indicator.dart';
 import 'package:lms_system/features/home/presentation/widgets/custom_home_app_bar_widget.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
+import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -239,14 +242,39 @@ class HomePage extends ConsumerWidget {
                                       size),
                             ),
                             itemBuilder: (_, index) {
-                              return CourseCardWithImage(
-                                onBookmark: () {
-                                  homeApiController.toggleSaved(courses[index]);
+                              return GestureDetector(
+                                onTap: () {
+                                  final courseIdController = ref
+                                      .watch(currentCourseIdProvider.notifier);
+                                  courseIdController
+                                      .changeCourseId(courses[index].id);
+
+                                  ref
+                                      .read(courseChaptersProvider.notifier)
+                                      .fetchCourseChapters();
+
+                                  ref
+                                      .read(courseSubTrackProvider.notifier)
+                                      .changeCurrentCourse(courses[index]);
+                                  pageNavController.navigatePage(
+                                    5,
+                                    arguments: {
+                                      "course": courses[index],
+                                      "previousScreenIndex": 0,
+                                    },
+                                  );
                                 },
-                                onLike: () {
-                                  homeApiController.toggleLiked(courses[index]);
-                                },
-                                course: courses[index],
+                                child: CourseCardWithImage(
+                                  onBookmark: () {
+                                    homeApiController
+                                        .toggleSaved(courses[index]);
+                                  },
+                                  onLike: () {
+                                    homeApiController
+                                        .toggleLiked(courses[index]);
+                                  },
+                                  course: courses[index],
+                                ),
                               );
                             },
                             itemCount: courses.length,

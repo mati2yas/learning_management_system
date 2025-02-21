@@ -87,7 +87,7 @@ class Course {
       stream: json["grade"]?["stream"],
       batch: json["batch"]?["batch_name"],
       grade: json["grade"]?["grade_name"],
-      topics: json["chapter_count"] ?? 0, 
+      topics: json["chapter_count"] ?? 0,
       likes: json["likes_count"] ?? 0,
       saves: json["saves_count"] ?? 0,
       liked: json["liked"] ?? false,
@@ -115,5 +115,18 @@ class Course {
     double priceValue =
         onSalePrices[subscriptionType] ?? price[subscriptionType]!;
     return priceValue;
+  }
+
+  static Course initial() {
+    return Course(
+      title: "",
+      id: "",
+      topics: 0,
+      saves: 0,
+      likes: 0,
+      image: "",
+      price: {},
+      chapters: [],
+    );
   }
 }
