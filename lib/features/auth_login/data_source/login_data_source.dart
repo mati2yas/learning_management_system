@@ -34,23 +34,28 @@ class LoginDataSource {
           throw Exception("Email not verified");
         }
 
+        String savePath = "";
         final token = response.data["token"];
-        String avatar = response.data["data"]["user"]["avatar"];
-        avatar.replaceAll("\\", "");
-        avatar = "https://lms.biruklemma.com/storage/$avatar";
-        debugPrint(avatar);
+        String? avatar = response.data["data"]["user"]["avatar"];
+        if (avatar != null) {
+          avatar.replaceAll("\\", "");
+          avatar = "https://lms.biruklemma.com/storage/$avatar";
+          debugPrint(avatar);
 
-        final directory = await getApplicationDocumentsDirectory();
-        final imageName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-        final savePath = '${directory.path}/$imageName';
-        await _dio.download(avatar, savePath);
+          final directory = await getApplicationDocumentsDirectory();
+          final imageName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+          savePath = '${directory.path}/$imageName';
+
+          await _dio.download(avatar, savePath);
+        }
 
         final user = User(
           id: response.data["data"]["user"]["id"],
           name: response.data["data"]["user"]["name"],
           email: email,
           password: password,
-          bio: response.data["data"]["user"]["bio"],
+          bio: response.data["data"]["user"]["bio"] ?? "",
           image: savePath,
           token: token,
         );

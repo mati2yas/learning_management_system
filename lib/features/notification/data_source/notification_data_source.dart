@@ -1,48 +1,58 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/notification/model/notification_model.dart';
 
+final notificationDataSourceProvider = Provider<NotificationsDataSource>((ref) {
+  return NotificationsDataSource();
+});
+
 class NotificationsDataSource {
-  List<NotificationModel> fetchReadNotifs() {
+  Future<List<NotificationModel>> fetchReadNotifs() async {
+    await Future.delayed(const Duration(seconds: 3));
     return [
       NotificationModel(
-        title:
-            "Lorem ipsum d olor sit amet consectetur.  Lorem ipsum dolor sit amet consectetur.",
+        title: "Request Rejected",
         content:
-            "Lorem ipsum d olor sit amet consectetur.  Lorem ipsum dolor sit amet consectetur.",
+            "Subscription for 4 courses has been rejected. The transaction id does not exist",
       ),
       NotificationModel(
-        title:
-            "Lorem ipsum d olor sit amet consectetur.  Lorem ipsum dolor sit amet consectetur.",
+        title: "Request Rejected",
         content:
-            "Lorem ipsum d olor sit amet consectetur.  Lorem ipsum dolor sit amet consectetur.",
+            "Subscription for 4 courses has been rejected. The transaction id and proof image do not match",
       ),
       NotificationModel(
-        title:
-            "Lorem ipsum d olor sit amet consectetur.  Lorem ipsum dolor sit amet consectetur.",
+        title: "Request Accepted",
+        content: "Subscription for 3 courses accepted",
+      ),
+      NotificationModel(
+        title: "Subscription Expires",
         content:
-            "Lorem ipsum d olor sit amet consectetur.  Lorem ipsum dolor sit amet consectetur.",
+            "Your subscription for biology course of Grade 9 expires in 10 days",
       ),
     ];
   }
 
-  List<NotificationModel> fetchUnreadNotifs() {
+  Future<List<NotificationModel>> fetchUnreadNotifs() async {
+    await Future.delayed(const Duration(seconds: 3));
     return [
       NotificationModel(
-        title:
-            "Lorem ipsum d olor sit amet consectetur.  Lorem ipsum dolor sit amet consectetur.",
+        title: "Request Rejected",
         content:
-            "Lorem ipsum d olor sit amet consectetur.  Lorem ipsum dolor sit amet consectetur.",
+            "Subscription for 4 courses has been rejected. The transaction id does not exist",
       ),
       NotificationModel(
-        title:
-            "Lorem ipsum d olor sit amet consectetur.  Lorem ipsum dolor sit amet consectetur.",
+        title: "Request Rejected",
         content:
-            "Lorem ipsum d olor sit amet consectetur.  Lorem ipsum dolor sit amet consectetur.",
+            "Subscription for 4 courses has been rejected. The transaction id and proof image do not match",
       ),
       NotificationModel(
-        title:
-            "Lorem ipsum d olor sit amet consectetur.  Lorem ipsum dolor sit amet consectetur.",
+        title: "Request Accepted",
+        content: "Subscription for 3 courses accepted",
+      ),
+      NotificationModel(
+        title: "Subscription Expires",
         content:
-            "Lorem ipsum d olor sit amet consectetur.  Lorem ipsum dolor sit amet consectetur.",
+            "Your subscription for biology course of Grade 9 expires in 10 days",
       ),
     ];
   }

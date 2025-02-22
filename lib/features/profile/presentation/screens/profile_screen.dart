@@ -6,10 +6,11 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
+import 'package:lms_system/features/notification/provider/notification_provider.dart';
 import 'package:lms_system/features/profile/provider/profile_provider.dart';
 import 'package:lms_system/features/saved/provider/saved_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -121,7 +122,10 @@ class ProfilePage extends ConsumerWidget {
                     icon: const Icon((Icons.edit)),
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref.read(notificationApiProvider.notifier).fetchNotifs();
+                      Navigator.of(context).pushNamed(Routes.notifications);
+                    },
                     label: Text(
                       "Notification",
                       style: textTh.titleMedium!.copyWith(
@@ -161,8 +165,11 @@ class ProfilePage extends ConsumerWidget {
                   ),
                   TextButton.icon(
                     onPressed: () async {
-                      final prefs = await SharedPreferences.getInstance();
-                      prefs.remove("userData");
+                      await SecureStorageService().deleteUser();
+                      if (context.mounted) {
+                        Navigator.of(context)
+                            .pushReplacementNamed(Routes.login);
+                      }
                     },
                     label: Text(
                       "Logout",

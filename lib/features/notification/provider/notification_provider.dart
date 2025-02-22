@@ -1,16 +1,44 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/notification/model/notification_model.dart';
+import 'package:lms_system/features/notification/repository/notification_repository.dart';
 
-import '../data_source/notification_data_source.dart';
-final notificationProvider =
-    StateNotifierProvider<NotificationModelsNotifier, NotificationState>((ref) {
-  final dataSource = ref.read(notifsDataSourceProvider);
-  return NotificationModelsNotifier(dataSource);
-});
+final notificationApiNotifierProvider = Provider(
+    (ref) => NotificationApiNotifier(ref.read(notificationRepositoryProvider)));
 
-final notifsDataSourceProvider = Provider<NotificationsDataSource>((ref) {
-  return NotificationsDataSource();
-});
+final notificationApiProvider =
+    AsyncNotifierProvider<NotificationApiNotifier, List<NotificationModel>>(
+  () {
+    final container = ProviderContainer(
+      overrides: [
+        notificationRepositoryProvider,
+      ],
+    );
+    return container.read(notificationApiNotifierProvider);
+  },
+);
+
+class NotificationApiNotifier extends AsyncNotifier<List<NotificationModel>> {
+  final NotificationRepository _repository;
+
+  NotificationApiNotifier(this._repository);
+
+  @override
+  Future<List<NotificationModel>> build() async {
+    return fetchNotifs();
+  }
+
+  Future<List<NotificationModel>> fetchNotifs() async {
+    try {
+      final notifs = await _repository.getNotifs();
+      return notifs;
+    } catch (e, stack) {
+      debugPrint(e.toString());
+      state = AsyncError(e, stack);
+      rethrow;
+    }
+  }
+}
 
 class NotificationState {
   final List<NotificationModel> unreadNotifications;
@@ -24,20 +52,4 @@ class NotificationState {
   NotificationState.initial()
       : unreadNotifications = [],
         readNotifications = [];
-}
-
-class NotificationModelsNotifier extends StateNotifier<NotificationState> {
-  final NotificationsDataSource dataSource;
-
-  NotificationModelsNotifier(this.dataSource)
-      : super(NotificationState.initial()) {
-    loadNotifications();
-  }
-
-  void loadNotifications() {
-    state = NotificationState(
-      unreadNotifications: dataSource.fetchUnreadNotifs(),
-      readNotifications: dataSource.fetchReadNotifs(),
-    );
-  }
 }

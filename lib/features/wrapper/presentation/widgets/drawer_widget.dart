@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
+import 'package:lms_system/features/notification/provider/notification_provider.dart';
 import 'package:lms_system/features/profile/provider/profile_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -71,8 +72,8 @@ class CustomDrawer extends StatelessWidget {
               // ),
               ListTileButton(
                 onTap: () {
-                  //Navigator.of(context).pushNamed(Routes.notifications);
-                  Navigator.of(context).pushNamed(Routes.login);
+                  ref.read(notificationApiProvider.notifier).fetchNotifs();
+                  Navigator.of(context).pushNamed(Routes.notifications);
                 },
                 iconData: Icons.notifications_outlined,
                 titleText: "Notification",
