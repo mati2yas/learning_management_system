@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
-import 'package:lms_system/features/shared/model/shared_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterDataSource {
@@ -42,26 +42,21 @@ class RegisterDataSource {
   }) async {
     int? statusCode;
     try {
-      final response = await _dio.post('/student-register', data: {
-        'name': name,
-        'email': email,
-        'password': password,
-        'password_confirmation': password,
-      });
+      final response = await _dio.post(
+        '/student-register',
+        data: {
+          'name': name,
+          'email': email,
+          'password': password,
+          'password_confirmation': password,
+        },
+        options: Options(headers: {"Content-Type": "application/json"}),
+      );
+      debugPrint("register status code: ${response.statusCode}");
+      debugPrint("register response data: ${response.data}");
       statusCode = response.statusCode;
-      if (response.statusCode == 200 && response.data['status'] == true) {
+      if ([200, 201].contains(response.statusCode)) {
         // Parse and store the token and user data in SharedPreferences
-
-        final userJson = response.data['data']['user'];
-        final user = User(
-          id: userJson["id"],
-          name: name,
-          email: email,
-          password: password,
-          token: userJson["token"],
-        );
-
-        await _storageService.saveUserToStorage(user);
 
         // Save the JSON string
       } else if (response.statusCode == 403) {
@@ -71,7 +66,10 @@ class RegisterDataSource {
         throw Exception('Failed to register user: ${response.data['message']}');
       }
     } on DioException catch (e) {
-      String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
+      String errorMessage = "Registration Failed.";
+      errorMessage = ApiExceptions.getExceptionMessage(
+          e, statusCode ?? e.response?.statusCode);
+
       throw Exception(errorMessage);
     }
   }

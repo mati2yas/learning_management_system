@@ -115,6 +115,7 @@ class RegisterScreen extends ConsumerWidget {
                                       .pushReplacementNamed(Routes.login);
                                 }
                               } catch (e) {
+                                String exc = e.toString().replaceAll("Exception:", "");
                                 if (context.mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
@@ -122,7 +123,7 @@ class RegisterScreen extends ConsumerWidget {
                                       backgroundColor: Colors.white,
                                       behavior: SnackBarBehavior.floating,
                                       content: Text(
-                                        "Registration Failed: $e",
+                                        "Registration Failed: $exc",
                                         style: const TextStyle(
                                           color: Colors.red,
                                         ),
