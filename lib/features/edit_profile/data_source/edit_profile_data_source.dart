@@ -20,9 +20,7 @@ class EditProfileDataSource {
     FormData formData = await user.toFormData();
 
     debugPrint("client token: [${_dio.options.headers["Authorization"]}]");
-    if (user.token != "") {
-      DioClient.setToken(user.token);
-    }
+    await DioClient.setToken();
     try {
       _dio.options.headers['Content-Type'] = 'multipart/form-data';
       _dio.options.headers['Accept'] = 'application/json';

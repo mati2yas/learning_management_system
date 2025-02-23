@@ -30,7 +30,7 @@ class EditProfileController extends StateNotifier<UserWrapper> {
     state = state.copyWith(password: usrr?.password);
     state = state.copyWith(apiState: ApiState.busy);
     if (usrr?.token != null) {
-      DioClient.setToken(usrr?.token);
+      await DioClient.setToken();
 
       state = state.copyWith(token: usrr?.token);
     }

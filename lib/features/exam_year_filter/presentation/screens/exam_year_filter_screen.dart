@@ -92,7 +92,9 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
                   child: TabBarView(
                     children: examCourses
                         .map(
-                          (course) => YearsList(examYears: course.years, courseName: course.title),
+                          (course) => YearsList(
+                              examYears: course.years,
+                              courseName: course.title),
                         )
                         .toList(),
                   ),

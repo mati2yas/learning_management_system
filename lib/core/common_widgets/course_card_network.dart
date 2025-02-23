@@ -200,8 +200,10 @@ class CourseCardWithImage extends ConsumerWidget {
                 if (status == "added") {
                   Navigator.of(context).pushNamed(Routes.requests);
                 }
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
+                    behavior: SnackBarBehavior.floating,
                     content: Text("Course has been $status."),
                   ),
                 );
@@ -211,8 +213,11 @@ class CourseCardWithImage extends ConsumerWidget {
                     requestsController.addOrRemoveCourse(course);
 
                 subscriptionController.updateCourses(courses);
+
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
+                    behavior: SnackBarBehavior.floating,
                     content: Text("Course has been $status."),
                   ),
                 );

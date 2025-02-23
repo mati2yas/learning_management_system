@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/utils/util_functions.dart';
+import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/features/home/repository/home_repository.dart';
 import 'package:lms_system/features/paid_courses/repository/paid_courses_repository.dart';
 import 'package:lms_system/features/shared/model/api_response_model.dart';
@@ -45,7 +45,7 @@ class PaidCoursesNotifier extends AsyncNotifier<List<Course>> {
   }
 
   Future<ApiResponse> toggleLiked(Course course) async {
-    await UtilFunctions.setToken();
+    await DioClient.setToken();
     String responseMessage = "";
     bool responseStatus = false;
     try {
@@ -85,7 +85,7 @@ class PaidCoursesNotifier extends AsyncNotifier<List<Course>> {
   }
 
   Future<ApiResponse> toggleSaved(Course course) async {
-    await UtilFunctions.setToken();
+    await DioClient.setToken();
     String responseMessage = "";
     bool responseStatus = false;
     try {

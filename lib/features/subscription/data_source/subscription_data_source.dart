@@ -2,9 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
-import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:lms_system/core/utils/storage_service.dart';
-import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/subscription/model/subscription_model.dart';
 
 final subscriptionDataSourceProvider = Provider<SubscriptionDataSource>((ref) {
@@ -28,6 +25,7 @@ class SubscriptionDataSource {
         },
         onResponse: (response, handler) {
           debugPrint("✅ Response: ${response.statusCode}");
+          debugPrint("✅ Response Time: ${response.extra["duration"]} ms");
           return handler.next(response);
         },
         onError: (DioException e, handler) {
@@ -38,8 +36,7 @@ class SubscriptionDataSource {
       ),
     );
 
-    await UtilFunctions.setToken();
-
+    await DioClient.setToken();
     debugPrint("➡️ Request: POST /subscription-request");
     debugPrint("Headers: ${_dio.options.headers}");
     debugPrint("Body: ${formData.fields}");
@@ -52,8 +49,8 @@ class SubscriptionDataSource {
       statusCode = response.statusCode;
       return response;
     } on DioException catch (e) {
-      String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
-      throw Exception(errorMessage);
+      //String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
+      throw Exception(e.response!.data["message"]);
     }
   }
 }

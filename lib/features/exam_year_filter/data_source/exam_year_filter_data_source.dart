@@ -37,8 +37,11 @@ class ExamYearFilterDataSource {
   String getExamStringValue(ExamType type) {
     return switch (type) {
       ExamType.matric => "ESSLCE",
-      ExamType.ministry => "8th Grade Ministry",
+      ExamType.ministry6th => "6th Grade Ministry",
+      ExamType.ministry8th => "8th Grade Ministry",
       ExamType.exitexam => "EXIT",
+      ExamType.uat => "UAT",
+      ExamType.sat => "SAT",
       ExamType.ngat => "NGAT",
       _ => "ESSLCE"
     };

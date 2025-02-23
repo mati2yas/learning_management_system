@@ -284,10 +284,10 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                               if (_errorMessageTransactionId != null) {
                                 return;
                               } else if (_errorMessageTransactionId == null) {
-                                
-
                                 final result =
                                     await subscriptionController.subscribe();
+                                debugPrint(
+                                    "api response: ApiResponse{ status: ${result.responseStatus}, message: ${result.message}}");
                                 if (result.responseStatus) {
                                   ref
                                       .read(requestsProvider.notifier)
@@ -296,11 +296,13 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                                   _transactionIdController.clear();
                                   await ref
                                       .read(homeScreenApiProvider.notifier)
-                                      .fetchHomeScreenData();
+                                      .build();
                                   // we need this so that next time home page fetches
                                   // courses that are not bought.
                                 }
                                 if (context.mounted) {
+                                  ScaffoldMessenger.of(context)
+                                      .removeCurrentSnackBar();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       behavior: SnackBarBehavior.floating,
@@ -335,7 +337,7 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                                     : Text(
                                         'Retry',
                                         style: TextStyle(
-                                          color: Colors.grey,
+                                          color: Colors.white,
                                           fontSize: size.width * 0.04,
                                           fontWeight: FontWeight.w600,
                                         ),

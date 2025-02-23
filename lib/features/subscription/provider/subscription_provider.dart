@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
@@ -16,35 +17,45 @@ class SubscriptionController extends StateNotifier<SubscriptionModel> {
   SubscriptionController(this._repository) : super(SubscriptionModel());
 
   Future<ApiResponse> subscribe() async {
-    String responseMessage = "";
-    bool responseStatus = false;
+    String statusMsg = "";
+    bool statusBool = false;
+    Response? response;
     try {
       state = state.copyWith(apiStatus: ApiStatus.busy);
 
-      final response = await _repository.subscribe(state);
+      response = await _repository.subscribe(state);
+      debugPrint(response.data["message"]);
+
+      state = state.copyWith(
+        statusMsg: response.data["message"] ?? "An Error Occurred.",
+        statusSuccess: response.data["status"] ?? false,
+      );
       if (response.statusCode == 201) {
+        debugPrint("status 201 case");
         state = state.copyWith(
-            statusMsg: "Subscription successful", apiStatus: ApiStatus.idle);
-
-        (responseMessage, responseStatus) =
-            (response.data["message"], response.data["status"]);
-        //return "success, ${response.data["data"]}";
-      } else {
-        state = state.copyWith(statusMsg: "Subscription failed");
-
-        (responseMessage, responseStatus) =
-            (response.data["message"], response.data["status"]);
-        //return "error ${response.statusMessage}";
+          statusMsg: response.data["message"],
+          statusSuccess: response.data["status"],
+          apiStatus: ApiStatus.idle,
+        );
+      } else if (response.statusCode == 400) {
+        debugPrint("status 400 case");
+        state = state.copyWith(
+          statusMsg: response.data["message"],
+          statusSuccess: response.data["status"],
+          apiStatus: ApiStatus.error,
+        );
       }
     } catch (e) {
-      state = state.copyWith(
-          statusMsg: "An error occurred", apiStatus: ApiStatus.error);
-      //return "error";
+      debugPrint("exception case");
 
-      (responseMessage, responseStatus) = (state.statusMessage, false);
+      state = state.copyWith(
+        statusMsg: e.toString().replaceAll("Exception:", ""),
+        statusSuccess: response?.data["status"] ?? false,
+        apiStatus: ApiStatus.error,
+      );
     }
     return ApiResponse(
-        message: responseMessage, responseStatus: responseStatus);
+        message: state.statusMessage, responseStatus: state.statusSuccess);
   }
 
   void updateCourses(List<Course> newCourses) {

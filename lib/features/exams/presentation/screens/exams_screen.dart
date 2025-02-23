@@ -6,7 +6,6 @@ import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/exams/presentation/widgets/exam_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-
 class ExamsScreen extends ConsumerStatefulWidget {
   const ExamsScreen({super.key});
 
@@ -31,7 +30,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
         backgroundColor: Colors.white,
       ),
       body: SizedBox(
-        height: 400,
+        height: 600,
         width: double.infinity,
         child: GridView(
           padding: const EdgeInsets.symmetric(
@@ -61,7 +60,19 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
               onTap: () {
                 ref
                     .read(currentExamTypeProvider.notifier)
-                    .changeExamType(ExamType.ministry);
+                    .changeExamType(ExamType.ministry6th);
+                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+
+                pageNavController.navigatePage(7);
+              },
+              categoryImage: "high_school",
+              categoryName: "6th Grade Ministry",
+            ),
+            ExamCategoryShow(
+              onTap: () {
+                ref
+                    .read(currentExamTypeProvider.notifier)
+                    .changeExamType(ExamType.ministry8th);
                 ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
 
                 pageNavController.navigatePage(7);
@@ -73,7 +84,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
               onTap: () {
                 ref
                     .read(currentExamTypeProvider.notifier)
-                    .changeExamType(ExamType.coc);
+                    .changeExamType(ExamType.exitexam);
                 ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
 
                 pageNavController.navigatePage(7);
@@ -92,6 +103,30 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
               },
               categoryImage: "university",
               categoryName: "NGAT",
+            ),
+            ExamCategoryShow(
+              onTap: () {
+                ref
+                    .read(currentExamTypeProvider.notifier)
+                    .changeExamType(ExamType.sat);
+                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+
+                pageNavController.navigatePage(7);
+              },
+              categoryImage: "university",
+              categoryName: "SAT",
+            ),
+            ExamCategoryShow(
+              onTap: () {
+                ref
+                    .read(currentExamTypeProvider.notifier)
+                    .changeExamType(ExamType.uat);
+                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+
+                pageNavController.navigatePage(7);
+              },
+              categoryImage: "university",
+              categoryName: "UAT",
             ),
           ],
         ),

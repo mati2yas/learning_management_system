@@ -21,7 +21,7 @@ class QuizDataSource {
   Future<Quiz> fetchQuizData(String quizId) async {
     Quiz quiz = Quiz();
     int? statusCode;
-    UtilFunctions.setToken();
+    await DioClient.setToken();
     try {
       final response = await _dio.get("/quizzes/$quizId");
       statusCode = response.statusCode;

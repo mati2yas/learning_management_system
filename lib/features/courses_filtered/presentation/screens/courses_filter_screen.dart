@@ -21,7 +21,7 @@ final categories = [
 ];
 Map<String, String> categoryFormatted = {
   "lower_grades": "Lower Grades",
-  "high_school": "Highschool",
+  "high_school": "High School",
   "university": "University",
   "random_courses": "Random Courses",
 };

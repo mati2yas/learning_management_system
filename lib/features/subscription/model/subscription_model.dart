@@ -10,6 +10,7 @@ class SubscriptionModel {
   final String screenshotPath;
   final String transactionId;
   final String statusMessage;
+  final bool statusSuccess;
   ApiStatus apiStatus;
 
   SubscriptionModel({
@@ -18,6 +19,7 @@ class SubscriptionModel {
     this.screenshotPath = "",
     this.transactionId = "",
     this.statusMessage = "",
+    this.statusSuccess = false,
     this.apiStatus = ApiStatus.idle,
   });
   SubscriptionModel copyWith({
@@ -27,6 +29,7 @@ class SubscriptionModel {
     String? newTransactionId,
     String? statusMsg,
     ApiStatus? apiStatus,
+    bool? statusSuccess,
   }) {
     return SubscriptionModel(
       courses: newCourses ?? courses,
@@ -35,6 +38,7 @@ class SubscriptionModel {
       transactionId: newTransactionId ?? transactionId,
       statusMessage: statusMsg ?? statusMessage,
       apiStatus: apiStatus ?? this.apiStatus,
+      statusSuccess: statusSuccess ?? this.statusSuccess,
     );
   }
 

@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:lms_system/core/utils/storage_service.dart';
 
 import '../../shared/model/shared_course_model.dart';
 
@@ -19,14 +18,29 @@ class HomeDataSource {
     List<Course> courses = [];
     int? statusCode;
     try {
-      var user = await SecureStorageService().getUserFromStorage();
-      var token = user?.token;
-
-      if (token != null) {
-        DioClient.setToken(token);
-        debugPrint("token: $token");
-      }
-      debugPrint("token: $token");
+      await DioClient.setToken();
+      _dio.interceptors.add(
+        InterceptorsWrapper(
+          onRequest: (options, handler) {
+            debugPrint("➡️ Request: ${options.method} ${options.uri}");
+            debugPrint("Headers: ${options.headers}");
+            debugPrint("Authorization: ${options.headers["Authorization"]}");
+            debugPrint("Body: ${options.data}");
+            return handler.next(options);
+          },
+          onResponse: (response, handler) {
+            debugPrint("✅ Response: ${response.statusCode}");
+            debugPrint("✅ Response Time: ${response.extra["duration"]} ms");
+            return handler.next(response);
+          },
+          onError: (DioException e, handler) {
+            debugPrint("❌ Error: ${e.response?.statusCode}");
+            debugPrint("Message: ${e.response?.data}");
+            return handler.next(e);
+          },
+        ),
+      );
+      _dio.options.headers;
 
       _dio.options.headers['Accept'] = 'application/json';
       final response = await _dio.get("/homepage/courses");

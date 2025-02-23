@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
 final paidCoursesDataSourceProvider = Provider<PaidCoursesDataSource>((ref) {
@@ -18,13 +17,7 @@ class PaidCoursesDataSource {
     int? statusCode;
     List<Course> courses = [];
     try {
-      var user = await SecureStorageService().getUserFromStorage();
-      var token = user?.token;
-
-      if (token != null) {
-        DioClient.setToken(token);
-        debugPrint("token: $token");
-      }
+      await DioClient.setToken();
       final response = await _dio.get("/paid-courses");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {

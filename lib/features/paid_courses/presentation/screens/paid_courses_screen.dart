@@ -23,7 +23,7 @@ class PaidCoursesScreen extends ConsumerWidget {
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: CommonAppBar(titleText: "Paid Courses"),
+      appBar: CommonAppBar(titleText: "Your Courses"),
       body: apiState.when(
         loading: () => const CircularProgressIndicator(
           color: AppColors.mainBlue,
