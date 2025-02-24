@@ -233,7 +233,7 @@ class HomePage extends ConsumerWidget {
                             padding: const EdgeInsets.only(bottom: 30),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
-                              mainAxisExtent: 190,
+                              mainAxisExtent: 194,
                               crossAxisCount: 2,
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 10,

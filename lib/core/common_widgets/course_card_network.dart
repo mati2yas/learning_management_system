@@ -9,6 +9,8 @@ import 'package:lms_system/features/requests/provider/requests_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/subscription/provider/subscription_provider.dart';
 
+part 'courses_dialog_widget.dart';
+
 class CourseCardWithImage extends ConsumerWidget {
   final Course course;
   Function? onBookmark;
@@ -158,34 +160,110 @@ class CourseCardWithImage extends ConsumerWidget {
             ),
           ] else ...[
             if (course.onSalePrices[SubscriptionType.oneMonth] != null)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text.rich(
-                  TextSpan(
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Course Prices'),
+                        content: PricesDialogWidget(course: course),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Back'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    spacing: 6,
                     children: [
-                      TextSpan(
-                        text: '${course.price[SubscriptionType.oneMonth]}',
-                        style: const TextStyle(
-                          decoration: TextDecoration
-                              .lineThrough, // Strikethrough effect
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text:
+                                  '${course.price[SubscriptionType.oneMonth]}',
+                              style: const TextStyle(
+                                decoration: TextDecoration
+                                    .lineThrough, // Strikethrough effect
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                              ),
+                            ),
+                            TextSpan(
+                              text:
+                                  " ${course.onSalePrices[SubscriptionType.oneMonth]}",
+                              style: const TextStyle(
+                                color: AppColors.mainBlue,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      TextSpan(
-                        text:
-                            " ${course.onSalePrices[SubscriptionType.oneMonth]}",
+                      const Icon(
+                        Icons.info,
+                        color: AppColors.mainBlue,
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            else
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Course Prices'),
+                        content: PricesDialogWidget(course: course),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Back'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    spacing: 6,
+                    children: [
+                      Text(
+                        " ${course.price[SubscriptionType.oneMonth]}",
                         style: const TextStyle(
                           color: AppColors.mainBlue,
                           fontWeight: FontWeight.w500,
                           fontSize: 14,
                         ),
                       ),
+                      const Icon(
+                        Icons.info,
+                        color: AppColors.mainBlue,
+                        size: 20,
+                      ),
                     ],
                   ),
                 ),
               ),
+            const SizedBox(height: 4),
             GestureDetector(
               onTap: () {
                 var (status, courses) =

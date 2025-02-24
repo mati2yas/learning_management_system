@@ -4,6 +4,7 @@ import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
+import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
@@ -55,6 +56,17 @@ class CoursePage extends ConsumerWidget {
             color: Colors.black,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: CourseSearchDelegate(ref),
+              );
+            },
+          ),
+        ],
         centerTitle: true,
         shadowColor: Colors.black87,
         surfaceTintColor: Colors.transparent,
@@ -80,14 +92,14 @@ class CoursePage extends ConsumerWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 12),
           SizedBox(
-            height: 266,
+            height: 276,
             width: double.infinity,
             child: GridView(
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisExtent: 125,
+                mainAxisExtent: 130,
                 crossAxisCount: 2,
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 15,

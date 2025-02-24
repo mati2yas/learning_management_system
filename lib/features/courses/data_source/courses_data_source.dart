@@ -14,10 +14,7 @@ class CourseDataSource {
   CourseDataSource(this._dio);
 
   Future<List<Course>> fetchCourses() async {
-    //var token = await SharedPrefService.getUserToken();
-    // _dio.options.headers.addEntries(
-    //   {MapEntry("Authorization", "Bearer $token")},
-    // );
+    
     int? statusCode;
 
     List<Course> courses = [];

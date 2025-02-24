@@ -108,4 +108,6 @@ class CourseNotifier extends AsyncNotifier<List<Course>> {
       }).toList();
     });
   }
+
+  searchCourses(String searchQuery) {}
 }
