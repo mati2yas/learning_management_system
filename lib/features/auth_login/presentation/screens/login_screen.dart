@@ -116,7 +116,7 @@ class LoginScreen extends ConsumerWidget {
                                     backgroundColor: Colors.white,
                                     behavior: SnackBarBehavior.floating,
                                     content: Text(
-                                      "Login Successfull",
+                                      "Login Successful",
                                       style:
                                           TextStyle(color: AppColors.mainBlue),
                                     ),

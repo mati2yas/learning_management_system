@@ -5,8 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
+import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
+import 'package:lms_system/features/shared/provider/start_routes_provider.dart';
 
 import '../../../../core/constants/colors.dart';
 
@@ -29,6 +31,7 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
   Widget build(BuildContext context) {
     final editProfileController = ref.watch(editProfileProvider.notifier);
     final editState = ref.watch(editProfileProvider);
+    final authStatusController = ref.watch(authStatusProvider.notifier);
     Size size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     return Scaffold(
@@ -191,9 +194,7 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
                           if (result.responseStatus) {
                             resetImagePicked();
                             _bioController.clear();
-
-                            // we need this so that next time home page fetches
-                            // courses that are not bought.
+                            authStatusController.checkAuthStatus();
                           }
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -207,8 +208,9 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
                           }
                         }
                         if (context.mounted) {
+                          var routesData = ref.read(initialRouteProvider);
                           Navigator.of(context)
-                              .pushReplacementNamed(Routes.profileAdd);
+                              .pushReplacementNamed(routesData.secondRoute);
                         }
                       },
                       child: editState.apiState == ApiState.busy

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
 class SecureStorageService {
@@ -22,6 +23,16 @@ class SecureStorageService {
     return status == 'true';
   }
 
+  Future<AuthStatus> getUserAuthedStatus() async {
+    final authStat = await _storage.read(key: "auth_status");
+    return switch (authStat ?? "notAuthed") {
+      "authed" => AuthStatus.authed,
+      "notAuthed" => AuthStatus.notAuthed,
+      "penidng" => AuthStatus.pending,
+      _ => AuthStatus.notAuthed,
+    };
+  }
+
   Future<User?> getUserFromStorage() async {
     final userJson = await _storage.read(key: 'user');
     if (userJson != null) {
@@ -37,6 +48,10 @@ class SecureStorageService {
 
   Future<void> setOnboardingStatus(bool status) async {
     await _storage.write(key: 'onboarding_status', value: status.toString());
+  }
+
+  Future<void> setUserAuthedStatus(AuthStatus status) async {
+    await _storage.write(key: "auth_status", value: status.name);
   }
 
   Future<void> updateUserBioAndPfp(

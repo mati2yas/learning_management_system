@@ -295,7 +295,7 @@ class _RequestScreenState extends ConsumerState<RequestsScreen> {
                                   resetImagePicked();
                                   _transactionIdController.clear();
                                   await ref
-                                      .read(homeScreenApiProvider.notifier)
+                                      .refresh(homeScreenApiProvider.notifier)
                                       .build();
                                   // we need this so that next time home page fetches
                                   // courses that are not bought.

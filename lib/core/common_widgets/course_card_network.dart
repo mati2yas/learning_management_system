@@ -93,7 +93,7 @@ class CourseCardWithImage extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               course.title,
-              maxLines: 2,
+              maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: AppColors.mainBlue,

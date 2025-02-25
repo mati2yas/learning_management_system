@@ -5,6 +5,8 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/auth_sign_up/provider/register_controller.dart';
 import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 
@@ -111,11 +113,17 @@ class RegisterScreen extends ConsumerWidget {
                                     ),
                                   );
 
-                                  Navigator.of(context)
-                                      .pushReplacementNamed(Routes.login);
+                                  await SecureStorageService()
+                                      .setUserAuthedStatus(AuthStatus.pending);
+
+                                  if (context.mounted) {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed(Routes.login);
+                                  }
                                 }
                               } catch (e) {
-                                String exc = e.toString().replaceAll("Exception:", "");
+                                String exc =
+                                    e.toString().replaceAll("Exception:", "");
                                 if (context.mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(

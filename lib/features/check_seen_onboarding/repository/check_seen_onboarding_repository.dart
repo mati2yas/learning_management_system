@@ -4,11 +4,15 @@ class CheckSeenOnboardingRepository {
   final CheckSeenOnboardingDataSource _dataSource;
   CheckSeenOnboardingRepository(this._dataSource);
 
+  Future<void> clearHasSeenOnboarding() {
+    return _dataSource.clearSeenOnboardingStatus();
+  }
+
   Future<bool> hasUserSeenOnboarding() {
     return _dataSource.hasSeenOnboarding();
   }
 
-  Future<void> clearHasSeenOnboarding() {
-    return _dataSource.clearSeenOnboardingStatus();
+  Future<void> setHasSeeOnboardingAlready() async {
+    await _dataSource.setHasSeenStatusAlready();
   }
 }

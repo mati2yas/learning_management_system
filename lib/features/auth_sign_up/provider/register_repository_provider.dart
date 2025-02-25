@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/connectivity/connectivity_service.dart';
-import 'package:lms_system/core/utils/db_service.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 
