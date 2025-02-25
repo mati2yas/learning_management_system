@@ -28,7 +28,7 @@ class SecureStorageService {
     return switch (authStat ?? "notAuthed") {
       "authed" => AuthStatus.authed,
       "notAuthed" => AuthStatus.notAuthed,
-      "penidng" => AuthStatus.pending,
+      "pending" => AuthStatus.pending,
       _ => AuthStatus.notAuthed,
     };
   }

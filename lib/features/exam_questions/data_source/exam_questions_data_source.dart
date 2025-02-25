@@ -38,7 +38,7 @@ class ExamQuestionsDataSource {
     return questions;
   }
 
-  Future<List<Question>> fetchQuestionsByYearId(int yearId) async {
+  Future<List<Question>> fetchQuestionsByYearId(int yearId, int courseId) async {
     int? statusCode;
     List<Question> questions = [];
     debugPrint("year id: $yearId");

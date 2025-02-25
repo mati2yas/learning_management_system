@@ -5,6 +5,8 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/auth_login/provider/login_controller.dart';
 import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 
@@ -109,6 +111,8 @@ class LoginScreen extends ConsumerWidget {
                             AppKeys.loginFormKey.currentState!.save();
                             try {
                               await loginController.loginUser();
+                              await SecureStorageService()
+                                  .setUserAuthedStatus(AuthStatus.authed);
                               if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

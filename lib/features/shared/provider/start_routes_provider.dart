@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/shared/model/start_routes.dart';
 
-final initialRouteProvider =
+final startRoutesProvider =
     StateNotifierProvider<InitialRouteNotifier, StartRoutes>((ref) {
   return InitialRouteNotifier();
 });

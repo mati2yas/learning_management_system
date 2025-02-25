@@ -16,10 +16,13 @@ class ExamGradeFilterRepository {
   final ConnectivityService _connectivityService;
   ExamGradeFilterRepository(this._dataSource, this._connectivityService);
 
-  Future<List<ExamGrade>> fetchExamGrades(int examyearId) async {
+  Future<List<ExamGrade>> fetchExamGrades({
+    required int yearId,
+    required int courseId,
+  }) async {
     if (!await _connectivityService.hasConnection()) {
       throw Exception("No internet connection");
     }
-    return await _dataSource.fetchExamGrades(examyearId);
+    return await _dataSource.fetchExamGrades(yearId: yearId, courseId: courseId);
   }
 }

@@ -93,8 +93,8 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
                     children: examCourses
                         .map(
                           (course) => YearsList(
-                              examYears: course.years,
-                              courseName: course.title),
+                            course: course,
+                          ),
                         )
                         .toList(),
                   ),

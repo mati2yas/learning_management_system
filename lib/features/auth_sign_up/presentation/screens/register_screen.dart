@@ -97,6 +97,8 @@ class RegisterScreen extends ConsumerWidget {
                               AppKeys.registerScreenKey.currentState!.save();
                               try {
                                 await regController.registerUser();
+                                await SecureStorageService()
+                                    .setUserAuthedStatus(AuthStatus.pending);
                                 if (context.mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
@@ -113,13 +115,8 @@ class RegisterScreen extends ConsumerWidget {
                                     ),
                                   );
 
-                                  await SecureStorageService()
-                                      .setUserAuthedStatus(AuthStatus.pending);
-
-                                  if (context.mounted) {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed(Routes.login);
-                                  }
+                                  Navigator.of(context)
+                                      .pushReplacementNamed(Routes.login);
                                 }
                               } catch (e) {
                                 String exc =

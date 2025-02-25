@@ -19,9 +19,9 @@ class AuthStatusDataSource {
     final user = await _storageService.getUserFromStorage();
     final authStat = await _storageService.getUserAuthedStatus();
 
-    if (user == null) {
-      return AuthStatus.notAuthed;
-    }
+    // if (user == null) {
+    //   return AuthStatus.notAuthed;
+    // }
     return authStat;
   }
 

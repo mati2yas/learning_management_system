@@ -4,6 +4,7 @@ import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/check_seen_onboarding/provider/check_seen_onboarding_provider.dart';
 import 'package:lms_system/features/shared/model/start_routes.dart';
+import 'package:lms_system/features/shared/provider/start_routes_provider.dart';
 
 import 'core/app_router.dart';
 import 'core/constants/colors.dart';
@@ -23,22 +24,28 @@ final initialRouteProvider = FutureProvider<StartRoutes>((ref) async {
       await checkSeenOnboardingController.checkSeenOnboarding();
   AuthStatus authStat = await checkAuthedController.checkAuthStatus();
   String firstRoute = Routes.onboarding;
-  String secondRoute = Routes.home;
+  String secondRoute = Routes.signup;
 
   if (hasSeenOnboarding) {
     switch (authStat) {
       case AuthStatus.authed:
-        firstRoute = Routes.home;
+        firstRoute = Routes.wrapper;
         break;
       case AuthStatus.pending:
         firstRoute = Routes.login;
+        secondRoute = Routes.wrapper;
         break;
       case AuthStatus.notAuthed:
         firstRoute = Routes.signup;
+        secondRoute = Routes.wrapper;
         break;
     }
   }
 
+  ref.read(startRoutesProvider.notifier).changeRoute(
+        firstRoute: firstRoute,
+        secondRoute: secondRoute,
+      );
   return StartRoutes(
     firstRoute: firstRoute,
     secondRoute: secondRoute,
@@ -53,7 +60,9 @@ class MyApp extends ConsumerWidget {
     final routesAsync = ref.watch(initialRouteProvider);
 
     return routesAsync.when(
-      loading: () => const CircularProgressIndicator(),
+      loading: () => Container(
+        color: Colors.white,
+      ),
       error: (error, stackTrace) => Text('Error: $error'),
       data: (routesData) {
         return OrientationBuilder(

@@ -24,8 +24,8 @@ class CustomDrawer extends StatelessWidget {
         elevation: 3,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            topRight: Radius.circular(30),
-            bottomRight: Radius.circular(30),
+            topRight: Radius.circular(8),
+            bottomRight: Radius.circular(8),
           ),
         ),
         child: Padding(

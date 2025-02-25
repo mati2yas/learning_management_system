@@ -8,15 +8,15 @@ import 'package:lms_system/features/exam_questions/provider/exam_questions_provi
 import 'package:lms_system/features/exam_year_filter/provider/current_exam_type_provider.dart';
 import 'package:lms_system/features/exam_year_filter/provider/current_exam_year_provider.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
+import 'package:lms_system/features/exams/provider/current_exam_course_id.dart';
 import 'package:lms_system/features/exams/provider/timer_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class YearsList extends ConsumerWidget {
-  final List<ExamYear> examYears;
-  final String courseName;
+  final ExamCourse course;
   const YearsList({
     super.key,
-    required this.examYears, required this.courseName,
+    required this.course,
   });
 
   @override
@@ -25,9 +25,9 @@ class YearsList extends ConsumerWidget {
     final examTypeProv = ref.watch(currentExamTypeProvider);
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      itemCount: examYears.length,
+      itemCount: course.years.length,
       itemBuilder: (context, index) {
-        final year = examYears[index];
+        final year = course.years[index];
         return Card(
           color: Colors.white,
           elevation: 3,
@@ -49,7 +49,7 @@ class YearsList extends ConsumerWidget {
                           // navigate to the page that
                           // shows the exam
                           Map<String, dynamic> examData = {
-                            "exam course": courseName,
+                            "exam course": course.title,
                             "exam year": year.title,
                             "previousScreen": 7,
                             "hasTimerOption": true,
@@ -79,12 +79,16 @@ class YearsList extends ConsumerWidget {
                               .read(currentExamYearIdProvider.notifier)
                               .changeYearId(year.id);
                           ref
+                              .read(currentExamCourseIdProvider.notifier)
+                              .changeCourseId(course.id);
+
+                          ref
                               .read(examGradeFilterApiProvider.notifier)
                               .fetchExamGrades();
                           pageController.navigatePage(
                             8,
                             arguments: <String, dynamic>{
-                              "exam course": courseName,
+                              "exam course": course.title,
                               "exam year": year,
 
                               //"exam title": year.title,
@@ -111,7 +115,7 @@ class YearsList extends ConsumerWidget {
                         // if null then other pages, move on to
                         // questions page
                         Map<String, dynamic> examData = {
-                          "exam course": courseName, 
+                          "exam course": course.title,
                           "exam year": year.title,
                           "previousScreen": 7,
                           "hasTimerOption": false,

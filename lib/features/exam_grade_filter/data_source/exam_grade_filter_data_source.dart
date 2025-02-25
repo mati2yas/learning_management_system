@@ -11,12 +11,15 @@ class ExamGradeFilterDataSource {
   final Dio _dio;
   ExamGradeFilterDataSource(this._dio);
 
-  Future<List<ExamGrade>> fetchExamGrades(int examYearId) async {
+  Future<List<ExamGrade>> fetchExamGrades({
+    required int yearId,
+    required int courseId,
+  }) async {
     //await Future.delayed(const Duration(seconds: 3));
     List<ExamGrade> examGrades = [];
     int? statusCode;
     try {
-      final response = await _dio.get("/exams/exam-grades/$examYearId");
+      final response = await _dio.get("/exams/exam-grades/$courseId/$yearId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];

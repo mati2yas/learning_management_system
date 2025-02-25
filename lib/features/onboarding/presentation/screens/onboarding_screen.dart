@@ -85,15 +85,17 @@ class OnboardingScreen extends ConsumerWidget {
                     child: IconButton(
                       color: Colors.white,
                       onPressed: () {
-                        if (currentPage == onboardingPages.length - 1) {
-                          final initialRouteProv =
-                              ref.watch(initialRouteProvider);
-                          String nextRoute = initialRouteProv.secondRoute;
-
+                        if (currentPage == onboardingPages.length - 2) {
                           ref
                               .read(checkSeenOnboardingControllerProvider
                                   .notifier)
                               .setHasSeenOnboardingAlready();
+                        }
+                        if (currentPage == onboardingPages.length - 1) {
+                          final initialRouteProv =
+                              ref.watch(startRoutesProvider);
+                          String nextRoute = initialRouteProv.secondRoute;
+
                           if (context.mounted) {
                             Navigator.of(context)
                                 .pushReplacementNamed(nextRoute);

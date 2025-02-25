@@ -8,7 +8,6 @@ import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
-import 'package:lms_system/features/shared/provider/start_routes_provider.dart';
 
 import '../../../../core/constants/colors.dart';
 
@@ -208,9 +207,8 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
                           }
                         }
                         if (context.mounted) {
-                          var routesData = ref.read(initialRouteProvider);
                           Navigator.of(context)
-                              .pushReplacementNamed(routesData.secondRoute);
+                              .pushReplacementNamed(Routes.home);
                         }
                       },
                       child: editState.apiState == ApiState.busy
