@@ -149,6 +149,32 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                             multipleQuestionsIndicator =
                                 "(Select all that apply.)";
                           }
+                          List<String> answerLetters = [
+                            "A",
+                            "B",
+                            "C",
+                            "D",
+                            "E",
+                            "F",
+                            "G"
+                          ];
+                          String answerText = "";
+
+                          int answerIndex = 0;
+
+                          if (currentQuestion.answers.length == 1) {
+                            answerIndex = currentQuestion.options
+                                .indexOf(currentQuestion.answers[0]);
+                            answerText =
+                                "${answerLetters[answerIndex]}. ${currentQuestion.answers[0]}";
+                          } else {
+                            for (String ans in currentQuestion.answers) {
+                              answerIndex =
+                                  currentQuestion.options.indexOf(ans);
+                              answerText +=
+                                  "${answerLetters[answerIndex]}. $ans";
+                            }
+                          }
                           return SizedBox(
                             height: size.height * 0.66,
                             child: SingleChildScrollView(
@@ -198,7 +224,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                     child: SizedBox(
                                       height: 50,
                                       child: Text(
-                                        "${questions.indexOf(currentQuestion)}. ${currentQuestion.questionText} $multipleQuestionsIndicator",
+                                        "${questions.indexOf(currentQuestion) + 1}. ${currentQuestion.questionText} $multipleQuestionsIndicator",
                                         style: const TextStyle(fontSize: 15),
                                       ),
                                     ),
@@ -313,9 +339,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                     Padding(
                                       padding: const EdgeInsets.all(12.0),
                                       child: Text(
-                                        currentQuestion.answers.length == 1
-                                            ? currentQuestion.answers[0]
-                                            : currentQuestion.answers.join(","),
+                                        answerText,
                                         style: textTh.bodyLarge,
                                       ),
                                     ),

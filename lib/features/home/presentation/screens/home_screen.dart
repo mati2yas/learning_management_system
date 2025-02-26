@@ -222,7 +222,9 @@ class HomePage extends ConsumerWidget {
                           errorMsg:
                               error.toString().replaceAll("Exception: ", ""),
                           callback: () async {
-                            await homeApiController.fetchHomeScreenData();
+                            await ref
+                                .refresh(homeScreenApiProvider.notifier)
+                                .build();
                           },
                         ),
                         data: (courses) => SizedBox(

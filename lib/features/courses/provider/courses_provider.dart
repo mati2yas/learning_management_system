@@ -38,6 +38,11 @@ class CourseNotifier extends AsyncNotifier<List<Course>> {
     }
   }
 
+  Future<List<Course>> searchCourses(String searchQuery) async {
+    await Future.delayed(const Duration(seconds: 2));
+    return [];
+  }
+
   void toggleLiked(Course course) {
     update((state) {
       return state.map((c) {
@@ -108,6 +113,4 @@ class CourseNotifier extends AsyncNotifier<List<Course>> {
       }).toList();
     });
   }
-
-  searchCourses(String searchQuery) {}
 }

@@ -69,9 +69,17 @@ class RegisterScreen extends ConsumerWidget {
                       _buildInputLabel('Password', textTh),
                       InputWidget(
                         hintText: 'Password',
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "Please Enter Password";
+                          }
+                          if (value.length < 6) {
+                            return "Password must be at least 6 characters long";
+                          }
+                          return null;
+                        },
                         initialValue: state.password,
                         obscure: true,
-                        validator: _validateInput,
                         onSaved: (value) {
                           regController.updatePassword(value!);
                         },

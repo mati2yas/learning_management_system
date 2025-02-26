@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
+import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
 import 'package:lms_system/features/requests/provider/requests_provider.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
@@ -25,6 +26,7 @@ class CustomHomeAppBar extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            spacing: 5,
             children: [
               SizedBox(
                 width: 47,
@@ -38,6 +40,42 @@ class CustomHomeAppBar extends ConsumerWidget {
                 ),
               ),
               const Spacer(),
+              GestureDetector(
+                onTap: () {
+                  showSearch(
+                    context: context,
+                    delegate: CourseSearchDelegate(ref),
+                  );
+                },
+                child: const CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Center(
+                    child: Icon(
+                      Icons.notifications_outlined,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  showSearch(
+                    context: context,
+                    delegate: CourseSearchDelegate(ref),
+                  );
+                },
+                child: const CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Center(
+                    child: Icon(
+                      Icons.search,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ),
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushNamed(Routes.requests);

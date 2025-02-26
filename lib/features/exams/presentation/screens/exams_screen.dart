@@ -22,7 +22,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Exam Simulator"),
+        title: const Text("Browse Exams"),
         centerTitle: true,
         elevation: 5,
         shadowColor: Colors.black87,
@@ -49,30 +49,6 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
               onTap: () {
                 ref
                     .read(currentExamTypeProvider.notifier)
-                    .changeExamType(ExamType.ministry6th);
-                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
-
-                pageNavController.navigatePage(7);
-              },
-              categoryImage: "high_school",
-              categoryName: "6th Grade Ministry",
-            ),
-            ExamCategoryShow(
-              onTap: () {
-                ref
-                    .read(currentExamTypeProvider.notifier)
-                    .changeExamType(ExamType.ministry8th);
-                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
-
-                pageNavController.navigatePage(7);
-              },
-              categoryImage: "high_school",
-              categoryName: "8th Grade Ministry",
-            ),
-            ExamCategoryShow(
-              onTap: () {
-                ref
-                    .read(currentExamTypeProvider.notifier)
                     .changeExamType(ExamType.matric);
                 ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
                 pageNavController.navigatePage(7);
@@ -90,19 +66,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 pageNavController.navigatePage(7);
               },
               categoryImage: "university",
-              categoryName: "NGAT",
-            ),
-            ExamCategoryShow(
-              onTap: () {
-                ref
-                    .read(currentExamTypeProvider.notifier)
-                    .changeExamType(ExamType.sat);
-                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
-
-                pageNavController.navigatePage(7);
-              },
-              categoryImage: "university",
-              categoryName: "SAT",
+              categoryName: "Exit Exam",
             ),
             ExamCategoryShow(
               onTap: () {
@@ -126,20 +90,56 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 pageNavController.navigatePage(7);
               },
               categoryImage: "university",
-              categoryName: "Exit Exam",
+              categoryName: "NGAT",
             ),
             ExamCategoryShow(
               onTap: () {
                 ref
                     .read(currentExamTypeProvider.notifier)
-                    .changeExamType(ExamType.exitexam);
+                    .changeExamType(ExamType.ministry6th);
+                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+
+                pageNavController.navigatePage(7);
+              },
+              categoryImage: "lower_grades",
+              categoryName: "6th Grade Ministry",
+            ),
+            ExamCategoryShow(
+              onTap: () {
+                ref
+                    .read(currentExamTypeProvider.notifier)
+                    .changeExamType(ExamType.ministry8th);
+                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+
+                pageNavController.navigatePage(7);
+              },
+              categoryImage: "lower_grades",
+              categoryName: "8th Grade Ministry",
+            ),
+            ExamCategoryShow(
+              onTap: () {
+                ref
+                    .read(currentExamTypeProvider.notifier)
+                    .changeExamType(ExamType.sat);
                 ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
 
                 pageNavController.navigatePage(7);
               },
               categoryImage: "university",
-              categoryName: "Exit Exam",
+              categoryName: "Other Exams",
             ),
+            // ExamCategoryShow(
+            //   onTap: () {
+            //     ref
+            //         .read(currentExamTypeProvider.notifier)
+            //         .changeExamType(ExamType.exam);
+            //     ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+
+            //     pageNavController.navigatePage(7);
+            //   },
+            //   categoryImage: "university",
+            //   categoryName: "Other Exams",
+            // ),
           ],
         ),
       ),

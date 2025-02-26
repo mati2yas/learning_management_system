@@ -60,14 +60,14 @@ class AnswersNotifier extends StateNotifier<List<AnswersHolder>> {
   int getScore() {
     int score = 0;
     for (var answerHolder in state) {
-      List correctList = answerHolder.correctAnswers;
-      List selectedList = answerHolder.selectedAnswers.toList();
-      if (correctList.length == 1 && correctList[0] == selectedList[0]) {
+      List correctListCurrentQuestion = answerHolder.correctAnswers;
+      List selectedListCurrentQuestion = answerHolder.selectedAnswers.toList();
+      if (correctListCurrentQuestion.length == 1 && correctListCurrentQuestion[0] == selectedListCurrentQuestion[0]) {
         debugPrint("sigle answer case, selected answer is correct");
         score++;
         continue;
       }
-      bool containsAll = correctList.every((ans) => selectedList.contains(ans));
+      bool containsAll = correctListCurrentQuestion.every((ans) => selectedListCurrentQuestion.contains(ans));
       if (containsAll) {
         debugPrint(
             "multi answer case, selected answers include all correct answers.");

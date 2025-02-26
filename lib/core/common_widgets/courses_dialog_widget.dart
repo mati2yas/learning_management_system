@@ -118,7 +118,7 @@ class _PricesDialogWidgetState extends State<PricesDialogWidget> {
               text: "One Month"),
           if (oneMonthRevealed)
             RichTextFormat(
-              normalPrice: "${course.price[SubscriptionType.oneMonth]}  ",
+              normalPrice: normalToString(SubscriptionType.oneMonth),
               onsalePrice: onSaleToString(SubscriptionType.oneMonth),
             ),
           PriceTypeIndicator(
@@ -132,7 +132,7 @@ class _PricesDialogWidgetState extends State<PricesDialogWidget> {
           ),
           if (threeMonthRevealed)
             RichTextFormat(
-              normalPrice: "${course.price[SubscriptionType.threeMonths]}  ",
+              normalPrice: normalToString(SubscriptionType.threeMonths),
               onsalePrice: onSaleToString(SubscriptionType.threeMonths),
             ),
           PriceTypeIndicator(
@@ -146,7 +146,7 @@ class _PricesDialogWidgetState extends State<PricesDialogWidget> {
           ),
           if (sixMonthRevealed)
             RichTextFormat(
-              normalPrice: "${course.price[SubscriptionType.sixMonths]}  ",
+              normalPrice: normalToString(SubscriptionType.sixMonths),
               onsalePrice: onSaleToString(SubscriptionType.sixMonths),
             ),
           PriceTypeIndicator(
@@ -160,7 +160,7 @@ class _PricesDialogWidgetState extends State<PricesDialogWidget> {
           ),
           if (yearlyRevealed)
             RichTextFormat(
-              normalPrice: "${course.price[SubscriptionType.yearly]}  ",
+              normalPrice: normalToString(SubscriptionType.yearly),
               onsalePrice: onSaleToString(SubscriptionType.yearly),
             ),
         ],
@@ -168,10 +168,18 @@ class _PricesDialogWidgetState extends State<PricesDialogWidget> {
     );
   }
 
+  String normalToString(SubscriptionType subType) {
+    if (widget.course.price[subType] == null) {
+      return "Not Available";
+    }
+    String val = (widget.course.price[subType] ?? 0.00).toStringAsFixed(2);
+    return "$val  ";
+  }
+
   String onSaleToString(SubscriptionType subType) {
     if (widget.course.onSalePrices[subType] == null) {
       return "Not Available";
     }
-    return widget.course.onSalePrices[subType].toString();
+    return (widget.course.onSalePrices[subType] ?? 0.00).toStringAsFixed(2);
   }
 }

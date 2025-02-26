@@ -57,6 +57,7 @@ class YearsList extends ConsumerWidget {
                           ref.read(currentIdStubProvider.notifier).changeStub({
                             "idType": IdType.all,
                             "id": year.id,
+                            "courseId": course.id,
                           });
                           ref
                               .read(examQuestionsApiProvider.notifier)

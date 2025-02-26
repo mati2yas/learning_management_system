@@ -34,7 +34,7 @@ class _InputWidgetState extends State<InputWidget> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 60,
+      height: 65,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0),
         child: DecoratedBox(

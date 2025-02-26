@@ -38,12 +38,14 @@ class ExamQuestionsDataSource {
     return questions;
   }
 
-  Future<List<Question>> fetchQuestionsByYearId(int yearId, int courseId) async {
+  Future<List<Question>> fetchQuestionsByYearId(
+      int yearId, int courseId) async {
     int? statusCode;
     List<Question> questions = [];
     debugPrint("year id: $yearId");
     try {
-      final response = await _dio.get("/exams/exam-questions-year/$yearId");
+      final response =
+          await _dio.get("/exams/exam-questions-year/$courseId/$yearId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];

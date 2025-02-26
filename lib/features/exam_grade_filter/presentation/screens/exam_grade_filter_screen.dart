@@ -56,7 +56,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                 color: Colors.black,
               ),
             ),
-            title: Text(examData["exam title"] ?? "title"),
+            title: Text(examData["exam title"] ?? "Current Exam"),
             centerTitle: true,
             elevation: 5,
             shadowColor: Colors.black87,

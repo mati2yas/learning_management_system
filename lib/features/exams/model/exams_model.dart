@@ -80,7 +80,16 @@ class ExamGrade {
   }
 }
 
-enum ExamType { matric, uat, sat, ngat, exitexam, ministry6th, ministry8th }
+enum ExamType {
+  matric,
+  uat,
+  sat,
+  ngat,
+  exitexam,
+  ministry6th,
+  ministry8th,
+  exam
+}
 
 class ExamYear {
   final String title;

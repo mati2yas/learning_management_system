@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
@@ -107,6 +108,17 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                 color: Colors.black,
               ),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  showSearch(
+                    context: context,
+                    delegate: CourseSearchDelegate(ref),
+                  );
+                },
+                icon: const Icon(Icons.search),
+              ),
+            ],
             centerTitle: true,
             elevation: 5,
             surfaceTintColor: Colors.transparent,

@@ -69,7 +69,15 @@ class LoginScreen extends ConsumerWidget {
                       ),
                     ),
                     InputWidget(
-                      validator: _validateInput,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return "Please Enter Password";
+                        }
+                        if (value.length < 6) {
+                          return "Password must be at least 6 characters long";
+                        }
+                        return null;
+                      },
                       initialValue: state.password,
                       hintText: 'Password',
                       obscure: true,
