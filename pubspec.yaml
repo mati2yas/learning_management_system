@@ -35,7 +35,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.0.15
-  flutter_riverpod: ^2.6.1
   dio: ^5.7.0
   smooth_page_indicator: ^1.2.0+3
   image_picker: ^1.1.2
@@ -51,8 +50,8 @@ dependencies:
   sqflite: ^2.4.1
   path: ^1.9.0
   flutter_secure_storage: ^9.2.4
-  hooks_riverpod: ^2.6.1
   flutter_hooks: ^0.20.5
+  flutter_riverpod: ^2.6.1
 
 dev_dependencies:
   flutter_test:

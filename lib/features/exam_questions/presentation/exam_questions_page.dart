@@ -109,378 +109,403 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
               ),
           data: (questions) {
             questionsList = questions;
-            return Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 18.0,
-                horizontal: 12,
-              ),
-              child: SizedBox(
-                width: size.width,
-                height: size.height * 0.8,
-                child: Stack(
-                  children: [
-                    SizedBox(
+            return questions.isEmpty
+                ? const Center(
+                    child: Text("There are no Questions for this Exam yet."),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 18.0,
+                      horizontal: 12,
+                    ),
+                    child: SizedBox(
                       width: size.width,
-                      height: size.height,
-                      child: PageView.builder(
-                        scrollDirection: Axis.horizontal,
-                        controller: pageViewController,
-                        itemCount: questions.length,
-                        onPageChanged: (index) {
-                          debugPrint("current page index: $index");
-                          setState(() {
-                            questionsIndex = index;
-                          });
-                          if (index == questions.length) {
-                            setState(() {
-                              allQuestionsAnswered = answersTrack.every(
-                                (answer) => answer.selectedAnswers.isNotEmpty,
-                              );
-                            });
+                      height: size.height * 0.8,
+                      child: Stack(
+                        children: [
+                          SizedBox(
+                            width: size.width,
+                            height: size.height,
+                            child: PageView.builder(
+                              scrollDirection: Axis.horizontal,
+                              controller: pageViewController,
+                              itemCount: questions.length,
+                              onPageChanged: (index) {
+                                debugPrint("current page index: $index");
+                                setState(() {
+                                  questionsIndex = index;
+                                });
+                                if (index == questions.length) {
+                                  setState(() {
+                                    allQuestionsAnswered = answersTrack.every(
+                                      (answer) =>
+                                          answer.selectedAnswers.isNotEmpty,
+                                    );
+                                  });
 
-                            debugPrint(
-                                "all questions answered? $allQuestionsAnswered");
-                          }
-                        },
-                        itemBuilder: (_, index) {
-                          var currentQuestion = questions[index];
-                          String multipleQuestionsIndicator = "";
-                          if (currentQuestion.answers.length > 1) {
-                            multipleQuestionsIndicator =
-                                "(Select all that apply.)";
-                          }
-                          List<String> answerLetters = [
-                            "A",
-                            "B",
-                            "C",
-                            "D",
-                            "E",
-                            "F",
-                            "G"
-                          ];
-                          String answerText = "";
+                                  debugPrint(
+                                      "all questions answered? $allQuestionsAnswered");
+                                }
+                              },
+                              itemBuilder: (_, index) {
+                                var currentQuestion = questions[index];
+                                String multipleQuestionsIndicator = "";
+                                if (currentQuestion.answers.length > 1) {
+                                  multipleQuestionsIndicator =
+                                      "(Select all that apply.)";
+                                }
+                                List<String> answerLetters = [
+                                  "A",
+                                  "B",
+                                  "C",
+                                  "D",
+                                  "E",
+                                  "F",
+                                  "G"
+                                ];
+                                String answerText = "";
 
-                          int answerIndex = 0;
+                                int answerIndex = 0;
 
-                          if (currentQuestion.answers.length == 1) {
-                            answerIndex = currentQuestion.options
-                                .indexOf(currentQuestion.answers[0]);
-                            answerText =
-                                "${answerLetters[answerIndex]}. ${currentQuestion.answers[0]}";
-                          } else {
-                            for (String ans in currentQuestion.answers) {
-                              answerIndex =
-                                  currentQuestion.options.indexOf(ans);
-                              answerText +=
-                                  "${answerLetters[answerIndex]}. $ans";
-                            }
-                          }
-                          return SizedBox(
-                            height: size.height * 0.66,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  if (currentQuestion.imageUrl != null)
-                                    SizedBox(
-                                      width: size.width * 0.8,
-                                      height: 150,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.network(
-                                          height: 80,
-                                          width: double.infinity,
-                                          "${currentQuestion.imageUrl}.jpg", //?? "",
-                                          fit: BoxFit.cover,
-                                          loadingBuilder: (BuildContext context,
-                                              Widget child,
-                                              ImageChunkEvent?
-                                                  loadingProgress) {
-                                            if (loadingProgress == null) {
-                                              return child;
-                                            }
-                                            return Image.asset(
-                                              fit: BoxFit.cover,
-                                              "assets/images/applied_math.png",
-                                              height: 80,
-                                              width: double.infinity,
-                                            );
-                                          },
-                                          errorBuilder: (BuildContext context,
-                                              Object error,
-                                              StackTrace? stackTrace) {
-                                            // Show an error widget if the image failed to load
-
-                                            return Image.asset(
+                                if (currentQuestion.answers.length == 1) {
+                                  answerIndex = currentQuestion.options
+                                      .indexOf(currentQuestion.answers[0]);
+                                  answerText =
+                                      "${answerLetters[answerIndex]}. ${currentQuestion.answers[0]}";
+                                } else {
+                                  for (String ans in currentQuestion.answers) {
+                                    answerIndex =
+                                        currentQuestion.options.indexOf(ans);
+                                    answerText +=
+                                        "${answerLetters[answerIndex]}. $ans";
+                                  }
+                                }
+                                return SizedBox(
+                                  height: size.height * 0.66,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        if (currentQuestion.imageUrl != null)
+                                          SizedBox(
+                                            width: size.width * 0.8,
+                                            height: 150,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Image.network(
                                                 height: 80,
                                                 width: double.infinity,
+                                                "${currentQuestion.imageUrl}.jpg", //?? "",
                                                 fit: BoxFit.cover,
-                                                "assets/images/applied_math.png");
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
-                                      height: 50,
-                                      child: Text(
-                                        "${questions.indexOf(currentQuestion) + 1}. ${currentQuestion.questionText} $multipleQuestionsIndicator",
-                                        style: const TextStyle(fontSize: 15),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  if (currentQuestion.answers.length == 1)
-                                    ...currentQuestion.options.map((op) {
-                                      return SizedBox(
-                                        width: size.width * 0.8,
-                                        height: 50,
-                                        child: ListTile(
-                                          leading: Radio<String>(
-                                            activeColor: AppColors.mainBlue,
-                                            value: op,
-                                            groupValue: answersTrack[index]
-                                                .selectedAnswers
-                                                .elementAtOrNull(0),
-                                            onChanged: (value) {
-                                              debugPrint(
-                                                  "in ui page: groupValue: ${answersTrack[index].selectedAnswers.elementAtOrNull(0)}, current option's value: $op  selectedAnswer: $value");
-                                              setState(() {
-                                                if (value != null) {
-                                                  answersController
-                                                      .selectAnswerForQuestion(
-                                                    qn: questions[index],
-                                                    selectedAnswer: value,
-                                                    radioButtonValue: op,
-                                                  );
-                                                } else {
-                                                  // this is the logic for tracking the state when an
-                                                  // option is unselected.
-                                                  // in this one we send selectedAnswer as null
-                                                  // intentionally, to track the state where this option is
-                                                  // unselected and thus remove it from the state if it
-                                                  // previously existed. and that's why we also send
-                                                  // radioButtonValue, we check if that value already
-                                                  // exists in the state and then remove it.
-                                                  answersController
-                                                      .selectAnswerForQuestion(
-                                                    qn: questions[index],
-                                                    selectedAnswer: null,
-                                                    radioButtonValue: op,
-                                                  );
-                                                }
-                                              });
-                                            },
-                                          ),
-                                          title: Text(
-                                            op,
-                                            style: const TextStyle(
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    })
-                                  else if (currentQuestion.answers.length > 1)
-                                    ...currentQuestion.options.map(
-                                      (op) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10, right: 10),
-                                          child: ListTile(
-                                            leading: Checkbox(
-                                              activeColor: AppColors.mainBlue,
-                                              value: answersTrack[index]
-                                                  .selectedAnswers
-                                                  .contains(op),
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  if (value ?? false) {
-                                                    answersController
-                                                        .selectAnswerForQuestion(
-                                                      qn: questions[index],
-                                                      selectedAnswer: op,
-                                                      radioButtonValue: op,
-                                                    );
-                                                  } else {
-                                                    answersController
-                                                        .selectAnswerForQuestion(
-                                                      qn: questions[index],
-                                                      selectedAnswer: null,
-                                                      radioButtonValue: op,
-                                                    );
+                                                loadingBuilder:
+                                                    (BuildContext context,
+                                                        Widget child,
+                                                        ImageChunkEvent?
+                                                            loadingProgress) {
+                                                  if (loadingProgress == null) {
+                                                    return child;
                                                   }
-                                                });
-                                              },
-                                            ),
-                                            title: Text(
-                                              op,
-                                              style: const TextStyle(
-                                                fontSize: 13,
+                                                  return Image.asset(
+                                                    fit: BoxFit.cover,
+                                                    "assets/images/applied_math.png",
+                                                    height: 80,
+                                                    width: double.infinity,
+                                                  );
+                                                },
+                                                errorBuilder: (BuildContext
+                                                        context,
+                                                    Object error,
+                                                    StackTrace? stackTrace) {
+                                                  // Show an error widget if the image failed to load
+
+                                                  return Image.asset(
+                                                      height: 80,
+                                                      width: double.infinity,
+                                                      fit: BoxFit.cover,
+                                                      "assets/images/applied_math.png");
+                                                },
                                               ),
                                             ),
                                           ),
-                                        );
-                                      },
-                                    ),
-                                  const SizedBox(height: 15),
-                                  ElevatedButton.icon(
-                                    onPressed: () {
-                                      setState(() {
-                                        layoutConfig.answerRevealed =
-                                            !layoutConfig.answerRevealed;
-                                        // this will trigger getMiddleExpandedFlex method.
-                                      });
-                                    },
-                                    icon: const Icon(Icons.lightbulb),
-                                    label: const Text("Reveal Solution"),
-                                  ),
-                                  if (layoutConfig.answerRevealed) ...[
-                                    Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Text(
-                                        answerText,
-                                        style: textTh.bodyLarge,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        padding: const EdgeInsets.all(8),
-                                        width: size.width * 0.8,
-                                        height: 160,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 2,
-                                            color: Colors.black,
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SizedBox(
+                                            height: 50,
+                                            child: Text(
+                                              "${questions.indexOf(currentQuestion) + 1}. ${currentQuestion.questionText} $multipleQuestionsIndicator",
+                                              style:
+                                                  const TextStyle(fontSize: 15),
+                                            ),
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(18),
                                         ),
-                                        child: Text(
-                                          currentQuestion.explanation,
-                                          style: textTh.bodySmall,
+                                        const SizedBox(height: 10),
+                                        if (currentQuestion.answers.length == 1)
+                                          ...currentQuestion.options.map((op) {
+                                            return SizedBox(
+                                              width: size.width * 0.8,
+                                              height: 50,
+                                              child: ListTile(
+                                                leading: Radio<String>(
+                                                  activeColor:
+                                                      AppColors.mainBlue,
+                                                  value: op,
+                                                  groupValue:
+                                                      answersTrack[index]
+                                                          .selectedAnswers
+                                                          .elementAtOrNull(0),
+                                                  onChanged: (value) {
+                                                    debugPrint(
+                                                        "in ui page: groupValue: ${answersTrack[index].selectedAnswers.elementAtOrNull(0)}, current option's value: $op  selectedAnswer: $value");
+                                                    setState(() {
+                                                      if (value != null) {
+                                                        answersController
+                                                            .selectAnswerForQuestion(
+                                                          qn: questions[index],
+                                                          selectedAnswer: value,
+                                                          radioButtonValue: op,
+                                                        );
+                                                      } else {
+                                                        // this is the logic for tracking the state when an
+                                                        // option is unselected.
+                                                        // in this one we send selectedAnswer as null
+                                                        // intentionally, to track the state where this option is
+                                                        // unselected and thus remove it from the state if it
+                                                        // previously existed. and that's why we also send
+                                                        // radioButtonValue, we check if that value already
+                                                        // exists in the state and then remove it.
+                                                        answersController
+                                                            .selectAnswerForQuestion(
+                                                          qn: questions[index],
+                                                          selectedAnswer: null,
+                                                          radioButtonValue: op,
+                                                        );
+                                                      }
+                                                    });
+                                                  },
+                                                ),
+                                                title: Text(
+                                                  op,
+                                                  style: const TextStyle(
+                                                    fontSize: 13,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          })
+                                        else if (currentQuestion
+                                                .answers.length >
+                                            1)
+                                          ...currentQuestion.options.map(
+                                            (op) {
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10, right: 10),
+                                                child: ListTile(
+                                                  leading: Checkbox(
+                                                    activeColor:
+                                                        AppColors.mainBlue,
+                                                    value: answersTrack[index]
+                                                        .selectedAnswers
+                                                        .contains(op),
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        if (value ?? false) {
+                                                          answersController
+                                                              .selectAnswerForQuestion(
+                                                            qn: questions[
+                                                                index],
+                                                            selectedAnswer: op,
+                                                            radioButtonValue:
+                                                                op,
+                                                          );
+                                                        } else {
+                                                          answersController
+                                                              .selectAnswerForQuestion(
+                                                            qn: questions[
+                                                                index],
+                                                            selectedAnswer:
+                                                                null,
+                                                            radioButtonValue:
+                                                                op,
+                                                          );
+                                                        }
+                                                      });
+                                                    },
+                                                  ),
+                                                  title: Text(
+                                                    op,
+                                                    style: const TextStyle(
+                                                      fontSize: 13,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        const SizedBox(height: 15),
+                                        ElevatedButton.icon(
+                                          onPressed: () {
+                                            setState(() {
+                                              layoutConfig.answerRevealed =
+                                                  !layoutConfig.answerRevealed;
+                                              // this will trigger getMiddleExpandedFlex method.
+                                            });
+                                          },
+                                          icon: const Icon(Icons.lightbulb),
+                                          label: const Text("Reveal Solution"),
                                         ),
-                                      ),
+                                        if (layoutConfig.answerRevealed) ...[
+                                          Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: Text(
+                                              answerText,
+                                              style: textTh.bodyLarge,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              padding: const EdgeInsets.all(8),
+                                              width: size.width * 0.8,
+                                              height: 160,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 2,
+                                                  color: Colors.black,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(18),
+                                              ),
+                                              child: Text(
+                                                currentQuestion.explanation,
+                                                style: textTh.bodySmall,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 120),
+                                        ],
+                                      ],
                                     ),
-                                    const SizedBox(height: 120),
-                                  ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 30,
+                            child: SizedBox(
+                              width: size.width,
+                              height: 50,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.white,
+                                      elevation: 4,
+                                    ),
+                                    onPressed: () {
+                                      if (currentQuestionIndexTrack > 0) {
+                                        setState(() {
+                                          currentQuestionIndexTrack--;
+                                        });
+                                        debugPrint(
+                                            "current question index: $currentQuestionIndexTrack, questions length: ${questions.length}");
+                                        pageViewController.previousPage(
+                                          duration:
+                                              const Duration(milliseconds: 700),
+                                          curve: Curves.decelerate,
+                                        );
+                                      }
+                                    },
+                                    child: const Text(
+                                      "Previous",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.mainBlue,
+                                      elevation: 4,
+                                    ),
+                                    onPressed: () {
+                                      allQuestionsAnswered = answersTrack.every(
+                                        (answer) =>
+                                            answer.selectedAnswers.isNotEmpty,
+                                      );
+
+                                      debugPrint(
+                                          "all questions answered? $allQuestionsAnswered");
+                                      if (currentQuestionIndexTrack <
+                                          (questions.length - 1)) {
+                                        setState(() {
+                                          currentQuestionIndexTrack++;
+                                        });
+                                        debugPrint(
+                                            "current question index: $currentQuestionIndexTrack, questions length: ${questions.length}");
+                                        pageViewController.nextPage(
+                                          duration:
+                                              const Duration(milliseconds: 700),
+                                          curve: Curves.decelerate,
+                                        );
+                                      } else if (allQuestionsAnswered) {
+                                        submitExam();
+                                        int rightAnswers =
+                                            answersController.getScore();
+
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title: const Text('Exam Results'),
+                                            content: Text(
+                                              "You got $rightAnswers out of ${questions.length} Questions right.",
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () =>
+                                                    Navigator.of(context).pop(),
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title:
+                                                const Text('Incomplete Exam'),
+                                            content: const Text(
+                                                'Please answer all questions before submitting.'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () =>
+                                                    Navigator.of(context).pop(),
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: Text(
+                                      questionsIndex == (questions.length - 1)
+                                          ? 'Submit Exam'
+                                          : 'Next',
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                          );
-                        },
+                          ),
+                        ],
                       ),
                     ),
-                    Positioned(
-                      bottom: 30,
-                      child: SizedBox(
-                        width: size.width,
-                        height: 50,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                elevation: 4,
-                              ),
-                              onPressed: () {
-                                if (currentQuestionIndexTrack > 0) {
-                                  setState(() {
-                                    currentQuestionIndexTrack--;
-                                  });
-                                  debugPrint(
-                                      "current question index: $currentQuestionIndexTrack, questions length: ${questions.length}");
-                                  pageViewController.previousPage(
-                                    duration: const Duration(milliseconds: 700),
-                                    curve: Curves.decelerate,
-                                  );
-                                }
-                              },
-                              child: const Text(
-                                "Previous",
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.mainBlue,
-                                elevation: 4,
-                              ),
-                              onPressed: () {
-                                allQuestionsAnswered = answersTrack.every(
-                                  (answer) => answer.selectedAnswers.isNotEmpty,
-                                );
-
-                                debugPrint(
-                                    "all questions answered? $allQuestionsAnswered");
-                                if (currentQuestionIndexTrack <
-                                    (questions.length - 1)) {
-                                  setState(() {
-                                    currentQuestionIndexTrack++;
-                                  });
-                                  debugPrint(
-                                      "current question index: $currentQuestionIndexTrack, questions length: ${questions.length}");
-                                  pageViewController.nextPage(
-                                    duration: const Duration(milliseconds: 700),
-                                    curve: Curves.decelerate,
-                                  );
-                                } else if (allQuestionsAnswered) {
-                                  submitExam();
-                                  int rightAnswers =
-                                      answersController.getScore();
-
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: const Text('Exam Results'),
-                                      content: Text(
-                                        "You got $rightAnswers out of ${questions.length} Questions right.",
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(),
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                } else {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: const Text('Incomplete Exam'),
-                                      content: const Text(
-                                          'Please answer all questions before submitting.'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(),
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Text(
-                                questionsIndex == (questions.length - 1)
-                                    ? 'Submit Exam'
-                                    : 'Next',
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
+                  );
           }),
     );
   }

@@ -40,7 +40,15 @@ class CourseNotifier extends AsyncNotifier<List<Course>> {
 
   Future<List<Course>> searchCourses(String searchQuery) async {
     await Future.delayed(const Duration(seconds: 2));
-    return [];
+    state = const AsyncValue.loading();
+    try {
+      final courses = await _repository.searchCourses(searchQuery);
+      state = AsyncData(courses);
+      return courses;
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+      rethrow;
+    }
   }
 
   void toggleLiked(Course course) {

@@ -55,10 +55,11 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
           data: (courses) {
             if (courses.isEmpty) {
               return const Center(
-                child: Text("No courses found"),
+                child: Text("No courses found for this query."),
               );
             }
             return GridView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,
@@ -90,7 +91,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
         );
   }
 
- @override
+  @override
   Widget buildSuggestions(BuildContext context) {
     return ref.watch(searchResultsProvider).when(
           loading: () => const Center(
@@ -122,8 +123,8 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                childAspectRatio:
-                    UtilFunctions.getResponsiveChildAspectRatio(MediaQuery.of(context).size),
+                childAspectRatio: UtilFunctions.getResponsiveChildAspectRatio(
+                    MediaQuery.of(context).size),
                 mainAxisExtent: 200,
               ),
               itemBuilder: (_, index) {
@@ -148,5 +149,4 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
           },
         );
   }
-
 }

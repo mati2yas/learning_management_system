@@ -29,7 +29,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
   String examTitle = "", examYear = "";
   bool allQuestionsAnswered = false;
   //Map<String, dynamic> examData = {};
-  List<Questions>? questions = [];
+  List<QuizQuestion>? questions = [];
   List<String> selectedAnswers = [];
   List<String> correctAnswers = [];
   List<bool> questionContainsImage = [];
@@ -42,12 +42,6 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
     final timerAsyncValue = ref.watch(examTimerProvider);
-    middleExpandedFlex = (questions?.isNotEmpty ?? false) &&
-            (questions?[currentQuestionImageTrack].imageExplanationUrl == "" ||
-                questions?[currentQuestionImageTrack].imageExplanationUrl ==
-                    null)
-        ? 2
-        : 4;
 
     final apiState = ref.watch(quizProvider);
     return Scaffold(
@@ -133,8 +127,16 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                     controller: pageViewController,
                                     itemCount: questions?.length ?? 0,
                                     itemBuilder: (_, index) {
-                                      var currentQuestionItem =
+                                      QuizQuestion? currentQuestionItem =
                                           questions?[index];
+                                      String multipleQuestionsIndicator = "";
+                                      if ((currentQuestionItem
+                                                  ?.answers.length ??
+                                              0) >
+                                          1) {
+                                        multipleQuestionsIndicator =
+                                            "(Select all that apply.)";
+                                      }
                                       bool answerRevealed =
                                           middleExpandedFlex > 2;
                                       if (index ==
@@ -174,7 +176,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                             ),
                                           ),
                                           const SizedBox(height: 10),
-                                          ...currentQuestionItem!.options!
+                                          ...currentQuestionItem!.options
                                               .map((op) {
                                             return Padding(
                                               padding: const EdgeInsets.only(
@@ -230,7 +232,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                                   const EdgeInsets.all(12.0),
                                               child: Text(
                                                 currentQuestionItem
-                                                        .answer?.first ??
+                                                        .answers.first ??
                                                     "No Answer",
                                                 style: textTh.bodyLarge,
                                               ),
@@ -321,7 +323,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                       int rightAnswers = 0;
                                       for (var qs in questions!) {
                                         for (var ans in selectedAnswers) {
-                                          if (qs.answer?[0] == ans) {
+                                          if (qs.answers[0] == ans) {
                                             rightAnswers++;
                                           }
                                         }
@@ -402,14 +404,14 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
         //previousScreen = examData["previusScreen"]! as int;
 
         correctAnswers = List.generate((questions?.length ?? 0),
-            (index) => questions?[index].answer?.first ?? "no answer");
+            (index) => questions?[index].answers.first ?? "no answer");
         selectedAnswers =
             List.generate((questions?.length ?? 1), (index) => "");
 
         for (var question in questions!) {
           int index = questions!.indexOf(question);
-          correctAnswers[index] = question.answer!.first;
-          questionContainsImage.add(question.imageExplanationUrl != null);
+          correctAnswers[index] = question.answers.first;
+          questionContainsImage.add(question.imageExplanationUrl.isNotEmpty);
         }
         initializingPage = false;
 

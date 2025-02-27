@@ -25,4 +25,12 @@ class CoursesRepository {
     }
     return _dataSource.fetchCourses();
   }
+
+  Future<List<Course>> searchCourses(String searchQuery) async {
+    if (!await _connectivityService.hasConnection()) {
+      throw Exception("No internet connection");
+    }
+
+    return _dataSource.searchCourses(searchQuery);
+  }
 }

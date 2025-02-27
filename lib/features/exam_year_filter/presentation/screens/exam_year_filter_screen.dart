@@ -110,55 +110,5 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
   @override
   void initState() {
     super.initState();
-    //initializingPage = true;
-
-    // the logic is inside this cause ref cannot be called
-    // in initstate since initState runs before the widgets
-    // injected into the riverpod scope, and that causes
-    // an error
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-
-    //   // Extract unique years and tabs
-    //   final Set uniqueYears = <String>{};
-    //   final Set uniqueCourses = <String>{};
-    //   for (var course in exam.courses) {
-    //     uniqueCourses.add(course.title);
-    //     for (var year in course.years) {
-    //       uniqueYears.add(year.title);
-    //     }
-    //   }
-
-    //   setState(() {
-    //     var tabsSet = exam.courses.map((course) => course.title).toSet();
-    //     print(tabsSet.join(","));
-    //     tabsList = List.from(tabsSet);
-    //     var yrDrops = <String>{};
-    //     for (var course in exam.courses) {
-    //       for (var year in course.years) {
-    //         yrDrops.add(year.title);
-    //       }
-    //     }
-    //     yearsDropDown = List.from(yrDrops);
-    //     yearDropDownValue = yearsDropDown.first;
-    //     // Initialize the TabController
-    //     tabController = TabController(
-    //       length: tabsList.length,
-    //       vsync: this,
-    //     );
-
-    //     currentTab = tabsList[0];
-
-    //     // Add listener to TabController
-    //     tabController.addListener(() {
-    //       setState(() {
-    //         currentTab = tabsList[tabController.index];
-    //         yearDropDownValue = "2012";
-    //       });
-    //     });
-    //     initializingPage = false;
-    //   }); // setState
-
-    //   // addPostFrameCallback ends here
-    // });
   }
 }
