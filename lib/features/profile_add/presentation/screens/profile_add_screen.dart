@@ -171,9 +171,10 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
                       style: ElevatedButton.styleFrom(
                         //backgroundColor: Colors.black,
                         backgroundColor: AppColors.mainBlue,
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 14,
-                          vertical: 15,
+                          vertical:
+                              editState.apiState == ApiState.busy ? 15 : 0,
                         ),
                         fixedSize: const Size(140, 50),
                         minimumSize: const Size(100, 40),

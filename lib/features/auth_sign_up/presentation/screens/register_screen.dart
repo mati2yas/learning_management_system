@@ -61,7 +61,20 @@ class RegisterScreen extends ConsumerWidget {
                         hintText: 'Email',
                         initialValue: state.email,
                         keyboardType: TextInputType.emailAddress,
-                        validator: _validateInput,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your email';
+                          }
+
+                          // Regular expression to validate email format
+                          final emailRegex =
+                              RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                          if (!emailRegex.hasMatch(value)) {
+                            return 'Please enter a valid email address';
+                          }
+
+                          return null; // Return null if the input is valid
+                        },
                         onSaved: (value) {
                           regController.updateEmail(value!);
                         },
@@ -89,9 +102,10 @@ class RegisterScreen extends ConsumerWidget {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.mainBlue,
-                            padding: const EdgeInsets.symmetric(
+                            padding: EdgeInsets.symmetric(
                               horizontal: 50,
-                              vertical: 15,
+                              vertical:
+                                  state.apiStatus == ApiState.busy ? 15 : 0,
                             ),
                             fixedSize: Size(size.width - 80, 50),
                             shape: RoundedRectangleBorder(

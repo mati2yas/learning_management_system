@@ -62,7 +62,7 @@ class CoursePage extends ConsumerWidget {
             onPressed: () {
               showSearch(
                 context: context,
-                delegate: CourseSearchDelegate(ref),
+                delegate: CourseSearchDelegate(widgetRef: ref, previousScreenIndex: 1),
               );
             },
           ),

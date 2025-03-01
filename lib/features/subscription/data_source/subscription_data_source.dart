@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/features/subscription/model/subscription_model.dart';
 
@@ -43,7 +44,7 @@ class SubscriptionDataSource {
     try {
       _dio.options.headers['Content-Type'] = 'multipart/form-data';
       final response = await _dio.post(
-        "/subscription-request",
+        AppUrls.subscriptionRequest,
         data: formData,
       );
       statusCode = response.statusCode;

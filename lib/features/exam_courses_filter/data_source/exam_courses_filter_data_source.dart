@@ -1,24 +1,24 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/app_strings.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 
-final examFilterDataSourceProvider = Provider<ExamYearFilterDataSource>(
-    (ref) => ExamYearFilterDataSource(DioClient.instance));
+final examFilterDataSourceProvider = Provider<ExamCoursesFilterDataSource>(
+    (ref) => ExamCoursesFilterDataSource(DioClient.instance));
 
-class ExamYearFilterDataSource {
+class ExamCoursesFilterDataSource {
   final Dio _dio;
 
-  ExamYearFilterDataSource(this._dio);
-  Future<List<ExamCourse>> fetchExamYears(ExamType type) async {
-    //await Future.delayed(const Duration(seconds: 3));
-    //_dio.options.headers["Content-Type"] = "application/json";
+  ExamCoursesFilterDataSource(this._dio);
+  Future<List<ExamCourse>> fetchExamCourses(ExamType type) async {
     int? statusCode;
     List<ExamCourse> examCourses = [];
     try {
       String examTypeString = getExamStringValue(type);
-      final response = await _dio.get("/exams/exam-courses/$examTypeString");
+      final response = await _dio.get("${AppUrls.examCourses}/$examTypeString");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];
@@ -36,14 +36,14 @@ class ExamYearFilterDataSource {
 
   String getExamStringValue(ExamType type) {
     return switch (type) {
-      ExamType.matric => "ESSLCE",
-      ExamType.ministry6th => "6th Grade Ministry",
-      ExamType.ministry8th => "8th Grade Ministry",
-      ExamType.exitexam => "EXIT",
-      ExamType.uat => "UAT",
-      ExamType.sat => "SAT",
-      ExamType.ngat => "NGAT",
-      _ => "ESSLCE"
+      ExamType.matric => AppStrings.matric,
+      ExamType.ministry6th => AppStrings.ministry6th,
+      ExamType.ministry8th => AppStrings.ministry8th,
+      ExamType.exitexam => AppStrings.exit,
+      ExamType.uat => AppStrings.uat,
+      ExamType.sat => AppStrings.sat,
+      ExamType.ngat => AppStrings.ngat,
+      ExamType.exam => AppStrings.exam,
     };
   }
 }

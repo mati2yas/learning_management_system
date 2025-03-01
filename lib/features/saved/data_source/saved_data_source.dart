@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
@@ -11,7 +12,7 @@ class SavedDataSource {
     List<Course> courses = [];
     int? statusCode;
     try {
-      final response = await _dio.get("/saved-courses");
+      final response = await _dio.get(AppUrls.savedCourses);
       debugPrint("${_dio.options.baseUrl}/saved-courses");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {

@@ -4,14 +4,22 @@ import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
+import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/courses_provider.dart';
+import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses/provider/search_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
+import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
+import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class CourseSearchDelegate extends SearchDelegate<Course> {
-  final WidgetRef ref;
+  final WidgetRef widgetRef;
+  final int previousScreenIndex;
 
-  CourseSearchDelegate(this.ref);
+  CourseSearchDelegate({
+    required this.widgetRef,
+    required this.previousScreenIndex,
+  });
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -37,7 +45,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return ref.watch(searchResultsProvider).when(
+    return widgetRef.watch(searchResultsProvider).when(
           loading: () => const Center(
             child: CircularProgressIndicator(
               color: AppColors.mainBlue,
@@ -48,7 +56,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
             errorMsg: error.toString().replaceAll("Exception: ", ""),
             callback: () async {
               final allCourseController =
-                  ref.read(allCoursesApiProvider.notifier);
+                  widgetRef.read(allCoursesApiProvider.notifier);
               await allCourseController.loadCourses();
             },
           ),
@@ -58,34 +66,63 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
                 child: Text("No courses found for this query."),
               );
             }
-            return GridView.builder(
+            return Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                childAspectRatio: UtilFunctions.getResponsiveChildAspectRatio(
-                    MediaQuery.of(context).size),
-                mainAxisExtent: 200,
+              child: GridView.builder(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: UtilFunctions.getResponsiveChildAspectRatio(
+                      MediaQuery.of(context).size),
+                  mainAxisExtent: 200,
+                ),
+                itemBuilder: (_, index) {
+                  final course = courses[index];
+                  return GestureDetector(
+                    onTap: () {
+                      // Handle course selection
+
+                      final pageNavController =
+                          widgetRef.read(pageNavigationProvider.notifier);
+                      final courseIdController =
+                          widgetRef.watch(currentCourseIdProvider.notifier);
+                      courseIdController.changeCourseId(courses[index].id);
+
+                      widgetRef
+                          .read(courseChaptersProvider.notifier)
+                          .fetchCourseChapters();
+
+                      widgetRef
+                          .read(courseSubTrackProvider.notifier)
+                          .changeCurrentCourse(courses[index]);
+
+                      debugPrint(
+                          "current course: Course{ id: ${widgetRef.read(courseSubTrackProvider).id}, title: ${widgetRef.read(courseSubTrackProvider).title} }");
+                      pageNavController.navigatePage(
+                        previousScreenIndex,
+                        arguments: {
+                          "course": courses[index],
+                          "previousScreenIndex": 0,
+                        },
+                      );
+                      close(context, courses[index]);
+                    },
+                    child: CourseCardWithImage(
+                      course: course,
+                      onLike: () async {
+                        // Handle like/bookmark actions
+                      },
+                      onBookmark: () async {
+                        // Handle like/bookmark actions
+                      },
+                    ),
+                  );
+                },
+                itemCount: courses.length,
               ),
-              itemBuilder: (_, index) {
-                final course = courses[index];
-                return GestureDetector(
-                  onTap: () {
-                    // Handle course selection
-                  },
-                  child: CourseCardWithImage(
-                    course: course,
-                    onLike: () async {
-                      // Handle like/bookmark actions
-                    },
-                    onBookmark: () async {
-                      // Handle like/bookmark actions
-                    },
-                  ),
-                );
-              },
-              itemCount: courses.length,
             );
           },
         );
@@ -93,7 +130,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return ref.watch(searchResultsProvider).when(
+    return widgetRef.watch(searchResultsProvider).when(
           loading: () => const Center(
             child: CircularProgressIndicator(
               color: AppColors.mainBlue,
@@ -104,7 +141,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
             errorMsg: error.toString().replaceAll("Exception: ", ""),
             callback: () async {
               final allCourseController =
-                  ref.read(allCoursesApiProvider.notifier);
+                  widgetRef.read(allCoursesApiProvider.notifier);
               await allCourseController.loadCourses();
             },
           ),

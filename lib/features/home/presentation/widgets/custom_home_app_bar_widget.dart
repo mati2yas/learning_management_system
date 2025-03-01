@@ -41,12 +41,7 @@ class CustomHomeAppBar extends ConsumerWidget {
               ),
               const Spacer(),
               GestureDetector(
-                onTap: () {
-                  showSearch(
-                    context: context,
-                    delegate: CourseSearchDelegate(ref),
-                  );
-                },
+                onTap: () {},
                 child: const CircleAvatar(
                   backgroundColor: Colors.white,
                   child: Center(
@@ -62,7 +57,8 @@ class CustomHomeAppBar extends ConsumerWidget {
                 onTap: () {
                   showSearch(
                     context: context,
-                    delegate: CourseSearchDelegate(ref),
+                    delegate: CourseSearchDelegate(
+                        widgetRef: ref, previousScreenIndex: 0),
                   );
                 },
                 child: const CircleAvatar(

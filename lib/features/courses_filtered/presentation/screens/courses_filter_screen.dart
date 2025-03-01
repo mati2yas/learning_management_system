@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
+import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
@@ -13,38 +14,6 @@ import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.d
 import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 
 import '../../../wrapper/provider/wrapper_provider.dart';
-
-final categories = [
-  "lower_grades",
-  "high_school",
-  "university",
-  "random_courses"
-];
-Map<String, String> categoryFormatted = {
-  "lower_grades": "Lower Grades",
-  "high_school": "High School",
-  "university": "University",
-  "random_courses": "Random Courses",
-};
-List<String> highSchoolGrades = ["Grade 9", "Grade 10", "Grade 11", "Grade 12"];
-List<String> lowerGrades = [
-  "Grade 1",
-  "Grade 2",
-  "Grade 3",
-  "Grade 4",
-  "Grade 5",
-  "Grade 6",
-  "Grade 7",
-  "Grade 8"
-];
-
-List<String> universityGrades = [
-  "Freshman",
-  "2nd Year",
-  "3rd Year",
-  "4th Year",
-  "5th Year"
-];
 
 class CoursesFilterScreen extends ConsumerStatefulWidget {
   const CoursesFilterScreen({
@@ -102,7 +71,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
               icon: const Icon(Icons.arrow_back),
             ),
             title: Text(
-              categoryFormatted[category]!,
+              AppStrings.categoryFormatted[category]!,
               style: textTh.titleLarge!.copyWith(
                 fontWeight: FontWeight.w600,
                 color: Colors.black,
@@ -113,7 +82,8 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                 onPressed: () {
                   showSearch(
                     context: context,
-                    delegate: CourseSearchDelegate(ref),
+                    delegate: CourseSearchDelegate(
+                        widgetRef: ref, previousScreenIndex: 1),
                   );
                 },
                 icon: const Icon(Icons.search),
@@ -254,7 +224,8 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                 selectedCourses = courses
                                     .where((course) =>
                                         course.batch ==
-                                        universityGrades[currentTabIndex ?? 0])
+                                        AppStrings.universityGrades[
+                                            currentTabIndex ?? 0])
                                     .toList();
                                 break;
                               case "high_school":
@@ -262,7 +233,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                   selectedCourses = courses
                                       .where((course) =>
                                           course.grade ==
-                                          highSchoolGrades[
+                                          AppStrings.highSchoolGrades[
                                               currentTabIndex ?? 0])
                                       .toList();
                                 } else if (grade == "Grade 11" ||
@@ -270,7 +241,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                   selectedCourses = courses
                                       .where((course) =>
                                           course.grade ==
-                                              highSchoolGrades[
+                                              AppStrings.highSchoolGrades[
                                                   currentTabIndex ?? 0] &&
                                           course.stream?.toLowerCase() ==
                                               dropDownValue?.toLowerCase())
@@ -288,7 +259,8 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                 selectedCourses = courses
                                     .where((course) =>
                                         course.grade ==
-                                        lowerGrades[currentTabIndex ?? 0])
+                                        AppStrings
+                                            .lowerGrades[currentTabIndex ?? 0])
                                     .toList();
                                 break;
                               default:
@@ -350,13 +322,13 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
 
   List<String> filterGrades(String category) {
     if (category == "lower_grades") {
-      return lowerGrades;
+      return AppStrings.lowerGrades;
     }
     if (category == "high_school") {
-      return highSchoolGrades;
+      return AppStrings.highSchoolGrades;
     }
     if (category == "university") {
-      return universityGrades;
+      return AppStrings.universityGrades;
     }
     return [];
   }

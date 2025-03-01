@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/api_constants.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
@@ -19,8 +19,8 @@ class CourseChaptersDataSource {
     int? statusCode;
 
     try {
-      final response = await _dio.get("/course-chapters/$courseId");
-      print("${ApiConstants.baseUrl}/course-chapters/$courseId");
+      final response = await _dio.get("${AppUrls.courseChapters}/$courseId");
+      print("${AppUrls.baseUrl}/course-chapters/$courseId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         for (var d in response.data["data"]) {

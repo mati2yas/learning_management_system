@@ -117,7 +117,7 @@ class ExamYear {
       id: json["id"] ?? 0,
       title: json["year_name"] ?? "year name",
       courseId: json["course_id"] ?? 0,
-      questionCount: json['question_count'] ?? 0,
+      questionCount: json['exam_question_count'] ?? 0,
     );
   }
 }

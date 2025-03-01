@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
@@ -23,7 +24,7 @@ class LoginDataSource {
   }) async {
     int? statusCode;
     try {
-      final response = await _dio.post('/login', data: {
+      final response = await _dio.post(AppUrls.login, data: {
         'email': email,
         'password': password,
       });
@@ -39,7 +40,7 @@ class LoginDataSource {
         String? avatar = response.data["data"]["user"]["avatar"];
         if (avatar != null) {
           avatar.replaceAll("\\", "");
-          avatar = "https://lms.biruklemma.com/storage/$avatar";
+          avatar = "${AppUrls.backendStorage}/$avatar";
           debugPrint(avatar);
 
           final directory = await getApplicationDocumentsDirectory();

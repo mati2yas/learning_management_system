@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 
@@ -43,7 +44,9 @@ class HomeDataSource {
       _dio.options.headers;
 
       _dio.options.headers['Accept'] = 'application/json';
-      final response = await _dio.get("/homepage/courses");
+      final response = await _dio.get(
+        AppUrls.homePageCourses,
+      );
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         List<dynamic> data = response.data["data"];

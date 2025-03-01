@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
@@ -25,7 +26,7 @@ class EditProfileDataSource {
       _dio.options.headers['Content-Type'] = 'multipart/form-data';
       _dio.options.headers['Accept'] = 'application/json';
       final response = await _dio.post(
-        "/user-update",
+        AppUrls.editProfile,
         data: formData,
       );
       statusCode = response.statusCode;

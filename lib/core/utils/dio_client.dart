@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/api_constants.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 
 class DioClient {
   static final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: ApiConstants.baseUrl,
+      baseUrl: AppUrls.baseUrl,
       connectTimeout: const Duration(seconds: 90),
       receiveTimeout: const Duration(seconds: 90),
       sendTimeout: const Duration(seconds: 90),

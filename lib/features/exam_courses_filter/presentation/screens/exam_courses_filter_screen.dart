@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/features/exam_year_filter/presentation/widgets/years_list.dart';
-import 'package:lms_system/features/exam_year_filter/provider/exam_year_filter_provider.dart';
+import 'package:lms_system/features/exam_courses_filter/presentation/widgets/years_list.dart';
+import 'package:lms_system/features/exam_courses_filter/provider/exam_courses_filter_provider.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-class ExamYearFiltersScreen extends ConsumerStatefulWidget {
-  const ExamYearFiltersScreen({
+class ExamCoursesFiltersScreen extends ConsumerStatefulWidget {
+  const ExamCoursesFiltersScreen({
     super.key,
   });
 
   @override
-  ConsumerState<ExamYearFiltersScreen> createState() =>
-      _ExamYearFilterScreenState();
+  ConsumerState<ExamCoursesFiltersScreen> createState() =>
+      _ExamCoursesFilterScreenState();
 }
 
-class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
+class _ExamCoursesFilterScreenState
+    extends ConsumerState<ExamCoursesFiltersScreen>
     with TickerProviderStateMixin {
   List<String> tabsList = [], yearsDropDown = ["2012", "2013"];
   String currentTab = "";
@@ -30,7 +31,7 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
     var textTh = Theme.of(context).textTheme;
 
     final pageController = ref.read(pageNavigationProvider.notifier);
-    final apiState = ref.watch(examYearFilterApiProvider);
+    final apiState = ref.watch(examCoursesFilterApiProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -71,7 +72,9 @@ class _ExamYearFilterScreenState extends ConsumerState<ExamYearFiltersScreen>
         error: (error, _) => AsyncErrorWidget(
           errorMsg: error.toString().replaceAll("Exception:", ""),
           callback: () async {
-            await ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+            await ref
+                .read(examCoursesFilterApiProvider.notifier)
+                .fetchExamCourses();
           },
         ),
         data: (examCourses) {

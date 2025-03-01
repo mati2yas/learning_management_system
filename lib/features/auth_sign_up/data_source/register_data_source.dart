@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,7 +21,7 @@ class RegisterDataSource {
     int? statusCode;
     var userId = mapVal["userId"] ?? "0";
     try {
-      final response = await _dio.post("delete-user/$userId");
+      final response = await _dio.post("${AppUrls.deleteUser}/$userId");
       statusCode = response.statusCode;
       if (response.statusCode == 200 && response.data['status'] == true) {
         await prefs.remove("userData");
@@ -43,7 +44,7 @@ class RegisterDataSource {
     int? statusCode;
     try {
       final response = await _dio.post(
-        '/student-register',
+        AppUrls.signUp,
         data: {
           'name': name,
           'email': email,

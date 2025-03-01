@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/features/exam_year_filter/provider/current_exam_type_provider.dart';
-import 'package:lms_system/features/exam_year_filter/provider/exam_year_filter_provider.dart';
+import 'package:lms_system/features/exam_courses_filter/provider/current_exam_type_provider.dart';
+import 'package:lms_system/features/exam_courses_filter/provider/exam_courses_filter_provider.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/exams/presentation/widgets/exam_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
@@ -50,7 +50,9 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 ref
                     .read(currentExamTypeProvider.notifier)
                     .changeExamType(ExamType.matric);
-                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+                ref
+                    .read(examCoursesFilterApiProvider.notifier)
+                    .fetchExamCourses();
                 pageNavController.navigatePage(7);
               },
               categoryImage: "high_school",
@@ -61,7 +63,9 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 ref
                     .read(currentExamTypeProvider.notifier)
                     .changeExamType(ExamType.exitexam);
-                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+                ref
+                    .read(examCoursesFilterApiProvider.notifier)
+                    .fetchExamCourses();
 
                 pageNavController.navigatePage(7);
               },
@@ -73,7 +77,9 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 ref
                     .read(currentExamTypeProvider.notifier)
                     .changeExamType(ExamType.uat);
-                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+                ref
+                    .read(examCoursesFilterApiProvider.notifier)
+                    .fetchExamCourses();
 
                 pageNavController.navigatePage(7);
               },
@@ -85,7 +91,9 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 ref
                     .read(currentExamTypeProvider.notifier)
                     .changeExamType(ExamType.exitexam);
-                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+                ref
+                    .read(examCoursesFilterApiProvider.notifier)
+                    .fetchExamCourses();
 
                 pageNavController.navigatePage(7);
               },
@@ -97,7 +105,9 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 ref
                     .read(currentExamTypeProvider.notifier)
                     .changeExamType(ExamType.ministry6th);
-                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+                ref
+                    .read(examCoursesFilterApiProvider.notifier)
+                    .fetchExamCourses();
 
                 pageNavController.navigatePage(7);
               },
@@ -109,7 +119,9 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 ref
                     .read(currentExamTypeProvider.notifier)
                     .changeExamType(ExamType.ministry8th);
-                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+                ref
+                    .read(examCoursesFilterApiProvider.notifier)
+                    .fetchExamCourses();
 
                 pageNavController.navigatePage(7);
               },
@@ -121,7 +133,9 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 ref
                     .read(currentExamTypeProvider.notifier)
                     .changeExamType(ExamType.sat);
-                ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+                ref
+                    .read(examCoursesFilterApiProvider.notifier)
+                    .fetchExamCourses();
 
                 pageNavController.navigatePage(7);
               },

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
@@ -21,7 +22,7 @@ class ExamQuestionsDataSource {
     debugPrint("chapter id: $chapterId");
     try {
       final response =
-          await _dio.get("/exams/exam-questions-chapter/$chapterId");
+          await _dio.get("${AppUrls.examChapterQuestions}/$chapterId");
 
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
@@ -45,7 +46,7 @@ class ExamQuestionsDataSource {
     debugPrint("year id: $yearId");
     try {
       final response =
-          await _dio.get("/exams/exam-questions-year/$courseId/$yearId");
+          await _dio.get("${AppUrls.examYearQuestions}/$courseId/$yearId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];
