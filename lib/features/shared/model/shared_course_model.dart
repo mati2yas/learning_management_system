@@ -83,7 +83,7 @@ class Course {
     return Course(
       id: json["id"].toString(),
       title: json["course_name"],
-      // stream: json["department"]?["department_name"],
+      department: json["department"]?["department_name"],
       stream: json["grade"]?["stream"],
       batch: json["batch"]?["batch_name"],
       grade: json["grade"]?["grade_name"],
@@ -105,7 +105,6 @@ class Course {
         SubscriptionType.yearly:
             double.tryParse(json["price_one_year"] ?? 0) ?? 0,
       },
-
       onSalePrices: onSalePrices,
       chapters: [],
     );

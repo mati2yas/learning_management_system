@@ -29,17 +29,20 @@ enum HsClasses { lowerHs, prepHs }
 
 class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
   Map<String, List<Course>> highschoolTabCourses = {
-    "Grade 9": [],
-    "Grade 10": [],
-    "Grade 11": [],
-    "Grade 12": [],
+    AppStrings.grade9: [],
+    AppStrings.grade10: [],
+    AppStrings.grade11: [],
+    AppStrings.grade12: [],
   };
 
   List<String> dropdownItems = [];
   HsClasses hsClasses = HsClasses.lowerHs;
   String? dropDownValue = "Natural";
+  String selectedDepartment = "All";
+
   int? currentTabIndex;
   List<Course> selectedCourses = [];
+  Set<String> uniqueDepartments = {};
   @override
   Widget build(BuildContext context) {
     var category = ref.watch(currentCourseFilterProvider);
@@ -134,10 +137,61 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                 });
                               },
                             ),
+                          if (category == AppStrings.universityCategory)
+                            ElevatedButton(
+                              onPressed: () {
+                                showBottomSheet(
+                                  context: context,
+                                  builder: (context) => SizedBox(
+                                    width: size.width,
+                                    height: size.height * 0.6,
+                                    child: DraggableScrollableSheet(
+                                      maxChildSize: 1,
+                                      initialChildSize: 1,
+                                      minChildSize: 0.4,
+                                      builder: (context, controller) => Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "Select Department",
+                                              style: textTh.bodyLarge,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: ListView.builder(
+                                              itemCount: AppStrings
+                                                  .universityDepartments.length,
+                                              itemBuilder: (_, index) =>
+                                                  ListTile(
+                                                onTap: () {
+                                                  setState(() {
+                                                    selectedDepartment = AppStrings
+                                                            .universityDepartments[
+                                                        index];
+                                                  });
+                                                  Navigator.pop(context);
+                                                },
+                                                title: Text(
+                                                  AppStrings
+                                                          .universityDepartments[
+                                                      index],
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: const Text("Select Department"),
+                            ),
                         ],
                       ),
                     ),
-                    if (category != "random_courses")
+                    if (category != AppStrings.otherCoursesCategory)
                       CustomTabBar(
                         alignment: TabAlignment.start,
                         isScrollable: true,
@@ -174,9 +228,9 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                   },
                 ),
                 data: (courses) {
-                  debugPrint("current category: $category");
-                  debugPrint("courses len: ${courses.length}");
-                  return category == "random_courses"
+                  //debugPrint("current category: $category");
+                  //debugPrint("courses len: ${courses.length}");
+                  return category == AppStrings.otherCoursesCategory
                       ? GridView.builder(
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -220,24 +274,40 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                           children: filterGrades(category).map((grade) {
                             //
                             switch (category) {
-                              case "university":
-                                selectedCourses = courses
+                              case AppStrings.universityCategory:
+                                // for (var c in courses) {
+                                //   debugPrint(
+                                //       "course id: ${c.id}, course batch : ${c.batch}, course dep: ${c.department?.substring(0, 8)}, current department: ${selectedDepartment.substring(0, 8)}");
+                                // }
+                                if (selectedDepartment == "All") {
+                                  selectedCourses = courses;
+                                } else {
+                                  selectedCourses =
+                                      selectedCourses.where((course) {
+                                    debugPrint(
+                                        "course dep: ${course.department}");
+                                    return course.department ==
+                                        selectedDepartment;
+                                  }).toList();
+                                }
+                                selectedCourses = selectedCourses
                                     .where((course) =>
                                         course.batch ==
                                         AppStrings.universityGrades[
                                             currentTabIndex ?? 0])
                                     .toList();
                                 break;
-                              case "high_school":
-                                if (grade == "Grade 9" || grade == "Grade 10") {
+                              case AppStrings.highSchoolCategory:
+                                if (grade == AppStrings.grade9 ||
+                                    grade == AppStrings.grade10) {
                                   selectedCourses = courses
                                       .where((course) =>
                                           course.grade ==
                                           AppStrings.highSchoolGrades[
                                               currentTabIndex ?? 0])
                                       .toList();
-                                } else if (grade == "Grade 11" ||
-                                    grade == "Grade 12") {
+                                } else if (grade == AppStrings.grade11 ||
+                                    grade == AppStrings.grade12) {
                                   selectedCourses = courses
                                       .where((course) =>
                                           course.grade ==
@@ -255,7 +325,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                     .join("|");
                                 debugPrint("current Courses: $theList");
                                 break;
-                              case "lower_grades":
+                              case AppStrings.lowerGradesCategory:
                                 selectedCourses = courses
                                     .where((course) =>
                                         course.grade ==

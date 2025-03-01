@@ -8,18 +8,32 @@ class AppStrings {
   static const String ngat = "NGAT";
   static const String exam = "EXAM";
 
+  // static const List<String> courseCategories = [
+  //   "lower_grades",
+  //   "high_school",
+  //   "university",
+  //   "random_courses"
+  // ];
+  static const String lowerGradesCategory = "lower_grades";
+  static const String highSchoolCategory = "high_school";
+  static const String universityCategory = "university";
+  static const String otherCoursesCategory = "random_courses";
   static const List<String> courseCategories = [
-    "lower_grades",
-    "high_school",
-    "university",
-    "random_courses"
+    lowerGradesCategory,
+    highSchoolCategory,
+    universityCategory,
+    otherCoursesCategory,
   ];
 
+  static const String grade9 = "Grade 9";
+  static const String grade10 = "Grade 10";
+  static const String grade11 = "Grade 11";
+  static const String grade12 = "Grade 12";
   static const List<String> highSchoolGrades = [
-    "Grade 9",
-    "Grade 10",
-    "Grade 11",
-    "Grade 12"
+    grade9,
+    grade10,
+    grade11,
+    grade12,
   ];
   static const List<String> lowerGrades = [
     "Grade 1",
@@ -45,4 +59,20 @@ class AppStrings {
     "university": "University",
     "random_courses": "Random Courses",
   };
+
+  static const List<String> universityDepartments = [
+    "All",
+    "History and Heritage Management",
+    "Dentistry",
+    "Information Technology",
+    "Industrial Engineering",
+    "Law",
+    "Sociology",
+    "Geography",
+    "Pre-Engineering",
+    "Computer Science",
+    "Electrical Engineering",
+    "Software Engineering",
+    "Electrical Engineering",
+  ];
 }
