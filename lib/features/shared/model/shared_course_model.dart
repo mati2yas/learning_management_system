@@ -65,19 +65,7 @@ class Course {
       onSalePrices[SubscriptionType.yearly] =
           double.tryParse(json["on_sale_one_year"]);
     }
-    //debugPrint("course id: ${json["id"]}");
-    // if (json["grade"]?["grade_name"] == "Grade 11" ||
-    //     json["grade"]?["grade_name"] == "Grade 12") {
-    //   debugPrint(
-    //       "grade: ${json["grade"]?["grade_name"]}, stream: ${json["grade"]?["stream"]}");
-    // }
-    // int likedNum = 0, savedNum = 0;
-    // if (json["liked"] == true) {
-    //   likedNum = 1;
-    // }
-    // if (json["saved"] == true) {
-    //   savedNum = 1;
-    // }
+
     var chapters = json["chapters"] ?? <dynamic>[];
 
     return Course(

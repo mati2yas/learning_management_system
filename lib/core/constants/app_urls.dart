@@ -19,8 +19,4 @@ class AppUrls {
   static String quizzes = "/paid-courses";
   static String savedCourses = "/paid-courses";
   static String subscriptionRequest = "/subscription-request";
-
-  static String chapterContentId(String chapterId) {
-    return chapterContent + chapterId;
-  }
 }

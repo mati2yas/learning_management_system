@@ -33,55 +33,37 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
       appBar: CommonAppBar(titleText: "Watch Video"),
       body: Padding(
         padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: Container(
-                alignment: Alignment.center,
-                height: size.height * 0.4,
-                width: size.width * 0.9,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 1,
-                    color: AppColors.darkerGrey,
-                  ),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    YoutubePlayer(
-                      bottomActions: const [
-                        CurrentPosition(),
-                        ProgressBar(isExpanded: true),
-                        CurrentPosition(),
-                        PlayPauseButton(),
-                        FullScreenButton(),
-                      ],
-                      controller: ytCtrl,
-                      showVideoProgressIndicator: true,
-                      progressIndicatorColor: AppColors.mainBlue,
-                      progressColors: ProgressBarColors(
-                        playedColor: AppColors.mainBlue,
-                        handleColor: AppColors.mainBlue.withValues(alpha: 0.6),
-                      ),
-                    ),
-                    // Row(children: [
-                    //   IconButton(onPressed: (){}, icon: Icons.)
-                    // ],),
-                    Text(
-                      widget.video.title,
-                      style: textTh.bodyLarge!.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              YoutubePlayer(
+                width: size.width * 0.8,
+                aspectRatio: 16 / 9,
+                bottomActions: const [
+                  CurrentPosition(),
+                  ProgressBar(isExpanded: true),
+                  CurrentPosition(),
+                  //PlayPauseButton(),
+                  FullScreenButton(),
+                ],
+                controller: ytCtrl,
+                showVideoProgressIndicator: true,
+                progressIndicatorColor: AppColors.mainBlue,
+                progressColors: ProgressBarColors(
+                  playedColor: AppColors.mainBlue,
+                  handleColor: AppColors.mainBlue.withValues(alpha: 0.6),
                 ),
               ),
-            ),
-          ],
+              Text(
+                widget.video.title,
+                style: textTh.bodyMedium!.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

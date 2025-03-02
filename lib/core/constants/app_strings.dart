@@ -8,12 +8,6 @@ class AppStrings {
   static const String ngat = "NGAT";
   static const String exam = "EXAM";
 
-  // static const List<String> courseCategories = [
-  //   "lower_grades",
-  //   "high_school",
-  //   "university",
-  //   "random_courses"
-  // ];
   static const String lowerGradesCategory = "lower_grades";
   static const String highSchoolCategory = "high_school";
   static const String universityCategory = "university";
@@ -29,12 +23,17 @@ class AppStrings {
   static const String grade10 = "Grade 10";
   static const String grade11 = "Grade 11";
   static const String grade12 = "Grade 12";
+
+  static const String naturalStream = "Natural";
+  static const String socialStream = "Social";
+
   static const List<String> highSchoolGrades = [
     grade9,
     grade10,
     grade11,
     grade12,
   ];
+
   static const List<String> lowerGrades = [
     "Grade 1",
     "Grade 2",
@@ -50,14 +49,16 @@ class AppStrings {
     "2nd Year",
     "3rd Year",
     "4th Year",
-    "5th Year"
+    "5th Year",
+    "6th Year",
+    "7th Year",
   ];
 
   static const Map<String, String> categoryFormatted = {
     "lower_grades": "Lower Grades",
     "high_school": "High School",
     "university": "University",
-    "random_courses": "Random Courses",
+    "random_courses": "Other Courses",
   };
 
   static const List<String> universityDepartments = [
@@ -74,5 +75,6 @@ class AppStrings {
     "Electrical Engineering",
     "Software Engineering",
     "Electrical Engineering",
+    "Business Administration",
   ];
 }

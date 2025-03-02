@@ -20,7 +20,7 @@ class ChapterContentDataSource {
     int? statusCode;
     print("fetchChapterContent called");
     try {
-      final response = await _dio.get(AppUrls.chapterContentId(chapterId));
+      final response = await _dio.get("${AppUrls.chapterContent}/$chapterId");
       print("${AppUrls.baseUrl}/chapter-contents/$chapterId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {

@@ -4,6 +4,7 @@ import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
@@ -25,8 +26,6 @@ class CoursesFilterScreen extends ConsumerStatefulWidget {
       _CoursesFilterScreenState();
 }
 
-enum HsClasses { lowerHs, prepHs }
-
 class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
   Map<String, List<Course>> highschoolTabCourses = {
     AppStrings.grade9: [],
@@ -36,13 +35,24 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
   };
 
   List<String> dropdownItems = [];
-  HsClasses hsClasses = HsClasses.lowerHs;
-  String? dropDownValue = "Natural";
-  String selectedDepartment = "All";
+  HighschoolClasses hsClasses = HighschoolClasses.lowerHs;
+  String? dropDownValue = AppStrings.naturalStream;
+  String selectedDepartment = AppStrings.universityDepartments[0]; // "All"
 
   int? currentTabIndex;
   List<Course> selectedCourses = [];
-  Set<String> uniqueDepartments = {};
+
+  List<String> fourYearDepts = [
+    "Sociology",
+    "Computer Science",
+    "Business Administration"
+  ];
+  List<String> sevenYearDepts = [
+    "Dentistry",
+  ];
+
+  List<String> tabValues = [];
+
   @override
   Widget build(BuildContext context) {
     var category = ref.watch(currentCourseFilterProvider);
@@ -53,8 +63,13 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     final courseIdController = ref.watch(currentCourseIdProvider.notifier);
     final apiState = ref.watch(coursesFilteredProvider);
 
+    if (category == AppStrings.universityCategory) {
+      tabValues = filterGrades(category, selectedDepartment);
+    } else {
+      tabValues = filterGrades(category);
+    }
     return DefaultTabController(
-      length: filterGrades(category).length,
+      length: tabValues.length,
       child: Builder(builder: (context) {
         final tabController = DefaultTabController.of(context);
         tabController.addListener(() {
@@ -152,14 +167,30 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                       builder: (context, controller) => Column(
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "Select Department",
-                                              style: textTh.bodyLarge,
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Select Department",
+                                                  style: textTh.titleMedium!
+                                                      .copyWith(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: const Icon(Icons.close),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           Expanded(
-                                            child: ListView.builder(
+                                            child: ListView.separated(
                                               itemCount: AppStrings
                                                   .universityDepartments.length,
                                               itemBuilder: (_, index) =>
@@ -176,7 +207,22 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                                   AppStrings
                                                           .universityDepartments[
                                                       index],
+                                                  style: textTh.bodyMedium!
+                                                      .copyWith(
+                                                    color: selectedDepartment ==
+                                                            AppStrings
+                                                                    .universityDepartments[
+                                                                index]
+                                                        ? AppColors.mainBlue
+                                                        : Colors.black,
+                                                  ),
                                                 ),
+                                              ),
+                                              separatorBuilder: (_, index) =>
+                                                  const Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 12.0),
+                                                child: Divider(),
                                               ),
                                             ),
                                           )
@@ -195,7 +241,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                       CustomTabBar(
                         alignment: TabAlignment.start,
                         isScrollable: true,
-                        tabs: filterGrades(category)
+                        tabs: tabValues
                             .map(
                               (grd) => Tab(
                                 height: 24,
@@ -271,24 +317,17 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                         )
                       : TabBarView(
                           controller: tabController,
-                          children: filterGrades(category).map((grade) {
+                          children: tabValues.map((grade) {
                             //
                             switch (category) {
                               case AppStrings.universityCategory:
-                                // for (var c in courses) {
-                                //   debugPrint(
-                                //       "course id: ${c.id}, course batch : ${c.batch}, course dep: ${c.department?.substring(0, 8)}, current department: ${selectedDepartment.substring(0, 8)}");
-                                // }
-                                if (selectedDepartment == "All") {
-                                  selectedCourses = courses;
-                                } else {
-                                  selectedCourses =
-                                      selectedCourses.where((course) {
-                                    debugPrint(
-                                        "course dep: ${course.department}");
-                                    return course.department ==
-                                        selectedDepartment;
-                                  }).toList();
+                                selectedCourses = courses;
+                                if (selectedDepartment != "All") {
+                                  selectedCourses = selectedCourses
+                                      .where((course) =>
+                                          course.department?.trim() ==
+                                          selectedDepartment.trim())
+                                      .toList();
                                 }
                                 selectedCourses = selectedCourses
                                     .where((course) =>
@@ -297,6 +336,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                             currentTabIndex ?? 0])
                                     .toList();
                                 break;
+
                               case AppStrings.highSchoolCategory:
                                 if (grade == AppStrings.grade9 ||
                                     grade == AppStrings.grade10) {
@@ -390,16 +430,26 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     super.dispose();
   }
 
-  List<String> filterGrades(String category) {
-    if (category == "lower_grades") {
+  List<String> filterGrades(String category, [String? department]) {
+    // department paremeter is optional parameter and
+    // we only need it in case of university case
+
+    if (category == AppStrings.lowerGradesCategory) {
       return AppStrings.lowerGrades;
     }
-    if (category == "high_school") {
+    if (category == AppStrings.highSchoolCategory) {
       return AppStrings.highSchoolGrades;
     }
-    if (category == "university") {
+    if (category == AppStrings.universityCategory) {
+      if (fourYearDepts.contains(department)) {
+        return AppStrings.universityGrades.take(4).toList();
+        // return the first 4 of the values
+      }
+
       return AppStrings.universityGrades;
+      // return all 7 values by default.
     }
+
     return [];
   }
 
@@ -416,19 +466,16 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     List<String> grades = filterGrades(category);
     // Determine dropdown items
     //List<String> dropdownItems = [];
-    if (category == "high_school" &&
+    if (category == AppStrings.highSchoolCategory &&
         (currentTabIndex == 0 || currentTabIndex == 1)) {
       dropdownItems = [];
       dropDownValue = null;
-    } else if (category == "high_school" && [2, 3].contains(currentTabIndex)) {
-      dropdownItems = ["Natural", "Social"];
-    } else if (category == "university") {
-      // var items =  (grades)
-      //     .where((grade) => grade.subCategories?.isNotEmpty ?? false)
-      //     .expand((grade) => grade.subCategories!.map((sub) => sub.name))
-      //     .toList();
-
-      // deal with the above another time
+    } else if (category == AppStrings.highSchoolCategory &&
+        [2, 3].contains(currentTabIndex)) {
+      dropdownItems = [
+        AppStrings.naturalStream,
+        AppStrings.socialStream,
+      ];
     }
 
     // Update dropDownValue

@@ -10,6 +10,7 @@ import 'core/app_router.dart';
 import 'core/constants/colors.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     const ProviderScope(child: MyApp()),
   );
@@ -52,17 +53,20 @@ final initialRouteProvider = FutureProvider<StartRoutes>((ref) async {
   );
 });
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
+  @override
+  Widget build(BuildContext context) {
     final routesAsync = ref.watch(initialRouteProvider);
 
     return routesAsync.when(
-      loading: () => Container(
-        color: Colors.white,
-      ),
+      loading: () => Container(color: Colors.white),
       error: (error, stackTrace) => Text('Error: $error'),
       data: (routesData) {
         return OrientationBuilder(
@@ -73,7 +77,7 @@ class MyApp extends ConsumerWidget {
                     ColorScheme.fromSeed(seedColor: AppColors.mainBlue),
                 useMaterial3: true,
               ),
-              initialRoute: routesData.firstRoute, // Now correctly accessed
+              initialRoute: routesData.firstRoute,
               onGenerateRoute: Approuter.generateRoute,
             );
           },
@@ -81,27 +85,16 @@ class MyApp extends ConsumerWidget {
       },
     );
   }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
 }
-
-// class MyApp extends ConsumerWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final checkSeenOnboardingController =
-//         ref.watch(checkSeenOnboardingControllerProvider.notifier);
-//     bool hasSeenOnboarding =
-//         await checkSeenOnboardingController.checkSeenOnboarding();
-
-//     return OrientationBuilder(builder: (context, orientation) {
-//       return MaterialApp(
-//         theme: ThemeData(
-//           colorScheme: ColorScheme.fromSeed(seedColor: AppColors.mainBlue),
-//           useMaterial3: true,
-//         ),
-//         initialRoute: Routes.onboarding,
-//         onGenerateRoute: Approuter.generateRoute,
-//       );
-//     });
-//   }
-// }
