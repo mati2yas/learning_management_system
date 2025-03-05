@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/quiz/provider/current_quiz_id_provider.dart';
+import 'package:lms_system/features/quiz/provider/quiz_answers_provider.dart';
 import 'package:lms_system/features/quiz/provider/quiz_repository_provider.dart';
 import 'package:lms_system/features/quiz/repository/quiz_repository.dart';
 
@@ -33,6 +34,8 @@ class QuizNotifier extends AsyncNotifier<Quiz> {
 
     try {
       final quiz = await _repository.fetchQuizData(quizId);
+      final answersController = ref.watch(quizAnswersProvider.notifier);
+      answersController.initializeWithQuestionsList(quiz.questions);
       state = AsyncData(quiz);
       return quiz;
     } catch (e, stack) {

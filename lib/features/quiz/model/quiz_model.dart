@@ -84,7 +84,7 @@ class QuizQuestion {
       imageExplanationUrl: json['image_explanation_url'],
       videoExplanationUrl: json['video_explanation_url'],
       options: (json['options'] ?? []).cast<String>(),
-      answers: (json['answers'] ?? []).cast<String>(),
+      answers: (json['answer'] ?? []).cast<String>(),
     );
   }
 

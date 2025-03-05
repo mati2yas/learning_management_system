@@ -52,7 +52,7 @@ class ApiExceptions {
 
       case DioExceptionType.unknown:
       default:
-        return "An unexpected error occurred: ${exc.message}";
+        return "An unexpected error occurred: ${exc.message ?? ""}";
     }
   }
 }

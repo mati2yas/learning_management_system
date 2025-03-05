@@ -57,8 +57,7 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                 int answerIndex = 0;
 
                 for (var ans in currentQuestion.answers) {
-                  answerIndex = currentQuestion.options
-                      .indexOf(currentQuestion.answers[0]);
+                  answerIndex = currentQuestion.options.indexOf(ans);
 
                   answerText.add("${answerLetters[answerIndex]}. $ans");
                 }

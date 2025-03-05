@@ -31,7 +31,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
   int middleExpandedFlex = 2;
   //int currentQuestion = 0;
   int previousScreen =
-      3; // we use wrapper screen index to track which screen we navigated from
+      1; // we use wrapper screen index to track which screen we navigated from
   String examTitle = "", examYear = "";
   bool allQuestionsAnswered = false;
   //Map<String, dynamic> examData = {};
@@ -63,6 +63,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
             //reset timer and the go back to previous screen
             ref.read(examTimerProvider.notifier).resetTimer();
             pageNavController.navigatePage(previousScreen);
+            Navigator.pop(context);
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -210,7 +211,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: QuestionTextContainer(
                                           question:
-                                              "${quiz.questions.indexOf(currentQuestionItem) + 1}. ${currentQuestionItem.text} $multipleQuestionsIndicator",
+                                              "${index + 1}. ${currentQuestionItem.text} $multipleQuestionsIndicator",
                                           textStyle: textTh.bodyMedium!,
                                           maxWidth: size.width * 0.75,
                                         ),
@@ -358,26 +359,27 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                     elevation: 4,
                                   ),
                                   onPressed: () {
+                                    allQuestionsAnswered = answersTrack.every(
+                                        (answer) =>
+                                            answer.selectedAnswers.isNotEmpty);
+
+                                    debugPrint(
+                                        "all questions answered? $allQuestionsAnswered");
                                     if (currentQuestionImageTrack <
-                                        (questions.length ?? 0) - 1) {
+                                        (questions.length) - 1) {
                                       setState(() {
                                         currentQuestionImageTrack++;
                                       });
                                       pageViewController.nextPage(
                                         duration:
-                                            const Duration(milliseconds: 850),
+                                            const Duration(milliseconds: 700),
                                         curve: Curves.decelerate,
                                       );
                                     } else if (allQuestionsAnswered) {
                                       submitExam();
-                                      int rightAnswers = 0;
-                                      for (var qs in questions) {
-                                        for (var ans in selectedAnswers) {
-                                          if (qs.answers[0] == ans) {
-                                            rightAnswers++;
-                                          }
-                                        }
-                                      }
+                                      int rightAnswers =
+                                          answersController.getScore();
+
                                       showDialog(
                                         context: context,
                                         builder: (context) => AlertDialog(
