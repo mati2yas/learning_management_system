@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lms_system/core/app_router.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 import 'package:lms_system/features/requests/provider/requests_provider.dart';
@@ -44,7 +44,7 @@ class CourseCardWithImage extends ConsumerWidget {
           width: 1,
           color: AppColors.mainGrey,
         ),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,8 +52,8 @@ class CourseCardWithImage extends ConsumerWidget {
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
+              topLeft: Radius.circular(6),
+              topRight: Radius.circular(6),
             ),
             // child: fetchImageWithPlaceHolder(
             //   // "${ApiConstants.imageBaseUrl}/${course.image}",
@@ -111,7 +111,7 @@ class CourseCardWithImage extends ConsumerWidget {
                   width: 12,
                   height: 12,
                   colorFilter: const ColorFilter.mode(
-                    AppColors.mainBlue,
+                    AppColors.darkerBlue,
                     BlendMode.srcIn,
                   ),
                 ),
@@ -203,7 +203,7 @@ class CourseCardWithImage extends ConsumerWidget {
                               text:
                                   " ${course.onSalePrices[SubscriptionType.oneMonth]}",
                               style: const TextStyle(
-                                color: AppColors.mainBlue,
+                                color: AppColors.darkerBlue,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14,
                               ),
@@ -282,7 +282,13 @@ class CourseCardWithImage extends ConsumerWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     behavior: SnackBarBehavior.floating,
-                    content: Text("Course has been $status."),
+                    backgroundColor: AppColors.darkerBlue,
+                    content: Text(
+                      "Course has been $status.",
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 );
               },
@@ -296,7 +302,13 @@ class CourseCardWithImage extends ConsumerWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     behavior: SnackBarBehavior.floating,
-                    content: Text("Course has been $status."),
+                    backgroundColor: AppColors.darkerBlue,
+                    content: Text(
+                      "Course has been $status.",
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 );
               },
@@ -306,7 +318,7 @@ class CourseCardWithImage extends ConsumerWidget {
                     const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
                 decoration: BoxDecoration(
                   color: AppColors.mainBlue,
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -40,6 +40,7 @@ class ChapterContent {
           id: quiz["id"],
           title: quiz['title'],
           numberOfQuestions: quiz['number_of_questions'],
+          questions: [],
         ),
       );
     }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 
 class SubscriptionWidget extends StatelessWidget {
   final int duration;

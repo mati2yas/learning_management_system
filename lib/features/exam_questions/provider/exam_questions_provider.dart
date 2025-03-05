@@ -40,7 +40,7 @@ class ExamQuestionsNotifier extends AsyncNotifier<List<Question>> {
       debugPrint("questions length: ${questions.length}");
       debugPrint("Fetched questions type: ${questions.runtimeType}");
 
-      final answersController = ref.watch(answersProvider.notifier);
+      final answersController = ref.watch(examAnswersProvider.notifier);
       answersController.initializeWithQuestionsList(questions);
       state = AsyncValue.data(questions);
 

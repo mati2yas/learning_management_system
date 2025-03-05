@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
+import 'package:lms_system/features/quiz/model/quiz_model.dart';
 import 'package:lms_system/features/shared/model/answers_holder.dart';
 
-final answersProvider =
+final quizAnswersProvider =
     StateNotifierProvider<AnswersNotifier, List<AnswersHolder>>(
   (ref) => AnswersNotifier(),
 );
@@ -33,7 +34,7 @@ class AnswersNotifier extends StateNotifier<List<AnswersHolder>> {
     return score;
   }
 
-  void initializeWithQuestionsList(List<Question> questionsList) {
+  void initializeWithQuestionsList(List<QuizQuestion> questionsList) {
     state = questionsList
         .map((question) => AnswersHolder(
             questionId: question.id, correctAnswers: question.answers))
@@ -42,7 +43,7 @@ class AnswersNotifier extends StateNotifier<List<AnswersHolder>> {
   }
 
   void selectAnswerForQuestion({
-    required Question qn,
+    required QuizQuestion qn,
     String? selectedAnswer,
     required String radioButtonValue,
   }) {

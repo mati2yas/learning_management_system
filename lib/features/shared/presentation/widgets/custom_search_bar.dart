@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 
 class CustomSearchBar extends StatelessWidget {
   final String hintText;

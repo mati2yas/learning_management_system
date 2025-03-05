@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:lms_system/core/utils/storage_service.dart';
+import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
 import 'package:lms_system/features/profile/provider/profile_provider.dart';
 import 'package:lms_system/features/saved/provider/saved_provider.dart';
@@ -64,13 +65,13 @@ class ProfilePage extends ConsumerWidget {
                                   File(user
                                       .image), // Replace 'imagePath' with the actual path obtained from the database
                                   width: size.width,
-                                  height: size.height * 0.18,
+                                  height: size.height * 0.25,
                                   fit: BoxFit.cover,
                                 )
                               : Image.asset(
                                   "assets/images/pfp-placeholder.jpg",
                                   width: size.width,
-                                  height: size.height * 0.18,
+                                  height: size.height * 0.25,
                                   fit: BoxFit.cover,
                                 ),
                         ),
@@ -165,7 +166,22 @@ class ProfilePage extends ConsumerWidget {
                   ),
                   TextButton.icon(
                     onPressed: () async {
-                      await SecureStorageService().deleteUser();
+                      ref.read(authStatusProvider.notifier).clearStatus();
+                      ref
+                          .read(authStatusProvider.notifier)
+                          .setAuthStatus(AuthStatus.pending);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          backgroundColor: AppColors.darkerBlue,
+                          behavior: SnackBarBehavior.floating,
+                          content: Text(
+                            "Logged Out Successfully",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      );
                       if (context.mounted) {
                         Navigator.of(context)
                             .pushReplacementNamed(Routes.login);

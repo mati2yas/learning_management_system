@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
@@ -48,16 +48,16 @@ class HomePage extends ConsumerWidget {
             CustomHomeAppBar(userState: currentUserState),
             ClipRRect(
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
               child: Container(
                 height: size.height - 164,
                 padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
                   color: Colors.white,
                 ),
@@ -68,18 +68,12 @@ class HomePage extends ConsumerWidget {
                         height: 150,
                         margin: const EdgeInsets.only(top: 8),
                         width: size.width * 0.8,
-                        decoration: const BoxDecoration(
-                          color: AppColors.mainBlue,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(18),
-                          ),
-                        ),
                         padding: const EdgeInsets.all(8),
                         child: Column(
                           children: [
                             SizedBox(
-                              height: 105,
-                              width: size.width * 0.7,
+                              height: 120,
+                              width: size.width * 0.8,
                               child: PageView.builder(
                                 controller: pageController,
                                 itemBuilder: (_, index) {
@@ -91,13 +85,15 @@ class HomePage extends ConsumerWidget {
                                 itemCount: 2,
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 6),
                             SmoothPageIndicator(
                               effect: const WormEffect(
-                                  dotHeight: 8,
-                                  dotWidth: 8,
-                                  dotColor: AppColors.darkerGrey,
-                                  activeDotColor: Colors.white),
+                                dotHeight: 8,
+                                dotWidth: 8,
+                                strokeWidth: 2,
+                                dotColor: AppColors.darkerGrey,
+                                activeDotColor: AppColors.mainBlue,
+                              ),
                               controller: pageController,
                               count: 2,
                             ),
@@ -105,23 +101,13 @@ class HomePage extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Top Category",
-                            style: textTh.titleMedium!.copyWith(
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.7),
-                          ),
-                          // Text(
-                          //   "See All",
-                          //   style: textTh.titleMedium!.copyWith(
-                          //     fontWeight: FontWeight.w600,
-                          //     color: AppColors.mainBlue,
-                          //   ),
-                          // ),
-                        ],
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Top Category",
+                          style: textTh.titleMedium!.copyWith(
+                              fontWeight: FontWeight.w600, letterSpacing: 0.7),
+                        ),
                       ),
                       const SizedBox(height: 8),
                       SizedBox(

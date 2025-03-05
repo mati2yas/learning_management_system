@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/colors.dart';
+import '../../../../core/constants/app_colors.dart';
 
 class CategoryShow extends StatelessWidget {
   final String category; // Accept the Category model

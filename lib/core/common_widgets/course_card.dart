@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/requests/provider/requests_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/subscription/provider/subscription_provider.dart';
@@ -139,27 +139,37 @@ class CourseCard extends ConsumerWidget {
                 )
               : GestureDetector(
                   onTap: () {
-                    
-
-                var (status, courses) = requestsController.addOrRemoveCourse(course);
-                subscriptionController.updateCourses(courses);
+                    var (status, courses) =
+                        requestsController.addOrRemoveCourse(course);
+                    subscriptionController.updateCourses(courses);
                     if (status == "added") {
                       Navigator.of(context).pushNamed(Routes.requests);
                     }
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text("Course has been $status."),
+                        backgroundColor: AppColors.darkerBlue,
+                        content: Text(
+                          "Course has been $status.",
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     );
                   },
                   onLongPress: () {
-                 
-
-                var (status, courses) = requestsController.addOrRemoveCourse(course);
-                subscriptionController.updateCourses(courses);
+                    var (status, courses) =
+                        requestsController.addOrRemoveCourse(course);
+                    subscriptionController.updateCourses(courses);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text("Course has been $status."),
+                        backgroundColor: AppColors.darkerBlue,
+                        content: Text(
+                          "Course has been $status.",
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     );
                   },

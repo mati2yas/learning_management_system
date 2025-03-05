@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/exam_courses_filter/presentation/widgets/years_list.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/exam_courses_filter_provider.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';

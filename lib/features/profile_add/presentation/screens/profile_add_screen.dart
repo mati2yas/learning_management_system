@@ -9,7 +9,7 @@ import 'package:lms_system/features/auth_status_registration/provider/auth_statu
 import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
 
-import '../../../../core/constants/colors.dart';
+import '../../../../core/constants/app_colors.dart';
 
 class ProfileAddScreen extends ConsumerStatefulWidget {
   const ProfileAddScreen({super.key});
@@ -171,11 +171,13 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
                       style: ElevatedButton.styleFrom(
                         //backgroundColor: Colors.black,
                         backgroundColor: AppColors.mainBlue,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical:
-                              editState.apiState == ApiState.busy ? 15 : 0,
-                        ),
+                        padding: editState.apiState == ApiState.busy
+                            ? null
+                            : const EdgeInsets.symmetric(
+                                horizontal: 50,
+                                vertical: 15,
+                              ),
+
                         fixedSize: const Size(140, 50),
                         minimumSize: const Size(100, 40),
                         maximumSize: const Size(180, 50),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/check_seen_onboarding/provider/check_seen_onboarding_provider.dart';
 import 'package:lms_system/features/shared/provider/start_routes_provider.dart';
 

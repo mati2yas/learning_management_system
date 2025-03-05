@@ -16,7 +16,7 @@ class AppUrls {
   static String homePageCourses = "/homepage/courses";
   static String notifications = "/notifications";
   static String paidCourses = "/paid-courses";
-  static String quizzes = "/paid-courses";
-  static String savedCourses = "/paid-courses";
+  static String quizzes = "/quizzes";
+  static String savedCourses = "/saved-courses";
   static String subscriptionRequest = "/subscription-request";
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 
 class CarouselPage extends StatelessWidget {
   final String tag, img;
@@ -13,20 +13,37 @@ class CarouselPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
-      width: 305,
-      height: 106,
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.only(left: 10),
+      width: MediaQuery.sizeOf(context).width * 0.8,
+      height: 120,
       decoration: BoxDecoration(
         border: Border.all(
           color: AppColors.mainGrey,
           width: 2,
         ),
-        color: Colors.white,
+        gradient: const LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          stops: [0.3, 0.6],
+          colors: [
+            AppColors.mainBlue,
+            // AppColors.mainBlue.withValues(alpha: 0.3),
+            Colors.white,
+          ],
+        ),
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
         children: [
-          Expanded(flex: 7, child: Text(tag)),
+          Expanded(
+              flex: 7,
+              child: Text(
+                tag,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              )),
           Expanded(
             flex: 5,
             child: Image.asset(

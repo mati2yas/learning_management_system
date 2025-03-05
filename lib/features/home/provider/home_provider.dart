@@ -1,11 +1,7 @@
-import 'package:lms_system/core/utils/connectivity/connectivity_service.dart';
-import 'package:lms_system/core/utils/dio_client.dart';
-import 'package:lms_system/features/home/data_source/home_data_source.dart';
 import 'package:lms_system/features/home/repository/home_repository.dart';
 import 'package:riverpod/riverpod.dart';
 
 import '../../shared/model/shared_course_model.dart';
-import '../../shared/model/shared_user.dart';
 
 
 final pageviewPartsProvider = Provider<Map<String, String>>((ref) {

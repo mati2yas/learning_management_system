@@ -1,21 +1,38 @@
 class Quiz {
-  int? id;
-  String? title;
-  int? numberOfQuestions;
-  List<QuizQuestion>? questions;
+  final int id;
+  final String title;
+  final int numberOfQuestions;
+  final List<QuizQuestion> questions;
 
-  Quiz({this.id, this.title, this.numberOfQuestions, this.questions});
+  Quiz({
+    required this.id,
+    required this.title,
+    required this.numberOfQuestions,
+    required this.questions,
+  });
 
-  Quiz.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    numberOfQuestions = json['number_of_questions'];
-    if (json['questions'] != null) {
-      questions = <QuizQuestion>[];
+  factory Quiz.fromJson(Map<String, dynamic> json) {
+    var questions = <QuizQuestion>[];
+    if (json["questions"] != null) {
       json['questions'].forEach((v) {
-        questions!.add(QuizQuestion.fromJson(v));
+        questions.add(QuizQuestion.fromJson(v));
       });
     }
+    return Quiz(
+      id: json['id'] ?? -1,
+      title: json['title'] ?? "No Title",
+      numberOfQuestions: json['number_of_questions'] ?? 0,
+      questions: questions,
+    );
+  }
+
+  factory Quiz.initial() {
+    return Quiz(
+      id: -1,
+      title: "",
+      numberOfQuestions: 0,
+      questions: [],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -23,9 +40,7 @@ class Quiz {
     data['id'] = id;
     data['title'] = title;
     data['number_of_questions'] = numberOfQuestions;
-    if (questions != null) {
-      data['questions'] = questions!.map((v) => v.toJson()).toList();
-    }
+    data['questions'] = questions.map((v) => v.toJson()).toList();
     return data;
   }
 }
@@ -36,10 +51,10 @@ class QuizQuestion {
   int questionNumber;
   String text;
   bool isMultipleChoice;
-  String questionImageUrl;
+  String? imageUrl;
   String textExplanation;
-  String imageExplanationUrl;
-  String videoExplanationUrl;
+  String? imageExplanationUrl;
+  String? videoExplanationUrl;
   final List<String> options;
   final List<String> answers;
 
@@ -49,10 +64,10 @@ class QuizQuestion {
     required this.questionNumber,
     required this.text,
     required this.isMultipleChoice,
-    required this.questionImageUrl,
+    this.imageUrl,
     required this.textExplanation,
-    required this.imageExplanationUrl,
-    required this.videoExplanationUrl,
+    this.imageExplanationUrl,
+    this.videoExplanationUrl,
     required this.options,
     required this.answers,
   });
@@ -64,10 +79,10 @@ class QuizQuestion {
       questionNumber: json['question_number'] ?? 0,
       text: json['text'] ?? "",
       isMultipleChoice: json['is_multiple_choice'] ?? false,
-      questionImageUrl: json['question_image_url'] ?? "",
+      imageUrl: json['question_image_url'],
       textExplanation: json['text_explanation'] ?? "",
-      imageExplanationUrl: json['image_explanation_url'] ?? "",
-      videoExplanationUrl: json['video_explanation_url'] ?? "",
+      imageExplanationUrl: json['image_explanation_url'],
+      videoExplanationUrl: json['video_explanation_url'],
       options: (json['options'] ?? []).cast<String>(),
       answers: (json['answers'] ?? []).cast<String>(),
     );
@@ -80,7 +95,7 @@ class QuizQuestion {
     data['question_number'] = questionNumber;
     data['text'] = text;
     data['is_multiple_choice'] = isMultipleChoice;
-    data['question_image_url'] = questionImageUrl;
+    data['question_image_url'] = imageUrl;
     data['text_explanation'] = textExplanation;
     data['image_explanation_url'] = imageExplanationUrl;
     data['video_explanation_url'] = videoExplanationUrl;

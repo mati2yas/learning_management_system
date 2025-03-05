@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/chapter_content/provider/current_chapter_id_provider.dart';
 import 'package:lms_system/features/courses/presentation/widgets/capter_tile.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
@@ -18,7 +19,7 @@ class PaidCoursesDataSource {
     List<Course> courses = [];
     try {
       await DioClient.setToken();
-      final response = await _dio.get("/paid-courses");
+      final response = await _dio.get(AppUrls.paidCourses);
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         print("response is 200");

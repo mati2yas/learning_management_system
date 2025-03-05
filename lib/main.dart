@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
@@ -7,10 +8,11 @@ import 'package:lms_system/features/shared/model/start_routes.dart';
 import 'package:lms_system/features/shared/provider/start_routes_provider.dart';
 
 import 'core/app_router.dart';
-import 'core/constants/colors.dart';
+import 'core/constants/app_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
     const ProviderScope(child: MyApp()),
   );

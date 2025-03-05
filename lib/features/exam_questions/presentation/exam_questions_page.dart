@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/common_widgets/question_text_container.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/features/exam_questions/presentation/exam_solutions_screen.dart';
 import 'package:lms_system/features/exam_questions/provider/answers_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/exam_questions_provider.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
@@ -21,7 +23,6 @@ class ExamQuestionsPage extends ConsumerStatefulWidget {
 class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
   PageController pageViewController = PageController();
   PageNavigationController pageNavController = PageNavigationController();
-  int middleExpandedFlex = 2;
   int currentQuestion = 0;
   int previousScreen =
       3; // we use wrapper screen index to track which screen we navigated from
@@ -29,7 +30,6 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
   Map<String, dynamic> examData = {};
   List<Question> questionsList = [];
 
-  List<bool> questionContainsImage = [];
   bool initializingPage = false;
   int currentQuestionIndexTrack = 0;
   ScreenLayoutConfig layoutConfig = ScreenLayoutConfig();
@@ -42,9 +42,9 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
 
-    final answersTrack = ref.watch(answersProvider);
-    final answersController = ref.watch(answersProvider.notifier);
-    var size = MediaQuery.of(context).size;
+    final answersTrack = ref.watch(examAnswersProvider);
+    final answersController = ref.watch(examAnswersProvider.notifier);
+    var size = MediaQuery.sizeOf(context);
     final timerAsyncValue = ref.watch(examTimerProvider);
 
     final apiState = ref.watch(examQuestionsApiProvider);
@@ -154,32 +154,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                   multipleQuestionsIndicator =
                                       "(Select all that apply.)";
                                 }
-                                List<String> answerLetters = [
-                                  "A",
-                                  "B",
-                                  "C",
-                                  "D",
-                                  "E",
-                                  "F",
-                                  "G"
-                                ];
-                                String answerText = "";
 
-                                int answerIndex = 0;
-
-                                if (currentQuestion.answers.length == 1) {
-                                  answerIndex = currentQuestion.options
-                                      .indexOf(currentQuestion.answers[0]);
-                                  answerText =
-                                      "${answerLetters[answerIndex]}. ${currentQuestion.answers[0]}";
-                                } else {
-                                  for (String ans in currentQuestion.answers) {
-                                    answerIndex =
-                                        currentQuestion.options.indexOf(ans);
-                                    answerText +=
-                                        "${answerLetters[answerIndex]}. $ans";
-                                  }
-                                }
                                 return SizedBox(
                                   height: size.height * 0.66,
                                   child: SingleChildScrollView(
@@ -207,7 +182,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                                   }
                                                   return Image.asset(
                                                     fit: BoxFit.cover,
-                                                    "assets/images/applied_math.png",
+                                                    "assets/images/error-image.png",
                                                     height: 80,
                                                     width: double.infinity,
                                                   );
@@ -222,20 +197,18 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                                       height: 80,
                                                       width: double.infinity,
                                                       fit: BoxFit.cover,
-                                                      "assets/images/applied_math.png");
+                                                      "assets/images/error-image.png");
                                                 },
                                               ),
                                             ),
                                           ),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            height: 50,
-                                            child: Text(
-                                              "${questions.indexOf(currentQuestion) + 1}. ${currentQuestion.questionText} $multipleQuestionsIndicator",
-                                              style:
-                                                  const TextStyle(fontSize: 15),
-                                            ),
+                                          child: QuestionTextContainer(
+                                            question:
+                                                "${questions.indexOf(currentQuestion) + 1}. ${currentQuestion.questionText} $multipleQuestionsIndicator",
+                                            textStyle: textTh.bodyMedium!,
+                                            maxWidth: size.width * 0.75,
                                           ),
                                         ),
                                         const SizedBox(height: 10),
@@ -342,49 +315,6 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                               );
                                             },
                                           ),
-                                        const SizedBox(height: 15),
-                                        ElevatedButton.icon(
-                                          onPressed: () {
-                                            setState(() {
-                                              layoutConfig.answerRevealed =
-                                                  !layoutConfig.answerRevealed;
-                                              // this will trigger getMiddleExpandedFlex method.
-                                            });
-                                          },
-                                          icon: const Icon(Icons.lightbulb),
-                                          label: const Text("Reveal Solution"),
-                                        ),
-                                        if (layoutConfig.answerRevealed) ...[
-                                          Padding(
-                                            padding: const EdgeInsets.all(12.0),
-                                            child: Text(
-                                              answerText,
-                                              style: textTh.bodyLarge,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(12.0),
-                                            child: Container(
-                                              alignment: Alignment.center,
-                                              padding: const EdgeInsets.all(8),
-                                              width: size.width * 0.8,
-                                              height: 160,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  width: 2,
-                                                  color: Colors.black,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(18),
-                                              ),
-                                              child: Text(
-                                                currentQuestion.explanation,
-                                                style: textTh.bodySmall,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 120),
-                                        ],
                                       ],
                                     ),
                                   ),
@@ -393,7 +323,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                             ),
                           ),
                           Positioned(
-                            bottom: 30,
+                            bottom: 90,
                             child: SizedBox(
                               width: size.width,
                               height: 50,
@@ -464,6 +394,21 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                             ),
                                             actions: [
                                               TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (ctx) =>
+                                                          ExamSolutionsScreen(
+                                                        questions: questions,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                child:
+                                                    const Text("See Solutions"),
+                                              ),
+                                              TextButton(
                                                 onPressed: () =>
                                                     Navigator.of(context).pop(),
                                                 child: const Text('OK'),
@@ -476,7 +421,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                           context: context,
                                           builder: (context) => AlertDialog(
                                             title:
-                                                const Text('Incomplete Exam'),
+                                                const Text('Exam Incomplete'),
                                             content: const Text(
                                                 'Please answer all questions before submitting.'),
                                             actions: [
@@ -525,11 +470,6 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
         previousScreen = examData["previousScreen"]! as int;
         hasTimerOption = examData["hasTimerOption"]! as bool;
 
-        for (var question in questionsList) {
-          //int index = questions.indexOf(question);
-          //correctAnswers[index] = question.answer;
-          questionContainsImage.add(question.imageUrl == null);
-        }
         initializingPage = false;
 
         pageViewController.addListener(trackLayoutConfig);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/colors.dart';
+import '../../../../core/constants/app_colors.dart';
 
 class CustomTabBar extends StatelessWidget {
   final List<Widget> tabs;
@@ -30,11 +30,11 @@ class CustomTabBar extends StatelessWidget {
           width: 2,
           color: AppColors.mainBlue,
         ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(8),
       ),
       indicatorColor: Colors.white,
       labelColor: Colors.white,
-      splashBorderRadius: BorderRadius.circular(24),
+      splashBorderRadius: BorderRadius.circular(8),
       tabs: tabs,
       //controller: controller,
     );

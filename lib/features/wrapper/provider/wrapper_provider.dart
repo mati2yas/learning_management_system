@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
 
 // Riverpod provider for the controller

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_document_tile.dart';
 import 'package:lms_system/features/document_viewer/model/document_status.dart';
 import 'package:lms_system/features/document_viewer/presentation/screens/document_viewer_screen.dart';

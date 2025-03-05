@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
 import 'package:lms_system/features/profile/provider/profile_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -99,8 +100,24 @@ class CustomDrawer extends StatelessWidget {
               ),
               ListTileButton(
                 onTap: () async {
-                  final prefs = await SharedPreferences.getInstance();
-                  prefs.remove("userData");
+                  ref.read(authStatusProvider.notifier).clearStatus();
+                  ref
+                      .read(authStatusProvider.notifier)
+                      .setAuthStatus(AuthStatus.pending);
+                  Navigator.pop(context);
+                  Navigator.of(context).pushReplacementNamed(Routes.login);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: AppColors.darkerBlue,
+                      behavior: SnackBarBehavior.floating,
+                      content: Text(
+                        "Logged Out Successfully",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  );
                 },
                 iconData: Icons.logout_outlined,
                 titleText: "logout",

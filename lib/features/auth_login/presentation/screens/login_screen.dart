@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
-import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/auth_login/provider/login_controller.dart';
@@ -17,7 +17,7 @@ class LoginScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final loginController = ref.watch(loginControllerProvider.notifier);
     final state = ref.watch(loginControllerProvider);
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery.sizeOf(context);
     final textTh = Theme.of(context).textTheme;
 
     return Scaffold(
@@ -76,7 +76,7 @@ class LoginScreen extends ConsumerWidget {
                       },
                     ),
                     Text(
-                      'Password',
+                      'Password (at least 6 characters)',
                       style: textTh.bodyLarge!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -102,7 +102,9 @@ class LoginScreen extends ConsumerWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(Routes.resetPassword);
+                        },
                         child: Text(
                           "Forgot Password?",
                           style: textTh.labelLarge!.copyWith(
@@ -117,10 +119,12 @@ class LoginScreen extends ConsumerWidget {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.mainBlue,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 50,
-                            vertical: state.apiStatus == ApiState.busy ? 15 : 0,
-                          ),
+                          padding: state.apiStatus == ApiState.busy
+                              ? null
+                              : const EdgeInsets.symmetric(
+                                  horizontal: 50,
+                                  vertical: 15,
+                                ),
                           fixedSize: Size(size.width - 80, 50),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -147,6 +151,8 @@ class LoginScreen extends ConsumerWidget {
                                     ),
                                   ),
                                 );
+                                loginController.updateEmail("");
+                                loginController.updatePassword("");
                                 Navigator.of(context)
                                     .pushReplacementNamed(Routes.profileAdd);
                               }

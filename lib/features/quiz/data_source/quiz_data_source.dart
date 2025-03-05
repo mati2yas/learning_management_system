@@ -19,7 +19,7 @@ class QuizDataSource {
   // }
 
   Future<Quiz> fetchQuizData(String quizId) async {
-    Quiz quiz = Quiz();
+    Quiz quiz = Quiz.initial();
     int? statusCode;
     await DioClient.setToken();
     try {

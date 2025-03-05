@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
-import 'package:lms_system/core/constants/colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/auth_sign_up/provider/register_controller.dart';
@@ -79,7 +79,8 @@ class RegisterScreen extends ConsumerWidget {
                           regController.updateEmail(value!);
                         },
                       ),
-                      _buildInputLabel('Password', textTh),
+                      _buildInputLabel(
+                          'Password (at least 6 characters)', textTh),
                       InputWidget(
                         hintText: 'Password',
                         validator: (value) {
@@ -102,11 +103,12 @@ class RegisterScreen extends ConsumerWidget {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.mainBlue,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 50,
-                              vertical:
-                                  state.apiStatus == ApiState.busy ? 15 : 0,
-                            ),
+                            padding: state.apiStatus == ApiState.busy
+                                ? null
+                                : const EdgeInsets.symmetric(
+                                    horizontal: 50,
+                                    vertical: 15,
+                                  ),
                             fixedSize: Size(size.width - 80, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -136,6 +138,9 @@ class RegisterScreen extends ConsumerWidget {
                                       ),
                                     ),
                                   );
+                                  regController.updateName("");
+                                  regController.updateEmail("");
+                                  regController.updatePassword("");
 
                                   Navigator.of(context)
                                       .pushReplacementNamed(Routes.login);
