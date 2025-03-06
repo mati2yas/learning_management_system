@@ -14,9 +14,9 @@ class CarouselPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.only(left: 10),
-      width: MediaQuery.sizeOf(context).width * 0.8,
-      height: 120,
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      width: MediaQuery.sizeOf(context).width * 0.85,
+      height: 130,
       decoration: BoxDecoration(
         border: Border.all(
           color: AppColors.mainGrey,

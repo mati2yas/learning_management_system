@@ -29,8 +29,8 @@ class CourseRequestsNotifier extends StateNotifier<List<Course>> {
     return ("added to cart", state);
   }
 
-  void loadData() {
-    state = dataSource.fetchAddedCourses();
+  void loadData() async {
+    state = await dataSource.fetchAddedCourses();
   }
 
   void removeAll() {

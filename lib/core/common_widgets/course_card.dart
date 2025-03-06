@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
-import 'package:lms_system/features/requests/provider/requests_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
+import 'package:lms_system/features/subscription/provider/requests/course_requests_provider.dart';
 import 'package:lms_system/features/subscription/provider/subscription_provider.dart';
+import 'package:lms_system/features/subscription/provider/subscriptions/course_subscription_provider.dart';
 
 import '../app_router.dart';
 
@@ -23,11 +24,11 @@ class CourseCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var textTh = Theme.of(context).textTheme;
-    final requestsController = ref.watch(requestsProvider.notifier);
-    final requestsProv = ref.watch(requestsProvider);
+    final requestsController = ref.watch(courseRequestsProvider.notifier);
+    final requestsProv = ref.watch(courseRequestsProvider);
 
     var subscriptionController =
-        ref.watch(subscriptionControllerProvider.notifier);
+        ref.watch(courseSubscriptionControllerProvider.notifier);
     return Container(
       width: double.infinity,
       height: 180,

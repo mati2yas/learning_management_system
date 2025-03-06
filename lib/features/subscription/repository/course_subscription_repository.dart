@@ -7,13 +7,13 @@ import '../model/course_subscription_model.dart';
 
 final courseSubscriptionRepositoryProvider = Provider<CourseSubscriptionRepository>(
   (ref) => CourseSubscriptionRepository(
-    ref.watch(subscriptionDataSourceProvider),
+    ref.watch(courseSubscriptionDataSourceProvider),
     ref.watch(connectivityServiceProvider),
   ),
 );
 
 class CourseSubscriptionRepository {
-  final SubscriptionDataSource _dataSource;
+  final CourseSubscriptionDataSource _dataSource;
   final ConnectivityService _connectivityService;
 
   CourseSubscriptionRepository(this._dataSource, this._connectivityService);

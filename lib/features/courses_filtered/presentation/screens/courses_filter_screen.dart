@@ -69,6 +69,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     } else {
       tabValues = filterGrades(category);
     }
+    Color surfaceColor = Theme.of(context).colorScheme.surface;
     return DefaultTabController(
       length: tabValues.length,
       child: Builder(builder: (context) {
@@ -114,11 +115,11 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
             shadowColor: Colors.black87,
             backgroundColor: Colors.white,
             bottom: PreferredSize(
-              preferredSize: Size(size.width, 76),
+              preferredSize: Size(size.width, 82),
               child: Container(
                 width: size.width,
                 color: Colors.white,
-                height: 76,
+                height: 82,
                 child: Column(
                   spacing: 5,
                   children: [
@@ -196,6 +197,14 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                                   .universityDepartments.length,
                                               itemBuilder: (_, index) =>
                                                   ListTile(
+                                                tileColor: selectedDepartment ==
+                                                        AppStrings
+                                                                .universityDepartments[
+                                                            index]
+                                                    ? AppColors.mainBlue
+                                                    : Theme.of(context)
+                                                        .colorScheme
+                                                        .surface,
                                                 onTap: () {
                                                   setState(() {
                                                     selectedDepartment = AppStrings
@@ -214,7 +223,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                                             AppStrings
                                                                     .universityDepartments[
                                                                 index]
-                                                        ? AppColors.mainBlue
+                                                        ? Colors.white
                                                         : Colors.black,
                                                   ),
                                                 ),

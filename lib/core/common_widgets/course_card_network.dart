@@ -5,10 +5,9 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
-import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
-import 'package:lms_system/features/requests/provider/requests_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
-import 'package:lms_system/features/subscription/provider/subscription_provider.dart';
+import 'package:lms_system/features/subscription/provider/requests/course_requests_provider.dart';
+import 'package:lms_system/features/subscription/provider/subscriptions/course_subscription_provider.dart';
 
 part 'courses_dialog_widget.dart';
 
@@ -29,13 +28,13 @@ class CourseCardWithImage extends ConsumerWidget {
     //print(course.image);
 
     var subscriptionController =
-        ref.watch(subscriptionControllerProvider.notifier);
+        ref.watch(courseSubscriptionControllerProvider.notifier);
 
-    var requestsProv = ref.watch(requestsProvider);
+    var requestsProv = ref.watch(courseRequestsProvider);
     var textTh = Theme.of(context).textTheme;
 
     final paidToggleController = ref.watch(paidCoursesApiProvider.notifier);
-    final requestsController = ref.watch(requestsProvider.notifier);
+    final requestsController = ref.watch(courseRequestsProvider.notifier);
     return Container(
       width: double.infinity,
       height: 185,
@@ -202,7 +201,7 @@ class CourseCardWithImage extends ConsumerWidget {
                             ),
                             TextSpan(
                               text:
-                                  " ${course.onSalePrices[SubscriptionType.oneMonth]}",
+                                  " ${course.onSalePrices[SubscriptionType.oneMonth]} ETB",
                               style: const TextStyle(
                                 color: AppColors.darkerBlue,
                                 fontWeight: FontWeight.w500,
@@ -248,7 +247,7 @@ class CourseCardWithImage extends ConsumerWidget {
                     spacing: 6,
                     children: [
                       Text(
-                        " ${course.price[SubscriptionType.oneMonth]}",
+                        " ${course.price[SubscriptionType.oneMonth]} ETB",
                         style: const TextStyle(
                           color: AppColors.mainBlue,
                           fontWeight: FontWeight.w500,
@@ -272,7 +271,7 @@ class CourseCardWithImage extends ConsumerWidget {
                 subscriptionController.updateCourses(courses);
 
                 debugPrint("after subscController updateCurse, courses:");
-                var subProv = ref.read(subscriptionControllerProvider);
+                var subProv = ref.read(courseSubscriptionControllerProvider);
                 for (var c in subProv.courses) {
                   print("subProv.courses.current.id: ${c.id}");
                 }

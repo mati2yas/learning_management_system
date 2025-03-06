@@ -5,7 +5,8 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
-import 'package:lms_system/features/subscription/provider/subscriptions/course_subscription_provider.dart';
+
+import '../../../subscription/provider/requests/course_requests_provider.dart';
 
 class CustomHomeAppBar extends ConsumerWidget {
   final AsyncValue<User> userState;
@@ -41,7 +42,9 @@ class CustomHomeAppBar extends ConsumerWidget {
               ),
               const Spacer(),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pushNamed(Routes.notifications);
+                },
                 child: const CircleAvatar(
                   backgroundColor: Colors.white,
                   child: Center(

@@ -6,11 +6,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
-import 'package:lms_system/features/requests/presentation/widgets/request_tile.dart';
+import 'package:lms_system/features/requests/presentation/widgets/exam_request_tile.dart';
 import 'package:lms_system/features/requests/presentation/widgets/subscription_widget.dart';
-import 'package:lms_system/features/requests/provider/requests_provider.dart';
+import 'package:lms_system/features/subscription/provider/requests/exam_requests_provider.dart';
 import 'package:lms_system/features/subscription/provider/subscriptions/exam_subscription_provider.dart';
-import 'package:lms_system/features/subscription/provider/subscription_provider.dart';
 
 class ExamsSubscribePage extends ConsumerStatefulWidget {
   const ExamsSubscribePage({super.key});
@@ -30,7 +29,7 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
-    var requestsProv = ref.watch(exam);
+    var requestsProv = ref.watch(examRequestsProvider);
     double price = 0;
     if (requestsProv.isNotEmpty) {
       price = requestsProv
@@ -38,7 +37,7 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
           .reduce((init, sum) => init + sum);
     }
 
-    var subsriptionProv = ref.watch(examSubscriptionControllerProvider);
+    var subscriptionProv = ref.watch(examSubscriptionControllerProvider);
     var subscriptionController =
         ref.watch(examSubscriptionControllerProvider.notifier);
     return Padding(
@@ -55,7 +54,7 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
                   child: SizedBox(
                     height: 100,
                     child: Text(
-                      "No Cart Values",
+                      "No Exams In Cart",
                       style: textTh.bodyLarge!
                           .copyWith(fontWeight: FontWeight.w600),
                     ),
@@ -63,14 +62,15 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
                 )
               else
                 for (int index = 0; index < requestsProv.length; index++)
-                  RequestTile(
+                  ExamYearRequestTile(
+                    examYear: requestsProv[index],
                     onTap: () {
                       if (requestsProv.isNotEmpty) {
                         final status = ref
-                            .read(requestsProvider.notifier)
-                            .addOrRemoveCourse(requestsProv[index]);
+                            .read(examRequestsProvider.notifier)
+                            .addOrRemoveExamYear(requestsProv[index]);
 
-                        subscriptionController.updateCourses(requestsProv);
+                        subscriptionController.updateExams(requestsProv);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text("Course has been $status."),
@@ -87,7 +87,6 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
                     },
                     selectedPriceType: requestsProv[index]
                         .getPriceBySubscriptionType(subscriptionType),
-                    course: requestsProv[index],
                     textTh: textTh,
                   ),
               const SizedBox(height: 20),
@@ -275,7 +274,9 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
                               debugPrint(
                                   "api response: ApiResponse{ status: ${result.responseStatus}, message: ${result.message}}");
                               if (result.responseStatus) {
-                                ref.read(requestsProvider.notifier).removeAll();
+                                ref
+                                    .read(examRequestsProvider.notifier)
+                                    .removeAll();
                                 resetImagePicked();
                                 _transactionIdController.clear();
                                 await ref

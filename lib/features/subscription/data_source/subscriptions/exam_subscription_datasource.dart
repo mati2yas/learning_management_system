@@ -6,7 +6,7 @@ import 'package:lms_system/core/utils/dio_client.dart';
 
 import '../../model/exam_subscription_model.dart';
 
-final subscriptionDataSourceProvider = Provider<ExamSubscriptionDataSource>((ref) {
+final examSubscriptionDataSourceProvider = Provider<ExamSubscriptionDataSource>((ref) {
   return ExamSubscriptionDataSource(DioClient.instance);
 });
 

@@ -62,15 +62,18 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
                       textTh.bodyLarge!.copyWith(fontWeight: FontWeight.w700),
                 ),
               )
-            : ListView.separated(
-                itemCount: chapters.length,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                itemBuilder: (_, index) {
-                  return ChapterTile(chapter: chapters[index]);
-                },
-                separatorBuilder: (_, index) => const SizedBox(
-                  height: 15,
+            : Padding(
+                padding: const EdgeInsets.only(bottom: 60),
+                child: ListView.separated(
+                  itemCount: chapters.length,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  itemBuilder: (_, index) {
+                    return ChapterTile(chapter: chapters[index]);
+                  },
+                  separatorBuilder: (_, index) => const SizedBox(
+                    height: 15,
+                  ),
                 ),
               ),
       ),

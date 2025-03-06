@@ -53,7 +53,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 ref
                     .read(examCoursesFilterApiProvider.notifier)
                     .fetchExamCourses();
-                pageNavController.navigatePage(7);
+                pageNavController.navigatePage(7, arguments: "ESSLCE");
               },
               categoryImage: "high_school",
               categoryName: "ESSLCE",
@@ -67,7 +67,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                     .read(examCoursesFilterApiProvider.notifier)
                     .fetchExamCourses();
 
-                pageNavController.navigatePage(7);
+                pageNavController.navigatePage(7, arguments: "Exit Exam");
               },
               categoryImage: "university",
               categoryName: "Exit Exam",
@@ -81,7 +81,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                     .read(examCoursesFilterApiProvider.notifier)
                     .fetchExamCourses();
 
-                pageNavController.navigatePage(7);
+                pageNavController.navigatePage(7, arguments: "UAT");
               },
               categoryImage: "university",
               categoryName: "UAT",
@@ -95,7 +95,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                     .read(examCoursesFilterApiProvider.notifier)
                     .fetchExamCourses();
 
-                pageNavController.navigatePage(7);
+                pageNavController.navigatePage(7, arguments: "NGAT");
               },
               categoryImage: "university",
               categoryName: "NGAT",
@@ -109,7 +109,8 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                     .read(examCoursesFilterApiProvider.notifier)
                     .fetchExamCourses();
 
-                pageNavController.navigatePage(7);
+                pageNavController.navigatePage(7,
+                    arguments: "6th Grade Ministry");
               },
               categoryImage: "lower_grades",
               categoryName: "6th Grade Ministry",
@@ -123,7 +124,8 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                     .read(examCoursesFilterApiProvider.notifier)
                     .fetchExamCourses();
 
-                pageNavController.navigatePage(7);
+                pageNavController.navigatePage(7,
+                    arguments: "8th Grade Ministry");
               },
               categoryImage: "lower_grades",
               categoryName: "8th Grade Ministry",
@@ -137,23 +139,25 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                     .read(examCoursesFilterApiProvider.notifier)
                     .fetchExamCourses();
 
-                pageNavController.navigatePage(7);
+                pageNavController.navigatePage(7, arguments: "SAT");
               },
               categoryImage: "university",
-              categoryName: "Other Exams",
+              categoryName: "SAT",
             ),
-            // ExamCategoryShow(
-            //   onTap: () {
-            //     ref
-            //         .read(currentExamTypeProvider.notifier)
-            //         .changeExamType(ExamType.exam);
-            //     ref.read(examYearFilterApiProvider.notifier).fetchExamYears();
+            ExamCategoryShow(
+              onTap: () {
+                ref
+                    .read(currentExamTypeProvider.notifier)
+                    .changeExamType(ExamType.exam);
+                ref
+                    .read(examCoursesFilterApiProvider.notifier)
+                    .fetchExamCourses();
 
-            //     pageNavController.navigatePage(7);
-            //   },
-            //   categoryImage: "university",
-            //   categoryName: "Other Exams",
-            // ),
+                pageNavController.navigatePage(7, arguments: "Exam");
+              },
+              categoryImage: "university",
+              categoryName: "Exam",
+            ),
           ],
         ),
       ),

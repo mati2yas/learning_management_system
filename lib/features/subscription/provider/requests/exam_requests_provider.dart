@@ -1,19 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/exams/model/exam_year.dart';
-import 'package:lms_system/features/requests/data_source/requests_data_source.dart';
 
-final courseRequestsDataSourceProvider = Provider<RequestsDataSource>((ref) {
-  return RequestsDataSource();
+import '../../data_source/requests/exam_request_datsource.dart';
+
+final examRequestsDataSourceProvider = Provider<ExamRequestsDataSource>((ref) {
+  return ExamRequestsDataSource();
 });
 
-final courseRequestsProvider =
+final examRequestsProvider =
     StateNotifierProvider<ExamRequestsNotifier, List<ExamYear>>((ref) {
-  final dataSource = ref.read(courseRequestsDataSourceProvider);
+  final dataSource = ref.read(examRequestsDataSourceProvider);
   return ExamRequestsNotifier(dataSource);
 });
 
 class ExamRequestsNotifier extends StateNotifier<List<ExamYear>> {
-  final RequestsDataSource dataSource;
+  final ExamRequestsDataSource dataSource;
 
   ExamRequestsNotifier(this.dataSource) : super([]) {
     loadData();
@@ -30,7 +31,7 @@ class ExamRequestsNotifier extends StateNotifier<List<ExamYear>> {
   }
 
   void loadData() {
-    state = dataSource.fetchAddedExams();
+    state = dataSource.fetchAddedExam();
   }
 
   void removeAll() {

@@ -6,10 +6,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
-import 'package:lms_system/features/requests/presentation/widgets/request_tile.dart';
+import 'package:lms_system/features/requests/presentation/widgets/course_request_tile.dart';
 import 'package:lms_system/features/requests/presentation/widgets/subscription_widget.dart';
 import 'package:lms_system/features/subscription/provider/subscriptions/course_subscription_provider.dart';
-import 'package:lms_system/features/subscription/provider/subscription_provider.dart';
+
+import '../../provider/requests/course_requests_provider.dart';
 
 class CoursesSubscribePage extends ConsumerStatefulWidget {
   const CoursesSubscribePage({super.key});
@@ -32,7 +33,7 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
     var size = MediaQuery.of(context).size;
     var requestsProv = ref.watch(courseRequestsProvider);
 
-    var subsriptionProv = ref.watch(courseSubscriptionControllerProvider);
+    var subscriptionProv = ref.watch(courseSubscriptionControllerProvider);
     var subscriptionController =
         ref.watch(courseSubscriptionControllerProvider.notifier);
     double price = 0;
@@ -59,7 +60,7 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
                   child: SizedBox(
                     height: 100,
                     child: Text(
-                      "No Cart Values",
+                      "No Courses In Cart",
                       style: textTh.bodyLarge!
                           .copyWith(fontWeight: FontWeight.w600),
                     ),
@@ -67,7 +68,7 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
                 )
               else
                 for (int index = 0; index < requestsProv.length; index++)
-                  RequestTile(
+                  CourseRequestTile(
                     onTap: () {
                       if (requestsProv.isNotEmpty) {
                         final status = ref

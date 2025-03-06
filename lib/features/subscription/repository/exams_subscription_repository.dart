@@ -1,21 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/connectivity/connectivity_service.dart';
-import 'package:lms_system/features/subscription/data_source/subscriptions/course_subscription_datasource.dart';
 import 'package:lms_system/features/subscription/model/exam_subscription_model.dart';
 
-import '../model/course_subscription_model.dart';
+import '../data_source/subscriptions/exam_subscription_datasource.dart'
+    show ExamSubscriptionDataSource, examSubscriptionDataSourceProvider;
 
 final examsSubscriptionRepositoryProvider =
     Provider<ExamsSubscriptionRepository>(
   (ref) => ExamsSubscriptionRepository(
-    ref.watch(subscriptionDataSourceProvider),
+    ref.watch(examSubscriptionDataSourceProvider),
     ref.watch(connectivityServiceProvider),
   ),
 );
 
 class ExamsSubscriptionRepository {
-  final SubscriptionDataSource _dataSource;
+  final ExamSubscriptionDataSource _dataSource;
   final ConnectivityService _connectivityService;
 
   ExamsSubscriptionRepository(this._dataSource, this._connectivityService);

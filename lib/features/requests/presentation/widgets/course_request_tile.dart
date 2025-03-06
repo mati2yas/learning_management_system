@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
-class RequestTile extends ConsumerWidget {
+class CourseRequestTile extends ConsumerWidget {
   final Course course;
 
   final TextTheme textTh;
   final double selectedPriceType;
   final Function onTap;
-  const RequestTile({
+  const CourseRequestTile({
     super.key,
     required this.course,
     required this.textTh,

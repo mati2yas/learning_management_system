@@ -11,7 +11,6 @@ import '../../model/exam_subscription_model.dart';
 final examSubscriptionControllerProvider =
     StateNotifierProvider<ExamsSubscriptionController, ExamSubscriptionModel>(
         (ref) {
-  ProviderListenable<dynamic> subscriptionRepositoryProvider;
   return ExamsSubscriptionController(
       ref.watch(examsSubscriptionRepositoryProvider));
 });

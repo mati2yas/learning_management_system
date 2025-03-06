@@ -65,15 +65,15 @@ class HomePage extends ConsumerWidget {
                   child: Column(
                     children: [
                       Container(
-                        height: 150,
                         margin: const EdgeInsets.only(top: 8),
-                        width: size.width * 0.8,
+                        height: 160,
+                        width: size.width * 0.85,
                         padding: const EdgeInsets.all(8),
                         child: Column(
                           children: [
                             SizedBox(
-                              height: 120,
-                              width: size.width * 0.8,
+                              height: 130,
+                              width: size.width * 0.85,
                               child: PageView.builder(
                                 controller: pageController,
                                 itemBuilder: (_, index) {
@@ -272,6 +272,7 @@ class HomePage extends ConsumerWidget {
                           ),
                         ),
                       ),
+                      const SizedBox(height: 50),
                     ],
                   ),
                 ),

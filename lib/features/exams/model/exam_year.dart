@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 
@@ -46,24 +48,29 @@ class ExamYear {
       onSalePrices[SubscriptionType.yearly] =
           double.tryParse(json["on_sale_one_year"]);
     }
+
+    List<bool> vals = [true, false];
+    int randomIndex = Random().nextInt(2);
+    bool subbed = vals[randomIndex];
     return ExamYear(
       id: json["id"] ?? 0,
       title: json["year_name"] ?? "year name",
       courseId: json["course_id"] ?? 0,
       questionCount: json['exam_questions_count'] ?? 0,
-      price: {
-        SubscriptionType.oneMonth:
-            double.tryParse(json["price_one_month"] ?? 0) ?? 0,
-        SubscriptionType.threeMonths:
-            double.tryParse(json["price_three_month"] ?? 0) ?? 0,
-        SubscriptionType.sixMonths:
-            double.tryParse(json["price_six_month"] ?? 0) ?? 0,
-        SubscriptionType.yearly:
-            double.tryParse(json["price_one_year"] ?? 0) ?? 0,
-      },
+      // price: {
+      //   SubscriptionType.oneMonth:
+      //       double.tryParse(json["price_one_month"] ?? 0) ?? 0,
+      //   SubscriptionType.threeMonths:
+      //       double.tryParse(json["price_three_month"] ?? 0) ?? 0,
+      //   SubscriptionType.sixMonths:
+      //       double.tryParse(json["price_six_month"] ?? 0) ?? 0,
+      //   SubscriptionType.yearly:
+      //       double.tryParse(json["price_one_year"] ?? 0) ?? 0,
+      // },
+      price: {},
+      subscribed: subbed,
     );
   }
-
   factory ExamYear.initial() {
     return ExamYear(
       id: -1,
@@ -71,5 +78,11 @@ class ExamYear {
       title: "",
       price: {},
     );
+  }
+
+  double getPriceBySubscriptionType(SubscriptionType subscriptionType) {
+    double priceValue =
+        onSalePrices[subscriptionType] ?? price[subscriptionType]!;
+    return priceValue;
   }
 }

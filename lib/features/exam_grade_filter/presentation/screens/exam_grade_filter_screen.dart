@@ -30,8 +30,8 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
     final apiState = ref.watch(examGradeFilterApiProvider);
     print("Current Tab: $currentTab");
     print("exam titleee: ${examData["exam title"]}");
-    final pageController = ref.read(pageNavigationProvider.notifier);
-    examData = pageController.getArgumentsForPage(8);
+    final pageNavController = ref.read(pageNavigationProvider.notifier);
+    examData = pageNavController.getArgumentsForPage(8);
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     return DefaultTabController(
@@ -49,7 +49,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {
-                pageController.navigatePage(7);
+                pageNavController.navigatePage(7);
               },
               icon: const Icon(
                 Icons.arrow_back,
@@ -160,7 +160,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                                 ref
                                     .read(examQuestionsApiProvider.notifier)
                                     .fetchQuestions();
-                                pageController.navigatePage(6,
+                                pageNavController.navigatePage(6,
                                     arguments: examDataNext);
                               },
                               child: const Text("Take"),

@@ -30,21 +30,22 @@ class _ExamCoursesFilterScreenState
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
 
-    final pageController = ref.read(pageNavigationProvider.notifier);
+    final pageNavController = ref.read(pageNavigationProvider.notifier);
+    final appbarTitle = pageNavController.getArgumentsForPage(7);
     final apiState = ref.watch(examCoursesFilterApiProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            pageController.navigatePage(3);
+            pageNavController.navigatePage(3);
           },
           icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
         ),
-        title: const Text("Filter Exams"),
+        title: Text(appbarTitle),
         centerTitle: true,
         //elevation: 5,
         shadowColor: Colors.black87,
