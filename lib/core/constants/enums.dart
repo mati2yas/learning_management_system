@@ -1,3 +1,5 @@
+enum ApiState { busy, error, idle }
+
 enum AuthStatus {
   authed,
   pending,
@@ -11,3 +13,5 @@ enum HighschoolClasses { lowerHs, prepHs }
 enum IdType { filtered, all }
 
 enum ProfileFetchType { backend, localDb }
+
+enum SubscriptionType { oneMonth, threeMonths, sixMonths, yearly }

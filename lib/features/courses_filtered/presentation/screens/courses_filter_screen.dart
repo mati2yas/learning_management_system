@@ -245,7 +245,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                         tabs: tabValues
                             .map(
                               (grd) => Tab(
-                                height: 24,
+                                height: 30,
                                 text: grd,
                               ),
                             )

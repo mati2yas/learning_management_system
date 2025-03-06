@@ -1,11 +1,10 @@
 import 'dart:convert';
 
+import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../shared/model/shared_user.dart';
-
-enum ApiState { busy, error, idle }
 
 class EditProfileState {
   String name;

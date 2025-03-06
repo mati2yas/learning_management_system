@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
-import 'package:lms_system/features/subscription/model/subscription_model.dart';
 
-final subscriptionDataSourceProvider = Provider<SubscriptionDataSource>((ref) {
-  return SubscriptionDataSource(DioClient.instance);
+import '../../model/exam_subscription_model.dart';
+
+final subscriptionDataSourceProvider = Provider<ExamSubscriptionDataSource>((ref) {
+  return ExamSubscriptionDataSource(DioClient.instance);
 });
 
-class SubscriptionDataSource {
+class ExamSubscriptionDataSource {
   final Dio _dio;
-  SubscriptionDataSource(this._dio);
+  ExamSubscriptionDataSource(this._dio);
 
-  Future<Response> subscribe(SubscriptionModel request) async {
+  Future<Response> subscribe(ExamSubscriptionModel request) async {
     FormData formData = await request.toFormData();
     int? statusCode;
     _dio.interceptors.add(

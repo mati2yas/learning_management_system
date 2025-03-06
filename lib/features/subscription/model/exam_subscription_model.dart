@@ -1,43 +1,41 @@
 import 'package:dio/dio.dart';
-import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
-import 'package:lms_system/features/shared/model/shared_course_model.dart';
+import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/features/exams/model/exam_year.dart';
 
-enum ApiStatus { idle, busy, error }
-
-class SubscriptionModel {
-  final List<Course> courses;
+class ExamSubscriptionModel {
+  final List<ExamYear> examYears;
   final SubscriptionType subscriptionType;
   final String screenshotPath;
   final String transactionId;
   final String statusMessage;
   final bool statusSuccess;
-  ApiStatus apiStatus;
+  ApiState apiState;
 
-  SubscriptionModel({
-    this.courses = const [],
+  ExamSubscriptionModel({
+    this.examYears = const [],
     this.subscriptionType = SubscriptionType.oneMonth,
     this.screenshotPath = "",
     this.transactionId = "",
     this.statusMessage = "",
     this.statusSuccess = false,
-    this.apiStatus = ApiStatus.idle,
+    this.apiState = ApiState.idle,
   });
-  SubscriptionModel copyWith({
-    List<Course>? newCourses,
+  ExamSubscriptionModel copyWith({
+    List<ExamYear>? newExamYears,
     SubscriptionType? newType,
     String? newImagePath,
     String? newTransactionId,
     String? statusMsg,
-    ApiStatus? apiStatus,
+    ApiState? apiState,
     bool? statusSuccess,
   }) {
-    return SubscriptionModel(
-      courses: newCourses ?? courses,
+    return ExamSubscriptionModel(
+      examYears: newExamYears ?? examYears,
       subscriptionType: newType ?? subscriptionType,
       screenshotPath: newImagePath ?? screenshotPath,
       transactionId: newTransactionId ?? transactionId,
       statusMessage: statusMsg ?? statusMessage,
-      apiStatus: apiStatus ?? this.apiStatus,
+      apiState: apiState ?? this.apiState,
       statusSuccess: statusSuccess ?? this.statusSuccess,
     );
   }
@@ -49,9 +47,9 @@ class SubscriptionModel {
     //List<int> courseIds =
     //courses.map((course) => int.parse(course.id)).toList();
 
-    for (var course in courses) {
-      int index = courses.indexOf(course);
-      formData.fields.add(MapEntry("courses[$index]", course.id));
+    for (var examYear in examYears) {
+      int index = examYears.indexOf(examYear);
+      formData.fields.add(MapEntry("courses[$index]", examYear.id.toString()));
     }
     // ✅ Append courses as a single field with an array value
     //formData.fields.add(MapEntry("courses", jsonEncode(courseIds)));

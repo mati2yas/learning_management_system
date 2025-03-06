@@ -64,15 +64,15 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                   alignment: TabAlignment.fill,
                   tabs: [
                     Tab(
-                      height: 24,
+                      height: 30,
                       text: "Video",
                     ),
                     Tab(
-                      height: 24,
+                      height: 30,
                       text: "Document",
                     ),
                     Tab(
-                      height: 24,
+                      height: 30,
                       text: "Quizzes",
                     ),
                   ],

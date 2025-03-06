@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/features/exams/model/exam_year.dart';
+
 class Exam {
   final String title;
   final List<ExamCourse> courses;
@@ -91,36 +94,7 @@ enum ExamType {
   exam
 }
 
-class ExamYear {
-  final String title;
-  final int id, courseId, questionCount;
-  final List<Question> questions; // For non-matric exams
-  final List<ExamGrade> grades; // For matric exams
 
-  ExamYear({
-    required this.id,
-    required this.courseId,
-    required this.title,
-    this.questions = const [],
-    this.questionCount = 0,
-    this.grades = const [],
-  });
-
-  factory ExamYear.fromJson(Map<String, dynamic> json) {
-    // int? id;
-    // if (json["id"] == "") {
-    //   id = 0;
-    // } else {
-    //   id = int.tryParse(json["id"]);
-    // }
-    return ExamYear(
-      id: json["id"] ?? 0,
-      title: json["year_name"] ?? "year name",
-      courseId: json["course_id"] ?? 0,
-      questionCount: json['exam_question_count'] ?? 0,
-    );
-  }
-}
 
 class Question {
   final String questionText;

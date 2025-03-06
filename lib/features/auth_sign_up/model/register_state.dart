@@ -1,3 +1,4 @@
+import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 
 class RegisterState {

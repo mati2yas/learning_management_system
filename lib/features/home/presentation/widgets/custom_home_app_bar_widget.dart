@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
-import 'package:lms_system/features/requests/provider/requests_provider.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
+import 'package:lms_system/features/subscription/provider/subscriptions/course_subscription_provider.dart';
 
 class CustomHomeAppBar extends ConsumerWidget {
   final AsyncValue<User> userState;
@@ -17,7 +17,7 @@ class CustomHomeAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var requestsProv = ref.watch(requestsProvider);
+    var requestsProv = ref.watch(courseRequestsProvider);
     return Container(
       height: 135,
       padding:

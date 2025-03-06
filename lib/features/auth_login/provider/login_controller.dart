@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/auth_login/repository/login_repository.dart';
-import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 
 final loginControllerProvider =
     StateNotifierProvider<LoginController, LoginState>(

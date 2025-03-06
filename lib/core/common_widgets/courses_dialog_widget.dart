@@ -43,7 +43,7 @@ class PriceTypeIndicator extends StatelessWidget {
 
 class RichTextFormat extends StatelessWidget {
   final String normalPrice;
-  final String onsalePrice;
+  final String? onsalePrice;
   const RichTextFormat({
     super.key,
     required this.normalPrice,
@@ -73,22 +73,24 @@ class RichTextFormat extends StatelessWidget {
                 fontSize: 14,
               ),
             ),
-            const TextSpan(
-              text: "Onsale: ",
-              style: TextStyle(
-                color: AppColors.mainBlue,
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
+            if (onsalePrice != null) ...[
+              const TextSpan(
+                text: "Onsale: ",
+                style: TextStyle(
+                  color: AppColors.mainBlue,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                ),
               ),
-            ),
-            TextSpan(
-              text: onsalePrice,
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
+              TextSpan(
+                text: onsalePrice,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                ),
               ),
-            ),
+            ]
           ],
         ),
       ),
@@ -176,9 +178,9 @@ class _PricesDialogWidgetState extends State<PricesDialogWidget> {
     return "$val  ";
   }
 
-  String onSaleToString(SubscriptionType subType) {
+  String? onSaleToString(SubscriptionType subType) {
     if (widget.course.onSalePrices[subType] == null) {
-      return "Not Available";
+      return null;
     }
     return (widget.course.onSalePrices[subType] ?? 0.00).toStringAsFixed(2);
   }

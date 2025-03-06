@@ -1,59 +1,42 @@
-import 'package:flutter/cupertino.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
+import 'package:lms_system/core/utils/dio_client.dart';
+import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/notification/model/notification_model.dart';
 
 final notificationDataSourceProvider = Provider<NotificationsDataSource>((ref) {
-  return NotificationsDataSource();
+  return NotificationsDataSource(DioClient.instance);
 });
 
 class NotificationsDataSource {
+  final Dio _dio;
+  NotificationsDataSource(this._dio);
   Future<List<NotificationModel>> fetchReadNotifs() async {
-    await Future.delayed(const Duration(seconds: 3));
-    return [
-      NotificationModel(
-        title: "Request Rejected",
-        content:
-            "Subscription for 4 courses has been rejected. The transaction id does not exist",
-      ),
-      NotificationModel(
-        title: "Request Rejected",
-        content:
-            "Subscription for 4 courses has been rejected. The transaction id and proof image do not match",
-      ),
-      NotificationModel(
-        title: "Request Accepted",
-        content: "Subscription for 3 courses accepted",
-      ),
-      NotificationModel(
-        title: "Subscription Expires",
-        content:
-            "Your subscription for biology course of Grade 9 expires in 10 days",
-      ),
-    ];
+    List<NotificationModel> notifs = [];
+    int? statusCode;
+    try {
+      final response = await _dio.get(
+        AppUrls.notifications,
+      );
+
+      statusCode = response.statusCode;
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data["data"];
+        for (var d in data) {
+          debugPrint(d["something"]);
+        }
+      }
+    } on DioException catch (e) {
+      final errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
+      throw Exception(errorMessage);
+    }
+
+    return notifs;
   }
 
   Future<List<NotificationModel>> fetchUnreadNotifs() async {
-    await Future.delayed(const Duration(seconds: 3));
-    return [
-      NotificationModel(
-        title: "Request Rejected",
-        content:
-            "Subscription for 4 courses has been rejected. The transaction id does not exist",
-      ),
-      NotificationModel(
-        title: "Request Rejected",
-        content:
-            "Subscription for 4 courses has been rejected. The transaction id and proof image do not match",
-      ),
-      NotificationModel(
-        title: "Request Accepted",
-        content: "Subscription for 3 courses accepted",
-      ),
-      NotificationModel(
-        title: "Subscription Expires",
-        content:
-            "Your subscription for biology course of Grade 9 expires in 10 days",
-      ),
-    ];
+    return [];
   }
 }

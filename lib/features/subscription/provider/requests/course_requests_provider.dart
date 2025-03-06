@@ -1,21 +1,21 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/requests/data_source/requests_data_source.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
-import 'package:riverpod/riverpod.dart';
 
-final requestsDataSourceProvider = Provider<RequestsDataSource>((ref) {
+final courseRequestsDataSourceProvider = Provider<RequestsDataSource>((ref) {
   return RequestsDataSource();
 });
 
-final requestsProvider =
-    StateNotifierProvider<RequestsNotifier, List<Course>>((ref) {
-  final dataSource = ref.read(requestsDataSourceProvider);
-  return RequestsNotifier(dataSource);
+final courseRequestsProvider =
+    StateNotifierProvider<CourseRequestsNotifier, List<Course>>((ref) {
+  final dataSource = ref.read(courseRequestsDataSourceProvider);
+  return CourseRequestsNotifier(dataSource);
 });
 
-class RequestsNotifier extends StateNotifier<List<Course>> {
+class CourseRequestsNotifier extends StateNotifier<List<Course>> {
   final RequestsDataSource dataSource;
 
-  RequestsNotifier(this.dataSource) : super([]) {
+  CourseRequestsNotifier(this.dataSource) : super([]) {
     loadData();
   }
 

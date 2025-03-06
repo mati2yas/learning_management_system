@@ -1,3 +1,4 @@
+import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 
@@ -29,8 +30,8 @@ class Course {
     this.subscribed = false,
     this.saved = false,
     this.liked = false,
-    required this.price,
     required this.chapters,
+    required this.price,
     this.onSalePrices = const {},
     this.stream,
     this.department,

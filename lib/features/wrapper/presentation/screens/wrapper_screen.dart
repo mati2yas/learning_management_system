@@ -82,7 +82,7 @@ class WrapperScreen extends ConsumerWidget {
                         children: [
                           NavItem(
                             icon: Icons.home_outlined,
-                            onTap: () async {
+                            onTap: () {
                               pageController.navigatePage(0);
                             },
                             label: "Home",
