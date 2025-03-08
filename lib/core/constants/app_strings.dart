@@ -60,21 +60,114 @@ class AppStrings {
     "university": "University",
     "random_courses": "Other Courses",
   };
-
   static const List<String> universityDepartments = [
     "All",
-    "History and Heritage Management",
-    "Dentistry",
-    "Information Technology",
-    "Industrial Engineering",
-    "Law",
-    "Sociology",
-    "Geography",
-    "Pre-Engineering",
-    "Computer Science",
-    "Electrical Engineering",
-    "Software Engineering",
-    "Electrical Engineering",
+    "Accounting and Finance",
+    "Applied Chemistry",
+    "Applied Mathematics",
+    "Applied Physics",
+    "Architecture",
+    "Biology",
+    "Biomedical Engineering",
     "Business Administration",
+    "Chemical Engineering",
+    "Chemistry",
+    "Civil Engineering",
+    "Computer Science",
+    "Data Science",
+    "Dentistry",
+    "Economics",
+    "Electrical Engineering",
+    "Geography and Environmental Studies",
+    "Geology",
+    "History and Heritage Management",
+    "Industrial Engineering",
+    "Information System",
+    "Information Technology",
+    "International Relations",
+    "Journalism and Communication",
+    "Law",
+    "Management Information Systems",
+    "Marketing Management",
+    "Mathematics",
+    "Mechanical Engineering",
+    "Medical Laboratory Science",
+    "Medicine",
+    "Nursing",
+    "Pharmacy",
+    "Physics",
+    "Political Science",
+    "Pre-Engineering",
+    "Psychology",
+    "Public Health",
+    "Public Relations",
+    "Sociology",
+    "Software Engineering",
+    "Statistics",
+    "Urban Planning and Development",
   ];
+
+  static const String userStorageKey = "user";
+
+  static const String onboardingStatusStorageKey = "onboarding_status";
+
+  static const String subbedCoursesStorageKey = "subbed_courses";
+
+  static const List<String> fourYearDepts = [
+    "Accounting and Finance",
+    "Applied Chemistry",
+    "Applied Mathematics",
+    "Applied Physics",
+    "Biology",
+    "Business Administration",
+    "Chemistry",
+    "Computer Science",
+    "Data Science",
+    "Economics",
+    "Geography and Environmental Studies",
+    "Geology",
+    "History and Heritage Management",
+    "Information System",
+    "Information Technology",
+    "International Relations",
+    "Journalism and Communication",
+    "Law",
+    "Management Information Systems",
+    "Marketing Management",
+    "Mathematics",
+    "Medical Laboratory Science",
+    "Nursing",
+    "Physics",
+    "Political Science",
+    "Psychology",
+    "Public Health",
+    "Public Relations",
+    "Sociology",
+    "Statistics",
+  ];
+
+  static const List<String> fiveYearDepts = [
+    "Architecture",
+    "Biomedical Engineering",
+    "Chemical Engineering",
+    "Civil Engineering",
+    "Electrical Engineering",
+    "Industrial Engineering",
+    "Mechanical Engineering",
+    "Pharmacy",
+    "Software Engineering",
+    "Urban Planning and Development",
+  ];
+
+  static const List<String> sixYearDepts = [
+    "Medicine",
+  ];
+  static const List<String> sevenYearDepts = [
+    "All",
+    "Dentistry",
+  ];
+  static const List<String> oneYearDepts = [
+    "Pre-Engineering",
+  ];
+  //static const String Key = "user";
 }

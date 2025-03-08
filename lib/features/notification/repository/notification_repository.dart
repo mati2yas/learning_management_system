@@ -15,7 +15,7 @@ class NotificationRepository {
   final ConnectivityService _connectivityService;
   NotificationRepository(this._dataSource, this._connectivityService);
 
-  Future<List<NotificationModel>> getNotifs() async {
+  Future<NotificationModel> getNotifs() async {
     if (!await _connectivityService.hasConnection()) {
       throw Exception("No internet connection");
     }

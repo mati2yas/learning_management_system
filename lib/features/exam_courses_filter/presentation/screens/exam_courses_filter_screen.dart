@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/exam_courses_filter/presentation/widgets/years_list.dart';
+import 'package:lms_system/features/exam_courses_filter/provider/current_exam_type_provider.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/exam_courses_filter_provider.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
+import 'package:lms_system/features/subscription/provider/requests/exam_requests_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class ExamCoursesFiltersScreen extends ConsumerStatefulWidget {
@@ -30,6 +33,8 @@ class _ExamCoursesFilterScreenState
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
 
+    var requestsProv = ref.watch(examRequestsProvider);
+
     final pageNavController = ref.read(pageNavigationProvider.notifier);
     final appbarTitle = pageNavController.getArgumentsForPage(7);
     final apiState = ref.watch(examCoursesFilterApiProvider);
@@ -45,6 +50,52 @@ class _ExamCoursesFilterScreenState
             color: Colors.black,
           ),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(Routes.requests);
+              },
+              child: Stack(
+                children: [
+                  const CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Center(
+                      child: Icon(
+                        Icons.shopping_cart_outlined,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                  if (requestsProv.isNotEmpty)
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 18,
+                        width: 18,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        child: Text(
+                          "${requestsProv.length}",
+                          style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ],
         title: Text(appbarTitle),
         centerTitle: true,
         //elevation: 5,
@@ -97,6 +148,7 @@ class _ExamCoursesFilterScreenState
                     children: examCourses
                         .map(
                           (course) => YearsList(
+                            examType: ref.read(currentExamTypeProvider),
                             course: course,
                           ),
                         )

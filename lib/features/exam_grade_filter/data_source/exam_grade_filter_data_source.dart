@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 
 final examGradeFilterDataSourceProvider = Provider<ExamGradeFilterDataSource>(
@@ -24,7 +26,11 @@ class ExamGradeFilterDataSource {
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];
+        debugPrint("exam grade data:");
         for (var d in data) {
+          if (d == data.first) {
+            UtilFunctions().printMapData(d);
+          }
           examGrades.add(ExamGrade.fromJson(d));
         }
       }

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 
@@ -25,7 +23,8 @@ class ExamYear {
     this.grades = const [],
   });
 
-  factory ExamYear.fromJson(Map<String, dynamic> json) {
+  factory ExamYear.fromJson(Map<String, dynamic> json,
+      {required int courseId}) {
     Map<SubscriptionType, double?> onSalePrices = {
       SubscriptionType.oneMonth: null,
       SubscriptionType.threeMonths: null,
@@ -49,26 +48,23 @@ class ExamYear {
           double.tryParse(json["on_sale_one_year"]);
     }
 
-    List<bool> vals = [true, false];
-    int randomIndex = Random().nextInt(2);
-    bool subbed = vals[randomIndex];
     return ExamYear(
       id: json["id"] ?? 0,
       title: json["year_name"] ?? "year name",
-      courseId: json["course_id"] ?? 0,
+      courseId: courseId,
       questionCount: json['exam_questions_count'] ?? 0,
-      // price: {
-      //   SubscriptionType.oneMonth:
-      //       double.tryParse(json["price_one_month"] ?? 0) ?? 0,
-      //   SubscriptionType.threeMonths:
-      //       double.tryParse(json["price_three_month"] ?? 0) ?? 0,
-      //   SubscriptionType.sixMonths:
-      //       double.tryParse(json["price_six_month"] ?? 0) ?? 0,
-      //   SubscriptionType.yearly:
-      //       double.tryParse(json["price_one_year"] ?? 0) ?? 0,
-      // },
-      price: {},
-      subscribed: subbed,
+      price: {
+        SubscriptionType.oneMonth:
+            double.tryParse(json["price_one_month"] ?? 0) ?? 0,
+        SubscriptionType.threeMonths:
+            double.tryParse(json["price_three_month"] ?? 0) ?? 0,
+        SubscriptionType.sixMonths:
+            double.tryParse(json["price_six_month"] ?? 0) ?? 0,
+        SubscriptionType.yearly:
+            double.tryParse(json["price_one_year"] ?? 0) ?? 0,
+      },
+      //subscribed: json["is_paid"],
+      subscribed: (json["id"] ?? 0) % 2 == 0 ? true : json["is_paid"],
     );
   }
   factory ExamYear.initial() {

@@ -45,87 +45,98 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return widgetRef.watch(searchResultsProvider).when(
-          loading: () => const Center(
-            child: CircularProgressIndicator(
-              color: AppColors.mainBlue,
-              strokeWidth: 5,
-            ),
-          ),
-          error: (error, stack) => AsyncErrorWidget(
-            errorMsg: error.toString().replaceAll("Exception: ", ""),
-            callback: () async {
-              final allCourseController =
-                  widgetRef.read(allCoursesApiProvider.notifier);
-              await allCourseController.loadCourses();
-            },
-          ),
-          data: (courses) {
-            if (courses.isEmpty) {
-              return const Center(
-                child: Text("No courses found for this query."),
-              );
-            }
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              child: GridView.builder(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: UtilFunctions.getResponsiveChildAspectRatio(
-                      MediaQuery.of(context).size),
-                  mainAxisExtent: 200,
+    return SafeArea(
+      child: Container(
+        margin: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
+        child: widgetRef.watch(searchResultsProvider).when(
+              loading: () => const Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.mainBlue,
+                  strokeWidth: 5,
                 ),
-                itemBuilder: (_, index) {
-                  final course = courses[index];
-                  return GestureDetector(
-                    onTap: () {
-                      // Handle course selection
-
-                      final pageNavController =
-                          widgetRef.read(pageNavigationProvider.notifier);
-                      final courseIdController =
-                          widgetRef.watch(currentCourseIdProvider.notifier);
-                      courseIdController.changeCourseId(courses[index].id);
-
-                      widgetRef
-                          .read(courseChaptersProvider.notifier)
-                          .fetchCourseChapters();
-
-                      widgetRef
-                          .read(courseSubTrackProvider.notifier)
-                          .changeCurrentCourse(courses[index]);
-
-                      debugPrint(
-                          "current course: Course{ id: ${widgetRef.read(courseSubTrackProvider).id}, title: ${widgetRef.read(courseSubTrackProvider).title} }");
-                      pageNavController.navigatePage(
-                        previousScreenIndex,
-                        arguments: {
-                          "course": courses[index],
-                          "previousScreenIndex": 0,
-                        },
-                      );
-                      close(context, courses[index]);
-                    },
-                    child: CourseCardWithImage(
-                      course: course,
-                      onLike: () async {
-                        // Handle like/bookmark actions
-                      },
-                      onBookmark: () async {
-                        // Handle like/bookmark actions
-                      },
-                    ),
-                  );
-                },
-                itemCount: courses.length,
               ),
-            );
-          },
-        );
+              error: (error, stack) => AsyncErrorWidget(
+                errorMsg: error.toString().replaceAll("Exception: ", ""),
+                callback: () async {
+                  final allCourseController =
+                      widgetRef.read(allCoursesApiProvider.notifier);
+                  await allCourseController.loadCourses();
+                },
+              ),
+              data: (courses) {
+                if (courses.isEmpty) {
+                  return const Center(
+                    child: Text("No courses found for this query."),
+                  );
+                }
+                return Scaffold(
+                  body: Container(
+                    margin: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(12),
+                    child: GridView.builder(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        childAspectRatio:
+                            UtilFunctions.getResponsiveChildAspectRatio(
+                                MediaQuery.of(context).size),
+                        mainAxisExtent: 200,
+                      ),
+                      itemBuilder: (_, index) {
+                        final course = courses[index];
+                        return GestureDetector(
+                          onTap: () {
+                            // Handle course selection
+
+                            final pageNavController =
+                                widgetRef.read(pageNavigationProvider.notifier);
+                            final courseIdController = widgetRef
+                                .watch(currentCourseIdProvider.notifier);
+                            courseIdController
+                                .changeCourseId(courses[index].id);
+
+                            widgetRef
+                                .read(courseChaptersProvider.notifier)
+                                .fetchCourseChapters();
+
+                            widgetRef
+                                .read(courseSubTrackProvider.notifier)
+                                .changeCurrentCourse(courses[index]);
+
+                            debugPrint(
+                                "current course: Course{ id: ${widgetRef.read(courseSubTrackProvider).id}, title: ${widgetRef.read(courseSubTrackProvider).title} }");
+                            pageNavController.navigatePage(
+                              previousScreenIndex,
+                              arguments: {
+                                "course": courses[index],
+                                "previousScreenIndex": 0,
+                              },
+                            );
+                            close(context, courses[index]);
+                          },
+                          child: CourseCardNetworkImage(
+                            course: course,
+                            onLike: () async {
+                              // Handle like/bookmark actions
+                            },
+                            onBookmark: () async {
+                              // Handle like/bookmark actions
+                            },
+                          ),
+                        );
+                      },
+                      itemCount: courses.length,
+                    ),
+                  ),
+                );
+              },
+            ),
+      ),
+    );
   }
 
   @override
@@ -170,7 +181,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
                   onTap: () {
                     // Handle course selection
                   },
-                  child: CourseCardWithImage(
+                  child: CourseCardNetworkImage(
                     course: course,
                     onLike: () async {
                       // Handle like/bookmark actions

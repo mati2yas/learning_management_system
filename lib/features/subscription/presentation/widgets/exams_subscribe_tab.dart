@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/features/exam_courses_filter/provider/current_exam_type_provider.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/requests/presentation/widgets/exam_request_tile.dart';
 import 'package:lms_system/features/requests/presentation/widgets/subscription_widget.dart';
@@ -30,6 +31,7 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
     var requestsProv = ref.watch(examRequestsProvider);
+
     double price = 0;
     if (requestsProv.isNotEmpty) {
       price = requestsProv
@@ -68,7 +70,10 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
                       if (requestsProv.isNotEmpty) {
                         final status = ref
                             .read(examRequestsProvider.notifier)
-                            .addOrRemoveExamYear(requestsProv[index]);
+                            .addOrRemoveExamYear(
+                              requestsProv[index],
+                              ref.read(currentExamTypeProvider),
+                            );
 
                         subscriptionController.updateExams(requestsProv);
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -266,6 +271,9 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
                           onPressed: () async {
                             _validateInput(); // Validate when button is pressed
                             _validateImagePath();
+                            subscriptionController.updateExamType(
+                              ref.read(currentExamTypeProvider),
+                            );
                             if (_errorMessageTransactionId != null) {
                               return;
                             } else if (_errorMessageTransactionId == null) {

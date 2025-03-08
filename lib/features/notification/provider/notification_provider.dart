@@ -7,7 +7,7 @@ final notificationApiNotifierProvider = Provider(
     (ref) => NotificationApiNotifier(ref.read(notificationRepositoryProvider)));
 
 final notificationApiProvider =
-    AsyncNotifierProvider<NotificationApiNotifier, List<NotificationModel>>(
+    AsyncNotifierProvider<NotificationApiNotifier, NotificationModel>(
   () {
     final container = ProviderContainer(
       overrides: [
@@ -18,26 +18,28 @@ final notificationApiProvider =
   },
 );
 
-class NotificationApiNotifier extends AsyncNotifier<List<NotificationModel>> {
+class NotificationApiNotifier extends AsyncNotifier<NotificationModel> {
   final NotificationRepository _repository;
 
   NotificationApiNotifier(this._repository);
 
   @override
-  Future<List<NotificationModel>> build() async {
-    return fetchNotifs();
+  Future<NotificationModel> build() async {
+    return fetchNotifs(page: 0);
   }
 
-  Future<List<NotificationModel>> fetchNotifs() async {
+  Future<NotificationModel> fetchNotifs({required int page}) async {
     try {
-      final notifs = await _repository.getNotifs();
-      return notifs;
+      final notifModel = await _repository.getNotifs();
+      return notifModel;
     } catch (e, stack) {
       debugPrint(e.toString());
       state = AsyncError(e, stack);
       rethrow;
     }
   }
+
+  fetchNotifsPerPage({required page}) {}
 }
 
 class NotificationState {

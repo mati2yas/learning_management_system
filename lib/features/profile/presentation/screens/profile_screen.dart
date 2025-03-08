@@ -124,7 +124,9 @@ class ProfilePage extends ConsumerWidget {
                   ),
                   TextButton.icon(
                     onPressed: () {
-                      ref.read(notificationApiProvider.notifier).fetchNotifs();
+                      ref
+                          .read(notificationApiProvider.notifier)
+                          .fetchNotifs(page: 0);
                       Navigator.of(context).pushNamed(Routes.notifications);
                     },
                     label: Text(

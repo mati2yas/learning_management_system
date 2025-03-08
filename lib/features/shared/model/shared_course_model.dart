@@ -1,5 +1,4 @@
 import 'package:lms_system/core/constants/enums.dart';
-import 'package:lms_system/features/requests/presentation/screens/requests_screen.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 
 class Course {
@@ -38,6 +37,7 @@ class Course {
     this.batch,
     this.grade,
   });
+
   factory Course.fromJson(Map<String, dynamic> json) {
     var categ = json["category"]?["name"];
 
@@ -99,10 +99,38 @@ class Course {
     );
   }
 
+  factory Course.fromJsonLocal(Map<String, dynamic> json) {
+    return Course(
+      title: json['title'],
+      id: json['id'],
+      topics: json['topics'],
+      saves: json['saves'],
+      likes: json['likes'],
+      image: json['image'],
+      price: Map<SubscriptionType, double>.from(json['price']),
+      onSalePrices: Map<SubscriptionType, double?>.from(json['priceOnsale']),
+      chapters: [],
+    );
+  }
+
   double getPriceBySubscriptionType(SubscriptionType subscriptionType) {
     double priceValue =
         onSalePrices[subscriptionType] ?? price[subscriptionType]!;
     return priceValue;
+  }
+
+  Map<String, dynamic> toJsonLocal() {
+    return {
+      'title': title,
+      'id': id,
+      'topics': topics,
+      'saves': saves,
+      'likes': likes,
+      'image': image,
+      'price': price.map((key, value) => MapEntry(key.name, value)),
+      'priceOnsale':
+          onSalePrices.map((key, value) => MapEntry(key.name, value)),
+    };
   }
 
   static Course initial() {

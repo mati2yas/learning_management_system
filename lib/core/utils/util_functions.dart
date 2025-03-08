@@ -1,6 +1,6 @@
-import 'dart:ui';
-
-import 'package:lms_system/features/exams/model/exams_model.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:lms_system/core/constants/enums.dart';
 
 class UtilFunctions {
   String getExamStringValue(ExamType type) {
@@ -14,6 +14,22 @@ class UtilFunctions {
       ExamType.sat => "SAT",
       ExamType.ngat => "NGAT",
     };
+  }
+
+  void printFormData(FormData formData) {
+    final formDataMap =
+        formData.fields.map((field) => '${field.key}: ${field.value}');
+    final fileDataMap =
+        formData.files.map((file) => '${file.key}: ${file.value.filename}');
+    final allData = [...formDataMap, ...fileDataMap];
+    debugPrint(allData.join('\n'));
+  }
+
+  void printMapData(Map<String, dynamic> formData) {
+    final formDataMap =
+        formData.entries.map((entry) => '${entry.key}: ${entry.value}');
+    final allData = [...formDataMap];
+    debugPrint(allData.join('\n'));
   }
 
   static double getResponsiveChildAspectRatio(Size size) {

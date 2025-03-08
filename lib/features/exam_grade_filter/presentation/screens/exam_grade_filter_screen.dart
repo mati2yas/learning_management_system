@@ -133,7 +133,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                           child: ListTile(
                             title: Text(chapters[index].title),
                             subtitle: Text(
-                              "${chapters[index].questions.length} questions",
+                              "${chapters[index].questionsCount} questions",
                             ),
                             trailing: FilledButton(
                               style: FilledButton.styleFrom(
@@ -153,10 +153,13 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                                 };
                                 ref
                                     .read(currentIdStubProvider.notifier)
-                                    .changeStub({
-                                  "idType": IdType.all,
-                                  "id": chapters[index].id,
-                                });
+                                    .changeStub(
+                                  {
+                                    "idType": IdType.all,
+                                    "id": chapters[index].id,
+                                    "courseId": examData["courseId"],
+                                  },
+                                );
                                 ref
                                     .read(examQuestionsApiProvider.notifier)
                                     .fetchQuestions();

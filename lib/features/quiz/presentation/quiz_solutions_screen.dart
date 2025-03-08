@@ -4,13 +4,16 @@ import 'package:lms_system/core/common_widgets/explanation_container.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/quiz/model/quiz_model.dart';
+import 'package:lms_system/features/shared/model/answers_holder.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class QuizSolutionsScreen extends StatefulWidget {
   final List<QuizQuestion> questions;
+  final List<AnswersHolder> myAnswers;
   const QuizSolutionsScreen({
     super.key,
     required this.questions,
+    required this.myAnswers,
   });
 
   @override
@@ -53,14 +56,18 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                   "G"
                 ];
                 List<String> answerText = [];
+                List<String> myAnswersText = [];
 
                 int answerIndex = 0;
 
                 for (var ans in currentQuestion.answers) {
-                  answerIndex = currentQuestion.options
-                      .indexOf(ans);
+                  answerIndex = currentQuestion.options.indexOf(ans);
 
                   answerText.add("${answerLetters[answerIndex]}. $ans");
+                }
+                for (var ans in widget.myAnswers) {
+                  answerIndex = widget.myAnswers.indexOf(ans);
+                  myAnswersText.add("${answerLetters[answerIndex]}. $ans");
                 }
 
                 if (currentQuestion.videoExplanationUrl != null) {
@@ -72,7 +79,8 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                   height: size.height * 0.7,
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 20),
                       child: Column(
                         spacing: 12,
                         children: [
@@ -82,7 +90,14 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                             maxWidth: size.width * 0.75,
                           ),
                           Text(
-                            "Answer(s):",
+                            "Your Answer(s):",
+                            style: textTh.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          ...myAnswersText.map((ans) => Text(ans)),
+                          Text(
+                            "Correct Answer(s):",
                             style: textTh.bodyMedium!.copyWith(
                               fontWeight: FontWeight.w500,
                             ),

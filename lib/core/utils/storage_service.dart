@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
+
+import '../constants/app_strings.dart';
 
 class SecureStorageService {
   static final SecureStorageService _instance =
@@ -15,11 +18,22 @@ class SecureStorageService {
   SecureStorageService._internal();
 
   Future<void> deleteUser() async {
-    await _storage.delete(key: 'user');
+    await _storage.delete(key: AppStrings.userStorageKey);
+  }
+
+  Future<List<Course>> getCoursesFromLocal() async {
+    final courseJson =
+        await _storage.read(key: AppStrings.subbedCoursesStorageKey);
+    if (courseJson != null) {
+      final courseList = jsonDecode(courseJson) as List<dynamic>;
+      return courseList.map((json) => Course.fromJsonLocal(json)).toList();
+    }
+    return [];
   }
 
   Future<bool> getOnboardingStatus() async {
-    final status = await _storage.read(key: 'onboarding_status');
+    final status =
+        await _storage.read(key: AppStrings.onboardingStatusStorageKey);
     return status == 'true';
   }
 
@@ -34,7 +48,7 @@ class SecureStorageService {
   }
 
   Future<User?> getUserFromStorage() async {
-    final userJson = await _storage.read(key: 'user');
+    final userJson = await _storage.read(key: AppStrings.userStorageKey);
     if (userJson != null) {
       final userMap = jsonDecode(userJson);
       return User.fromMap(userMap);
@@ -42,12 +56,22 @@ class SecureStorageService {
     return null;
   }
 
+  // Future<void> saveCoursesToLocal(List<Course> savedCourses) async {
+  //   final savedCoursesJson =
+  //       jsonEncode(savedCourses.map((course) => course.toJsonLocal()).toList());
+  //   await _storage.write(
+  //       key: AppStrings.subbedCoursesStorageKey, value: savedCoursesJson);
+  // }
+
   Future<void> saveUserToStorage(User user) async {
-    await _storage.write(key: 'user', value: jsonEncode(user.toMap()));
+    _storage.write(
+        key: AppStrings.userStorageKey, value: jsonEncode(user.toMap()));
+    Future.delayed(Duration.zero);
   }
 
   Future<void> setOnboardingStatus(bool status) async {
-    await _storage.write(key: 'onboarding_status', value: status.toString());
+    await _storage.write(
+        key: AppStrings.onboardingStatusStorageKey, value: status.toString());
   }
 
   Future<void> setUserAuthedStatus(AuthStatus status) async {

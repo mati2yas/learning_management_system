@@ -5,6 +5,7 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
+import 'package:lms_system/features/subscription/provider/requests/exam_requests_provider.dart';
 
 import '../../../subscription/provider/requests/course_requests_provider.dart';
 
@@ -18,7 +19,8 @@ class CustomHomeAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var requestsProv = ref.watch(courseRequestsProvider);
+    var courseRequestsProv = ref.watch(courseRequestsProvider);
+    var examRequestsProv = ref.watch(examRequestsProvider);
     return Container(
       height: 135,
       padding:
@@ -91,7 +93,7 @@ class CustomHomeAppBar extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    if (requestsProv.isNotEmpty)
+                    if (courseRequestsProv.isNotEmpty)
                       Positioned(
                         top: 0,
                         left: 0,
@@ -104,7 +106,29 @@ class CustomHomeAppBar extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(18),
                           ),
                           child: Text(
-                            "${requestsProv.length}",
+                            "${courseRequestsProv.length}",
+                            style: const TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (examRequestsProv.isNotEmpty)
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 18,
+                          width: 18,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          child: Text(
+                            "${examRequestsProv.length}",
                             style: const TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w600,

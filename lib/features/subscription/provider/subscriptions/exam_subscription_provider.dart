@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exams/model/exam_year.dart';
+import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/shared/model/api_response_model.dart';
 import 'package:lms_system/features/subscription/repository/exams_subscription_repository.dart';
 
@@ -67,6 +68,10 @@ class ExamsSubscriptionController extends StateNotifier<ExamSubscriptionModel> {
       debugPrint("in updateexam, course id: ${c.id}");
     }
     state = state.copyWith(newExamYears: newExamYears);
+  }
+
+  void updateExamType(ExamType examType) {
+    state = state.copyWith(examType: examType);
   }
 
   void updateScreenshotPath(String imagePath) {

@@ -62,7 +62,8 @@ class CoursePage extends ConsumerWidget {
             onPressed: () {
               showSearch(
                 context: context,
-                delegate: CourseSearchDelegate(widgetRef: ref, previousScreenIndex: 1),
+                delegate: CourseSearchDelegate(
+                    widgetRef: ref, previousScreenIndex: 1),
               );
             },
           ),
@@ -179,7 +180,7 @@ class CoursePage extends ConsumerWidget {
                             },
                           );
                         },
-                        child: CourseCardWithImage(
+                        child: CourseCardNetworkImage(
                           course: courses[index],
                           onLike: () async {
                             ref

@@ -13,6 +13,13 @@ class NotificationScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final apiState = ref.watch(notificationApiProvider);
     var size = MediaQuery.of(context).size;
+    final notificationState = ref.watch(notificationApiProvider);
+    final isLoading =
+        ref.watch(notificationApiProvider.select((state) => state.isLoading));
+    final notificationData = ref.watch(notificationApiProvider).valueOrNull;
+    final currentPage = notificationData?.currentPage ?? 0;
+    final totalPages = notificationData?.totalPages ?? 10;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CommonAppBar(titleText: "Notifications"),
@@ -24,67 +31,89 @@ class NotificationScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // const Text(
-                //   "Unread Notifications",
-                //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                // ),
+                const Text(
+                  "Unread Notifications",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
                 apiState.when(
-                    loading: () => const Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.mainBlue,
-                            strokeWidth: 5,
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.mainBlue,
+                      strokeWidth: 5,
+                    ),
+                  ),
+                  error: (error, stack) => AsyncErrorWidget(
+                    errorMsg: error.toString().replaceAll("Exception: ", ""),
+                    callback: () async {
+                      await ref
+                          .read(notificationApiProvider.notifier)
+                          .fetchNotifs(page: 1);
+                    },
+                  ),
+                  data: (notifs) {
+                    return Expanded(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: ListView.separated(
+                              itemCount: notifs.notifDatas.length,
+                              separatorBuilder: (context, index) =>
+                                  const Divider(),
+                              itemBuilder: (context, index) {
+                                final notification = notifs.notifDatas[index];
+                                return ListTile(
+                                  leading: const Icon(
+                                    Icons.notifications_outlined,
+                                    color: Colors.black,
+                                    size: 30,
+                                  ),
+                                  title: Text(notification.title),
+                                  subtitle: Text(notification.content),
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                    error: (error, stack) => AsyncErrorWidget(
-                          errorMsg:
-                              error.toString().replaceAll("Exception: ", ""),
-                          callback: () async {
-                            await ref
-                                .read(notificationApiProvider.notifier)
-                                .fetchNotifs();
-                          },
-                        ),
-                    data: (notifs) {
-                      return Expanded(
-                        child: ListView.builder(
-                          itemCount: notifs.length,
-                          itemBuilder: (context, index) {
-                            final notification = notifs[index];
-                            return ListTile(
-                              leading: const Icon(
-                                Icons.notifications_outlined,
-                                color: Colors.black,
-                                size: 30,
-                              ),
-                              title: Text(notification.title),
-                              subtitle: Text(notification.content),
-                            );
-                          },
-                        ),
-                      );
-                    }),
-                // const Text(
-                //   "Read Notifications",
-                //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                // ),
-                // Expanded(
-                //   child: ListView.builder(
-                //     itemCount: notificationState.readNotifications.length,
-                //     itemBuilder: (context, index) {
-                //       final notification =
-                //           notificationState.readNotifications[index];
-                //       return ListTile(
-                //         leading: const Icon(
-                //           Icons.notifications,
-                //           color: Colors.grey,
-                //           size: 30,
-                //         ),
-                //         title: Text(notification.title),
-                //         subtitle: Text(notification.content),
-                //       );
-                //     },
-                //   ),
-                // ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                if (currentPage > 1)
+                                  TextButton(
+                                    onPressed: () async {
+                                      await ref
+                                          .read(
+                                              notificationApiProvider.notifier)
+                                          .fetchNotifs(page: currentPage - 1);
+                                    },
+                                    child: const Text('Previous'),
+                                  ),
+                                if (currentPage < totalPages)
+                                  TextButton(
+                                    onPressed: () async {
+                                      await ref
+                                          .read(
+                                              notificationApiProvider.notifier)
+                                          .fetchNotifs(page: currentPage + 1);
+                                    },
+                                    child: const Text('Next'),
+                                  ),
+                                if (isLoading)
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 16.0),
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.mainBlue,
+                                      strokeWidth: 5,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -93,3 +122,4 @@ class NotificationScreen extends ConsumerWidget {
     );
   }
 }
+ //

@@ -8,6 +8,17 @@ enum AuthStatus {
 
 enum CategoryType { lowerGrade, highSchool, university, random }
 
+enum ExamType {
+  matric,
+  uat,
+  sat,
+  ngat,
+  exitexam,
+  ministry6th,
+  ministry8th,
+  exam
+}
+
 enum HighschoolClasses { lowerHs, prepHs }
 
 enum IdType { filtered, all }

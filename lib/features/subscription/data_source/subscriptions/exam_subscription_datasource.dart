@@ -6,7 +6,8 @@ import 'package:lms_system/core/utils/dio_client.dart';
 
 import '../../model/exam_subscription_model.dart';
 
-final examSubscriptionDataSourceProvider = Provider<ExamSubscriptionDataSource>((ref) {
+final examSubscriptionDataSourceProvider =
+    Provider<ExamSubscriptionDataSource>((ref) {
   return ExamSubscriptionDataSource(DioClient.instance);
 });
 
@@ -45,7 +46,7 @@ class ExamSubscriptionDataSource {
     try {
       _dio.options.headers['Content-Type'] = 'multipart/form-data';
       final response = await _dio.post(
-        AppUrls.subscriptionRequest,
+        AppUrls.examSubscriptionRequest,
         data: formData,
       );
       statusCode = response.statusCode;

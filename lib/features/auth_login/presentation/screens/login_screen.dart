@@ -8,7 +8,7 @@ import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/auth_login/provider/login_controller.dart';
-import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
+import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
@@ -138,6 +138,8 @@ class LoginScreen extends ConsumerWidget {
                               await loginController.loginUser();
                               await SecureStorageService()
                                   .setUserAuthedStatus(AuthStatus.authed);
+                              var refreshData =
+                                  ref.refresh(currentUserProvider.notifier);
                               if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -258,12 +260,5 @@ class LoginScreen extends ConsumerWidget {
         );
       }),
     );
-  }
-
-  String? _validateInput(String value) {
-    if (value.isEmpty) {
-      return 'This field cannot be empty';
-    }
-    return null;
   }
 }

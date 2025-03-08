@@ -19,11 +19,13 @@ class ExamChapter {
   final int id;
   final String title;
   final List<Question> questions;
+  final String questionsCount;
 
   ExamChapter({
     required this.id,
     required this.title,
     required this.questions,
+    required this.questionsCount,
   });
 }
 
@@ -40,7 +42,7 @@ class ExamCourse {
   factory ExamCourse.fromJson(Map<String, dynamic> json) {
     List<ExamYear> years = [];
     for (var yr in json["exam_years"]) {
-      years.add(ExamYear.fromJson(yr));
+      years.add(ExamYear.fromJson(yr, courseId: json["id"] ?? 0));
     }
 
     return ExamCourse(
@@ -70,6 +72,7 @@ class ExamGrade {
           ExamChapter(
             id: chap["id"],
             title: chap["title"],
+            questionsCount: (chap["questions_count"] ?? 0).toString(),
             questions: [],
           ),
         );
@@ -81,17 +84,6 @@ class ExamGrade {
       chapters: chaps,
     );
   }
-}
-
-enum ExamType {
-  matric,
-  uat,
-  sat,
-  ngat,
-  exitexam,
-  ministry6th,
-  ministry8th,
-  exam
 }
 
 

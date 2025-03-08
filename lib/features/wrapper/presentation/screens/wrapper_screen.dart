@@ -14,6 +14,7 @@ import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/paid_courses/presentation/screens/paid_courses_screen.dart';
 import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
+import 'package:lms_system/features/subscription/provider/requests/course_requests_provider.dart';
 import 'package:lms_system/features/wrapper/presentation/widgets/nav_item.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 
@@ -43,6 +44,7 @@ class WrapperScreen extends ConsumerWidget {
     if (currentPage == 0) {
       ref.read(homeScreenApiProvider.notifier).build();
       ref.read(currentUserProvider.notifier).build();
+      ref.read(courseRequestsProvider.notifier).loadData();
     }
     if (currentPage == 1) {
       ref.read(allCoursesApiProvider.notifier).build();

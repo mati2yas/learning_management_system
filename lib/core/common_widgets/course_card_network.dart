@@ -11,12 +11,12 @@ import 'package:lms_system/features/subscription/provider/subscriptions/course_s
 
 part 'courses_dialog_widget.dart';
 
-class CourseCardWithImage extends ConsumerWidget {
+class CourseCardNetworkImage extends ConsumerWidget {
   final Course course;
   Function? onBookmark;
   Function? onLike;
 
-  CourseCardWithImage({
+  CourseCardNetworkImage({
     super.key,
     required this.course,
     this.onBookmark,
@@ -265,9 +265,9 @@ class CourseCardWithImage extends ConsumerWidget {
               ),
             const SizedBox(height: 4),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
                 var (status, courses) =
-                    requestsController.addOrRemoveCourse(course);
+                    await requestsController.addOrRemoveCourse(course);
                 subscriptionController.updateCourses(courses);
 
                 debugPrint("after subscController updateCurse, courses:");
@@ -292,9 +292,9 @@ class CourseCardWithImage extends ConsumerWidget {
                   ),
                 );
               },
-              onLongPress: () {
+              onLongPress: () async {
                 var (status, courses) =
-                    requestsController.addOrRemoveCourse(course);
+                    await requestsController.addOrRemoveCourse(course);
 
                 subscriptionController.updateCourses(courses);
 

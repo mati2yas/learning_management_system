@@ -43,9 +43,6 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
           .reduce((init, sum) => init + sum);
     }
 
-    // var subscriptionProv = ref.watch(subscriptionControllerProvider);
-    // var subscriptionController =
-    //     ref.watch(subscriptionControllerProvider.notifier);
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Center(

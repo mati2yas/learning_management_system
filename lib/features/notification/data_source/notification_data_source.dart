@@ -36,7 +36,11 @@ class NotificationsDataSource {
     return notifs;
   }
 
-  Future<List<NotificationModel>> fetchUnreadNotifs() async {
-    return [];
+  Future<NotificationModel> fetchUnreadNotifs() async {
+    return NotificationModel(
+      notifDatas: [],
+      currentPage: 0,
+      totalPages: 10,
+    );
   }
 }

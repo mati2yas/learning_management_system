@@ -76,6 +76,7 @@ class SubscriptionController extends StateNotifier<CourseSubscriptionModel> {
   }
 
   void updateTransactionId(String newTransactionId) {
+    debugPrint("Updating transaction ID: $newTransactionId");
     state = state.copyWith(newTransactionId: newTransactionId);
   }
 }

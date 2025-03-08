@@ -396,6 +396,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                                     builder: (ctx) =>
                                                         QuizSolutionsScreen(
                                                       questions: questions,
+                                                      myAnswers: answersTrack,
                                                     ),
                                                   ),
                                                 );

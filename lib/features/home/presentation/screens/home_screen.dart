@@ -255,7 +255,7 @@ class HomePage extends ConsumerWidget {
                                     },
                                   );
                                 },
-                                child: CourseCardWithImage(
+                                child: CourseCardNetworkImage(
                                   onBookmark: () {
                                     homeApiController
                                         .toggleSaved(courses[index]);

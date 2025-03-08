@@ -5,21 +5,21 @@ import '../../../../core/constants/app_colors.dart';
 class CustomTabBar extends StatelessWidget {
   final List<Widget> tabs;
   final TabController? controller;
-  final TabAlignment alignment;
+  final TabAlignment? alignment;
   final bool isScrollable;
   const CustomTabBar({
     super.key,
     required this.tabs,
     this.controller,
-    required this.alignment,
+    this.alignment = TabAlignment.fill,
     required this.isScrollable,
   });
 
   @override
   Widget build(BuildContext context) {
     return TabBar(
-      isScrollable: isScrollable,
-      tabAlignment: alignment,
+      isScrollable: tabs.length <= 4 ? false : isScrollable,
+      tabAlignment: tabs.length <= 4 ? TabAlignment.fill : alignment,
       indicatorSize: TabBarIndicatorSize.tab,
       overlayColor: WidgetStatePropertyAll<Color>(
         AppColors.mainBlue.withValues(alpha: 0.2),

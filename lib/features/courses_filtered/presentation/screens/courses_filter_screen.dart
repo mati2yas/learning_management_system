@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
-import 'package:lms_system/core/common_widgets/course_card.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
@@ -42,15 +41,6 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
 
   int? currentTabIndex;
   List<Course> selectedCourses = [];
-
-  List<String> fourYearDepts = [
-    "Sociology",
-    "Computer Science",
-    "Business Administration"
-  ];
-  List<String> sevenYearDepts = [
-    "Dentistry",
-  ];
 
   List<String> tabValues = [];
 
@@ -321,7 +311,8 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                   },
                                 );
                               },
-                              child: CourseCard(course: courses[index]),
+                              child: CourseCardNetworkImage(
+                                  course: courses[index]),
                             );
                           },
                         )
@@ -421,7 +412,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                       },
                                     );
                                   },
-                                  child: CourseCardWithImage(
+                                  child: CourseCardNetworkImage(
                                       course: selectedCourses[index]),
                                 );
                               },
@@ -451,13 +442,24 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
       return AppStrings.highSchoolGrades;
     }
     if (category == AppStrings.universityCategory) {
-      if (fourYearDepts.contains(department)) {
+      if (AppStrings.oneYearDepts.contains(department)) {
+        return AppStrings.universityGrades.take(1).toList();
+      }
+      if (AppStrings.fourYearDepts.contains(department)) {
         return AppStrings.universityGrades.take(4).toList();
-        // return the first 4 of the values
       }
 
-      return AppStrings.universityGrades;
-      // return all 7 values by default.
+      if (AppStrings.fiveYearDepts.contains(department)) {
+        return AppStrings.universityGrades.take(5).toList();
+      }
+
+      if (AppStrings.sixYearDepts.contains(department)) {
+        return AppStrings.universityGrades.take(6).toList();
+      }
+
+      if (AppStrings.sevenYearDepts.contains(department)) {
+        return AppStrings.universityGrades;
+      }
     }
 
     return [];

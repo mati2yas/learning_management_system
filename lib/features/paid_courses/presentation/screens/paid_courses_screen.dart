@@ -72,7 +72,7 @@ class PaidCoursesScreen extends ConsumerWidget {
                     },
                   );
                 },
-                child: CourseCardWithImage(
+                child: CourseCardNetworkImage(
                   onBookmark: () {
                     apiController.toggleSaved(courses[index]);
                   },
