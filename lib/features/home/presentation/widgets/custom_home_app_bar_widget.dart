@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
@@ -79,7 +80,10 @@ class CustomHomeAppBar extends ConsumerWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed(Routes.requests);
+                  Navigator.of(context).pushNamed(
+                    Routes.subscriptions,
+                    arguments: AppInts.subscriptionScreenCourseIndex,
+                  );
                 },
                 child: Stack(
                   children: [

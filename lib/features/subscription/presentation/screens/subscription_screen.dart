@@ -4,12 +4,17 @@ import 'package:lms_system/features/subscription/presentation/widgets/courses_su
 import 'package:lms_system/features/subscription/presentation/widgets/exams_subscribe_tab.dart';
 
 class SubscriptionScreen extends StatelessWidget {
-  const SubscriptionScreen({super.key});
+  final int initialIndex;
+  const SubscriptionScreen({
+    super.key,
+    required this.initialIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
+      initialIndex: initialIndex,
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Subscriptions"),

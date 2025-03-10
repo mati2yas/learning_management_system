@@ -49,8 +49,29 @@ class PaidCoursesNotifier extends AsyncNotifier<List<Course>> {
     String responseMessage = "";
     bool responseStatus = false;
     try {
+      update((state) {
+        return state.map((c) {
+          if (c == course) {
+            return Course(
+              id: c.id,
+              category: c.category,
+              title: c.title,
+              topics: c.topics,
+              saves: c.saves,
+              likes: c.likes + (c.liked ? -1 : 1),
+              image: c.image,
+              saved: c.saved,
+              liked: !c.liked,
+              price: c.price,
+              subscribed: c.subscribed,
+              chapters: c.chapters,
+            );
+          }
+          return c;
+        }).toList();
+      });
       final response = await _repository.toggleCourseLiked(course);
-      if (response.statusCode == 200) {
+      if (response.statusCode != 200) {
         update((state) {
           return state.map((c) {
             if (c == course) {

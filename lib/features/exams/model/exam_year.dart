@@ -3,7 +3,7 @@ import 'package:lms_system/features/exams/model/exams_model.dart';
 
 class ExamYear {
   final String title;
-  final int id, courseId, questionCount;
+  final int id, examSheetId, questionCount;
   final List<Question> questions; // For non-matric exams
   final List<ExamGrade> grades; // For matric exams
   bool subscribed;
@@ -13,7 +13,7 @@ class ExamYear {
 
   ExamYear({
     required this.id,
-    required this.courseId,
+    required this.examSheetId,
     required this.title,
     this.questions = const [],
     this.subscribed = false,
@@ -23,8 +23,9 @@ class ExamYear {
     this.grades = const [],
   });
 
-  factory ExamYear.fromJson(Map<String, dynamic> json,
-      {required int courseId}) {
+  factory ExamYear.fromJson(
+    Map<String, dynamic> json,
+  ) {
     Map<SubscriptionType, double?> onSalePrices = {
       SubscriptionType.oneMonth: null,
       SubscriptionType.threeMonths: null,
@@ -51,7 +52,7 @@ class ExamYear {
     return ExamYear(
       id: json["id"] ?? 0,
       title: json["year_name"] ?? "year name",
-      courseId: courseId,
+      examSheetId: json["exam_sheet_id"],
       questionCount: json['exam_questions_count'] ?? 0,
       price: {
         SubscriptionType.oneMonth:
@@ -70,7 +71,7 @@ class ExamYear {
   factory ExamYear.initial() {
     return ExamYear(
       id: -1,
-      courseId: -1,
+      examSheetId: -1,
       title: "",
       price: {},
     );

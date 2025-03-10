@@ -51,7 +51,9 @@ class TakeOrFitler extends StatelessWidget {
                     "id": year.id,
                     "courseId": course.id,
                   });
-                  ref.read(examQuestionsApiProvider.notifier).fetchQuestions();
+                  ref
+                      .refresh(examQuestionsApiProvider.notifier)
+                      .fetchQuestions();
                   ref.read(examTimerProvider.notifier).resetTimer();
                   pageController.navigatePage(6, arguments: examData);
                 },
@@ -159,19 +161,23 @@ class YearsList extends ConsumerWidget {
                     ),
                     onLongPress: () {},
                     onPressed: () {
+                      debugPrint("add to requestsProv function start");
                       var requestsProv = ref.watch(examRequestsProvider);
+                      debugPrint("requestsProv length: ${requestsProv.length}");
 
                       var subscriptionController = ref
                           .watch(examSubscriptionControllerProvider.notifier);
-                      final status = ref
+                      var (status, courses) = ref
                           .read(examRequestsProvider.notifier)
                           .addOrRemoveExamYear(course.years[index], examType);
+                      subscriptionController.updateExams(courses);
 
-                      subscriptionController.updateExams(requestsProv);
                       ScaffoldMessenger.of(context).removeCurrentSnackBar();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: AppColors.darkerBlue,
+                          behavior: SnackBarBehavior.floating,
+                          elevation: 4,
                           content: Text(
                             "Exam has been $status.",
                             style: const TextStyle(

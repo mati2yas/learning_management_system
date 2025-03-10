@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exams/model/exam_year.dart';
-import 'package:lms_system/features/exams/model/exams_model.dart';
 
 import '../../data_source/requests/exam_request_datsource.dart';
 
@@ -19,17 +18,21 @@ class ExamRequestsNotifier extends StateNotifier<List<ExamYear>> {
   final ExamRequestsDataSource dataSource;
 
   ExamRequestsNotifier(this.dataSource) : super([]) {
-    loadData();
+    if (state.isEmpty) {
+      loadData();
+    }
   }
 
-  String addOrRemoveExamYear(ExamYear examYear, ExamType examType) {
-    if (state.contains(examYear)) {
-      state = state.where((c) => c != examYear).toList();
-      return "removed from cart";
+  (String, List<ExamYear>) addOrRemoveExamYear(ExamYear examYear, ExamType examType) {
+    final newState = [...state];
+    if (newState.contains(examYear)) {
+      newState.remove(examYear);
+      state = newState;
+      return ("removed from cart", state);
     }
 
     state = [examYear, ...state];
-    return "added to cart";
+    return ("added to cart", state);
   }
 
   void loadData() {

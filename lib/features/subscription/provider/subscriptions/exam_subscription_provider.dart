@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exams/model/exam_year.dart';
-import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/shared/model/api_response_model.dart';
 import 'package:lms_system/features/subscription/repository/exams_subscription_repository.dart';
 
@@ -25,6 +24,8 @@ class ExamsSubscriptionController extends StateNotifier<ExamSubscriptionModel> {
     String statusMsg = "";
     bool statusBool = false;
     Response? response;
+    
+    
     try {
       state = state.copyWith(apiState: ApiState.busy);
 
@@ -64,10 +65,11 @@ class ExamsSubscriptionController extends StateNotifier<ExamSubscriptionModel> {
   }
 
   void updateExams(List<ExamYear> newExamYears) {
-    for (var c in newExamYears) {
-      debugPrint("in updateexam, course id: ${c.id}");
-    }
+    debugPrint(
+        "before update examYears: examyears length: ${state.examYears.length}");
     state = state.copyWith(newExamYears: newExamYears);
+    debugPrint(
+        "after update examYears: examyears length: ${state.examYears.length}");
   }
 
   void updateExamType(ExamType examType) {

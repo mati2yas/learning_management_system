@@ -12,6 +12,7 @@ import 'package:lms_system/features/exam_grade_filter/presentation/screens/exam_
 import 'package:lms_system/features/exam_questions/presentation/exam_questions_page.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
+import 'package:lms_system/features/notification/provider/notification_provider.dart';
 import 'package:lms_system/features/paid_courses/presentation/screens/paid_courses_screen.dart';
 import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/subscription/provider/requests/course_requests_provider.dart';
@@ -44,7 +45,10 @@ class WrapperScreen extends ConsumerWidget {
     if (currentPage == 0) {
       ref.read(homeScreenApiProvider.notifier).build();
       ref.read(currentUserProvider.notifier).build();
-      ref.read(courseRequestsProvider.notifier).loadData();
+      if (ref.read(courseRequestsProvider).isEmpty) {
+        ref.read(courseRequestsProvider.notifier).loadData();
+      }
+      ref.read(notificationApiProvider.notifier).build();
     }
     if (currentPage == 1) {
       ref.read(allCoursesApiProvider.notifier).build();

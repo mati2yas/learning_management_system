@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/current_exam_type_provider.dart';
-import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/requests/presentation/widgets/exam_request_tile.dart';
 import 'package:lms_system/features/requests/presentation/widgets/subscription_widget.dart';
 import 'package:lms_system/features/subscription/provider/requests/exam_requests_provider.dart';
@@ -78,7 +77,7 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
                         subscriptionController.updateExams(requestsProv);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text("Course has been $status."),
+                            content: Text("Exam has been $status."),
                           ),
                         );
                       } else {
@@ -271,25 +270,28 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
                           onPressed: () async {
                             _validateInput(); // Validate when button is pressed
                             _validateImagePath();
-                            subscriptionController.updateExamType(
-                              ref.read(currentExamTypeProvider),
-                            );
+                            // subscriptionController.updateExamType(
+                            //   ref;.read(currentExamTypeProvider),
+                            // )
                             if (_errorMessageTransactionId != null) {
                               return;
                             } else if (_errorMessageTransactionId == null) {
+                              debugPrint(
+                                  "in subscribe screen, before subscribe, examyears length ${requestsProv.length}");
                               final result =
                                   await subscriptionController.subscribe();
                               debugPrint(
                                   "api response: ApiResponse{ status: ${result.responseStatus}, message: ${result.message}}");
                               if (result.responseStatus) {
+                                debugPrint("we have removed them successfully");
                                 ref
                                     .read(examRequestsProvider.notifier)
                                     .removeAll();
                                 resetImagePicked();
                                 _transactionIdController.clear();
-                                await ref
-                                    .refresh(homeScreenApiProvider.notifier)
-                                    .build();
+                                // await ref
+                                //     .refresh(homeScreenApiProvider.notifier)
+                                //     .fetchHomeScreenData();
                                 // we need this so that next time home page fetches
                                 // courses that are not bought.
                               }

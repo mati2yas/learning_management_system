@@ -3,6 +3,7 @@ import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/explanation_container.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -101,7 +102,9 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                                 child: Image.network(
                                   height: 80,
                                   width: double.infinity,
-                                  "${currentQuestion.imageExplanationUrl}.jpg", //?? "",
+                                  UtilFunctions().determineProperImageUrl(
+                                      currentQuestion.imageExplanationUrl ??
+                                          ""),
                                   fit: BoxFit.cover,
                                   loadingBuilder: (BuildContext context,
                                       Widget child,

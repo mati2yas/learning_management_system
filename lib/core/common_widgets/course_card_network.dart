@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
@@ -30,11 +31,11 @@ class CourseCardNetworkImage extends ConsumerWidget {
     var subscriptionController =
         ref.watch(courseSubscriptionControllerProvider.notifier);
 
-    var requestsProv = ref.watch(courseRequestsProvider);
+    var requestsProv = ref.read(courseRequestsProvider);
     var textTh = Theme.of(context).textTheme;
 
     final paidToggleController = ref.watch(paidCoursesApiProvider.notifier);
-    final requestsController = ref.watch(courseRequestsProvider.notifier);
+    final requestsController = ref.read(courseRequestsProvider.notifier);
     return Container(
       width: double.infinity,
       height: 185,
@@ -62,7 +63,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
             child: Image.network(
               height: 80,
               width: double.infinity,
-              "${course.image}.jpg", //?? "",
+              course.image, //?? "",
               fit: BoxFit.cover,
               loadingBuilder: (BuildContext context, Widget child,
                   ImageChunkEvent? loadingProgress) {
@@ -273,10 +274,13 @@ class CourseCardNetworkImage extends ConsumerWidget {
                 debugPrint("after subscController updateCurse, courses:");
                 var subProv = ref.read(courseSubscriptionControllerProvider);
                 for (var c in subProv.courses) {
-                  print("subProv.courses.current.id: ${c.id}");
+                  debugPrint("subProv.courses.current.id: ${c.id}");
                 }
                 if (status == "added") {
-                  Navigator.of(context).pushNamed(Routes.requests);
+                  Navigator.of(context).pushNamed(
+                    Routes.subscriptions,
+                    arguments: AppInts.subscriptionScreenCourseIndex,
+                  );
                 }
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(

@@ -18,12 +18,16 @@ class CourseRequestsNotifier extends StateNotifier<List<Course>> {
   final CourseRequestsDataSource dataSource;
 
   CourseRequestsNotifier(this.dataSource) : super([]) {
-    loadData();
+    if (state.isEmpty) {
+      loadData();
+    }
   }
 
   Future<(String, List<Course>)> addOrRemoveCourse(Course course) async {
-    if (state.contains(course)) {
-      state = state.where((c) => c != course).toList();
+    final newState = [...state];
+    if (newState.contains(course)) {
+      newState.remove(course);
+      state = newState;
       return ("removed from cart", state);
     }
 

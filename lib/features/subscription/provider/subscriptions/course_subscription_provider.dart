@@ -9,9 +9,11 @@ import 'package:lms_system/features/subscription/repository/course_subscription_
 import '../../model/course_subscription_model.dart';
 
 final courseSubscriptionControllerProvider =
-    StateNotifierProvider<SubscriptionController, CourseSubscriptionModel>((ref) {
+    StateNotifierProvider<SubscriptionController, CourseSubscriptionModel>(
+        (ref) {
   ProviderListenable<dynamic> subscriptionRepositoryProvider;
-  return SubscriptionController(ref.watch(courseSubscriptionRepositoryProvider));
+  return SubscriptionController(
+      ref.watch(courseSubscriptionRepositoryProvider));
 });
 
 class SubscriptionController extends StateNotifier<CourseSubscriptionModel> {
@@ -19,6 +21,7 @@ class SubscriptionController extends StateNotifier<CourseSubscriptionModel> {
   SubscriptionController(this._repository) : super(CourseSubscriptionModel());
 
   Future<ApiResponse> subscribe() async {
+    debugPrint("course subscribe");
     String statusMsg = "";
     bool statusBool = false;
     Response? response;

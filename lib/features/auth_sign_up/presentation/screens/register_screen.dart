@@ -8,7 +8,6 @@ import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/auth_sign_up/provider/register_controller.dart';
-import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 
 class RegisterScreen extends ConsumerWidget {
   const RegisterScreen({super.key});

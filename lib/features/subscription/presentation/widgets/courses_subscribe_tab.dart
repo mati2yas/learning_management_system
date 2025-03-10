@@ -31,7 +31,7 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
-    var requestsProv = ref.watch(courseRequestsProvider);
+    var requestsProv = ref.read(courseRequestsProvider);
 
     var subscriptionProv = ref.watch(courseSubscriptionControllerProvider);
     var subscriptionController =
@@ -277,6 +277,9 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
                               debugPrint(
                                   "api response: ApiResponse{ status: ${result.responseStatus}, message: ${result.message}}");
                               if (result.responseStatus) {
+                                for (int i = 0; i < 20; i++) {
+                                  debugPrint("api response was okay");
+                                }
                                 ref
                                     .read(courseRequestsProvider.notifier)
                                     .removeAll();
@@ -284,7 +287,7 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
                                 _transactionIdController.clear();
                                 await ref
                                     .refresh(homeScreenApiProvider.notifier)
-                                    .build();
+                                    .fetchHomeScreenData();
                                 // we need this so that next time home page fetches
                                 // courses that are not bought.
                               }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/features/auth_login/presentation/screens/login_screen.dart';
-import 'package:lms_system/features/auth_sign_up/presentation/screens/forgot_password.dart';
 import 'package:lms_system/features/auth_sign_up/presentation/screens/register_screen.dart';
 import 'package:lms_system/features/auth_sign_up/presentation/screens/temporary_screen.dart';
 import 'package:lms_system/features/chapter_content/presentation/screens/chapter_content_screen.dart';
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_videos.dart';
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
 import 'package:lms_system/features/edit_profile/presentation/screens/edit_profile_screen.dart';
+import 'package:lms_system/features/forgot_password/presentation/forgot_password.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/notification/presentation/screens/notification_screen.dart';
 import 'package:lms_system/features/onboarding/presentation/screens/onboarding_screen.dart';
@@ -48,8 +48,13 @@ class Approuter {
       case Routes.courses:
         return MaterialPageRoute(builder: (_) => const CoursePage());
 
-      case Routes.requests:
-        return MaterialPageRoute(builder: (_) => const SubscriptionScreen());
+      case Routes.subscriptions:
+        final tabIndex = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (_) => SubscriptionScreen(
+            initialIndex: tabIndex,
+          ),
+        );
       case Routes.filterCourses:
         return MaterialPageRoute(
           builder: (_) => const CoursesFilterScreen(),
@@ -115,7 +120,7 @@ class Routes {
   static const String filterCourses = "courseDetails";
   static const String chapterContent = "chapterDetails";
   static const String savedCourses = "saved";
-  static const String requests = "requests";
+  static const String subscriptions = "requests";
   static const String profile = "profile";
   static const String notifications = "notifications";
   static const String chapterVideo = "chapterVideo";

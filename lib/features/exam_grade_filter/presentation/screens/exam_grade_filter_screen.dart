@@ -161,7 +161,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                                   },
                                 );
                                 ref
-                                    .read(examQuestionsApiProvider.notifier)
+                                    .refresh(examQuestionsApiProvider.notifier)
                                     .fetchQuestions();
                                 pageNavController.navigatePage(6,
                                     arguments: examDataNext);

@@ -65,8 +65,9 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
 
                   answerText.add("${answerLetters[answerIndex]}. $ans");
                 }
-                for (var ans in widget.myAnswers) {
-                  answerIndex = widget.myAnswers.indexOf(ans);
+                for (var ans in widget.myAnswers[index].selectedAnswers) {
+                  answerIndex = currentQuestion.options.indexOf(ans);
+                  //String answerTxt = ans.;
                   myAnswersText.add("${answerLetters[answerIndex]}. $ans");
                 }
 

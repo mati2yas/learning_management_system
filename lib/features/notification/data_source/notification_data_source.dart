@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
@@ -23,10 +22,12 @@ class NotificationsDataSource {
 
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
-        List<dynamic> data = response.data["data"];
-        for (var d in data) {
-          debugPrint(d["something"]);
-        }
+        List<dynamic> data = response.data["notifications"];
+        var notifModel = NotificationModel.fromJson(response.data);
+        notifs.add(notifModel);
+        // for (var d in data) {
+        //   debugPrint(d["something"]);
+        // }
       }
     } on DioException catch (e) {
       final errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);

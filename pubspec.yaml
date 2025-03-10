@@ -53,6 +53,7 @@ dependencies:
   flutter_hooks: ^0.20.5
   flutter_riverpod: ^2.6.1
   collection: ^1.19.1
+  youtube_player_iframe: ^5.2.1
 
 dev_dependencies:
   flutter_test:

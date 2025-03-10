@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/features/exam_courses_filter/presentation/widgets/years_list.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/current_exam_type_provider.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/exam_courses_filter_provider.dart';
@@ -55,7 +56,10 @@ class _ExamCoursesFilterScreenState
             padding: const EdgeInsets.only(right: 12.0),
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed(Routes.requests);
+                Navigator.of(context).pushNamed(
+                  Routes.subscriptions,
+                  arguments: AppInts.subscriptionScreenExamIndex,
+                );
               },
               child: Stack(
                 children: [

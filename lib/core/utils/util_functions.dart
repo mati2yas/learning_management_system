@@ -1,8 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/constants/enums.dart';
 
 class UtilFunctions {
+  String determineProperImageUrl(String firstUrl) {
+    String result = "";
+    if (firstUrl.startsWith("/id")) {
+      result = "https://picsum.photos/$firstUrl.jpg";
+    } else if (firstUrl.startsWith("https://")) {
+      result = "${AppUrls.backendStorage}/question_images";
+    }
+    return result;
+  }
+
   String getExamStringValue(ExamType type) {
     return switch (type) {
       ExamType.matric => "ESSLCE",

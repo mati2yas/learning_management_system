@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exams/model/exam_year.dart';
@@ -52,15 +53,17 @@ class ExamSubscriptionModel {
     //List<int> courseIds =
     //courses.map((course) => int.parse(course.id)).toList();
 
-    for (var examYear in examYears) {
-      int index = examYears.indexOf(examYear);
-      formData.fields
-          .add(MapEntry("exam_years[$index]", examYear.id.toString()));
-    }
+    // for (var examYear in examYears) {
+    //   int index = examYears.indexOf(examYear);
 
-    formData.fields.add(
-        MapEntry("exam_type", UtilFunctions().getExamStringValue(examType)));
-    formData.fields.add(MapEntry("exam_course_id", "${examYears[0].courseId}"));
+    //   formData.fields
+    //       .add(MapEntry("exams[$index]", examYear.examSheetId.toString()));
+    // }
+    debugPrint("in toFormData class, examyears len: ${examYears.length}");
+    for (int index = 0; index < examYears.length; index++) {
+      formData.fields.add(
+          MapEntry("exams[$index]", examYears[index].examSheetId.toString()));
+    }
     formData.fields.add(MapEntry("subscription_type", subscriptionType.name));
     formData.fields.add(MapEntry("transaction_id", transactionId));
 

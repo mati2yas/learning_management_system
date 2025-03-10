@@ -42,7 +42,7 @@ class ExamCourse {
   factory ExamCourse.fromJson(Map<String, dynamic> json) {
     List<ExamYear> years = [];
     for (var yr in json["exam_years"]) {
-      years.add(ExamYear.fromJson(yr, courseId: json["id"] ?? 0));
+      years.add(ExamYear.fromJson(yr));
     }
 
     return ExamCourse(
@@ -85,8 +85,6 @@ class ExamGrade {
     );
   }
 }
-
-
 
 class Question {
   final String questionText;

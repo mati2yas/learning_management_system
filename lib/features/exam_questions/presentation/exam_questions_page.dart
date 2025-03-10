@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exam_questions/presentation/exam_solutions_screen.dart';
 import 'package:lms_system/features/exam_questions/provider/answers_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/exam_questions_provider.dart';
@@ -48,6 +49,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
     final timerAsyncValue = ref.watch(examTimerProvider);
 
     final apiState = ref.watch(examQuestionsApiProvider);
+    debugPrint("curentquestionindextrack: $currentQuestionIndexTrack");
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -152,7 +154,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                 String multipleQuestionsIndicator = "";
                                 if (currentQuestion.answers.length > 1) {
                                   multipleQuestionsIndicator =
-                                      "(Select all that apply.)";
+                                      "(Select all that apply)";
                                 }
 
                                 return SizedBox(
@@ -170,7 +172,11 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                               child: Image.network(
                                                 height: 80,
                                                 width: double.infinity,
-                                                "${currentQuestion.imageUrl}.jpg", //?? "",
+                                                UtilFunctions()
+                                                    .determineProperImageUrl(
+                                                        currentQuestion
+                                                                .imageUrl ??
+                                                            ""),
                                                 fit: BoxFit.cover,
                                                 loadingBuilder:
                                                     (BuildContext context,

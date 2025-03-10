@@ -3,6 +3,7 @@ class AppUrls {
   static String backendStorage = "https://lms.biruklemma.com/storage";
   static String login = "/login";
   static String signUp = "/student-register";
+  static String forgotPassword = "/forgot-password";
   static String deleteUser = "/delete-user";
   static String chapterContent = "/chapter-contents";
   static String courseChapters = "/course-chapters";
