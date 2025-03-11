@@ -66,16 +66,24 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
               else
                 for (int index = 0; index < requestsProv.length; index++)
                   CourseRequestTile(
-                    onTap: () {
+                    onTap: () async {
                       if (requestsProv.isNotEmpty) {
-                        final status = ref
+                        var (status, courses) = await ref
                             .read(courseRequestsProvider.notifier)
                             .addOrRemoveCourse(requestsProv[index]);
 
                         subscriptionController.updateCourses(requestsProv);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text("Course has been $status."),
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: AppColors.darkerBlue,
+                            elevation: 4,
+                            content: Text(
+                              "Course has been $status.",
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         );
                       } else {

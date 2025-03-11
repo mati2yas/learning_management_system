@@ -12,8 +12,8 @@ final notificationDataSourceProvider = Provider<NotificationsDataSource>((ref) {
 class NotificationsDataSource {
   final Dio _dio;
   NotificationsDataSource(this._dio);
-  Future<List<NotificationModel>> fetchReadNotifs() async {
-    List<NotificationModel> notifs = [];
+  Future<NotificationModel> fetchReadNotifs() async {
+    NotificationModel notifs = NotificationModel(notifDatas: []);
     int? statusCode;
     try {
       final response = await _dio.get(
@@ -24,7 +24,7 @@ class NotificationsDataSource {
       if (response.statusCode == 200) {
         List<dynamic> data = response.data["notifications"];
         var notifModel = NotificationModel.fromJson(response.data);
-        notifs.add(notifModel);
+        notifs = notifModel;
         // for (var d in data) {
         //   debugPrint(d["something"]);
         // }

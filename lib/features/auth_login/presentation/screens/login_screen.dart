@@ -76,7 +76,7 @@ class LoginScreen extends ConsumerWidget {
                       },
                     ),
                     Text(
-                      'Password (at least 6 characters)',
+                      'Password (at least 4 characters)',
                       style: textTh.bodyLarge!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -208,7 +208,7 @@ class LoginScreen extends ConsumerWidget {
                                       fontWeight: FontWeight.w600,
                                     ),
                                   )
-                                : Text(
+                                :  Text(
                                     'Login',
                                     style: TextStyle(
                                       color: Colors.white,

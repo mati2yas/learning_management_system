@@ -67,7 +67,7 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
                     examYear: requestsProv[index],
                     onTap: () {
                       if (requestsProv.isNotEmpty) {
-                        final status = ref
+                        var (status, exams) = ref
                             .read(examRequestsProvider.notifier)
                             .addOrRemoveExamYear(
                               requestsProv[index],
@@ -77,7 +77,15 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
                         subscriptionController.updateExams(requestsProv);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text("Exam has been $status."),
+                            backgroundColor: AppColors.darkerBlue,
+                            behavior: SnackBarBehavior.floating,
+                            elevation: 4,
+                            content: Text(
+                              "Exam has been $status.",
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         );
                       } else {

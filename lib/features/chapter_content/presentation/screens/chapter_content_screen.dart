@@ -98,81 +98,95 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                     TabBarView(
                       children: [
                         VideosListView(videos: chapterContent.videos),
-                        ListView.builder(
-                          padding: const EdgeInsets.all(12),
-                          itemCount: chapterContent.documents.length,
-                          itemBuilder: (context, index) => ChapterDocumentTile(
-                            document: chapterContent.documents[index],
-                            callBack: () async {
-                              if (!currentCourse.subscribed) {
-                                if (index == 0) {
-                                  debugPrint("course not subbed, index 0");
+                        chapterContent.documents.isEmpty
+                            ? const Center(
+                                child:
+                                    Text("No Documents For This Chapter Yet."),
+                              )
+                            : ListView.builder(
+                                padding: const EdgeInsets.all(12),
+                                itemCount: chapterContent.documents.length,
+                                itemBuilder: (context, index) =>
+                                    ChapterDocumentTile(
+                                  document: chapterContent.documents[index],
+                                  callBack: () async {
+                                    if (!currentCourse.subscribed) {
+                                      if (index == 0) {
+                                        debugPrint(
+                                            "course not subbed, index 0");
 
-                                  var docProcessor =
-                                      ref.read(documentProvider.notifier);
-                                  String urll =
-                                      chapterContent.documents[index].fileUrl;
-                                  urll =
-                                      "https://lms.biruklemma.com/storage/$urll";
+                                        var docProcessor =
+                                            ref.read(documentProvider.notifier);
+                                        String urll = chapterContent
+                                            .documents[index].fileUrl;
+                                        if (urll == "") {
+                                          urll =
+                                              "https://www2.tntech.edu/leap/murdock/books/v1chap1.pdf";
+                                        } else {
+                                          urll =
+                                              "https://lms.biruklemma.com/storage/$urll";
+                                        }
 
-                                  String identifier =
-                                      chapterContent.documents[index].title;
-                                  await docProcessor.processPDF(
-                                      urll, identifier);
+                                        String identifier = chapterContent
+                                            .documents[index].title;
+                                        await docProcessor.processPDF(
+                                            urll, identifier);
 
-                                  if (context.mounted) {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SecurePDFViewer(),
-                                      ),
-                                    );
-                                  }
-                                } else {
-                                  debugPrint("course not subbed, index not 0");
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title:
-                                          const Text('Cannot access contents'),
-                                      content: const Text(
-                                        "You need to buy this course to access more contents",
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }
-                              } else {
-                                debugPrint("course subbed");
-                                var docProcessor =
-                                    ref.read(documentProvider.notifier);
-                                String urll =
-                                    chapterContent.documents[index].fileUrl;
-                                urll =
-                                    "https://lms.biruklemma.com/storage/$urll";
+                                        if (context.mounted) {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SecurePDFViewer(),
+                                            ),
+                                          );
+                                        }
+                                      } else {
+                                        debugPrint(
+                                            "course not subbed, index not 0");
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title: const Text(
+                                                'Cannot access contents'),
+                                            content: const Text(
+                                              "You need to buy this course to access more contents",
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                    } else {
+                                      debugPrint("course subbed");
+                                      var docProcessor =
+                                          ref.read(documentProvider.notifier);
+                                      String urll = chapterContent
+                                          .documents[index].fileUrl;
+                                      urll =
+                                          "https://lms.biruklemma.com/storage/$urll";
 
-                                String identifier =
-                                    chapterContent.documents[index].title;
-                                await docProcessor.processPDF(urll, identifier);
+                                      String identifier =
+                                          chapterContent.documents[index].title;
+                                      await docProcessor.processPDF(
+                                          urll, identifier);
 
-                                if (context.mounted) {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SecurePDFViewer(),
-                                    ),
-                                  );
-                                }
-                              }
-                            },
-                          ),
-                        ),
+                                      if (context.mounted) {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SecurePDFViewer(),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  },
+                                ),
+                              ),
                         QuizzesListView(
                           quizzes: chapterContent.quizzes,
                         ),

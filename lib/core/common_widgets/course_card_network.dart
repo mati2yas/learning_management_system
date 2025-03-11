@@ -287,6 +287,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
                   SnackBar(
                     behavior: SnackBarBehavior.floating,
                     backgroundColor: AppColors.darkerBlue,
+                    elevation: 4,
                     content: Text(
                       "Course has been $status.",
                       style: const TextStyle(
@@ -307,6 +308,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
                   SnackBar(
                     behavior: SnackBarBehavior.floating,
                     backgroundColor: AppColors.darkerBlue,
+                    elevation: 4,
                     content: Text(
                       "Course has been $status.",
                       style: const TextStyle(

@@ -19,6 +19,6 @@ class NotificationRepository {
     if (!await _connectivityService.hasConnection()) {
       throw Exception("No internet connection");
     }
-    return await _dataSource.fetchUnreadNotifs();
+    return await _dataSource.fetchReadNotifs();
   }
 }

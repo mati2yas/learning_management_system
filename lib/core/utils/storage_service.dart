@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
@@ -64,6 +65,8 @@ class SecureStorageService {
   // }
 
   Future<void> saveUserToStorage(User user) async {
+    debugPrint("the user is: User{ name: ${user.name}, email: ${user.email}");
+    debugPrint("password: ${user.password}}, token: ${user.token}");
     _storage.write(
         key: AppStrings.userStorageKey, value: jsonEncode(user.toMap()));
     Future.delayed(Duration.zero);

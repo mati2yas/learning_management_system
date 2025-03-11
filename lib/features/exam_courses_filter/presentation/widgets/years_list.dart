@@ -167,10 +167,10 @@ class YearsList extends ConsumerWidget {
 
                       var subscriptionController = ref
                           .watch(examSubscriptionControllerProvider.notifier);
-                      var (status, courses) = ref
+                      var (status, exams) = ref
                           .read(examRequestsProvider.notifier)
                           .addOrRemoveExamYear(course.years[index], examType);
-                      subscriptionController.updateExams(courses);
+                      subscriptionController.updateExams(exams);
 
                       ScaffoldMessenger.of(context).removeCurrentSnackBar();
                       ScaffoldMessenger.of(context).showSnackBar(

@@ -5,11 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
-import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
-import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
@@ -212,14 +211,23 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                               color: Colors.white,
                             ),
                           )
-                        : const Text(
-                            'Save',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                        : editState.apiState == ApiState.error
+                            ? Text(
+                                'Retry',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: size.width * 0.04,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                            : const Text(
+                                'Save',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                   ),
                 ),
               ],

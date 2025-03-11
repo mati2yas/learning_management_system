@@ -79,7 +79,9 @@ class EditProfileController extends StateNotifier<UserWrapper> {
   }
 
   void updateBio(String newBio) {
+    debugPrint("state bio before update: ${state.bio}");
     state = state.copyWith(bio: newBio);
+    debugPrint("state bio before update: ${state.bio}");
   }
 
   void updateEmail(String newEmail) {
@@ -101,11 +103,15 @@ class EditProfileController extends StateNotifier<UserWrapper> {
   }
 
   void updateName(String newName) {
+    debugPrint("state name before update: ${state.name}");
     state = state.copyWith(name: newName);
+    debugPrint("state name before update: ${state.name}");
   }
 
   void updatePassword(String password) {
+    debugPrint("state pass before update: ${state.password}");
     state = state.copyWith(password: password);
+    debugPrint("state pass after update: ${state.password}");
   }
 
   Future<void> _loadUser() async {
