@@ -152,43 +152,57 @@ class YearsList extends ConsumerWidget {
                     course: course,
                     year: year,
                   )
-                : FilledButton(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.mainBlueLighter,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    onLongPress: () {},
-                    onPressed: () {
-                      debugPrint("add to requestsProv function start");
-                      var requestsProv = ref.watch(examRequestsProvider);
-                      debugPrint("requestsProv length: ${requestsProv.length}");
-
-                      var subscriptionController = ref
-                          .watch(examSubscriptionControllerProvider.notifier);
-                      var (status, exams) = ref
-                          .read(examRequestsProvider.notifier)
-                          .addOrRemoveExamYear(course.years[index], examType);
-                      subscriptionController.updateExams(exams);
-
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: AppColors.darkerBlue,
-                          behavior: SnackBarBehavior.floating,
-                          elevation: 4,
-                          content: Text(
-                            "Exam has been $status.",
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
+                : year.pending
+                    ? FilledButton(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: AppColors.mainBlueLighter,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
                         ),
-                      );
-                    },
-                    child: const Text("Buy"),
-                  ),
+                        onLongPress: () {},
+                        onPressed: () {},
+                        child: const Text("Pending"),
+                      )
+                    : FilledButton(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: AppColors.mainBlueLighter,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        onLongPress: () {},
+                        onPressed: () {
+                          debugPrint("add to requestsProv function start");
+                          var requestsProv = ref.watch(examRequestsProvider);
+                          debugPrint(
+                              "requestsProv length: ${requestsProv.length}");
+
+                          var subscriptionController = ref.watch(
+                              examSubscriptionControllerProvider.notifier);
+                          var (status, exams) = ref
+                              .read(examRequestsProvider.notifier)
+                              .addOrRemoveExamYear(
+                                  course.years[index], examType);
+                          subscriptionController.updateExams(exams);
+
+                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: AppColors.darkerBlue,
+                              behavior: SnackBarBehavior.floating,
+                              elevation: 4,
+                              content: Text(
+                                "Exam has been $status.",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text("Buy"),
+                      ),
           ),
         );
       },

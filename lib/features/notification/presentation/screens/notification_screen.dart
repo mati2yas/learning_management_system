@@ -46,8 +46,8 @@ class NotificationScreen extends ConsumerWidget {
                     errorMsg: error.toString().replaceAll("Exception: ", ""),
                     callback: () async {
                       await ref
-                          .read(notificationApiProvider.notifier)
-                          .fetchNotifs(page: 1);
+                          .refresh(notificationApiProvider.notifier)
+                          .fetchNotifs(page: 0);
                     },
                   ),
                   data: (notifs) {
@@ -55,6 +55,7 @@ class NotificationScreen extends ConsumerWidget {
                       child: Column(
                         children: [
                           Expanded(
+                            flex: 18,
                             child: ListView.separated(
                               itemCount: notifs.notifDatas.length,
                               separatorBuilder: (context, index) =>
@@ -69,44 +70,59 @@ class NotificationScreen extends ConsumerWidget {
                                   ),
                                   title: Text(notification.title),
                                   subtitle: Text(notification.content),
+                                  trailing: FilledButton(
+                                    style: FilledButton.styleFrom(
+                                      backgroundColor:
+                                          AppColors.mainBlueLighter,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                    ),
+                                    onLongPress: () {},
+                                    onPressed: () {},
+                                    child: const Text("Mark as read"),
+                                  ),
                                 );
                               },
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if (currentPage > 1)
-                                  TextButton(
-                                    onPressed: () async {
-                                      await ref
-                                          .read(
-                                              notificationApiProvider.notifier)
-                                          .fetchNotifs(page: currentPage - 1);
-                                    },
-                                    child: const Text('Previous'),
-                                  ),
-                                if (currentPage < totalPages)
-                                  TextButton(
-                                    onPressed: () async {
-                                      await ref
-                                          .read(
-                                              notificationApiProvider.notifier)
-                                          .fetchNotifs(page: currentPage + 1);
-                                    },
-                                    child: const Text('Next'),
-                                  ),
-                                if (isLoading)
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 16.0),
-                                    child: CircularProgressIndicator(
-                                      color: AppColors.mainBlue,
-                                      strokeWidth: 5,
+                          Expanded(
+                            flex: 4,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (currentPage > 1)
+                                    TextButton(
+                                      onPressed: () async {
+                                        await ref
+                                            .read(notificationApiProvider
+                                                .notifier)
+                                            .fetchNotifs(page: currentPage - 1);
+                                      },
+                                      child: const Text('Previous'),
                                     ),
-                                  ),
-                              ],
+                                  if (currentPage < totalPages)
+                                    TextButton(
+                                      onPressed: () async {
+                                        await ref
+                                            .read(notificationApiProvider
+                                                .notifier)
+                                            .fetchNotifs(page: currentPage + 1);
+                                      },
+                                      child: const Text('Next'),
+                                    ),
+                                  if (isLoading)
+                                    const Padding(
+                                      padding: EdgeInsets.only(left: 16.0),
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.mainBlue,
+                                        strokeWidth: 5,
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

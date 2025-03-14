@@ -5,6 +5,7 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
+import 'package:lms_system/features/notification/provider/notification_provider.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 import 'package:lms_system/features/subscription/provider/requests/exam_requests_provider.dart';
 
@@ -22,6 +23,7 @@ class CustomHomeAppBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var courseRequestsProv = ref.watch(courseRequestsProvider);
     var examRequestsProv = ref.watch(examRequestsProvider);
+    var notifsProv = ref.watch(notificationApiProvider);
     return Container(
       height: 135,
       padding:
@@ -48,15 +50,40 @@ class CustomHomeAppBar extends ConsumerWidget {
                 onTap: () {
                   Navigator.of(context).pushNamed(Routes.notifications);
                 },
-                child: const CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Center(
-                    child: Icon(
-                      Icons.notifications_outlined,
-                      color: Colors.black,
-                      size: 20,
+                child: Stack(
+                  children: [
+                    const CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Center(
+                        child: Icon(
+                          Icons.notifications_outlined,
+                          color: Colors.black,
+                          size: 20,
+                        ),
+                      ),
                     ),
-                  ),
+                    if (notifsProv.hasValue &&
+                        (notifsProv.value!.notifDatas.isNotEmpty))
+                      Positioned(
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 18,
+                          width: 18,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          child: Text(
+                            "${notifsProv.value!.notifDatas.length}",
+                            style: const TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
               GestureDetector(

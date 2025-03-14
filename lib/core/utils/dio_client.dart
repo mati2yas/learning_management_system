@@ -16,7 +16,30 @@ class DioClient {
     ),
   );
 
-  static Dio get instance => _dio;
+  static Dio get instance {
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          debugPrint("➡️ Request: ${options.method} ${options.uri}");
+          debugPrint("🛜 Headers: ${options.headers}");
+          debugPrint("🛜 Authorization: ${options.headers["Authorization"]}");
+          debugPrint("🛜 Body: ${options.data}");
+          return handler.next(options);
+        },
+        onResponse: (response, handler) {
+          debugPrint("✅ Response: ${response.statusCode}");
+          debugPrint("✅ Response Time: ${response.extra["duration"]} ms");
+          return handler.next(response);
+        },
+        onError: (DioException e, handler) {
+          debugPrint("❌ Error: ${e.response?.statusCode}");
+          debugPrint("Message: ${e.response?.data}");
+          return handler.next(e);
+        },
+      ),
+    );
+    return _dio;
+  }
 
   static Future<void> setToken() async {
     final user = await SecureStorageService().getUserFromStorage();

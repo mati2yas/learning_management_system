@@ -117,6 +117,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
                               },
                             );
                             close(context, courses[index]);
+                            Navigator.of(context).pop();
                           },
                           child: CourseCardNetworkImage(
                             course: course,

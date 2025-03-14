@@ -1,13 +1,17 @@
+import 'package:flutter/material.dart';
+
 class NotificationData {
-  final String title, content;
+  final String id, title, content;
   NotificationData({
+    required this.id,
     required this.title,
     required this.content,
   });
   factory NotificationData.fromJson(Map<String, dynamic> json) {
     return NotificationData(
+      id: json["id"],
       title: "",
-      content: json["message"] ?? "No Message",
+      content: json["data"]["message"] ?? "No Message",
     );
   }
 }
@@ -21,11 +25,22 @@ class NotificationModel {
     this.currentPage = 0,
     this.totalPages = 10,
   });
+
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
     List<NotificationData> datas = [];
-    List<dynamic> notifs = json["notifications"];
-    for (var n in notifs) {
-      var nData = n["data"] ?? {};
+    for (var entry in json.entries) {
+      debugPrint("${entry.key}: ${entry.value}");
+    }
+
+    dynamic notifs = json["notifications"];
+    if (notifs is String) {
+      notifs = [];
+    }
+    for (var nData in notifs) {
+      for (var e in nData.entries) {
+        debugPrint("${e.key}: ${e.value}");
+      }
+      debugPrint("nData is a map of ");
       datas.add(NotificationData.fromJson(nData));
     }
     return NotificationModel(notifDatas: datas);

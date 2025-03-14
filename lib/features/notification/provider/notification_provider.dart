@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/features/notification/model/notification_model.dart';
 import 'package:lms_system/features/notification/repository/notification_repository.dart';
+import 'package:lms_system/features/shared/model/api_response_model.dart';
 
 final notificationApiNotifierProvider = Provider(
     (ref) => NotificationApiNotifier(ref.read(notificationRepositoryProvider)));
@@ -40,6 +42,23 @@ class NotificationApiNotifier extends AsyncNotifier<NotificationModel> {
   }
 
   fetchNotifsPerPage({required page}) {}
+
+  Future<ApiResponse> markAsRead(NotificationData notification) async {
+    await DioClient.setToken();
+    ApiResponse apiRes = ApiResponse(
+      message: "Waiting",
+      responseStatus: false,
+    );
+    try {
+      apiRes = await _repository.markNotifAsRead(notification.id);
+    } catch (e) {
+      apiRes = ApiResponse(
+        message: "Failed",
+        responseStatus: false,
+      );
+    }
+    return apiRes;
+  }
 }
 
 class NotificationState {

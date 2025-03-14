@@ -1,159 +1,3 @@
-// class ChapterVideoWidget extends ConsumerStatefulWidget {
-//   final Video video;
-//   const ChapterVideoWidget({
-//     super.key,
-//     required this.video,
-//   });
-
-//   @override
-//   ConsumerState<ChapterVideoWidget> createState() =>
-//       _ChapterVideosWidgetState();
-// }
-
-// class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
-//   YoutubePlayerController ytCtrl = YoutubePlayerController(initialVideoId: "");
-//   int seconds = 0;
-//   int videoIndex = 0;
-//   late CurrentPlayingVideoTracker videoTracker;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     print("3. then build method is called");
-//     var textTh = Theme.of(context).textTheme;
-//     var size = MediaQuery.of(context).size;
-
-//     return LayoutBuilder(
-//       builder: (context, constraints) {
-//         final isLandscape = constraints.maxWidth > constraints.maxHeight;
-//         return isLandscape
-//             ? SafeArea(
-//                 child: SizedBox(
-//                   width: constraints.maxWidth,
-//                   height: constraints.maxHeight,
-//                   child: Stack(
-//                     children: [
-//                       Center(
-//                         child: YoutubePlayer(
-//                           width: constraints.maxWidth * 0.9,
-//                           aspectRatio: 16 / 9,
-//                           topActions: const [],
-//                           bottomActions: [
-//                             const CurrentPosition(),
-//                             const ProgressBar(isExpanded: false),
-//                             const MetaData(),
-//                             const CurrentPosition(),
-//                             FullScreenButton(
-//                               controller: ytCtrl,
-//                             ),
-//                           ],
-//                           controller: ytCtrl,
-//                           showVideoProgressIndicator: true,
-//                           progressIndicatorColor: AppColors.mainBlue,
-//                           progressColors: ProgressBarColors(
-//                             playedColor: AppColors.mainBlue,
-//                             handleColor:
-//                                 AppColors.mainBlue.withValues(alpha: 0.6),
-//                           ),
-//                         ),
-//                       ),
-//                       Positioned(
-//                         child: Container(
-//                           height: 40,
-//                           width: constraints.maxWidth,
-//                           decoration: const BoxDecoration(
-//                             color: Colors.black54,
-//                           ),
-//                           child: Row(
-//                             spacing: 12,
-//                             children: [
-//                               IconButton(
-//                                 onPressed: () {
-//                                   Navigator.pop(context);
-//                                 },
-//                                 icon: const Icon(
-//                                   Icons.arrow_back,
-//                                   color: Colors.white,
-//                                 ),
-//                               ),
-//                               Text(
-//                                 widget.video.title,
-//                                 style: textTh.titleMedium!.copyWith(
-//                                   color: Colors.white,
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       )
-//                     ],
-//                   ),
-//                 ),
-//               )
-//             : Scaffold(
-//                 appBar: CommonAppBar(titleText: widget.video.title),
-//                 body: Padding(
-//                   padding: const EdgeInsets.all(12),
-//                   child: LayoutBuilder(
-//                     builder: (context, constraints) {
-//                       return SizedBox(
-//                         height: constraints.maxHeight,
-//                         child: Column(
-//                           crossAxisAlignment: CrossAxisAlignment.center,
-//                           children: [
-//                             YoutubePlayer(
-//                               width: size.width * 0.9,
-//                               aspectRatio: 16 / 9,
-//                               bottomActions: const [
-//                                 CurrentPosition(),
-//                                 ProgressBar(isExpanded: true),
-//                                 CurrentPosition(),
-//                                 FullScreenButton(),
-//                               ],
-//                               controller: ytCtrl,
-//                               showVideoProgressIndicator: true,
-//                               progressIndicatorColor: AppColors.mainBlue,
-//                               progressColors: ProgressBarColors(
-//                                 playedColor: AppColors.mainBlue,
-//                                 handleColor:
-//                                     AppColors.mainBlue.withValues(alpha: 0.6),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       );
-//                     },
-//                   ),
-//                 ),
-//               );
-//       },
-//     );
-//   }
-
-//   @override
-//   void dispose() {
-//     ytCtrl.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     String url;
-//     url = widget.video.url;
-//     print("2: ytcontrol inits");
-//     ytCtrl = YoutubePlayerController(
-//       flags: const YoutubePlayerFlags(
-//         autoPlay: false,
-//         mute: false,
-//         showLiveFullscreenButton: false,
-//       ),
-//       initialVideoId: YoutubePlayer.convertUrlToId(url) ?? "",
-//     )..addListener(() {});
-//     dynamic val;
-//     ytCtrl.addListener(() {});
-//     print("1. initstate starts");
-//   }
-// }
 import 'package:flutter/material.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
@@ -170,24 +14,17 @@ class Controls extends StatelessWidget {
   ///
   const Controls({super.key});
 
-  Widget get _space => const SizedBox(height: 10);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
-      
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 10,
         children: [
           const MetaDataSection(),
-          _space,
-          const SourceInputSection(),
-          _space,
           PlayPauseButtonBar(),
-          _space,
           const VideoPositionSeeker(),
-          _space,
           const PlayerStateSection(),
         ],
       ),
@@ -207,21 +44,16 @@ class MetaDataSection extends StatelessWidget {
       },
       builder: (context, value) {
         return Column(
+          spacing: 10,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _Text('Title', value.metaData.title),
-            const SizedBox(height: 10),
-            _Text('Channel', value.metaData.author),
-            const SizedBox(height: 10),
             _Text(
               'Playback Quality',
               value.playbackQuality ?? '',
             ),
-            const SizedBox(height: 10),
             Row(
               children: [
-                _Text('Video Id', value.metaData.videoId),
-                const Spacer(),
                 const _Text(
                   'Speed',
                   '',
@@ -248,6 +80,7 @@ class MetaDataSection extends StatelessWidget {
                       onChanged: (double? newValue) {
                         if (newValue != null) {
                           context.ytController.setPlaybackRate(newValue);
+                          context.ytController.setSize(480, 600);
                         }
                       },
                     );
@@ -365,13 +198,6 @@ class PlayPauseButtonBar extends StatelessWidget {
   }
 }
 
-class SourceInputSection extends StatefulWidget {
-  const SourceInputSection({super.key});
-
-  @override
-  State<SourceInputSection> createState() => _SourceInputSectionState();
-}
-
 class VideoPositionIndicator extends StatelessWidget {
   ///
   const VideoPositionIndicator({super.key});
@@ -482,7 +308,7 @@ class _ChapterVideosWidgetState extends State<ChapterVideoWidget> {
       builder: (context, player) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Youtube Player IFrame Demo'),
+            title: const Text('Play Video'),
           ),
           body: LayoutBuilder(
             builder: (context, constraints) {
@@ -569,157 +395,6 @@ class _PlaylistTypeDropDownState extends State<_PlaylistTypeDropDown> {
         setState(() {});
         widget.onChanged(value);
       },
-    );
-  }
-}
-
-class _SourceInputSectionState extends State<SourceInputSection> {
-  late TextEditingController _textController;
-  ListType? _playlistType;
-
-  String? get _helperText {
-    switch (_playlistType) {
-      case ListType.playlist:
-        return '"PLj0L3ZL0ijTdhFSueRKK-mLFAtDuvzdje", ...';
-      case ListType.userUploads:
-        return '"pewdiepie", "tseries"';
-      default:
-        return null;
-    }
-  }
-
-  String get _hint {
-    switch (_playlistType) {
-      case ListType.playlist:
-        return 'Enter playlist id';
-      case ListType.userUploads:
-        return 'Enter channel name';
-      default:
-        return r'Enter youtube <video id> or <link>';
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _PlaylistTypeDropDown(
-          onChanged: (type) {
-            _playlistType = type;
-            setState(() {});
-          },
-        ),
-        const SizedBox(height: 10),
-        AnimatedSize(
-          duration: const Duration(milliseconds: 300),
-          child: TextField(
-            controller: _textController,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: _hint,
-              helperText: _helperText,
-              fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-              filled: true,
-              hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w300,
-                  ),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () => _textController.clear(),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 10),
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          childAspectRatio: 4,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          crossAxisCount: 2,
-          children: [
-            _Button(
-              action: 'Load',
-              onTap: () {
-                context.ytController.loadVideoById(
-                  videoId: _cleanId(_textController.text) ?? '',
-                );
-              },
-            ),
-            _Button(
-              action: 'Cue',
-              onTap: () {
-                context.ytController.cueVideoById(
-                  videoId: _cleanId(_textController.text) ?? '',
-                );
-              },
-            ),
-            _Button(
-              action: 'Load Playlist',
-              onTap: _playlistType == null
-                  ? null
-                  : () {
-                      context.ytController.loadPlaylist(
-                        list: [_textController.text],
-                        listType: _playlistType!,
-                      );
-                    },
-            ),
-            _Button(
-              action: 'Cue Playlist',
-              onTap: _playlistType == null
-                  ? null
-                  : () {
-                      context.ytController.cuePlaylist(
-                        list: [_textController.text],
-                        listType: _playlistType!,
-                      );
-                    },
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _textController = TextEditingController();
-  }
-
-  String? _cleanId(String source) {
-    if (source.startsWith('http://') || source.startsWith('https://')) {
-      return YoutubePlayerController.convertUrlToId(source);
-    } else if (source.length != 11) {
-      _showSnackBar('Invalid Source');
-    }
-    return source;
-  }
-
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 16),
-        ),
-        behavior: SnackBarBehavior.floating,
-        elevation: 1,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-      ),
     );
   }
 }

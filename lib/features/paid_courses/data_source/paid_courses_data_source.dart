@@ -26,7 +26,7 @@ class PaidCoursesDataSource {
         //var data = response.data["data"];
         //print(response.data["data"]);
         for (var x in response.data["data"]) {
-          print(x.runtimeType);
+          debugPrint("type of paid course json ${x.runtimeType}");
           Course crs = Course.fromJson(x);
           courses.add(crs);
         }

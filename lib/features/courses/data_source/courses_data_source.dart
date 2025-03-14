@@ -25,7 +25,6 @@ class CourseDataSource {
         //var data = response.data["data"];
         //print(response.data["data"]);
         for (var x in response.data["data"]) {
-          print(x.runtimeType);
           Course crs = Course.fromJson(x);
           courses.add(crs);
         }
@@ -50,7 +49,7 @@ class CourseDataSource {
         //var data = response.data["data"];
         //print(response.data["data"]);
         for (var x in response.data["data"]) {
-          print(x.runtimeType);
+          //print(x.runtimeType);
           Course crs = Course.fromJson(x);
           courses.add(crs);
         }
