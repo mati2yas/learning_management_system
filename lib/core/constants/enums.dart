@@ -23,6 +23,8 @@ enum HighschoolClasses { lowerHs, prepHs }
 
 enum IdType { filtered, all }
 
+enum NotifType { read, unread }
+
 enum ProfileFetchType { backend, localDb }
 
 enum SubscriptionType { oneMonth, threeMonths, sixMonths, yearly }

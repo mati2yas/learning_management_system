@@ -7,7 +7,7 @@ import '../../shared/model/shared_course_model.dart';
 final pageviewPartsProvider = Provider<Map<String, String>>((ref) {
   return {
     "tag": "What would you like to learn today ?",
-    "img": "university.png"
+    "img": "online_course1.png"
   };
 });
 

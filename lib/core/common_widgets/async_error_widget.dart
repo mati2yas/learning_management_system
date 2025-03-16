@@ -20,7 +20,7 @@ class AsyncErrorWidget extends StatelessWidget {
           spacing: 12,
           children: [
             Text(
-              errorMsg,
+              errorMsg.replaceAll("Exception:", ""),
               style: textTh.titleMedium!.copyWith(color: Colors.red),
             ),
             FilledButton(

@@ -5,7 +5,7 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/enums.dart';
-import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/subscription/provider/requests/course_requests_provider.dart';
 import 'package:lms_system/features/subscription/provider/subscriptions/course_subscription_provider.dart';

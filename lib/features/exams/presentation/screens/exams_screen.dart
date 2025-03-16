@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/current_exam_type_provider.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/exam_courses_filter_provider.dart';
-import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/exams/presentation/widgets/exam_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
@@ -56,7 +55,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                     .fetchExamCourses();
                 pageNavController.navigatePage(7, arguments: "ESSLCE");
               },
-              categoryImage: "high_school",
+              categoryImage: "matric",
               categoryName: "ESSLCE",
             ),
             ExamCategoryShow(
@@ -70,7 +69,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
 
                 pageNavController.navigatePage(7, arguments: "Exit Exam");
               },
-              categoryImage: "university",
+              categoryImage: "exit_exam",
               categoryName: "Exit Exam",
             ),
             ExamCategoryShow(
@@ -84,7 +83,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
 
                 pageNavController.navigatePage(7, arguments: "UAT");
               },
-              categoryImage: "university",
+              categoryImage: "uat",
               categoryName: "UAT",
             ),
             ExamCategoryShow(
@@ -98,7 +97,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
 
                 pageNavController.navigatePage(7, arguments: "NGAT");
               },
-              categoryImage: "university",
+              categoryImage: "ngat",
               categoryName: "NGAT",
             ),
             ExamCategoryShow(
@@ -113,7 +112,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 pageNavController.navigatePage(7,
                     arguments: "6th Grade Ministry");
               },
-              categoryImage: "lower_grades",
+              categoryImage: "ministry_6th",
               categoryName: "6th Grade Ministry",
             ),
             ExamCategoryShow(
@@ -128,7 +127,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 pageNavController.navigatePage(7,
                     arguments: "8th Grade Ministry");
               },
-              categoryImage: "lower_grades",
+              categoryImage: "ministry_8th",
               categoryName: "8th Grade Ministry",
             ),
             ExamCategoryShow(
@@ -142,7 +141,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
 
                 pageNavController.navigatePage(7, arguments: "SAT");
               },
-              categoryImage: "university",
+              categoryImage: "sat_exam",
               categoryName: "SAT",
             ),
             ExamCategoryShow(
@@ -156,7 +155,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
 
                 pageNavController.navigatePage(7, arguments: "Exam");
               },
-              categoryImage: "university",
+              categoryImage: "other_exams",
               categoryName: "Exam",
             ),
           ],

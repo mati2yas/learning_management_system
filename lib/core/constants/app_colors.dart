@@ -5,8 +5,9 @@ class AppColors {
   static const Color lighterGrey = Color.fromARGB(255, 246, 246, 246);
   static const Color darkerGrey = Color(0xff808080);
   static const Color mainBlueLighter = Color.fromARGB(255, 104, 111, 250);
-  static const Color mainBlue = Color.fromARGB(255, 74, 81, 216);
-  static const Color darkerBlue = Color.fromARGB(255, 3, 4, 37);
+  static const Color mainBlue = Color.fromARGB(255, 13, 14, 54);
+  static const Color mainBlue2 = Color.fromARGB(255, 74, 81, 216);
+  static const Color darkerBlue = Color.fromARGB(255, 3, 4, 54);
 
   static const List<Color> courseCategoryColors = [
     Color(0xff58C7FE),

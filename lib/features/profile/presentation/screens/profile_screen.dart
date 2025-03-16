@@ -126,11 +126,11 @@ class ProfilePage extends ConsumerWidget {
                     onPressed: () {
                       ref
                           .read(notificationApiProvider.notifier)
-                          .fetchNotifs(page: 0);
+                          .fetchNotifs(page: 0, type: NotifType.unread);
                       Navigator.of(context).pushNamed(Routes.notifications);
                     },
                     label: Text(
-                      "Notification",
+                      "Notifications",
                       style: textTh.titleMedium!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),

@@ -81,7 +81,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
               icon: const Icon(Icons.arrow_back),
             ),
             title: Text(
-              AppStrings.categoryFormatted[category]!,
+              AppStrings.categoryFormatted(category),
               style: textTh.titleLarge!.copyWith(
                 fontWeight: FontWeight.w600,
                 color: Colors.black,

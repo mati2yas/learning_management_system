@@ -73,9 +73,10 @@ class CustomDrawer extends StatelessWidget {
               // ),
               ListTileButton(
                 onTap: () {
-                  ref
-                      .read(notificationApiProvider.notifier)
-                      .fetchNotifs(page: 0);
+                  ref.read(notificationApiProvider.notifier).fetchNotifs(
+                        page: 0,
+                        type: NotifType.unread,
+                      );
                   Navigator.of(context).pushNamed(Routes.notifications);
                 },
                 iconData: Icons.notifications_outlined,

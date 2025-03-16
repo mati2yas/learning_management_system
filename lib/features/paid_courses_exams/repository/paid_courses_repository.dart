@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/connectivity/connectivity_service.dart';
-import 'package:lms_system/features/paid_courses/data_source/paid_courses_data_source.dart';
+import 'package:lms_system/features/paid_courses_exams/data_source/paid_courses_data_source.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
 final paidCoursesRepositoryProvider = Provider<PaidCoursesRepository>((ref) {

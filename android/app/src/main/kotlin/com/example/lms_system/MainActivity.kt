@@ -1,4 +1,4 @@
-package com.example.lms_system
+package com.exceletacademy.lms
 
 import io.flutter.embedding.android.FlutterActivity
 

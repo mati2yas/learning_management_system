@@ -13,8 +13,9 @@ import 'package:lms_system/features/exam_questions/presentation/exam_questions_p
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
-import 'package:lms_system/features/paid_courses/presentation/screens/paid_courses_screen.dart';
-import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/presentation/screens/paid_screen.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
 import 'package:lms_system/features/subscription/provider/requests/course_requests_provider.dart';
 import 'package:lms_system/features/wrapper/presentation/widgets/nav_item.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
@@ -34,7 +35,7 @@ class WrapperScreen extends ConsumerWidget {
     final List<Widget> pages = [
       const HomePage(), // 0
       const CoursePage(), // 1
-      const PaidCoursesScreen(), // 2
+      const PaidScreen(), // 2
       const ExamsScreen(), // 3
       const CoursesFilterScreen(), // 4
       const CourseChaptersScreen(), // 5
@@ -55,6 +56,7 @@ class WrapperScreen extends ConsumerWidget {
     }
     if (currentPage == 2) {
       ref.read(paidCoursesApiProvider.notifier).build();
+      ref.read(paidExamsApiProvider.notifier).build();
     }
     // if (currentPage == 3) {
     //   ref.read(examYearFilterApiProvider.notifier).build();
@@ -105,7 +107,7 @@ class WrapperScreen extends ConsumerWidget {
                           NavItem(
                             icon: Icons.workspace_premium,
                             onTap: () => pageController.navigatePage(2),
-                            label: "My Courses",
+                            label: "Paid",
                             isCurr: currentPage == 2,
                             ref: ref,
                           ),

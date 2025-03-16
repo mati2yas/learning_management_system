@@ -63,7 +63,7 @@ class CustomHomeAppBar extends ConsumerWidget {
                       ),
                     ),
                     if (notifsProv.hasValue &&
-                        (notifsProv.value!.notifDatas.isNotEmpty))
+                        (notifsProv.value!.unreadNotifs.isNotEmpty))
                       Positioned(
                         child: Container(
                           alignment: Alignment.center,
@@ -74,7 +74,7 @@ class CustomHomeAppBar extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(18),
                           ),
                           child: Text(
-                            "${notifsProv.value!.notifDatas.length}",
+                            "${notifsProv.value!.unreadNotifs.length}",
                             style: const TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w600,

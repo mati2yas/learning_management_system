@@ -36,7 +36,7 @@ class CustomTabBar extends StatelessWidget {
       labelColor: Colors.white,
       splashBorderRadius: BorderRadius.circular(8),
       tabs: tabs,
-      //controller: controller,
+      controller: controller,
     );
   }
 }

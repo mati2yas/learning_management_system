@@ -19,9 +19,10 @@ class CarouselPage extends StatelessWidget {
       height: 130,
       decoration: BoxDecoration(
         border: Border.all(
-          color: AppColors.mainGrey,
-          width: 2,
+          color: AppColors.mainBlue,
+          width: 1,
         ),
+        boxShadow: const [BoxShadow()],
         gradient: const LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/utils/dio_client.dart';
+import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/notification/model/notification_model.dart';
 import 'package:lms_system/features/notification/repository/notification_repository.dart';
-import 'package:lms_system/features/shared/model/api_response_model.dart';
 
 final notificationApiNotifierProvider = Provider(
     (ref) => NotificationApiNotifier(ref.read(notificationRepositoryProvider)));
@@ -22,17 +21,20 @@ final notificationApiProvider =
 
 class NotificationApiNotifier extends AsyncNotifier<NotificationModel> {
   final NotificationRepository _repository;
+  NotifType _currentType = NotifType.unread;
 
   NotificationApiNotifier(this._repository);
 
   @override
   Future<NotificationModel> build() async {
-    return fetchNotifs(page: 0);
+    return fetchNotifs(page: 1, type: NotifType.unread);
   }
 
-  Future<NotificationModel> fetchNotifs({required int page}) async {
+  Future<NotificationModel> fetchNotifs(
+      {required int page, required NotifType type}) async {
+    _currentType = type;
     try {
-      final notifModel = await _repository.getNotifs();
+      final notifModel = await _repository.getNotifs(page: page, type: type);
       return notifModel;
     } catch (e, stack) {
       debugPrint(e.toString());
@@ -41,36 +43,32 @@ class NotificationApiNotifier extends AsyncNotifier<NotificationModel> {
     }
   }
 
-  fetchNotifsPerPage({required page}) {}
-
-  Future<ApiResponse> markAsRead(NotificationData notification) async {
-    await DioClient.setToken();
-    ApiResponse apiRes = ApiResponse(
-      message: "Waiting",
-      responseStatus: false,
-    );
+  Future<void> markAsRead(NotificationData notification) async {
     try {
-      apiRes = await _repository.markNotifAsRead(notification.id);
-    } catch (e) {
-      apiRes = ApiResponse(
-        message: "Failed",
-        responseStatus: false,
+      await _repository.markNotifAsRead(notification.id);
+      final currentState = state.value!;
+      List<NotificationData> updatedUnread = [];
+      List<NotificationData> updatedRead = [];
+      if (_currentType == NotifType.unread) {
+        updatedUnread = currentState.unreadNotifs
+            .where((n) => n.id != notification.id)
+            .toList();
+        updatedRead = [...currentState.readNotifs, notification];
+      } else {
+        updatedRead = currentState.readNotifs
+            .where((n) => n.id != notification.id)
+            .toList();
+        updatedUnread = [...currentState.unreadNotifs, notification];
+      }
+
+      state = AsyncData(
+        currentState.copyWith(
+          unreadNotifs: updatedUnread,
+          readNotifs: updatedRead,
+        ),
       );
+    } catch (e) {
+      debugPrint(e.toString());
     }
-    return apiRes;
   }
-}
-
-class NotificationState {
-  final List<NotificationModel> unreadNotifications;
-  final List<NotificationModel> readNotifications;
-
-  NotificationState({
-    required this.unreadNotifications,
-    required this.readNotifications,
-  });
-
-  NotificationState.initial()
-      : unreadNotifications = [],
-        readNotifications = [];
 }

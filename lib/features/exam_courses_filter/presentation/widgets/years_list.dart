@@ -45,6 +45,7 @@ class TakeOrFitler extends StatelessWidget {
                     "exam year": year.title,
                     "previousScreen": 7,
                     "hasTimerOption": true,
+                    "duration": year.duration,
                   };
                   ref.read(currentIdStubProvider.notifier).changeStub({
                     "idType": IdType.all,
@@ -54,7 +55,9 @@ class TakeOrFitler extends StatelessWidget {
                   ref
                       .refresh(examQuestionsApiProvider.notifier)
                       .fetchQuestions();
-                  ref.read(examTimerProvider.notifier).resetTimer();
+                  ref
+                      .read(examTimerProvider.notifier)
+                      .resetTimer(duration: year.duration);
                   pageController.navigatePage(6, arguments: examData);
                 },
                 child: const ListTile(
@@ -155,7 +158,7 @@ class YearsList extends ConsumerWidget {
                 : year.pending
                     ? FilledButton(
                         style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.mainBlueLighter,
+                          backgroundColor: AppColors.mainBlue,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -166,7 +169,7 @@ class YearsList extends ConsumerWidget {
                       )
                     : FilledButton(
                         style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.mainBlueLighter,
+                          backgroundColor: AppColors.mainBlue,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),

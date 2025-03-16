@@ -3,33 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
 import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
-import 'package:lms_system/features/paid_courses/provider/paid_courses_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 import '../../../provider/courses_provider.dart';
 import '../../widgets/category_show.dart';
-
-final categories = [
-  "lower_grades",
-  "high_school",
-  "university",
-  "random_courses"
-];
-
-Map<String, String> categoryFormatted = {
-  "lower_grades": "Lower Grades",
-  "high_school": "High School",
-  "university": "University",
-  "random_courses": "Courses",
-};
 
 class CoursePage extends ConsumerWidget {
   const CoursePage({super.key});
@@ -105,10 +92,10 @@ class CoursePage extends ConsumerWidget {
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 15,
               ),
-              children: categories
+              children: AppStrings.courseCategories
                   .map(
                     (cat) => CategoryShow(
-                      category: categoryFormatted[cat]!,
+                      category: AppStrings.categoryFormatted(cat),
                       categoryImage: cat,
                       onTap: () {
                         currentCourseFilterController.changeFilter(cat);

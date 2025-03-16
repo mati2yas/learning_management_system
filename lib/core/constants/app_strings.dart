@@ -18,15 +18,14 @@ class AppStrings {
     universityCategory,
     otherCoursesCategory,
   ];
-
   static const String grade9 = "Grade 9";
+
   static const String grade10 = "Grade 10";
   static const String grade11 = "Grade 11";
   static const String grade12 = "Grade 12";
-
   static const String naturalStream = "Natural";
-  static const String socialStream = "Social";
 
+  static const String socialStream = "Social";
   static const List<String> highSchoolGrades = [
     grade9,
     grade10,
@@ -44,6 +43,7 @@ class AppStrings {
     "Grade 7",
     "Grade 8"
   ];
+
   static const List<String> universityGrades = [
     "Freshman",
     "2nd Year",
@@ -54,12 +54,6 @@ class AppStrings {
     "7th Year",
   ];
 
-  static const Map<String, String> categoryFormatted = {
-    "lower_grades": "Lower Grades",
-    "high_school": "High School",
-    "university": "University",
-    "random_courses": "Other Courses",
-  };
   static const List<String> universityDepartments = [
     "All",
     "Accounting and Finance",
@@ -106,7 +100,6 @@ class AppStrings {
     "Statistics",
     "Urban Planning and Development",
   ];
-
   static const String userStorageKey = "user";
 
   static const String onboardingStatusStorageKey = "onboarding_status";
@@ -162,6 +155,7 @@ class AppStrings {
   static const List<String> sixYearDepts = [
     "Medicine",
   ];
+
   static const List<String> sevenYearDepts = [
     "All",
     "Dentistry",
@@ -169,5 +163,14 @@ class AppStrings {
   static const List<String> oneYearDepts = [
     "Pre-Engineering",
   ];
+  static String categoryFormatted(String input) {
+    return switch (input) {
+      lowerGradesCategory => "Lower Grades",
+      highSchoolCategory => "High School",
+      universityCategory => "University",
+      otherCoursesCategory => "Courses",
+      _ => "Courses",
+    };
+  }
   //static const String Key = "user";
 }
