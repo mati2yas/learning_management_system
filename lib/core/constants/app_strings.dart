@@ -101,6 +101,7 @@ class AppStrings {
     "Urban Planning and Development",
   ];
   static const String userStorageKey = "user";
+  static const String forgotPassStorageKey = "forgotPassword";
 
   static const String onboardingStatusStorageKey = "onboarding_status";
 

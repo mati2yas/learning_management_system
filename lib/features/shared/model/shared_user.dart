@@ -22,7 +22,6 @@ class User {
         bio = map['bio'] as String,
         image = map['image'] as String,
         token = map['token'] as String;
-
   User copyWith({
     String? name,
     String? email,

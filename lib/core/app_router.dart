@@ -6,7 +6,7 @@ import 'package:lms_system/features/chapter_content/presentation/screens/chapter
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_videos.dart';
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
 import 'package:lms_system/features/edit_profile/presentation/screens/edit_profile_screen.dart';
-import 'package:lms_system/features/forgot_password/presentation/forgot_password.dart';
+import 'package:lms_system/features/forgot_password/presentation/forgot_password_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/notification/presentation/screens/notification_screen.dart';
 import 'package:lms_system/features/onboarding/presentation/screens/onboarding_screen.dart';

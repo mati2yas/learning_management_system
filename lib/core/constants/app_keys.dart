@@ -7,4 +7,7 @@ class AppKeys {
       GlobalKey<FormState>(debugLabel: "registerScreenKey");
   static final editProfileKey =
       GlobalKey<FormState>(debugLabel: "editProfileKey");
+
+  static final changePasswordFormKey =
+      GlobalKey<FormState>(debugLabel: "changePasswordKey");
 }

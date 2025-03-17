@@ -13,10 +13,10 @@ class ForgotPasswordController extends StateNotifier<ForgotPasswordState> {
   final ForgotPasswordRepository _repository;
   ForgotPasswordController(this._repository) : super(ForgotPasswordState());
 
-  Future<void> resetPassword() async {
+  Future<void> forgotPassword() async {
     state = state.copyWith(apiState: ApiState.busy);
     try {
-      await _repository.resetPassword();
+      await _repository.forgotPassword(email: state.email);
 
       state = state.copyWith(apiState: ApiState.idle);
     } catch (e) {
@@ -24,20 +24,28 @@ class ForgotPasswordController extends StateNotifier<ForgotPasswordState> {
       rethrow;
     }
   }
+
+  void updateEmail(String value) {
+    state = state.copyWith(email: value);
+  }
 }
 
 class ForgotPasswordState {
   final ApiState apiStatus;
+  final String email;
 
   ForgotPasswordState({
     this.apiStatus = ApiState.idle,
+    this.email = '',
   });
 
   ForgotPasswordState copyWith({
     ApiState? apiState,
+    String? email,
   }) {
     return ForgotPasswordState(
       apiStatus: apiState ?? apiStatus,
+      email: email ?? this.email,
     );
   }
 }

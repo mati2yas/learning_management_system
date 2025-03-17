@@ -4,6 +4,7 @@ class AppUrls {
   static String login = "/login";
   static String signUp = "/student-register";
   static String forgotPassword = "/forgot-password";
+  static String changePassword = "/reset-password";
   static String deleteUser = "/delete-user";
   static String chapterContent = "/chapter-contents";
   static String courseChapters = "/course-chapters";

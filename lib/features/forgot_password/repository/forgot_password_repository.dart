@@ -16,10 +16,23 @@ class ForgotPasswordRepository {
 
   ForgotPasswordRepository(this._dataSource, this._connectivityService);
 
-  Future<void> resetPassword() async {
+  Future<void> changePassword({
+    required String email,
+    required String password,
+    required String token,
+  }) async {
     if (!await _connectivityService.hasConnection()) {
       throw Exception("No internet connection");
     }
-    return await _dataSource.resetPassword();
+    return await _dataSource.changePassword(
+      password: password,
+    );
+  }
+
+  Future<void> forgotPassword({required String email}) async {
+    if (!await _connectivityService.hasConnection()) {
+      throw Exception("No internet connection");
+    }
+    return await _dataSource.forgotPassword(email: email);
   }
 }
