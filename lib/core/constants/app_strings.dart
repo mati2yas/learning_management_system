@@ -100,12 +100,14 @@ class AppStrings {
     "Statistics",
     "Urban Planning and Development",
   ];
+
+  // storage keys
   static const String userStorageKey = "user";
+  static const String authStatusKey = "auth_status";
   static const String forgotPassStorageKey = "forgotPassword";
-
   static const String onboardingStatusStorageKey = "onboarding_status";
-
   static const String subbedCoursesStorageKey = "subbed_courses";
+
 
   static const List<String> fourYearDepts = [
     "Accounting and Finance",

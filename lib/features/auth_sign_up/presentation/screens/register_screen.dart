@@ -7,6 +7,7 @@ import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_sign_up/provider/register_controller.dart';
 
 class RegisterScreen extends ConsumerWidget {
@@ -28,7 +29,7 @@ class RegisterScreen extends ConsumerWidget {
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 40),
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30),
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: constraints.maxHeight,
@@ -86,8 +87,8 @@ class RegisterScreen extends ConsumerWidget {
                           if (value.isEmpty) {
                             return "Please Enter Password";
                           }
-                          if (value.length < 6) {
-                            return "Password must be at least 6 characters long";
+                          if (value.length < 4) {
+                            return "Password must be at least 4 characters long";
                           }
                           return null;
                         },
@@ -124,17 +125,9 @@ class RegisterScreen extends ConsumerWidget {
                                     .setUserAuthedStatus(AuthStatus.pending);
                                 if (context.mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      elevation: 4,
-                                      backgroundColor: Colors.white,
-                                      duration: Duration(seconds: 3),
-                                      behavior: SnackBarBehavior.floating,
-                                      content: Text(
-                                        "Registration Successful. Check your email for verification",
-                                        style: TextStyle(
-                                          color: AppColors.mainBlue,
-                                        ),
-                                      ),
+                                    UtilFunctions.buildInfoSnackbar(
+                                      message:
+                                          "Registration Successful. Check your email for verification",
                                     ),
                                   );
                                   regController.updateName("");
@@ -149,16 +142,9 @@ class RegisterScreen extends ConsumerWidget {
                                     e.toString().replaceAll("Exception:", "");
                                 if (context.mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      elevation: 4,
-                                      backgroundColor: Colors.white,
-                                      behavior: SnackBarBehavior.floating,
-                                      content: Text(
-                                        "Registration Failed: $exc",
-                                        style: const TextStyle(
-                                          color: Colors.red,
-                                        ),
-                                      ),
+                                    UtilFunctions.buildErrorSnackbar(
+                                      errorMessage: "Registration Failed:",
+                                      exception: exc,
                                     ),
                                   );
                                 }

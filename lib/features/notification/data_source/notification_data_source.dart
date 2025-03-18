@@ -56,6 +56,7 @@ class NotificationsDataSource {
 
   Future<NotificationModel> fetchUnreadNotifs({required int page}) async {
     NotificationModel notifs = NotificationModel();
+    debugPrint('call fetchUnreadNotifs');
     int? statusCode;
     try {
       debugPrint(
@@ -75,6 +76,10 @@ class NotificationsDataSource {
           "Dio response data: ${response.data}"); // Log the entire response data
 
       if (response.statusCode == 200) {
+        var dataMap = response.data as Map<String, dynamic>;
+        for (var entry in response.data.entries) {
+          debugPrint("${entry.key}: ${entry.value}");
+        }
         var notifModel = NotificationModel.fromJson(
           json: response.data,
           notificationType: NotifType.unread,

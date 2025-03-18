@@ -7,6 +7,7 @@ import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
 import 'package:lms_system/features/profile/provider/profile_provider.dart';
@@ -173,16 +174,8 @@ class ProfilePage extends ConsumerWidget {
                           .read(authStatusProvider.notifier)
                           .setAuthStatus(AuthStatus.pending);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          backgroundColor: AppColors.darkerBlue,
-                          behavior: SnackBarBehavior.floating,
-                          content: Text(
-                            "Logged Out Successfully",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+                        UtilFunctions.buildInfoSnackbar(
+                            message: "Logged Out Successfully."),
                       );
                       if (context.mounted) {
                         Navigator.of(context)

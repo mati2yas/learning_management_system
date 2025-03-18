@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
@@ -7,6 +6,7 @@ import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 import 'package:lms_system/features/forgot_password/provider/change_password_provider.dart';
 
@@ -36,7 +36,7 @@ class ChangePasswordScreen extends ConsumerWidget {
             ),
             child: IntrinsicHeight(
               child: Form(
-                key: AppKeys.loginFormKey,
+                key: AppKeys.changePasswordFormKey,
                 child: Column(
                   spacing: 12,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,6 +45,13 @@ class ChangePasswordScreen extends ConsumerWidget {
                       'Change Your New Password',
                       style: textTh.headlineSmall!.copyWith(
                         fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      '(Remember to verify your email first)',
+                      style: textTh.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -65,8 +72,8 @@ class ChangePasswordScreen extends ConsumerWidget {
                         if (value.isEmpty) {
                           return "Please Enter Password";
                         }
-                        if (value.length < 6) {
-                          return "Password must be at least 6 characters long";
+                        if (value.length < 4) {
+                          return "Password must be at least 4 characters long";
                         }
                         return null;
                       },
@@ -105,15 +112,8 @@ class ChangePasswordScreen extends ConsumerWidget {
                                   ref.refresh(currentUserProvider.notifier);
                               if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    elevation: 4,
-                                    backgroundColor: Colors.white,
-                                    behavior: SnackBarBehavior.floating,
-                                    content: Text(
-                                      "Password Change Successful",
-                                      style:
-                                          TextStyle(color: AppColors.mainBlue),
-                                    ),
+                                  UtilFunctions.buildInfoSnackbar(
+                                    message: "Password Change Successful",
                                   ),
                                 );
                                 changePassController.updateEmail("");
@@ -124,30 +124,16 @@ class ChangePasswordScreen extends ConsumerWidget {
                               if (context.mounted) {
                                 if (e.toString() == "Email not verified") {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      elevation: 4,
-                                      backgroundColor: Colors.white,
-                                      behavior: SnackBarBehavior.floating,
-                                      content: Text(
-                                        "Login Failed: $e",
-                                        style: const TextStyle(
-                                          color: Colors.red,
-                                        ),
-                                      ),
+                                    UtilFunctions.buildErrorSnackbar(
+                                      errorMessage: "Change Password Failed:",
+                                      exception: e,
                                     ),
                                   );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      elevation: 4,
-                                      backgroundColor: Colors.white,
-                                      behavior: SnackBarBehavior.floating,
-                                      content: Text(
-                                        "Login Failed: $e",
-                                        style: const TextStyle(
-                                          color: Colors.red,
-                                        ),
-                                      ),
+                                    UtilFunctions.buildErrorSnackbar(
+                                      errorMessage: "Login Failed:",
+                                      exception: e,
                                     ),
                                   );
                                 }
@@ -178,40 +164,6 @@ class ChangePasswordScreen extends ConsumerWidget {
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        height: 80,
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              const TextSpan(
-                                text: "Don't have an account?",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              const TextSpan(text: '\t\t'),
-                              TextSpan(
-                                text: "Save Password",
-                                style: const TextStyle(
-                                  color: AppColors.mainBlue,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed(Routes.signup);
-                                  },
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
                     ),
                   ],

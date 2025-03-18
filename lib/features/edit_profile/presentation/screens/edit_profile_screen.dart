@@ -9,6 +9,7 @@ import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
@@ -197,8 +198,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         } catch (e) {
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text('Profile Edit Failed: $e')),
+                              UtilFunctions.buildErrorSnackbar(
+                                errorMessage: 'Profile Edit Failed:',
+                                exception: e,
+                              ),
                             );
                           }
                           profileEditSuccess = false;

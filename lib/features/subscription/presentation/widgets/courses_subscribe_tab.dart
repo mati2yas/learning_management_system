@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/requests/presentation/widgets/course_request_tile.dart';
 import 'package:lms_system/features/requests/presentation/widgets/subscription_widget.dart';
@@ -74,23 +75,14 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
 
                         subscriptionController.updateCourses(requestsProv);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: AppColors.darkerBlue,
-                            elevation: 4,
-                            content: Text(
-                              "Course has been $status.",
-                              style: const TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
+                          UtilFunctions.buildInfoSnackbar(
+                              message: "Course has been $status"),
                         );
                       } else {
                         // If the list is empty, you can handle this case here
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Your cart is empty!"),
+                          UtilFunctions.buildErrorSnackbar(
+                            errorMessage: "Your cart is empty",
                           ),
                         );
                       }

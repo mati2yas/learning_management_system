@@ -5,6 +5,7 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/subscription/provider/requests/course_requests_provider.dart';
@@ -284,16 +285,8 @@ class CourseCardNetworkImage extends ConsumerWidget {
                 }
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: AppColors.darkerBlue,
-                    elevation: 4,
-                    content: Text(
-                      "Course has been $status.",
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
+                  UtilFunctions.buildInfoSnackbar(
+                    message: "Course has been $status.",
                   ),
                 );
               },
@@ -305,16 +298,8 @@ class CourseCardNetworkImage extends ConsumerWidget {
 
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: AppColors.darkerBlue,
-                    elevation: 4,
-                    content: Text(
-                      "Course has been $status.",
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
+                  UtilFunctions.buildInfoSnackbar(
+                    message: "Course has been $status.",
                   ),
                 );
               },

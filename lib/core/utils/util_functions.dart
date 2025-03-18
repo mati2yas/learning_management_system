@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/constants/enums.dart';
 
@@ -43,6 +44,39 @@ class UtilFunctions {
     debugPrint(allData.join('\n'));
   }
 
+  static SnackBar buildErrorSnackbar({
+    required String errorMessage,
+    dynamic exception,
+  }) {
+    String exceptionStripped = stripExceptionLabel(exception) ?? "";
+    return SnackBar(
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.red.withAlpha(100),
+      elevation: 4,
+      content: Text(
+        //stripExceptionLabel(error.toString()),
+        "$errorMessage $exceptionStripped",
+        style: const TextStyle(
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  static SnackBar buildInfoSnackbar({required String message}) {
+    return SnackBar(
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: AppColors.blueGrey.withAlpha(240),
+      elevation: 4,
+      content: Text(
+        message,
+        style: const TextStyle(
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
   static double getResponsiveChildAspectRatio(Size size) {
     print("width: ${size.width}");
     if (size.width <= 200) return 0.65;
@@ -52,5 +86,12 @@ class UtilFunctions {
     if (size.width < 600) return 1.3;
     if (size.width < 700) return 1.4;
     return 1.7;
+  }
+
+  static String? stripExceptionLabel(dynamic exc) {
+    if (exc == null) {
+      return null;
+    }
+    return exc.toString().replaceAll("Exception:", "");
   }
 }

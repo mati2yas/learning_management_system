@@ -39,7 +39,7 @@ final initialRouteProvider = FutureProvider<StartRoutes>((ref) async {
         secondRoute = Routes.wrapper;
         break;
       case AuthStatus.passwordReset:
-        firstRoute = Routes.login;
+        firstRoute = Routes.changePassword;
         secondRoute = Routes.wrapper;
         break;
       case AuthStatus.notAuthed:

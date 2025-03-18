@@ -6,6 +6,7 @@ import 'package:lms_system/features/chapter_content/presentation/screens/chapter
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_videos.dart';
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
 import 'package:lms_system/features/edit_profile/presentation/screens/edit_profile_screen.dart';
+import 'package:lms_system/features/forgot_password/presentation/change_password_screen.dart';
 import 'package:lms_system/features/forgot_password/presentation/forgot_password_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/notification/presentation/screens/notification_screen.dart';
@@ -43,8 +44,11 @@ class Approuter {
       case Routes.profileAdd:
         return MaterialPageRoute(builder: (_) => const ProfileAddScreen());
 
-      case Routes.resetPassword:
+      case Routes.forgotPassword:
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
+
+      case Routes.changePassword:
+        return MaterialPageRoute(builder: (_) => const ChangePasswordScreen());
       case Routes.courses:
         return MaterialPageRoute(builder: (_) => const CoursePage());
 
@@ -125,5 +129,6 @@ class Routes {
   static const String notifications = "notifications";
   static const String chapterVideo = "chapterVideo";
   static const String tempScreen = "tempScreen";
-  static const String resetPassword = "resetPassword";
+  static const String forgotPassword = "forgotPassword";
+  static const String changePassword = "changePassword";
 }

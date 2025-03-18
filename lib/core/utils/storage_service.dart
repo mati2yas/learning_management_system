@@ -50,11 +50,12 @@ class SecureStorageService {
   }
 
   Future<AuthStatus> getUserAuthedStatus() async {
-    final authStat = await _storage.read(key: "auth_status");
+    final authStat = await _storage.read(key: AppStrings.authStatusKey);
     return switch (authStat ?? "notAuthed") {
       "authed" => AuthStatus.authed,
       "notAuthed" => AuthStatus.notAuthed,
       "pending" => AuthStatus.pending,
+      "passwordReset" => AuthStatus.passwordReset,
       _ => AuthStatus.notAuthed,
     };
   }
@@ -95,7 +96,7 @@ class SecureStorageService {
   }
 
   Future<void> setUserAuthedStatus(AuthStatus status) async {
-    await _storage.write(key: "auth_status", value: status.name);
+    await _storage.write(key: AppStrings.authStatusKey, value: status.name);
   }
 
   Future<void> updateUserBioAndPfp(

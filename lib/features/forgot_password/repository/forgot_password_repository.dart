@@ -25,7 +25,9 @@ class ForgotPasswordRepository {
       throw Exception("No internet connection");
     }
     return await _dataSource.changePassword(
+      email: email,
       password: password,
+      token: token,
     );
   }
 

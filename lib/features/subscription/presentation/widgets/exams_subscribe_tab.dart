@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/current_exam_type_provider.dart';
 import 'package:lms_system/features/requests/presentation/widgets/exam_request_tile.dart';
 import 'package:lms_system/features/requests/presentation/widgets/subscription_widget.dart';
@@ -76,16 +77,8 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
 
                         subscriptionController.updateExams(requestsProv);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: AppColors.darkerBlue,
-                            behavior: SnackBarBehavior.floating,
-                            elevation: 4,
-                            content: Text(
-                              "Exam has been $status.",
-                              style: const TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
+                          UtilFunctions.buildInfoSnackbar(
+                            message: "Exam has been $status",
                           ),
                         );
                       } else {

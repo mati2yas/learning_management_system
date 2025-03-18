@@ -7,6 +7,7 @@ import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_login/provider/login_controller.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 
@@ -28,7 +29,7 @@ class LoginScreen extends ConsumerWidget {
       backgroundColor: Colors.white,
       body: LayoutBuilder(builder: (context, constraints) {
         return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 40),
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30),
           child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: constraints.maxHeight,
@@ -86,8 +87,8 @@ class LoginScreen extends ConsumerWidget {
                         if (value.isEmpty) {
                           return "Please Enter Password";
                         }
-                        if (value.length < 6) {
-                          return "Password must be at least 6 characters long";
+                        if (value.length < 4) {
+                          return "Password must be at least 4 characters long";
                         }
                         return null;
                       },
@@ -98,12 +99,13 @@ class LoginScreen extends ConsumerWidget {
                         loginController.updatePassword(value!);
                       },
                     ),
-                    const SizedBox(height: 15),
+                    //const SizedBox(height: ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushNamed(Routes.resetPassword);
+                          Navigator.of(context)
+                              .pushNamed(Routes.forgotPassword);
                         },
                         child: Text(
                           "Forgot Password?",
@@ -114,7 +116,7 @@ class LoginScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 15),
+                    //const SizedBox(height: 15),
                     Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -142,16 +144,8 @@ class LoginScreen extends ConsumerWidget {
                                   ref.refresh(currentUserProvider.notifier);
                               if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    elevation: 4,
-                                    backgroundColor: Colors.white,
-                                    behavior: SnackBarBehavior.floating,
-                                    content: Text(
-                                      "Login Successful",
-                                      style:
-                                          TextStyle(color: AppColors.mainBlue),
-                                    ),
-                                  ),
+                                  UtilFunctions.buildInfoSnackbar(
+                                      message: "Login Successful"),
                                 );
                                 loginController.updateEmail("");
                                 loginController.updatePassword("");
@@ -160,35 +154,12 @@ class LoginScreen extends ConsumerWidget {
                               }
                             } catch (e) {
                               if (context.mounted) {
-                                if (e.toString() == "Email not verified") {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      elevation: 4,
-                                      backgroundColor: Colors.white,
-                                      behavior: SnackBarBehavior.floating,
-                                      content: Text(
-                                        "Login Failed: $e",
-                                        style: const TextStyle(
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      elevation: 4,
-                                      backgroundColor: Colors.white,
-                                      behavior: SnackBarBehavior.floating,
-                                      content: Text(
-                                        "Login Failed: $e",
-                                        style: const TextStyle(
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  UtilFunctions.buildErrorSnackbar(
+                                    errorMessage: "Login Failed:",
+                                    exception: e,
+                                  ),
+                                );
                               }
                             }
                           }
@@ -208,7 +179,7 @@ class LoginScreen extends ConsumerWidget {
                                       fontWeight: FontWeight.w600,
                                     ),
                                   )
-                                :  Text(
+                                : Text(
                                     'Login',
                                     style: TextStyle(
                                       color: Colors.white,
@@ -218,6 +189,7 @@ class LoginScreen extends ConsumerWidget {
                                   ),
                       ),
                     ),
+                    const SizedBox(height: 30),
                     Align(
                       alignment: Alignment.center,
                       child: SizedBox(

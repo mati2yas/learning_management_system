@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
@@ -111,15 +112,8 @@ class CustomDrawer extends StatelessWidget {
                   Navigator.pop(context);
                   Navigator.of(context).pushReplacementNamed(Routes.login);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      backgroundColor: AppColors.darkerBlue,
-                      behavior: SnackBarBehavior.floating,
-                      content: Text(
-                        "Logged Out Successfully",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
+                    UtilFunctions.buildInfoSnackbar(
+                      message: "Logged Out Successfully.",
                     ),
                   );
                 },

@@ -10,8 +10,8 @@ class NotificationData {
   factory NotificationData.fromJson(Map<String, dynamic> json) {
     return NotificationData(
       id: json["id"],
-      title: "",
-      content: json["data"]["message"] ?? "No Message",
+      title: json["type"],
+      content: json["message"] ?? "No Message",
     );
   }
 }
@@ -32,10 +32,13 @@ class NotificationModel {
       {required Map<String, dynamic> json,
       required NotifType notificationType}) {
     List<NotificationData> datas = [];
-    dynamic notifs = json["notifications"];
-    if (notifs is String) {
-      notifs = [];
-    }
+
+    List<dynamic> notifs = json["data"];
+
+    // if (notifs is String) {
+    //   notifs = [];
+    // }
+
     for (var nData in notifs) {
       datas.add(NotificationData.fromJson(nData));
     }

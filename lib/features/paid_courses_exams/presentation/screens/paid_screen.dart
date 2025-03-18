@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
@@ -152,6 +153,102 @@ class PaidScreen extends ConsumerWidget {
                         child: ListTile(
                           title: Text(exams[index].examYear),
                           subtitle: Text(exams[index].examType),
+                          trailing: exams[index].examType ==
+                                  UtilFunctions()
+                                      .getExamStringValue(ExamType.matric)
+                              ? PopupMenuButton<void>(
+                                  icon: const Icon(
+                                    Icons.more_vert,
+                                  ), // Vertical three dots
+                                  itemBuilder: (BuildContext context) =>
+                                      <PopupMenuEntry<void>>[
+                                    PopupMenuItem<void>(
+                                      onTap: () {
+                                        // navigate to the page that
+                                        // shows the exam
+                                        // Map<String, dynamic> examData = {
+                                        //   "exam course": course.title,
+                                        //   "exam year": year.title,
+                                        //   "previousScreen": 7,
+                                        //   "hasTimerOption": true,
+                                        //   "duration": year.duration,
+                                        // };
+                                        // ref.read(currentIdStubProvider.notifier).changeStub({
+                                        //   "idType": IdType.all,
+                                        //   "id": year.id,
+                                        //   "courseId": course.id,
+                                        // });
+                                        // ref
+                                        //     .refresh(examQuestionsApiProvider.notifier)
+                                        //     .fetchQuestions();
+                                        // ref
+                                        //     .read(examTimerProvider.notifier)
+                                        //     .resetTimer(duration: year.duration);
+                                        // pageNavController.navigatePage(6, arguments: examData);
+                                      },
+                                      child: const ListTile(
+                                        leading: Icon(Icons.question_answer),
+                                        title: Text('Take All'),
+                                      ),
+                                    ),
+                                    PopupMenuItem<void>(
+                                      onTap: () {
+                                        // navigate to the page that
+                                        // further filter the exams
+                                        // debugPrint("to page 8, exam title: examtitle");
+
+                                        // ref
+                                        //     .read(currentExamYearIdProvider.notifier)
+                                        //     .changeYearId(year.id);
+                                        // ref
+                                        //     .read(currentExamCourseIdProvider.notifier)
+                                        //     .changeCourseId(course.id);
+
+                                        // ref
+                                        //     .read(examGradeFilterApiProvider.notifier)
+                                        //     .fetchExamGrades();
+                                        // pageNavController.navigatePage(
+                                        //   8,
+                                        //   arguments: <String, dynamic>{
+                                        //     "exam course": course.title,
+                                        //     "exam year": year,
+                                        //     //"courseId": course.id,
+                                        //   },
+                                        // );
+                                      },
+                                      child: const ListTile(
+                                        leading: Icon(Icons.filter_alt),
+                                        title: Text('Filter'),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : FilledButton(
+                                  style: FilledButton.styleFrom(
+                                    backgroundColor: AppColors.mainBlue,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    if (exams[index].examType ==
+                                        UtilFunctions().getExamStringValue(
+                                            ExamType.matric)) {
+                                    } else {
+                                      // if null then other pages, move on to
+                                      // questions page
+                                      Map<String, dynamic> examData = {
+                                        //"exam course": course.title,
+                                        "exam year": exams[index].examYear,
+                                        "previousScreen": 7,
+                                        "hasTimerOption": false,
+                                      };
+                                      pageNavController.navigatePage(6,
+                                          arguments: examData);
+                                    }
+                                  },
+                                  child: const Text("Take"),
+                                ),
                         ),
                       ),
                     );
