@@ -5,6 +5,7 @@ import 'package:lms_system/features/exams/model/exams_model.dart';
 class ExamYear {
   final String title;
   final int id, examSheetId, questionCount;
+  final String parentCourseTitle;
   final int duration;
   final List<Question> questions; // For non-matric exams
   final List<ExamGrade> grades; // For matric exams
@@ -17,6 +18,7 @@ class ExamYear {
     required this.id,
     required this.examSheetId,
     required this.title,
+    required this.parentCourseTitle,
     required this.duration,
     this.questions = const [],
     this.subscribed = false,
@@ -84,6 +86,7 @@ class ExamYear {
     return ExamYear(
       id: json["id"] ?? 0,
       title: json["year_name"] ?? "year name",
+      parentCourseTitle: json["parent_course_title"],
       examSheetId: json["exam_sheet_id"] ?? 0,
       questionCount: json['exam_questions_count'] ?? 0,
       duration: json["duration"] ?? 20,
@@ -102,6 +105,7 @@ class ExamYear {
     return ExamYear(
       id: -1,
       examSheetId: -1,
+      parentCourseTitle: "",
       duration: 0,
       title: "",
       price: {},

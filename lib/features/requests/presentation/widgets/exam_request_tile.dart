@@ -25,7 +25,12 @@ class ExamYearRequestTile extends ConsumerWidget {
         ),
       ),
       child: ListTile(
-        title: Text(examYear.title),
+        title: Column(
+          children: [
+            Text(examYear.title),
+            Text(examYear.parentCourseTitle),
+          ],
+        ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

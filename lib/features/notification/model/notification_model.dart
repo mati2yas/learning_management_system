@@ -18,12 +18,10 @@ class NotificationData {
 
 class NotificationModel {
   int currentPage, totalPages;
-  final List<NotificationData> unreadNotifs;
-  final List<NotificationData> readNotifs;
+  final List<NotificationData> notifs;
 
   NotificationModel({
-    this.unreadNotifs = const [],
-    this.readNotifs = const [],
+    this.notifs = const [],
     this.currentPage = 1,
     this.totalPages = 10,
   });
@@ -43,70 +41,23 @@ class NotificationModel {
       datas.add(NotificationData.fromJson(nData));
     }
 
-    if (notificationType == NotifType.unread) {
-      return NotificationModel(
-          unreadNotifs: datas,
-          currentPage: json['current_page'] ?? 1,
-          totalPages: json['last_page'] ?? 10);
-    } else {
-      return NotificationModel(
-          readNotifs: datas,
-          currentPage: json['current_page'] ?? 1,
-          totalPages: json['last_page'] ?? 10);
-    }
+    return NotificationModel(
+      notifs: datas,
+      currentPage: json['current_page'] ?? 1,
+      totalPages: json['last_page'] ?? 10,
+    );
   }
 
   NotificationModel copyWith({
-    List<NotificationData>? unreadNotifs,
-    List<NotificationData>? readNotifs,
+    List<NotificationData>? notifs,
     int? currentPage,
     int? totalPages,
   }) {
     return NotificationModel(
-      unreadNotifs: unreadNotifs ?? this.unreadNotifs,
-      readNotifs: readNotifs ?? this.readNotifs,
+      notifs: notifs ?? this.notifs,
       currentPage: currentPage ?? this.currentPage,
       totalPages: totalPages ?? this.totalPages,
     );
   }
 }
 
-// class NotificationModel {
-//   int currentPage, totalPages;
-//   final List<NotificationData> unreadNotifs;
-//   final List<NotificationData> readNotifs;
-
-//   NotificationModel({
-//     this.unreadNotifs = const [],
-//     this.readNotifs = const [],
-//     this.currentPage = 0,
-//     this.totalPages = 10,
-//   });
-
-//   factory NotificationModel.fromJson({
-//     required Map<String, dynamic> json,
-//     required NotifType notificationType,
-//   }) {
-//     List<NotificationData> datas = [];
-//     for (var entry in json.entries) {
-//       debugPrint("${entry.key}: ${entry.value}");
-//     }
-
-//     dynamic notifs = json["notifications"];
-//     if (notifs is String) {
-//       notifs = [];
-//     }
-//     for (var nData in notifs) {
-//       for (var e in nData.entries) {
-//         debugPrint("${e.key}: ${e.value}");
-//       }
-//       debugPrint("nData is a map of ");
-//       datas.add(NotificationData.fromJson(nData));
-//     }
-//     if (notificationType == NotifType.unread) {
-//       return NotificationModel(unreadNotifs: datas);
-//     } else {
-//       return NotificationModel(readNotifs: datas);
-//     }
-//   }
-// }

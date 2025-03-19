@@ -8,6 +8,12 @@ import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
+import 'package:lms_system/features/exam_courses_filter/provider/current_exam_year_provider.dart';
+import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter_provider.dart';
+import 'package:lms_system/features/exam_questions/provider/current_id_stub_provider.dart';
+import 'package:lms_system/features/exam_questions/provider/exam_questions_provider.dart';
+import 'package:lms_system/features/exams/provider/current_exam_course_id.dart';
+import 'package:lms_system/features/exams/provider/timer_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
@@ -74,54 +80,65 @@ class PaidScreen extends ConsumerWidget {
               ),
               data: (courses) => SizedBox(
                 width: double.infinity,
-                child: GridView.builder(
-                  padding: const EdgeInsets.all(16),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    mainAxisExtent: 175,
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    childAspectRatio:
-                        UtilFunctions.getResponsiveChildAspectRatio(size),
-                  ),
-                  itemBuilder: (_, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        final courseIdController =
-                            ref.watch(currentCourseIdProvider.notifier);
-                        courseIdController.changeCourseId(courses[index].id);
+                child: courses.isEmpty
+                    ? Center(
+                        child: Text(
+                          "No Paid Courses Yet.",
+                          style: textTh.bodyLarge!
+                              .copyWith(fontWeight: FontWeight.w700),
+                        ),
+                      )
+                    : GridView.builder(
+                        padding: const EdgeInsets.all(16),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisExtent: 175,
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          childAspectRatio:
+                              UtilFunctions.getResponsiveChildAspectRatio(size),
+                        ),
+                        itemBuilder: (_, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              final courseIdController =
+                                  ref.watch(currentCourseIdProvider.notifier);
+                              courseIdController
+                                  .changeCourseId(courses[index].id);
 
-                        ref
-                            .read(courseChaptersProvider.notifier)
-                            .fetchCourseChapters();
+                              ref
+                                  .read(courseChaptersProvider.notifier)
+                                  .fetchCourseChapters();
 
-                        ref
-                            .read(courseSubTrackProvider.notifier)
-                            .changeCurrentCourse(courses[index]);
+                              ref
+                                  .read(courseSubTrackProvider.notifier)
+                                  .changeCurrentCourse(courses[index]);
 
-                        debugPrint(
-                            "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
-                        pageNavController.navigatePage(
-                          5,
-                          arguments: {
-                            "course": courses[index],
-                            "previousScreenIndex": 2,
-                          },
-                        );
-                      },
-                      child: CourseCardNetworkImage(
-                        onBookmark: () {
-                          coursesApiController.toggleSaved(courses[index]);
+                              debugPrint(
+                                  "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
+                              pageNavController.navigatePage(
+                                5,
+                                arguments: {
+                                  "course": courses[index],
+                                  "previousScreenIndex": 2,
+                                },
+                              );
+                            },
+                            child: CourseCardNetworkImage(
+                              onBookmark: () {
+                                coursesApiController
+                                    .toggleSaved(courses[index]);
+                              },
+                              onLike: () {
+                                coursesApiController
+                                    .toggleLiked(courses[index]);
+                              },
+                              course: courses[index],
+                            ),
+                          );
                         },
-                        onLike: () {
-                          coursesApiController.toggleLiked(courses[index]);
-                        },
-                        course: courses[index],
+                        itemCount: courses.length,
                       ),
-                    );
-                  },
-                  itemCount: courses.length,
-                ),
               ),
             ),
             examsApiState.when(
@@ -142,6 +159,7 @@ class PaidScreen extends ConsumerWidget {
                 child: ListView.separated(
                   padding: const EdgeInsets.all(16),
                   separatorBuilder: (_, index) => const SizedBox(height: 15),
+                  itemCount: exams.length,
                   itemBuilder: (_, index) {
                     return GestureDetector(
                       child: Card(
@@ -150,110 +168,145 @@ class PaidScreen extends ConsumerWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: ListTile(
-                          title: Text(exams[index].examYear),
-                          subtitle: Text(exams[index].examType),
-                          trailing: exams[index].examType ==
-                                  UtilFunctions()
-                                      .getExamStringValue(ExamType.matric)
-                              ? PopupMenuButton<void>(
-                                  icon: const Icon(
-                                    Icons.more_vert,
-                                  ), // Vertical three dots
-                                  itemBuilder: (BuildContext context) =>
-                                      <PopupMenuEntry<void>>[
-                                    PopupMenuItem<void>(
-                                      onTap: () {
-                                        // navigate to the page that
-                                        // shows the exam
-                                        // Map<String, dynamic> examData = {
-                                        //   "exam course": course.title,
-                                        //   "exam year": year.title,
-                                        //   "previousScreen": 7,
-                                        //   "hasTimerOption": true,
-                                        //   "duration": year.duration,
-                                        // };
-                                        // ref.read(currentIdStubProvider.notifier).changeStub({
-                                        //   "idType": IdType.all,
-                                        //   "id": year.id,
-                                        //   "courseId": course.id,
-                                        // });
-                                        // ref
-                                        //     .refresh(examQuestionsApiProvider.notifier)
-                                        //     .fetchQuestions();
-                                        // ref
-                                        //     .read(examTimerProvider.notifier)
-                                        //     .resetTimer(duration: year.duration);
-                                        // pageNavController.navigatePage(6, arguments: examData);
-                                      },
-                                      child: const ListTile(
-                                        leading: Icon(Icons.question_answer),
-                                        title: Text('Take All'),
-                                      ),
-                                    ),
-                                    PopupMenuItem<void>(
-                                      onTap: () {
-                                        // navigate to the page that
-                                        // further filter the exams
-                                        // debugPrint("to page 8, exam title: examtitle");
-
-                                        // ref
-                                        //     .read(currentExamYearIdProvider.notifier)
-                                        //     .changeYearId(year.id);
-                                        // ref
-                                        //     .read(currentExamCourseIdProvider.notifier)
-                                        //     .changeCourseId(course.id);
-
-                                        // ref
-                                        //     .read(examGradeFilterApiProvider.notifier)
-                                        //     .fetchExamGrades();
-                                        // pageNavController.navigatePage(
-                                        //   8,
-                                        //   arguments: <String, dynamic>{
-                                        //     "exam course": course.title,
-                                        //     "exam year": year,
-                                        //     //"courseId": course.id,
-                                        //   },
-                                        // );
-                                      },
-                                      child: const ListTile(
-                                        leading: Icon(Icons.filter_alt),
-                                        title: Text('Filter'),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              : FilledButton(
-                                  style: FilledButton.styleFrom(
-                                    backgroundColor: AppColors.mainBlue,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    if (exams[index].examType ==
-                                        UtilFunctions().getExamStringValue(
-                                            ExamType.matric)) {
-                                    } else {
-                                      // if null then other pages, move on to
-                                      // questions page
-                                      Map<String, dynamic> examData = {
-                                        //"exam course": course.title,
-                                        "exam year": exams[index].examYear,
-                                        "previousScreen": 7,
-                                        "hasTimerOption": false,
-                                      };
-                                      pageNavController.navigatePage(6,
-                                          arguments: examData);
-                                    }
-                                  },
-                                  child: const Text("Take"),
+                        child: exams.isEmpty
+                            ? Center(
+                                child: Text(
+                                  "No Paid Exams Yet.",
+                                  style: textTh.bodyLarge!
+                                      .copyWith(fontWeight: FontWeight.w700),
                                 ),
-                        ),
+                              )
+                            : ListTile(
+                                title: Text(exams[index].examYear),
+                                subtitle: Text(exams[index].examType),
+                                trailing: exams[index].examType ==
+                                        UtilFunctions()
+                                            .getExamStringValue(ExamType.matric)
+                                    ? PopupMenuButton<void>(
+                                        icon: const Icon(
+                                          Icons.more_vert,
+                                        ), // Vertical three dots
+                                        itemBuilder: (BuildContext context) =>
+                                            <PopupMenuEntry<void>>[
+                                          PopupMenuItem<void>(
+                                            onTap: () {
+                                              // navigate to the page that
+                                              // shows the exam
+                                              Map<String, dynamic> examData = {
+                                                "exam course": exams[index]
+                                                    .parentCourseTitle,
+                                                "exam year":
+                                                    exams[index].examYear,
+                                                "previousScreen": 2,
+                                                "hasTimerOption": true,
+                                                "duration":
+                                                    exams[index].duration,
+                                              };
+                                              ref
+                                                  .read(currentIdStubProvider
+                                                      .notifier)
+                                                  .changeStub({
+                                                "idType": IdType.all,
+                                                "id": exams[index].examId,
+                                                "courseId":
+                                                    exams[index].parentCourseId,
+                                              });
+                                              ref
+                                                  .refresh(
+                                                      examQuestionsApiProvider
+                                                          .notifier)
+                                                  .fetchQuestions();
+                                              ref
+                                                  .read(examTimerProvider
+                                                      .notifier)
+                                                  .resetTimer(
+                                                      duration: exams[index]
+                                                          .duration);
+                                              pageNavController.navigatePage(6,
+                                                  arguments: examData);
+                                            },
+                                            child: const ListTile(
+                                              leading:
+                                                  Icon(Icons.question_answer),
+                                              title: Text('Take All'),
+                                            ),
+                                          ),
+                                          PopupMenuItem<void>(
+                                            onTap: () {
+                                              // navigate to the page that
+                                              // further filter the exams
+                                              debugPrint(
+                                                  "to page 8, exam title: examtitle");
+
+                                              ref
+                                                  .read(
+                                                      currentExamYearIdProvider
+                                                          .notifier)
+                                                  .changeYearId(
+                                                      exams[index].examId);
+                                              ref
+                                                  .read(
+                                                      currentExamCourseIdProvider
+                                                          .notifier)
+                                                  .changeCourseId(exams[index]
+                                                      .parentCourseId);
+
+                                              ref
+                                                  .read(
+                                                      examGradeFilterApiProvider
+                                                          .notifier)
+                                                  .fetchExamGrades();
+                                              pageNavController.navigatePage(
+                                                8,
+                                                arguments: <String, dynamic>{
+                                                  "exam course": exams[index]
+                                                      .parentCourseTitle,
+                                                  "exam year":
+                                                      exams[index].examYear,
+                                                  //"courseId": course.id,
+                                                },
+                                              );
+                                            },
+                                            child: const ListTile(
+                                              leading: Icon(Icons.filter_alt),
+                                              title: Text('Filter'),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : FilledButton(
+                                        style: FilledButton.styleFrom(
+                                          backgroundColor: AppColors.mainBlue,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          if (exams[index].examType ==
+                                              UtilFunctions()
+                                                  .getExamStringValue(
+                                                      ExamType.matric)) {
+                                          } else {
+                                            // if null then other pages, move on to
+                                            // questions page
+                                            Map<String, dynamic> examData = {
+                                              //"exam course": course.title,
+                                              "exam year":
+                                                  exams[index].examYear,
+                                              "previousScreen": 7,
+                                              "hasTimerOption": false,
+                                            };
+                                            pageNavController.navigatePage(6,
+                                                arguments: examData);
+                                          }
+                                        },
+                                        child: const Text("Take"),
+                                      ),
+                              ),
                       ),
                     );
                   },
-                  itemCount: exams.length,
                 ),
               ),
             ),

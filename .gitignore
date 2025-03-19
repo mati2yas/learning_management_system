@@ -31,6 +31,8 @@ migrate_working_dir/
 .pub/
 /build/
 
+android/app/.cxx
+
 # Symbolication related
 app.*.symbols
 
@@ -45,3 +47,5 @@ app.*.map.json
 android/key.properties
 android/my-release-key.jks
 android/mykeystore.jks
+
+android/app/.cxx/Debug/*

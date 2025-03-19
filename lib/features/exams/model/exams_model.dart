@@ -42,6 +42,7 @@ class ExamCourse {
   factory ExamCourse.fromJson(Map<String, dynamic> json) {
     List<ExamYear> years = [];
     for (var yr in json["exam_years"]) {
+      yr["parent_course_title"] = json["course_name"] ?? "Untitled Course"; // append course name to year
       years.add(ExamYear.fromJson(yr));
     }
 

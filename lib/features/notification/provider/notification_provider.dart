@@ -47,24 +47,15 @@ class NotificationApiNotifier extends AsyncNotifier<NotificationModel> {
     try {
       await _repository.markNotifAsRead(notification.id);
       final currentState = state.value!;
-      List<NotificationData> updatedUnread = [];
-      List<NotificationData> updatedRead = [];
-      if (_currentType == NotifType.unread) {
-        updatedUnread = currentState.unreadNotifs
-            .where((n) => n.id != notification.id)
-            .toList();
-        updatedRead = [...currentState.readNotifs, notification];
-      } else {
-        updatedRead = currentState.readNotifs
-            .where((n) => n.id != notification.id)
-            .toList();
-        updatedUnread = [...currentState.unreadNotifs, notification];
-      }
+      List<NotificationData> updatedNotifs = [];
+      
+        updatedNotifs =
+            currentState.notifs.where((n) => n.id != notification.id).toList();
+      
 
       state = AsyncData(
         currentState.copyWith(
-          unreadNotifs: updatedUnread,
-          readNotifs: updatedRead,
+          notifs: updatedNotifs,
         ),
       );
     } catch (e) {

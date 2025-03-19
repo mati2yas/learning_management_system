@@ -1,12 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 
 final examFilterDataSourceProvider = Provider<ExamCoursesFilterDataSource>(

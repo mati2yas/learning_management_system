@@ -4,7 +4,6 @@ import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/notification/model/notification_model.dart';
-import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 import 'package:number_pagination/number_pagination.dart';
 
 import '../../provider/notification_provider.dart';
@@ -30,6 +29,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
   String oneStep = "oneStep", jumpStep = "jumpStep", step = "oneStep";
   @override
   Widget build(BuildContext context) {
+    var textTh = Theme.of(context).textTheme;
     final apiState = ref.watch(notificationApiProvider);
     final notifsController = ref.watch(notificationApiProvider.notifier);
     var size = MediaQuery.of(context).size;
@@ -39,118 +39,67 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
     final notificationData = ref.watch(notificationApiProvider).valueOrNull;
     final totalPages = notificationData?.totalPages ?? 10;
 
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text("Notifications"),
+        centerTitle: true,
+        elevation: 5,
+        shadowColor: Colors.black87,
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text("Notifications"),
-          centerTitle: true,
-          elevation: 5,
-          shadowColor: Colors.black87,
-          surfaceTintColor: Colors.transparent,
-          backgroundColor: Colors.white,
-          bottom: const PreferredSize(
-            preferredSize: Size(double.infinity, 30),
-            child: CustomTabBar(tabs: [
-              Tab(
-                height: 30,
-                text: "Unread",
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SizedBox(
+          width: size.width,
+          height: size.height,
+          child: Column(
+            children: [
+              Expanded(
+                child: apiState.when(
+                  loading: () => SizedBox(
+                    height: size.height * 0.7,
+                    width: size.width,
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                  error: (error, stack) => AsyncErrorWidget(
+                    errorMsg: error.toString(),
+                    callback: () async {
+                      await notifsController.fetchNotifs(
+                          page: currentPage, type: NotifType.unread);
+                    },
+                  ),
+                  data: (notifs) {
+                    return notifs.notifs.isEmpty
+                        ? Center(
+                            child: Text(
+                              "No Notifications Yet.",
+                              style: textTh.bodyLarge!
+                                  .copyWith(fontWeight: FontWeight.w700),
+                            ),
+                          )
+                        : _buildNotificationList(
+                            notifs.notifs, NotifType.unread, ref);
+                  },
+                ),
               ),
-              Tab(
-                height: 30,
-                text: "Read",
-              )
-            ], isScrollable: false),
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                // Unread notifications
-                Column(
-                  children: [
-                    Expanded(
-                      child: apiState.when(
-                        loading: () => SizedBox(
-                          height: size.height * 0.7,
-                          width: size.width,
-                          child: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
-                        error: (error, stack) => AsyncErrorWidget(
-                          errorMsg: error.toString(),
-                          callback: () async {
-                            await notifsController.fetchNotifs(
-                                page: currentPage, type: NotifType.unread);
-                          },
-                        ),
-                        data: (notifs) {
-                          return _buildNotificationList(
-                              notifs.unreadNotifs, NotifType.unread, ref);
-                        },
-                      ),
-                    ),
-                    if (notificationData != null)
-                      NumberPagination(
-                        selectedButtonColor: AppColors.mainBlue,
-                        buttonRadius: 6,
-                        onPageChanged: (number) {
-                          setState(() {
-                            currentPage = number;
-                          });
-                        },
-                        totalPages: 10,
-                        currentPage: currentPage,
-                        visiblePagesCount: 4,
-                      ),
-                  ],
+              if (notificationData != null)
+                NumberPagination(
+                  selectedButtonColor: AppColors.mainBlue,
+                  buttonRadius: 6,
+                  onPageChanged: (number) {
+                    setState(() {
+                      currentPage = number;
+                    });
+                  },
+                  totalPages: 10,
+                  currentPage: currentPage,
+                  visiblePagesCount: 4,
                 ),
-                // Read notifications
-                Column(
-                  children: [
-                    Expanded(
-                      child: apiState.when(
-                        loading: () => SizedBox(
-                          height: size.height * 0.7,
-                          width: size.width,
-                          child: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
-                        error: (error, stack) => AsyncErrorWidget(
-                            errorMsg: error.toString(),
-                            callback: () async {
-                              await notifsController.fetchNotifs(
-                                  page: currentPage, type: NotifType.unread);
-                            }),
-                        data: (notifs) {
-                          return _buildNotificationList(
-                              notifs.readNotifs, NotifType.read, ref);
-                        },
-                      ),
-                    ),
-                    if (notificationData != null)
-                      NumberPagination(
-                        selectedButtonColor: AppColors.mainBlue,
-                        buttonRadius: 6,
-                        onPageChanged: (number) {
-                          setState(() {
-                            currentPage = number;
-                          });
-                        },
-                        totalPages: 10,
-                        currentPage: currentPage,
-                        visiblePagesCount: 4,
-                      ),
-                  ],
-                ),
-              ],
-            ),
+            ],
           ),
         ),
       ),
