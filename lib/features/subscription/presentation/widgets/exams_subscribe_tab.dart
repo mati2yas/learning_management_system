@@ -43,7 +43,7 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
     var subscriptionController =
         ref.watch(examSubscriptionControllerProvider.notifier);
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
       child: Center(
         child: SizedBox(
           height: size.height * 0.8,

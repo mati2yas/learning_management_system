@@ -312,7 +312,9 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                 );
                               },
                               child: CourseCardNetworkImage(
-                                  course: courses[index]),
+                                mainAxisExtent: 200,
+                                course: courses[index],
+                              ),
                             );
                           },
                         )
@@ -413,7 +415,9 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                     );
                                   },
                                   child: CourseCardNetworkImage(
-                                      course: selectedCourses[index]),
+                                    mainAxisExtent: 200,
+                                    course: selectedCourses[index],
+                                  ),
                                 );
                               },
                             );

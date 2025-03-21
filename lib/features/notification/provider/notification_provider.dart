@@ -45,13 +45,12 @@ class NotificationApiNotifier extends AsyncNotifier<NotificationModel> {
 
   Future<void> markAsRead(NotificationData notification) async {
     try {
-      await _repository.markNotifAsRead(notification.id);
+      await _repository.markNotifAsRead(notification.id.toString());
       final currentState = state.value!;
       List<NotificationData> updatedNotifs = [];
-      
-        updatedNotifs =
-            currentState.notifs.where((n) => n.id != notification.id).toList();
-      
+
+      updatedNotifs =
+          currentState.notifs.where((n) => n.id != notification.id).toList();
 
       state = AsyncData(
         currentState.copyWith(

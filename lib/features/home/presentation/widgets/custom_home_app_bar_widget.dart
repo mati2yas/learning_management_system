@@ -25,11 +25,12 @@ class CustomHomeAppBar extends ConsumerWidget {
     var examRequestsProv = ref.watch(examRequestsProvider);
     var notifsProv = ref.watch(notificationApiProvider);
     return Container(
-      height: 135,
+      height: 115,
       padding:
           const EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 12,
         children: [
           Row(
             spacing: 5,
@@ -173,33 +174,37 @@ class CustomHomeAppBar extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 4.0),
-            child: Text(
-              "👋 Hello",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.only(left: 4.0),
-            child: userState.when(
-              error: (error, stack) {
-                return Text(error.toString());
-              },
-              loading: () => const Text("Loading User..."),
-              data: (user) {
-                String name = user.name.replaceAll("\"", "");
-                return Text(
-                  name,
-                  style: const TextStyle(color: Colors.white, fontSize: 18),
-                );
-              },
+            child: SizedBox(
+              height: 40,
+              width: 150,
+              child: Row(
+                spacing: 8,
+                children: [
+                  const Text(
+                    "👋 Hello,",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                    ),
+                  ),
+                  userState.when(
+                    error: (error, stack) {
+                      return Text(error.toString());
+                    },
+                    loading: () => const Text("Loading User..."),
+                    data: (user) {
+                      String name = user.name.replaceAll("\"", "");
+                      return Text(
+                        name,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 22),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],

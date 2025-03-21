@@ -9,10 +9,16 @@ class AppColors {
   static const Color darkerBlue = Color.fromARGB(255, 3, 4, 54);
   static const Color blueGrey = Color.fromARGB(255, 37, 37, 37);
 
-  static const List<Color> courseCategoryColors = [
-    Color(0xff58C7FE),
-    Color(0xffBABAEF),
-    Color(0xffF7AD38),
-    Color(0xffcb6e6f),
+  static const List<Color> courseCategoryColorsLighter = [
+    Color.fromARGB(255, 88, 199, 254),
+    Color.fromARGB(255, 186, 186, 239),
+    Color.fromARGB(255, 247, 173, 56),
+    Color.fromARGB(255, 203, 110, 111),
+  ];
+  static const List<Color> courseCategoryColorsDarker = [
+    Color.fromARGB(255, 36, 182, 254),
+    Color.fromARGB(255, 123, 123, 239),
+    Color.fromARGB(255, 252, 165, 26),
+    Color.fromARGB(255, 212, 51, 53),
   ];
 }

@@ -220,53 +220,47 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                         const SizedBox(height: 10),
                                         if (currentQuestion.answers.length == 1)
                                           ...currentQuestion.options.map((op) {
-                                            return SizedBox(
-                                              width: size.width * 0.8,
-                                              height: 50,
-                                              child: ListTile(
-                                                leading: Radio<String>(
-                                                  activeColor:
-                                                      AppColors.mainBlue,
-                                                  value: op,
-                                                  groupValue:
-                                                      answersTrack[index]
-                                                          .selectedAnswers
-                                                          .elementAtOrNull(0),
-                                                  onChanged: (value) {
-                                                    debugPrint(
-                                                        "in ui page: groupValue: ${answersTrack[index].selectedAnswers.elementAtOrNull(0)}, current option's value: $op  selectedAnswer: $value");
-                                                    setState(() {
-                                                      if (value != null) {
-                                                        answersController
-                                                            .selectAnswerForQuestion(
-                                                          qn: questions[index],
-                                                          selectedAnswer: value,
-                                                          radioButtonValue: op,
-                                                        );
-                                                      } else {
-                                                        // this is the logic for tracking the state when an
-                                                        // option is unselected.
-                                                        // in this one we send selectedAnswer as null
-                                                        // intentionally, to track the state where this option is
-                                                        // unselected and thus remove it from the state if it
-                                                        // previously existed. and that's why we also send
-                                                        // radioButtonValue, we check if that value already
-                                                        // exists in the state and then remove it.
-                                                        answersController
-                                                            .selectAnswerForQuestion(
-                                                          qn: questions[index],
-                                                          selectedAnswer: null,
-                                                          radioButtonValue: op,
-                                                        );
-                                                      }
-                                                    });
-                                                  },
-                                                ),
-                                                title: Text(
-                                                  op,
-                                                  style: const TextStyle(
-                                                    fontSize: 13,
-                                                  ),
+                                            return ListTile(
+                                              leading: Radio<String>(
+                                                activeColor: AppColors.mainBlue,
+                                                value: op,
+                                                groupValue: answersTrack[index]
+                                                    .selectedAnswers
+                                                    .elementAtOrNull(0),
+                                                onChanged: (value) {
+                                                  debugPrint(
+                                                      "in ui page: groupValue: ${answersTrack[index].selectedAnswers.elementAtOrNull(0)}, current option's value: $op  selectedAnswer: $value");
+                                                  setState(() {
+                                                    if (value != null) {
+                                                      answersController
+                                                          .selectAnswerForQuestion(
+                                                        qn: questions[index],
+                                                        selectedAnswer: value,
+                                                        radioButtonValue: op,
+                                                      );
+                                                    } else {
+                                                      // this is the logic for tracking the state when an
+                                                      // option is unselected.
+                                                      // in this one we send selectedAnswer as null
+                                                      // intentionally, to track the state where this option is
+                                                      // unselected and thus remove it from the state if it
+                                                      // previously existed. and that's why we also send
+                                                      // radioButtonValue, we check if that value already
+                                                      // exists in the state and then remove it.
+                                                      answersController
+                                                          .selectAnswerForQuestion(
+                                                        qn: questions[index],
+                                                        selectedAnswer: null,
+                                                        radioButtonValue: op,
+                                                      );
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                              title: Text(
+                                                op,
+                                                style: const TextStyle(
+                                                  fontSize: 13,
                                                 ),
                                               ),
                                             );

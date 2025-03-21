@@ -91,7 +91,7 @@ class PaidScreen extends ConsumerWidget {
                     : GridView.builder(
                         padding: const EdgeInsets.all(16),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          mainAxisExtent: 175,
+                          mainAxisExtent: 185,
                           crossAxisCount: 2,
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
@@ -125,6 +125,7 @@ class PaidScreen extends ConsumerWidget {
                               );
                             },
                             child: CourseCardNetworkImage(
+                              mainAxisExtent: 185,
                               onBookmark: () {
                                 coursesApiController
                                     .toggleSaved(courses[index]);
@@ -178,7 +179,7 @@ class PaidScreen extends ConsumerWidget {
                               )
                             : ListTile(
                                 title: Text(exams[index].examYear),
-                                subtitle: Text(exams[index].examType),
+                                subtitle: Text(exams[index].parentCourseTitle),
                                 trailing: exams[index].examType ==
                                         UtilFunctions()
                                             .getExamStringValue(ExamType.matric)
@@ -263,6 +264,7 @@ class PaidScreen extends ConsumerWidget {
                                                       .parentCourseTitle,
                                                   "exam year":
                                                       exams[index].examYear,
+                                                  "previousScreen": 2,
                                                   //"courseId": course.id,
                                                 },
                                               );
@@ -291,10 +293,11 @@ class PaidScreen extends ConsumerWidget {
                                             // if null then other pages, move on to
                                             // questions page
                                             Map<String, dynamic> examData = {
-                                              //"exam course": course.title,
+                                              "exam course": exams[index]
+                                                  .parentCourseTitle,
                                               "exam year":
                                                   exams[index].examYear,
-                                              "previousScreen": 7,
+                                              "previousScreen": 2,
                                               "hasTimerOption": false,
                                             };
                                             pageNavController.navigatePage(6,

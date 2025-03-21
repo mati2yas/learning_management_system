@@ -24,7 +24,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
   int lowestPage = 0, highestPage = 3;
 
   int lowestPageLimit = 0, highestPageLimit = 10;
-  int currentPage = 2;
+  int currentPage = 1;
   String increaseStr = "increase", decreaseStr = "decrease";
   String oneStep = "oneStep", jumpStep = "jumpStep", step = "oneStep";
   @override
@@ -86,7 +86,8 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
                   },
                 ),
               ),
-              if (notificationData != null)
+              if (notificationData != null &&
+                  notificationData.notifs.isNotEmpty)
                 NumberPagination(
                   selectedButtonColor: AppColors.mainBlue,
                   buttonRadius: 6,

@@ -1,7 +1,8 @@
 import 'package:lms_system/core/constants/enums.dart';
 
 class NotificationData {
-  final String id, title, content;
+  final title, content;
+  final int id;
   NotificationData({
     required this.id,
     required this.title,
@@ -9,8 +10,8 @@ class NotificationData {
   });
   factory NotificationData.fromJson(Map<String, dynamic> json) {
     return NotificationData(
-      id: json["id"],
-      title: json["type"],
+      id: json["id"] ?? 0,
+      title: json["type"] ?? "",
       content: json["message"] ?? "No Message",
     );
   }
@@ -60,4 +61,3 @@ class NotificationModel {
     );
   }
 }
-

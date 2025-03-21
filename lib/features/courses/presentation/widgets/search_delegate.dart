@@ -120,6 +120,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
                             Navigator.of(context).pop();
                           },
                           child: CourseCardNetworkImage(
+                            mainAxisExtent: 200,
                             course: course,
                             onLike: () async {
                               // Handle like/bookmark actions
@@ -170,26 +171,33 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
+                mainAxisSpacing: 2,
+                crossAxisSpacing: 0,
                 childAspectRatio: UtilFunctions.getResponsiveChildAspectRatio(
                     MediaQuery.of(context).size),
-                mainAxisExtent: 200,
+                mainAxisExtent: 210,
               ),
               itemBuilder: (_, index) {
                 final course = filteredCourses[index];
-                return GestureDetector(
-                  onTap: () {
-                    // Handle course selection
-                  },
-                  child: CourseCardNetworkImage(
-                    course: course,
-                    onLike: () async {
-                      // Handle like/bookmark actions
+                return Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      // Handle course selection
                     },
-                    onBookmark: () async {
-                      // Handle like/bookmark actions
-                    },
+                    child: CourseCardNetworkImage(
+                      mainAxisExtent: 210,
+                      course: course,
+                      onLike: () async {
+                        // Handle like/bookmark actions
+                      },
+                      onBookmark: () async {
+                        // Handle like/bookmark actions
+                      },
+                    ),
                   ),
                 );
               },

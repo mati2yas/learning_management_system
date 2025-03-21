@@ -52,7 +52,7 @@ class HomePage extends ConsumerWidget {
                 topRight: Radius.circular(20),
               ),
               child: Container(
-                height: size.height - 164,
+                height: size.height - 144,
                 padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -106,83 +106,97 @@ class HomePage extends ConsumerWidget {
                         child: Text(
                           "Top Category",
                           style: textTh.titleMedium!.copyWith(
-                              fontWeight: FontWeight.w600, letterSpacing: 0.7),
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.7,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 90,
                         width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                currentCourseFilterController
-                                    .changeFilter("lower_grades");
-                                ref
-                                    .read(coursesFilteredProvider.notifier)
-                                    .fetchCoursesFiltered(
-                                        filter: "lower_grades");
-                                pageNavController.navigatePage(4);
-                              },
-                              child: CategoryIndicator(
-                                title: "Lower Grades",
-                                color: AppColors.courseCategoryColors[0],
-                                image: "marketing_course.png",
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  currentCourseFilterController
+                                      .changeFilter("lower_grades");
+                                  ref
+                                      .read(coursesFilteredProvider.notifier)
+                                      .fetchCoursesFiltered(
+                                          filter: "lower_grades");
+                                  pageNavController.navigatePage(4);
+                                },
+                                child: CategoryIndicator(
+                                  title: "Lower Grades",
+                                  colorDarker:
+                                      AppColors.courseCategoryColorsDarker[0],
+                                  colorLighter:
+                                      AppColors.courseCategoryColorsLighter[0],
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 5),
-                            GestureDetector(
-                              onTap: () {
-                                currentCourseFilterController
-                                    .changeFilter("high_school");
-                                ref
-                                    .read(coursesFilteredProvider.notifier)
-                                    .fetchCoursesFiltered(
-                                        filter: "high_school");
-                                pageNavController.navigatePage(4);
-                              },
-                              child: CategoryIndicator(
-                                title: "High School",
-                                color: AppColors.courseCategoryColors[1],
-                                image: "web_design.png",
+                              const SizedBox(width: 5),
+                              GestureDetector(
+                                onTap: () {
+                                  currentCourseFilterController
+                                      .changeFilter("high_school");
+                                  ref
+                                      .read(coursesFilteredProvider.notifier)
+                                      .fetchCoursesFiltered(
+                                          filter: "high_school");
+                                  pageNavController.navigatePage(4);
+                                },
+                                child: CategoryIndicator(
+                                  title: "High School",
+                                  colorDarker:
+                                      AppColors.courseCategoryColorsDarker[1],
+                                  colorLighter:
+                                      AppColors.courseCategoryColorsLighter[1],
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 5),
-                            GestureDetector(
-                              onTap: () {
-                                currentCourseFilterController
-                                    .changeFilter("university");
-                                ref
-                                    .read(coursesFilteredProvider.notifier)
-                                    .fetchCoursesFiltered(filter: "university");
-                                pageNavController.navigatePage(4);
-                              },
-                              child: CategoryIndicator(
-                                title: "University",
-                                color: AppColors.courseCategoryColors[2],
-                                image: "marketing_course.png",
+                              const SizedBox(width: 5),
+                              GestureDetector(
+                                onTap: () {
+                                  currentCourseFilterController
+                                      .changeFilter("university");
+                                  ref
+                                      .read(coursesFilteredProvider.notifier)
+                                      .fetchCoursesFiltered(
+                                          filter: "university");
+                                  pageNavController.navigatePage(4);
+                                },
+                                child: CategoryIndicator(
+                                  title: "University",
+                                  colorDarker:
+                                      AppColors.courseCategoryColorsDarker[2],
+                                  colorLighter:
+                                      AppColors.courseCategoryColorsLighter[2],
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 5),
-                            GestureDetector(
-                              onTap: () {
-                                currentCourseFilterController
-                                    .changeFilter("random_courses");
-                                ref
-                                    .read(coursesFilteredProvider.notifier)
-                                    .fetchCoursesFiltered(
-                                        filter: "random_courses");
-                                pageNavController.navigatePage(4);
-                              },
-                              child: CategoryIndicator(
-                                title: "Other Courses",
-                                color: AppColors.courseCategoryColors[3],
-                                image: "marketing_course.png",
+                              const SizedBox(width: 5),
+                              GestureDetector(
+                                onTap: () {
+                                  currentCourseFilterController
+                                      .changeFilter("random_courses");
+                                  ref
+                                      .read(coursesFilteredProvider.notifier)
+                                      .fetchCoursesFiltered(
+                                          filter: "random_courses");
+                                  pageNavController.navigatePage(4);
+                                },
+                                child: CategoryIndicator(
+                                  title: "Other Courses",
+                                  colorDarker:
+                                      AppColors.courseCategoryColorsDarker[3],
+                                  colorLighter:
+                                      AppColors.courseCategoryColorsLighter[3],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(height: 9),
@@ -191,7 +205,9 @@ class HomePage extends ConsumerWidget {
                         child: Text(
                           "Popular courses for you",
                           style: textTh.titleMedium!.copyWith(
-                              fontWeight: FontWeight.w600, letterSpacing: 0.7),
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.7,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -221,7 +237,7 @@ class HomePage extends ConsumerWidget {
                             padding: const EdgeInsets.only(bottom: 30),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
-                              mainAxisExtent: 194,
+                              mainAxisExtent: 202,
                               crossAxisCount: 2,
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 10,
@@ -265,6 +281,7 @@ class HomePage extends ConsumerWidget {
                                         .toggleLiked(courses[index]);
                                   },
                                   course: courses[index],
+                                  mainAxisExtent: 202,
                                 ),
                               );
                             },
@@ -272,7 +289,7 @@ class HomePage extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 80),
                     ],
                   ),
                 ),

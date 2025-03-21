@@ -45,7 +45,7 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
     }
 
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
       child: Center(
         child: SizedBox(
           height: size.height * 0.8,
