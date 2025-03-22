@@ -4,7 +4,6 @@ enum AuthStatus {
   authed,
   pending,
   notAuthed,
-  passwordReset,
 }
 
 enum CategoryType { lowerGrade, highSchool, university, random }

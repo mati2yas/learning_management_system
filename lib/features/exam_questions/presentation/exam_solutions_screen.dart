@@ -90,7 +90,7 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                           ...answerText.map((ans) => Text(ans)),
                           ExplanationContainer(
                             explanation: currentQuestion.explanation,
-                            textStyle: textTh.bodySmall!,
+                            textStyle: textTh.bodyMedium!,
                             maxWidth: size.width * 0.75,
                           ),
                           if (currentQuestion.imageExplanationUrl != null)

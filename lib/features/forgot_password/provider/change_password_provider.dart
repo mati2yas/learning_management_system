@@ -1,6 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/enums.dart';
-import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/forgot_password/repository/forgot_password_repository.dart';
 
 final changePasswordControllerProvider =
@@ -11,34 +11,35 @@ final changePasswordControllerProvider =
 
 class ForgotPasswordController extends StateNotifier<ForgotPasswordState> {
   final ForgotPasswordRepository _repository;
-  ForgotPasswordController(this._repository) : super(ForgotPasswordState()) {
-    loadEmailAndToken();
-  }
+  ForgotPasswordController(this._repository) : super(ForgotPasswordState());
 
-  Future<void> changePassword() async {
+  Future<ForgotPasswordState> changePassword() async {
+    Response? response;
+
     state = state.copyWith(apiState: ApiState.busy);
     try {
-      await _repository.changePassword(
+      response = await _repository.changePassword(
           email: state.email, password: state.password, token: state.token);
 
-      state = state.copyWith(apiState: ApiState.idle);
+      if (response.statusCode == 200) {
+        state = state.copyWith(
+          apiState: ApiState.idle,
+          responseSuccess: true,
+        );
+      } else {
+        state = state.copyWith(
+          apiState: ApiState.error,
+          responseSuccess: false,
+        );
+      }
     } catch (e) {
-      state = state.copyWith(apiState: ApiState.error);
+      state = state.copyWith(
+        apiState: ApiState.error,
+        responseSuccess: false,
+      );
       rethrow;
     }
-  }
-
-  Future<void> loadEmailAndToken() async {
-    final forgotpassData = await SecureStorageService().getForgotPassData();
-    if (forgotpassData == null) {
-      return;
-    }
-
-    String email = forgotpassData.email;
-    String resetToken = forgotpassData.token;
-
-    state = state.copyWith(email: email);
-    state = state.copyWith(token: resetToken);
+    return state;
   }
 
   void updateEmail(String value) {
@@ -48,6 +49,10 @@ class ForgotPasswordController extends StateNotifier<ForgotPasswordState> {
   void updatePassword(String value) {
     state = state.copyWith(password: value);
   }
+
+  void updateToken(String passChangeToken) {
+    state = state.copyWith(token: passChangeToken);
+  }
 }
 
 class ForgotPasswordState {
@@ -55,12 +60,14 @@ class ForgotPasswordState {
   final String email;
   final String password;
   final String token;
+  final bool responseSuccess;
 
   ForgotPasswordState({
     this.apiStatus = ApiState.idle,
     this.email = '',
     this.password = "",
     this.token = "",
+    this.responseSuccess = false,
   });
 
   ForgotPasswordState copyWith({
@@ -68,12 +75,14 @@ class ForgotPasswordState {
     String? email,
     String? password,
     String? token,
+    bool? responseSuccess,
   }) {
     return ForgotPasswordState(
       apiStatus: apiState ?? apiStatus,
       email: email ?? this.email,
       password: password ?? this.password,
       token: token ?? this.token,
+      responseSuccess: responseSuccess ?? this.responseSuccess,
     );
   }
 }

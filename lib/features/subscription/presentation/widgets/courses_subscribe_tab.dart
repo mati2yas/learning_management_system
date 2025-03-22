@@ -277,9 +277,7 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
                               debugPrint(
                                   "api response: ApiResponse{ status: ${result.responseStatus}, message: ${result.message}}");
                               if (result.responseStatus) {
-                                for (int i = 0; i < 20; i++) {
-                                  debugPrint("api response was okay");
-                                }
+                                
                                 ref
                                     .read(courseRequestsProvider.notifier)
                                     .removeAll();

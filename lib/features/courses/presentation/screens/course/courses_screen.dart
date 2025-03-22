@@ -132,7 +132,7 @@ class CoursePage extends ConsumerWidget {
                   ),
               data: (courses) {
                 return SizedBox(
-                  height: size.height * 1.6,
+                  height: size.height * 1.62,
                   width: double.infinity,
                   child: GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),

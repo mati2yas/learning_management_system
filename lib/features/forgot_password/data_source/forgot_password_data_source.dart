@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
@@ -22,33 +23,43 @@ class ForgotPasswordDataSource {
   final SecureStorageService _storageService;
 
   ForgotPasswordDataSource(this._dio, this._storageService);
-  Future<void> changePassword({
+  Future<Response> changePassword({
     required String password,
     required String email,
     required String token,
   }) async {
     int? statusCode;
 
+    final Response res = Response(
+      requestOptions: RequestOptions(),
+    );
     try {
-      final forgotpassData = await _storageService.getForgotPassData();
-      if (forgotpassData == null) {
-        return;
-      }
-
-      String email = forgotpassData.email;
-      String resetToken = forgotpassData.token;
-
       final response = await _dio.post(AppUrls.changePassword, data: {
         "email": email,
         "password": password,
         "password_confirmation": password,
-        "token": resetToken,
+        "token": token,
       });
       statusCode = response.statusCode;
+      debugPrint("url: ${AppUrls.baseUrl}/${AppUrls.changePassword}");
+      debugPrint("{email: $email, password: $password, token: $token}");
+      debugPrint("status code: ${response.statusCode}");
+
+      debugPrint("response data:");
+      for (var entry in response.data.entries) {
+        debugPrint("${entry.key}: ${entry.value}");
+      }
 
       if (response.statusCode == 200) {
         String savePath = "";
         final token = response.data["token"];
+        debugPrint("response data:");
+        for (var entry in response.data["data"]?.entries ?? {}.entries) {
+          if (entry.key == "data") {
+          } else {
+            debugPrint("${entry.key}: ${entry.value}");
+          }
+        }
         String? avatar = response.data["data"]["user"]["avatar"];
         if (avatar != null) {
           avatar.replaceAll("\\", "");
@@ -76,15 +87,19 @@ class ForgotPasswordDataSource {
 
         // Save the user data to the database
         await _storageService.saveUserToStorage(user);
+        return response;
       }
     } on DioException catch (e) {
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
       throw Exception(errorMessage);
     }
+    return res;
   }
 
-  Future<void> forgotPassword({required String email}) async {
+  Future<ForgotPasswordModel> forgotPassword({required String email}) async {
     int? statusCode;
+    ForgotPasswordModel forgotPasswordModel =
+        ForgotPasswordModel(email: email, token: "");
     try {
       final response = await _dio.post(
         AppUrls.forgotPassword,
@@ -96,11 +111,12 @@ class ForgotPasswordDataSource {
 
       if (response.statusCode == 200) {
         String changePassToken = response.data["token"] ?? "no-token";
-        final forgotPassData = ForgotPasswordModel(
+        debugPrint("change pass token: $changePassToken");
+        forgotPasswordModel = ForgotPasswordModel(
           email: email,
           token: changePassToken,
         );
-        await _storageService.saveForgotPassData(forgotPassData);
+        //await _storageService.saveForgotPassData(forgotPassData);
       } else if (response.statusCode == 403) {
         var msg = response.data["message"];
         throw Exception(msg);
@@ -111,6 +127,7 @@ class ForgotPasswordDataSource {
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
       throw Exception(errorMessage);
     }
+    return forgotPasswordModel;
   }
 
   resetPassword() {}

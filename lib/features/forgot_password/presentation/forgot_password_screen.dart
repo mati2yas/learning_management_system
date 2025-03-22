@@ -7,7 +7,6 @@ import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
-import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 import 'package:lms_system/features/forgot_password/provider/forgot_password_provider.dart';
 
@@ -91,11 +90,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                         true) {
                       AppKeys.forgotPasswordFormKey.currentState!.save();
                       try {
-                        await forgotPassController.forgotPassword();
-                        ref.read(authStatusProvider.notifier).clearStatus();
-                        ref
-                            .read(authStatusProvider.notifier)
-                            .setAuthStatus(AuthStatus.passwordReset);
+                        final forgotPassData =
+                            await forgotPassController.forgotPassword();
+
                         ref.invalidate(currentUserProvider);
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -103,19 +100,19 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                               message: "Password Reset Successfully.",
                             ),
                           );
-                          forgotPassController.updateEmail("");
                           Navigator.pop(context);
-                          Navigator.of(context)
-                              .pushReplacementNamed(Routes.changePassword);
+                          Navigator.of(context).pushReplacementNamed(
+                            Routes.changePassword,
+                            arguments: forgotPassData,
+                          );
                         }
                       } catch (e) {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             UtilFunctions.buildErrorSnackbar(
-                              errorMessage:
-                                  "Forgot Password Failed: ${UtilFunctions.stripExceptionLabel(e)}",
-                                  exception: e
-                            ),
+                                errorMessage:
+                                    "Forgot Password Failed: ${UtilFunctions.stripExceptionLabel(e)}",
+                                exception: e),
                           );
                         }
                       }

@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/connectivity/connectivity_service.dart';
 import 'package:lms_system/features/forgot_password/data_source/forgot_password_data_source.dart';
+import 'package:lms_system/features/forgot_password/model/forgot_password_model.dart';
 
 final forgotPasswordRepositoryProvider =
     Provider<ForgotPasswordRepository>((ref) {
@@ -16,7 +18,7 @@ class ForgotPasswordRepository {
 
   ForgotPasswordRepository(this._dataSource, this._connectivityService);
 
-  Future<void> changePassword({
+  Future<Response> changePassword({
     required String email,
     required String password,
     required String token,
@@ -31,7 +33,7 @@ class ForgotPasswordRepository {
     );
   }
 
-  Future<void> forgotPassword({required String email}) async {
+  Future<ForgotPasswordModel> forgotPassword({required String email}) async {
     if (!await _connectivityService.hasConnection()) {
       throw Exception("No internet connection");
     }

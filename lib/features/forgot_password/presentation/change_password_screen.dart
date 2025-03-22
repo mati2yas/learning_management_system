@@ -8,10 +8,15 @@ import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
+import 'package:lms_system/features/forgot_password/model/forgot_password_model.dart';
 import 'package:lms_system/features/forgot_password/provider/change_password_provider.dart';
 
 class ChangePasswordScreen extends ConsumerWidget {
-  const ChangePasswordScreen({super.key});
+  final ForgotPasswordModel forgotPasswordModel;
+  const ChangePasswordScreen({
+    super.key,
+    required this.forgotPasswordModel,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,16 +52,8 @@ class ChangePasswordScreen extends ConsumerWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 12),
                     Text(
-                      '(Remember to verify your email first)',
-                      style: textTh.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      'Your Email: ${state.email}',
+                      'Your Email: ${forgotPasswordModel.email}',
                       style: textTh.bodyLarge!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -105,20 +102,29 @@ class ChangePasswordScreen extends ConsumerWidget {
                               true) {
                             AppKeys.changePasswordFormKey.currentState!.save();
                             try {
-                              await changePassController.changePassword();
-                              await SecureStorageService()
-                                  .setUserAuthedStatus(AuthStatus.authed);
-                              var refreshData =
-                                  ref.refresh(currentUserProvider.notifier);
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  UtilFunctions.buildInfoSnackbar(
-                                    message: "Password Change Successful",
-                                  ),
-                                );
-                                changePassController.updateEmail("");
-                                Navigator.of(context)
-                                    .pushReplacementNamed(Routes.profileAdd);
+                              changePassController
+                                  .updateEmail(forgotPasswordModel.email);
+                              changePassController
+                                  .updateToken(forgotPasswordModel.token);
+                              ForgotPasswordState result =
+                                  await changePassController.changePassword();
+                              if (result.responseSuccess) {
+                                debugPrint(
+                                    "response status of changing password is success.");
+                                await SecureStorageService()
+                                    .setUserAuthedStatus(AuthStatus.authed);
+                                var refreshData =
+                                    ref.refresh(currentUserProvider.notifier);
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    UtilFunctions.buildInfoSnackbar(
+                                      message: "Password Change Successful",
+                                    ),
+                                  );
+                                  changePassController.updateEmail("");
+                                  Navigator.of(context)
+                                      .pushReplacementNamed(Routes.profileAdd);
+                                }
                               }
                             } catch (e) {
                               if (context.mounted) {

@@ -6,6 +6,7 @@ import 'package:lms_system/features/chapter_content/presentation/screens/chapter
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_videos.dart';
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
 import 'package:lms_system/features/edit_profile/presentation/screens/edit_profile_screen.dart';
+import 'package:lms_system/features/forgot_password/model/forgot_password_model.dart';
 import 'package:lms_system/features/forgot_password/presentation/change_password_screen.dart';
 import 'package:lms_system/features/forgot_password/presentation/forgot_password_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
@@ -48,7 +49,12 @@ class Approuter {
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
 
       case Routes.changePassword:
-        return MaterialPageRoute(builder: (_) => const ChangePasswordScreen());
+        final forgotPassModel = settings.arguments as ForgotPasswordModel;
+        return MaterialPageRoute(
+          builder: (_) => ChangePasswordScreen(
+           forgotPasswordModel: forgotPassModel,
+          ),
+        );
       case Routes.courses:
         return MaterialPageRoute(builder: (_) => const CoursePage());
 
@@ -74,9 +80,10 @@ class Approuter {
       case Routes.chapterVideo:
         final video = settings.arguments as Video;
         return MaterialPageRoute(
-            builder: (_) => ChapterVideoWidget(
-                  video: video,
-                ));
+          builder: (_) => ChapterVideoWidget(
+            video: video,
+          ),
+        );
 
       case Routes.savedCourses:
         return MaterialPageRoute(builder: (_) => const SavedCoursesPage());

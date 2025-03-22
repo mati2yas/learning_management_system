@@ -178,7 +178,7 @@ class CustomHomeAppBar extends ConsumerWidget {
             padding: const EdgeInsets.only(left: 4.0),
             child: SizedBox(
               height: 40,
-              width: 150,
+              width: 200,
               child: Row(
                 spacing: 8,
                 children: [
@@ -186,7 +186,7 @@ class CustomHomeAppBar extends ConsumerWidget {
                     "👋 Hello,",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 22,
+                      fontSize: 18,
                     ),
                   ),
                   userState.when(
@@ -199,7 +199,7 @@ class CustomHomeAppBar extends ConsumerWidget {
                       return Text(
                         name,
                         style:
-                            const TextStyle(color: Colors.white, fontSize: 22),
+                            const TextStyle(color: Colors.white, fontSize: 18),
                       );
                     },
                   ),

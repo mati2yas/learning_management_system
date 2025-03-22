@@ -55,7 +55,6 @@ class SecureStorageService {
       "authed" => AuthStatus.authed,
       "notAuthed" => AuthStatus.notAuthed,
       "pending" => AuthStatus.pending,
-      "passwordReset" => AuthStatus.passwordReset,
       _ => AuthStatus.notAuthed,
     };
   }
@@ -69,13 +68,7 @@ class SecureStorageService {
     return null;
   }
 
-  Future<void> saveForgotPassData(ForgotPasswordModel forgotPassData) async {
-    await _storage.write(
-        key: AppStrings.forgotPassStorageKey,
-        value: jsonEncode(forgotPassData.toMap()));
-  }
-
-  // Future<void> saveCoursesToLocal(List<Course> savedCourses) async {
+    // Future<void> saveCoursesToLocal(List<Course> savedCourses) async {
   //   final savedCoursesJson =
   //       jsonEncode(savedCourses.map((course) => course.toJsonLocal()).toList());
   //   await _storage.write(
