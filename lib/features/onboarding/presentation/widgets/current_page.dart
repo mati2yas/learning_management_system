@@ -34,44 +34,12 @@ class CurrentPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                RichText(
-                  textAlign: TextAlign.center, // Center-align the text
-                  text: const TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Welcome to ",
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                        ),
+                
+                Text(
+                  "Welcome To Excelet Academy",
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        fontWeight: FontWeight.w700,
                       ),
-                      TextSpan(
-                        text: "L",
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Color(0xff44B529),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      TextSpan(
-                        text: "A",
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Color(0xffFFD700),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      TextSpan(
-                        text: "L",
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Color(0xffE52828),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
                 const SizedBox(height: 10),
                 Text(

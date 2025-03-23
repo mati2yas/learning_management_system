@@ -129,6 +129,8 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                             width: size.width,
                             height: size.height,
                             child: PageView.builder(
+                              allowImplicitScrolling: true,
+                              physics: const NeverScrollableScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               controller: pageViewController,
                               itemCount: questions.length,

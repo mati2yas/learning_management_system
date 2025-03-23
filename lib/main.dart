@@ -38,7 +38,6 @@ final initialRouteProvider = FutureProvider<StartRoutes>((ref) async {
         firstRoute = Routes.login;
         secondRoute = Routes.wrapper;
         break;
-
       case AuthStatus.notAuthed:
         firstRoute = Routes.signup;
         secondRoute = Routes.wrapper;

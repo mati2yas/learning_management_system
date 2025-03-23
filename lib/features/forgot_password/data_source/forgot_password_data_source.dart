@@ -36,9 +36,9 @@ class ForgotPasswordDataSource {
     try {
       final response = await _dio.post(AppUrls.changePassword, data: {
         "email": email,
+        "pin": token,
         "password": password,
         "password_confirmation": password,
-        "token": token,
       });
       statusCode = response.statusCode;
       debugPrint("url: ${AppUrls.baseUrl}/${AppUrls.changePassword}");
@@ -46,8 +46,12 @@ class ForgotPasswordDataSource {
       debugPrint("status code: ${response.statusCode}");
 
       debugPrint("response data:");
-      for (var entry in response.data.entries) {
-        debugPrint("${entry.key}: ${entry.value}");
+      for (var entry in response.data.entries ?? {}.entries) {
+        if (entry.key == "user") {
+          for (var usrData in entry.value.entries ?? {}.entries) {
+            debugPrint("${usrData.key}: ${usrData.value}");
+          }
+        }
       }
 
       if (response.statusCode == 200) {
@@ -55,7 +59,10 @@ class ForgotPasswordDataSource {
         final token = response.data["token"];
         debugPrint("response data:");
         for (var entry in response.data["data"]?.entries ?? {}.entries) {
-          if (entry.key == "data") {
+          if (entry.key == "user") {
+            for (var usrData in entry.value.entries ?? {}.values) {
+              debugPrint("${usrData.key}: ${usrData.value}");
+            }
           } else {
             debugPrint("${entry.key}: ${entry.value}");
           }
@@ -81,7 +88,7 @@ class ForgotPasswordDataSource {
           password: password,
           bio: response.data["data"]["user"]["bio"] ?? "",
           image: savePath,
-          token: token,
+          token: response.data["token"] ?? "no token",
         );
         debugPrint("token: $token");
 
@@ -98,9 +105,9 @@ class ForgotPasswordDataSource {
 
   Future<ForgotPasswordModel> forgotPassword({required String email}) async {
     int? statusCode;
-    ForgotPasswordModel forgotPasswordModel =
-        ForgotPasswordModel(email: email, token: "");
+    ForgotPasswordModel forgotPasswordModel = ForgotPasswordModel(email: email);
     try {
+      debugPrint("forgot password, is email null?");
       final response = await _dio.post(
         AppUrls.forgotPassword,
         data: {
@@ -110,25 +117,23 @@ class ForgotPasswordDataSource {
       statusCode = response.statusCode;
 
       if (response.statusCode == 200) {
-        String changePassToken = response.data["token"] ?? "no-token";
-        debugPrint("change pass token: $changePassToken");
         forgotPasswordModel = ForgotPasswordModel(
           email: email,
-          token: changePassToken,
+          apiMessage: response.data["message"] ?? "No or Missing Message",
+          apiSuccess: response.data["success"] ?? "Success",
         );
         //await _storageService.saveForgotPassData(forgotPassData);
       } else if (response.statusCode == 403) {
-        var msg = response.data["message"];
+        var msg = response.data["message"] ?? "Error Message?";
         throw Exception(msg);
       } else {
         throw Exception('Failed to reset password: Unknown error');
       }
     } on DioException catch (e) {
+      debugPrint("dio exception at forgot password");
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
       throw Exception(errorMessage);
     }
     return forgotPasswordModel;
   }
-
-  resetPassword() {}
 }

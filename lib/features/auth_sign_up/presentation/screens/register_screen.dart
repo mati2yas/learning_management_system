@@ -80,7 +80,7 @@ class RegisterScreen extends ConsumerWidget {
                         },
                       ),
                       _buildInputLabel(
-                          'Password (at least 6 characters)', textTh),
+                          'Password (at least 4 characters)', textTh),
                       InputWidget(
                         hintText: 'Password',
                         validator: (value) {
@@ -191,13 +191,15 @@ class RegisterScreen extends ConsumerWidget {
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w600,
+                                  fontSize: 16,
                                 ),
                               ),
                               TextSpan(
                                 text: " Sign In",
                                 style: const TextStyle(
-                                  color: AppColors.mainBlue,
-                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.mainBlue2,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lms_system/core/constants/enums.dart';
-import 'package:lms_system/features/forgot_password/model/forgot_password_model.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
@@ -33,16 +32,6 @@ class SecureStorageService {
     return [];
   }
 
-  Future<ForgotPasswordModel?> getForgotPassData() async {
-    final forgotPassJson =
-        await _storage.read(key: AppStrings.forgotPassStorageKey);
-    if (forgotPassJson != null) {
-      final forgotPassMap = jsonDecode(forgotPassJson);
-      return ForgotPasswordModel.fromMap(forgotPassMap);
-    }
-    return null;
-  }
-
   Future<bool> getOnboardingStatus() async {
     final status =
         await _storage.read(key: AppStrings.onboardingStatusStorageKey);
@@ -68,7 +57,7 @@ class SecureStorageService {
     return null;
   }
 
-    // Future<void> saveCoursesToLocal(List<Course> savedCourses) async {
+  // Future<void> saveCoursesToLocal(List<Course> savedCourses) async {
   //   final savedCoursesJson =
   //       jsonEncode(savedCourses.map((course) => course.toJsonLocal()).toList());
   //   await _storage.write(

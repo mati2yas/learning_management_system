@@ -15,44 +15,44 @@ final notificationDataSourceProvider = Provider<NotificationsDataSource>((ref) {
 class NotificationsDataSource {
   final Dio _dio;
   NotificationsDataSource(this._dio);
-  Future<NotificationModel> fetchReadNotifs({required int page}) async {
-    NotificationModel notifs = NotificationModel();
-    int? statusCode;
-    try {
-      debugPrint(
-          "notifications fetch url: ${AppUrls.baseUrl}${AppUrls.readNotifications}");
-      await DioClient.setToken();
+  // Future<NotificationModel> fetchReadNotifs({required int page}) async {
+  //   NotificationModel notifs = NotificationModel();
+  //   int? statusCode;
+  //   try {
+  //     debugPrint(
+  //         "notifications fetch url: ${AppUrls.baseUrl}${AppUrls.readNotifications}");
+  //     await DioClient.setToken();
 
-      _dio.options.headers['Content-Type'] = 'application/json';
-      _dio.options.headers['Accept'] = 'application/json';
-      final response = await _dio.get(
-        AppUrls.unreadNotifications,
-      );
+  //     _dio.options.headers['Content-Type'] = 'application/json';
+  //     _dio.options.headers['Accept'] = 'application/json';
+  //     final response = await _dio.get(
+  //       AppUrls.unreadNotifications,
+  //     );
 
-      statusCode = response.statusCode;
-      debugPrint("Dio response status code: $statusCode");
-      debugPrint("Dio response headers: ${response.headers}");
-      debugPrint(
-          "Dio response data: ${response.data}"); // Log the entire response data
+  //     statusCode = response.statusCode;
+  //     debugPrint("Dio response status code: $statusCode");
+  //     debugPrint("Dio response headers: ${response.headers}");
+  //     debugPrint(
+  //         "Dio response data: ${response.data}"); // Log the entire response data
 
-      if (response.statusCode == 200) {
-        var notifModel = NotificationModel.fromJson(
-          json: response.data,
-          notificationType: NotifType.read,
-        );
-        notifs = notifModel;
-      }
-    } on DioException catch (e) {
-      if (e.response != null) {
-        debugPrint("Dio error response status: ${e.response!.statusCode}");
-        debugPrint("Dio error response data: ${e.response!.data}");
-      }
-      final errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
-      throw Exception(errorMessage);
-    }
+  //     if (response.statusCode == 200) {
+  //       var notifModel = NotificationModel.fromJson(
+  //         json: response.data,
+  //         notificationType: NotifType.read,
+  //       );
+  //       notifs = notifModel;
+  //     }
+  //   } on DioException catch (e) {
+  //     if (e.response != null) {
+  //       debugPrint("Dio error response status: ${e.response!.statusCode}");
+  //       debugPrint("Dio error response data: ${e.response!.data}");
+  //     }
+  //     final errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
+  //     throw Exception(errorMessage);
+  //   }
 
-    return notifs;
-  }
+  //   return notifs;
+  // }
 
   Future<NotificationModel> fetchUnreadNotifs({required int page}) async {
     NotificationModel notifs = NotificationModel();

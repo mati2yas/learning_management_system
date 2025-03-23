@@ -17,13 +17,13 @@ class ForgotPasswordController extends StateNotifier<ForgotPasswordState> {
   Future<ForgotPasswordModel> forgotPassword() async {
     state = state.copyWith(apiState: ApiState.busy);
     ForgotPasswordModel forgotPassData =
-        ForgotPasswordModel(email: "", token: "");
+        ForgotPasswordModel(email: "", pinToken: "");
     try {
       forgotPassData = await _repository.forgotPassword(email: state.email);
 
       state = state.copyWith(
         apiState: ApiState.idle,
-        passwordChangeToken: forgotPassData.token,
+        passwordChangeToken: forgotPassData.pinToken,
       );
     } catch (e) {
       state = state.copyWith(apiState: ApiState.error);

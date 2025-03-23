@@ -53,6 +53,12 @@ class ChangePasswordScreen extends ConsumerWidget {
                       ),
                     ),
                     Text(
+                      'Get your PIN from email.',
+                      style: textTh.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
                       'Your Email: ${forgotPasswordModel.email}',
                       style: textTh.bodyLarge!.copyWith(
                         fontWeight: FontWeight.w600,
@@ -81,6 +87,28 @@ class ChangePasswordScreen extends ConsumerWidget {
                         changePassController.updatePassword(value!);
                       },
                     ),
+                    Text(
+                      "PIN 6 digits",
+                      style: textTh.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    InputWidget(
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return "Please Enter Your Pin";
+                        }
+
+                        return null;
+                      },
+                      initialValue: state.pinToken,
+                      hintText: 'PIN',
+                      obscure: true,
+                      onSaved: (value) {
+                        changePassController.updateToken(value!);
+                      },
+                    ),
+                    const SizedBox(height: 15),
                     Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -104,8 +132,6 @@ class ChangePasswordScreen extends ConsumerWidget {
                             try {
                               changePassController
                                   .updateEmail(forgotPasswordModel.email);
-                              changePassController
-                                  .updateToken(forgotPasswordModel.token);
                               ForgotPasswordState result =
                                   await changePassController.changePassword();
                               if (result.responseSuccess) {

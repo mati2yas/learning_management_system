@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/notification/model/notification_model.dart';
 import 'package:lms_system/features/notification/repository/notification_repository.dart';
 
@@ -21,20 +20,18 @@ final notificationApiProvider =
 
 class NotificationApiNotifier extends AsyncNotifier<NotificationModel> {
   final NotificationRepository _repository;
-  NotifType _currentType = NotifType.unread;
 
   NotificationApiNotifier(this._repository);
 
   @override
   Future<NotificationModel> build() async {
-    return fetchNotifs(page: 1, type: NotifType.unread);
+    return fetchNotifs(page: 1);
   }
 
-  Future<NotificationModel> fetchNotifs(
-      {required int page, required NotifType type}) async {
-    _currentType = type;
+  Future<NotificationModel> fetchNotifs({required int page}) async {
     try {
-      final notifModel = await _repository.getNotifs(page: page, type: type);
+      debugPrint("called fetchNotifs with current page: $page");
+      final notifModel = await _repository.getNotifs(page: page);
       return notifModel;
     } catch (e, stack) {
       debugPrint(e.toString());

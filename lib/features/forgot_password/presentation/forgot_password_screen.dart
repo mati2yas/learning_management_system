@@ -97,7 +97,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             UtilFunctions.buildInfoSnackbar(
-                              message: "Password Reset Successfully.",
+                              message:
+                                  "Password Reset Successfully. Check Your Email for PIN.",
                             ),
                           );
                           Navigator.pop(context);

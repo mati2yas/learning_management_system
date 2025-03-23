@@ -77,7 +77,7 @@ class LoginScreen extends ConsumerWidget {
                       },
                     ),
                     Text(
-                      'Password (at least 4 characters)',
+                      'Password ( 4 characters)',
                       style: textTh.bodyLarge!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -99,7 +99,6 @@ class LoginScreen extends ConsumerWidget {
                         loginController.updatePassword(value!);
                       },
                     ),
-                    //const SizedBox(height: ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
@@ -209,8 +208,8 @@ class LoginScreen extends ConsumerWidget {
                               TextSpan(
                                 text: "Sign Up",
                                 style: const TextStyle(
-                                  color: AppColors.mainBlue,
-                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.mainBlue2,
+                                  fontWeight: FontWeight.w700,
                                   fontSize: 16,
                                 ),
                                 recognizer: TapGestureRecognizer()

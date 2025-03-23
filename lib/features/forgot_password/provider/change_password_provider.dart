@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/forgot_password/repository/forgot_password_repository.dart';
@@ -18,8 +19,9 @@ class ForgotPasswordController extends StateNotifier<ForgotPasswordState> {
 
     state = state.copyWith(apiState: ApiState.busy);
     try {
+      debugPrint("PIN: ${state.pinToken}");
       response = await _repository.changePassword(
-          email: state.email, password: state.password, token: state.token);
+          email: state.email, password: state.password, token: state.pinToken);
 
       if (response.statusCode == 200) {
         state = state.copyWith(
@@ -50,8 +52,8 @@ class ForgotPasswordController extends StateNotifier<ForgotPasswordState> {
     state = state.copyWith(password: value);
   }
 
-  void updateToken(String passChangeToken) {
-    state = state.copyWith(token: passChangeToken);
+  void updateToken(String pinToken) {
+    state = state.copyWith(token: pinToken);
   }
 }
 
@@ -59,14 +61,14 @@ class ForgotPasswordState {
   final ApiState apiStatus;
   final String email;
   final String password;
-  final String token;
+  final String pinToken;
   final bool responseSuccess;
 
   ForgotPasswordState({
     this.apiStatus = ApiState.idle,
     this.email = '',
     this.password = "",
-    this.token = "",
+    this.pinToken = "",
     this.responseSuccess = false,
   });
 
@@ -81,7 +83,7 @@ class ForgotPasswordState {
       apiStatus: apiState ?? apiStatus,
       email: email ?? this.email,
       password: password ?? this.password,
-      token: token ?? this.token,
+      pinToken: token ?? pinToken,
       responseSuccess: responseSuccess ?? this.responseSuccess,
     );
   }

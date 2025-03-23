@@ -1,23 +1,11 @@
 class ForgotPasswordModel {
-  final String email, token;
+  final String email;
+  final String apiSuccess, apiMessage;
+  final String pinToken;
   ForgotPasswordModel({
     required this.email,
-    required this.token,
+    this.pinToken = "",
+    this.apiMessage = "",
+    this.apiSuccess = "",
   });
-  ForgotPasswordModel.fromMap(Map<String, dynamic> map)
-      : email = map['email'] as String,
-        token = map['token'] as String;
-  Map<String, dynamic> toJson() {
-    return {
-      "email": "\"$email\"",
-      "token": "\"$token\"",
-    };
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      "email": email,
-      "token": token,
-    };
-  }
 }

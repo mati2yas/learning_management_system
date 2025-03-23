@@ -68,8 +68,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
                   error: (error, stack) => AsyncErrorWidget(
                     errorMsg: error.toString(),
                     callback: () async {
-                      await notifsController.fetchNotifs(
-                          page: currentPage, type: NotifType.unread);
+                      await notifsController.fetchNotifs(page: currentPage);
                     },
                   ),
                   data: (notifs) {
@@ -95,6 +94,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
                     setState(() {
                       currentPage = number;
                     });
+                    notifsController.fetchNotifs(page: number);
                   },
                   totalPages: 10,
                   currentPage: currentPage,
@@ -109,112 +109,11 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
-
-    _tabController.addListener(() {
-      ref.read(notificationApiProvider.notifier).fetchNotifs(
-          page: 1,
-          type: _tabController.index == 0 ? NotifType.unread : NotifType.read);
-    });
-
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref
-          .read(notificationApiProvider.notifier)
-          .fetchNotifs(page: 1, type: NotifType.unread);
+      ref.read(notificationApiProvider.notifier).fetchNotifs(page: 1);
     });
   }
-
-  void setPages(
-    int newPage,
-    String change,
-    String step,
-  ) {
-    setState(() {
-      if (step == jumpStep) {
-        currentPage = newPage;
-        lowestPage = newPage - 1;
-        highestPage = newPage + 2;
-        // if (lowestPage < lowestPageLimit) {
-        //   lowestPage = lowestPageLimit;
-        //   highestPage = lowestPageLimit + 3;
-        // }
-        // if (highestPage > highestPageLimit) {
-        //   highestPage = highestPageLimit;
-        //   lowestPage = highestPageLimit - 3;
-        // }
-      } else if (change == increaseStr) {
-        if (highestPage < highestPageLimit) {
-          lowestPage++;
-          highestPage++;
-          currentPage = lowestPage;
-        }
-      } else if (change == decreaseStr) {
-        if (lowestPage > lowestPageLimit) {
-          lowestPage--;
-          highestPage--;
-          currentPage = lowestPage;
-        }
-      }
-    });
-
-    debugPrint(
-      "current page: $currentPage, lowest page: $lowestPage, highestpage: $highestPage",
-    );
-  }
-
-  // void setPages(
-  //   int newPage,
-  //   String change,
-  //   String step,
-  // ) {
-  //   if (step == jumpStep) {
-  //     setState(() {
-  //       currentPage = newPage;
-  //     });
-  //     return;
-  //   }
-  //   if (change == increaseStr) {
-  //     setState(() {
-  //       if (highestPage <= highestPageLimit) {
-  //         int highestPagePrev = highestPage;
-  //         int lowestPagePrev = lowestPage;
-  //         lowestPage++;
-  //         highestPage++;
-  //         currentPage = lowestPage;
-  //         if (currentPage == highestPagePrev &&
-  //             highestPagePrev <= highestPageLimit) {
-  //           currentPage = lowestPage;
-  //         } else if (currentPage == lowestPagePrev &&
-  //             lowestPagePrev >= lowestPageLimit) {
-  //           currentPage = lowestPage;
-  //         }
-  //       }
-  //     });
-  //     debugPrint(
-  //         "increase, current page: $currentPage, lowest page: $lowestPage, highestpage: $highestPage");
-  //   } else if (change == decreaseStr) {
-  //     setState(() {
-  //       if (lowestPage < lowestPageLimit) {
-  //         int lowestPagePrev = lowestPage;
-  //         int highestPagePrev = highestPage;
-  //         lowestPage--;
-  //         highestPage--;
-  //         if (currentPage == lowestPagePrev &&
-  //             lowestPagePrev >= lowestPageLimit) {
-  //           currentPage = highestPage;
-  //         } else if (currentPage == highestPagePrev &&
-  //             highestPagePrev <= highestPageLimit) {
-  //           currentPage = highestPage;
-  //         }
-  //       }
-  //       if (newPage > lowestPageLimit) {}
-  //     });
-
-  //     debugPrint(
-  //         "increase, current page: $currentPage, lowest page: $lowestPage, highestpage: $highestPage");
-  //   }
-  // }
 
   Widget _buildNotificationList(
       List<NotificationData> notifications, NotifType type, WidgetRef ref) {
@@ -248,41 +147,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
           ),
         );
       },
-    );
-  }
-
-  Widget _buildPageNumber({
-    required String number,
-    required Function callback,
-  }) {
-    return GestureDetector(
-      onTap: () async {
-        await callback();
-      },
-      child: Container(
-        margin: const EdgeInsetsDirectional.symmetric(
-          horizontal: 10,
-        ),
-        height: 50,
-        width: 30,
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 2,
-            color: AppColors.mainBlue,
-          ),
-          borderRadius: BorderRadius.circular(12),
-          color: int.parse(number) == currentPage
-              ? AppColors.mainBlue.withAlpha(100)
-              : Colors.white,
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          number,
-          style: const TextStyle(
-            color: AppColors.mainBlue,
-          ),
-        ),
-      ),
     );
   }
 }

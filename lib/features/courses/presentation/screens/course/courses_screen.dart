@@ -4,7 +4,7 @@ import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
-import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
@@ -60,16 +60,6 @@ class CoursePage extends ConsumerWidget {
         surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
         elevation: 4,
-        // bottom: PreferredSize(
-        //   preferredSize: Size(
-        //     MediaQuery.of(context).size.width,
-        //     70,
-        //   ),
-        //   child: Container(
-        //     color: Colors.white,
-        //     child: CustomSearchBar(hintText: "Search Courses", size: size),
-        //   ),
-        // ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(12),
@@ -97,12 +87,25 @@ class CoursePage extends ConsumerWidget {
                     (cat) => CategoryShow(
                       category: AppStrings.categoryFormatted(cat),
                       categoryImage: cat,
+                      // onTap: () {
+                      //   currentCourseFilterController.changeFilter(cat);
+                      //   ref
+                      //       .read(coursesFilteredProvider.notifier)
+                      //       .fetchCoursesFiltered(filter: cat);
+                      //   pageController.navigatePage(4);
+                      // },
                       onTap: () {
-                        currentCourseFilterController.changeFilter(cat);
-                        ref
-                            .read(coursesFilteredProvider.notifier)
-                            .fetchCoursesFiltered(filter: cat);
-                        pageController.navigatePage(4);
+                        Future.microtask(() {
+                          ref
+                              .read(currentCourseFilterProvider.notifier)
+                              .changeFilter(cat);
+                          ref
+                              .read(coursesFilteredProvider.notifier)
+                              .fetchCoursesFiltered(filter: cat);
+                          ref
+                              .read(pageNavigationProvider.notifier)
+                              .navigatePage(4);
+                        });
                       },
                     ),
                   )
@@ -118,97 +121,84 @@ class CoursePage extends ConsumerWidget {
           ),
           const SizedBox(height: 15),
           allCourseApiState.when(
-              loading: () => const Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.mainBlue,
-                      strokeWidth: 5,
-                    ),
+            loading: () => const Center(
+              child: CircularProgressIndicator(
+                color: AppColors.mainBlue,
+                strokeWidth: 5,
+              ),
+            ),
+            error: (error, stack) => AsyncErrorWidget(
+              errorMsg: error.toString().replaceAll("Exception: ", ""),
+              callback: () async {
+                await allCourseController.loadCourses();
+              },
+            ),
+            data: (courses) {
+              return SizedBox(
+                height: 202 * 10 + 100,
+                width: double.infinity,
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    childAspectRatio:
+                        UtilFunctions.getResponsiveChildAspectRatio(size),
+                    mainAxisExtent: 202,
                   ),
-              error: (error, stack) => AsyncErrorWidget(
-                    errorMsg: error.toString().replaceAll("Exception: ", ""),
-                    callback: () async {
-                      await allCourseController.loadCourses();
-                    },
-                  ),
-              data: (courses) {
-                return SizedBox(
-                  height: size.height * 1.62,
-                  width: double.infinity,
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      childAspectRatio: getResponsiveChildAspectRatio(size),
-                      mainAxisExtent: 202,
-                    ),
-                    itemBuilder: (_, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          final courseIdController =
-                              ref.watch(currentCourseIdProvider.notifier);
-                          courseIdController.changeCourseId(courses[index].id);
+                  itemBuilder: (_, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        final courseIdController =
+                            ref.watch(currentCourseIdProvider.notifier);
+                        courseIdController.changeCourseId(courses[index].id);
 
-                          ref
-                              .read(courseSubTrackProvider.notifier)
-                              .changeCurrentCourse(courses[index]);
+                        ref
+                            .read(courseSubTrackProvider.notifier)
+                            .changeCurrentCourse(courses[index]);
 
-                          debugPrint(
-                              "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
+                        debugPrint(
+                            "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
+                        ref
+                            .read(courseChaptersProvider.notifier)
+                            .fetchCourseChapters();
+                        pageController.navigatePage(
+                          5,
+                          arguments: {
+                            "course": courses[index],
+                            "previousScreenIndex": 1,
+                          },
+                        );
+                      },
+                      child: CourseCardNetworkImage(
+                        mainAxisExtent: 202,
+                        course: courses[index],
+                        onLike: () async {
                           ref
-                              .read(courseChaptersProvider.notifier)
-                              .fetchCourseChapters();
-                          pageController.navigatePage(
-                            5,
-                            arguments: {
-                              "course": courses[index],
-                              "previousScreenIndex": 1,
-                            },
-                          );
+                              .read(allCoursesApiProvider.notifier)
+                              .toggleLiked(courses[index]);
+
+                          await paidApiController.toggleLiked(courses[index]);
                         },
-                        child: CourseCardNetworkImage(
-                          mainAxisExtent: 202,
-                          course: courses[index],
-                          onLike: () async {
-                            ref
-                                .read(allCoursesApiProvider.notifier)
-                                .toggleLiked(courses[index]);
+                        onBookmark: () async {
+                          ref
+                              .read(allCoursesApiProvider.notifier)
+                              .toggleSaved(courses[index]);
 
-                            await paidApiController.toggleLiked(courses[index]);
-                          },
-                          onBookmark: () async {
-                            ref
-                                .read(allCoursesApiProvider.notifier)
-                                .toggleSaved(courses[index]);
-
-                            await paidApiController.toggleLiked(courses[index]);
-                          },
-                        ),
-                      );
-                    },
-                    itemCount: courses.length,
-                  ),
-                );
-              }),
+                          await paidApiController.toggleLiked(courses[index]);
+                        },
+                      ),
+                    );
+                  },
+                  itemCount: courses.length,
+                ),
+              );
+            },
+          ),
           const SizedBox(height: 100),
         ],
       ),
     );
-  }
-
-  getResponsiveChildAspectRatio(Size size) {
-    print("width: ${size.width}");
-    if (size.width <= 200) return 0.65;
-    if (size.width <= 400) return 0.85;
-
-    if (size.width < 500) return 1.0;
-    if (size.width < 600) return 1.3;
-    if (size.width < 700) return 1.4;
-    return 1.7;
-  }
-
-  void handleCategorySelection(WidgetRef ref, CourseCategory category) {
-    // Keep the navbar active item on 'Courses'
   }
 }
