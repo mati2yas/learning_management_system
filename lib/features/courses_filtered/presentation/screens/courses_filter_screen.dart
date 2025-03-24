@@ -284,7 +284,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                             mainAxisSpacing: 10,
                             crossAxisSpacing: 10,
                             childAspectRatio: 0.8,
-                            mainAxisExtent: 200,
+                            mainAxisExtent: 202,
                           ),
                           itemCount: courses.length,
                           itemBuilder: (_, index) {
@@ -312,7 +312,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                 );
                               },
                               child: CourseCardNetworkImage(
-                                mainAxisExtent: 200,
+                                mainAxisExtent: 202,
                                 course: courses[index],
                               ),
                             );
@@ -387,7 +387,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                 mainAxisSpacing: 10,
                                 crossAxisSpacing: 10,
                                 childAspectRatio: 0.8,
-                                mainAxisExtent: 200,
+                                mainAxisExtent: 202,
                               ),
                               itemCount: selectedCourses.length,
                               itemBuilder: (_, index) {
@@ -415,7 +415,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                     );
                                   },
                                   child: CourseCardNetworkImage(
-                                    mainAxisExtent: 200,
+                                    mainAxisExtent: 202,
                                     course: selectedCourses[index],
                                   ),
                                 );

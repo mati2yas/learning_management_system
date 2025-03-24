@@ -20,29 +20,6 @@ class HomeDataSource {
     int? statusCode;
     try {
       await DioClient.setToken();
-      _dio.interceptors.add(
-        InterceptorsWrapper(
-          onRequest: (options, handler) {
-            debugPrint("➡️ Request: ${options.method} ${options.uri}");
-            debugPrint("Headers: ${options.headers}");
-            debugPrint("Authorization: ${options.headers["Authorization"]}");
-            debugPrint("Body: ${options.data}");
-            return handler.next(options);
-          },
-          onResponse: (response, handler) {
-            debugPrint("✅ Response: ${response.statusCode}");
-            debugPrint("✅ Response Time: ${response.extra["duration"]} ms");
-            return handler.next(response);
-          },
-          onError: (DioException e, handler) {
-            debugPrint("❌ Error: ${e.response?.statusCode}");
-            debugPrint("Message: ${e.response?.data}");
-            return handler.next(e);
-          },
-        ),
-      );
-      _dio.options.headers;
-
       _dio.options.headers['Accept'] = 'application/json';
       final response = await _dio.get(
         AppUrls.homePageCourses,
@@ -60,7 +37,7 @@ class HomeDataSource {
           courses.add(crs);
         }
 
-        print("courses length: \n ${courses.length}");
+        debugPrint("courses length: \n ${courses.length}");
       }
     } on DioException catch (e) {
       final errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);

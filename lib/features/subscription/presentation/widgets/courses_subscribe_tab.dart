@@ -7,6 +7,7 @@ import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/requests/presentation/widgets/course_request_tile.dart';
 import 'package:lms_system/features/requests/presentation/widgets/subscription_widget.dart';
 import 'package:lms_system/features/subscription/provider/subscriptions/course_subscription_provider.dart';
@@ -277,7 +278,6 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
                               debugPrint(
                                   "api response: ApiResponse{ status: ${result.responseStatus}, message: ${result.message}}");
                               if (result.responseStatus) {
-                                
                                 ref
                                     .read(courseRequestsProvider.notifier)
                                     .removeAll();
@@ -286,6 +286,9 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
                                 await ref
                                     .refresh(homeScreenApiProvider.notifier)
                                     .fetchHomeScreenData();
+                                await ref
+                                    .refresh(paidCoursesApiProvider.notifier)
+                                    .fetchPaidCourses();
                                 // we need this so that next time home page fetches
                                 // courses that are not bought.
                               }

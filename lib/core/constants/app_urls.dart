@@ -1,6 +1,8 @@
 class AppUrls {
   static String baseUrl = "https://lms.biruklemma.com/api";
+  static String baseUrlWithoutApi = "https://lms.biruklemma.com/";
   static String backendStorage = "https://lms.biruklemma.com/storage";
+
   static String login = "/login";
   static String signUp = "/student-register";
   static String forgotPassword = "/forgot-password";
@@ -9,7 +11,7 @@ class AppUrls {
   static String chapterContent = "/chapter-contents";
   static String courseChapters = "/course-chapters";
   static String courseSearch = "/course-search";
-  static String coursesFilter = "/random-courses";
+  static String getCourses = "/random-courses";
   static String editProfile = "/user-update";
   static String examGradeFilter = "/exams/exam-grades";
   static String examChapterQuestions = "/exams/exam-questions-chapter";
@@ -21,8 +23,10 @@ class AppUrls {
   static String markNotificationAsRead = "/notifications-new";
   static String paidCourses = "/paid-courses";
   static String paidExams = "/paid-exams";
+  static String bankAccounts = "/bank-accounts";
   static String quizzes = "/quizzes";
   static String savedCourses = "/saved-courses";
   static String courseSubscriptionRequest = "/subscription-request";
   static String examSubscriptionRequest = "/subscription-request";
+  static String carouselContents = "/carousel-contents-api";
 }

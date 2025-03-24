@@ -21,7 +21,7 @@ class CustomDrawer extends StatelessWidget {
     return Consumer(builder: (context, ref, child) {
       var userState = ref.watch(currentUserProvider);
       return Drawer(
-        width: size.width * 0.6,
+        width: size.width * 0.65,
         backgroundColor: AppColors.mainBlue,
         elevation: 3,
         shape: const RoundedRectangleBorder(
@@ -54,13 +54,15 @@ class CustomDrawer extends StatelessWidget {
                             radius: 75,
                           ),
                         ),
-                        Text(
-                          user.name,
-                          style:
+                        NameTextContainer(
+                          name: user.name,
+                          textStyle:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                   ),
+                          maxWidth: size.width * 0.65 - 115,
+                          // width of drawer - avatar width - row spacing. (115 = avatar width (75) + row spacing (10) + padding on both sides - 15 each)
                         ),
                       ],
                     );
@@ -68,10 +70,6 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               const Divider(),
-              // const ListTileButton(
-              //   iconData: Icons.dark_mode,
-              //   titleText: "Dark Mode",
-              // ),
               ListTileButton(
                 onTap: () {
                   ref
@@ -92,12 +90,18 @@ class CustomDrawer extends StatelessWidget {
                 titleText: "Profile",
               ),
               ListTileButton(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).pushNamed(Routes.faq);
+                },
                 iconData: Icons.help_outline,
                 titleText: "FAQ",
               ),
               ListTileButton(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).pushNamed(Routes.contactUs);
+                },
                 iconData: Icons.phone_outlined,
                 titleText: "Contact",
               ),
@@ -163,6 +167,43 @@ class ListTileButton extends StatelessWidget {
               fontWeight: FontWeight.w500,
               color: Colors.white,
             ),
+      ),
+    );
+  }
+}
+
+class NameTextContainer extends StatelessWidget {
+  final String name;
+  final TextStyle textStyle;
+  final double maxWidth;
+
+  const NameTextContainer({
+    super.key,
+    required this.name,
+    required this.textStyle,
+    required this.maxWidth,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Calculate the actual height of the text
+    final textPainter = TextPainter(
+      text: TextSpan(text: name, style: textStyle),
+      maxLines: null, // Allow unlimited lines
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: maxWidth);
+
+    final textHeight = textPainter.height;
+
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.all(8),
+      width: maxWidth,
+      height: textHeight + 20, // Add padding/margins
+      child: Text(
+        name,
+        style: textStyle,
+        textAlign: TextAlign.center,
       ),
     );
   }

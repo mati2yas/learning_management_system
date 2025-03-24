@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
@@ -19,13 +20,15 @@ class CoursesFilteredDataSource {
     List<Course> courses = [];
     int? statusCode;
     try {
-      debugPrint("${AppUrls.baseUrl}/random-courses/$filter");
-      final response = await _dio.get("${AppUrls.coursesFilter}/$filter");
+      debugPrint("${AppUrls.baseUrl}/${AppUrls.getCourses}/$filter");
+      final response = await _dio.get("${AppUrls.getCourses}/$filter");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
-        for (var x in response.data["data"]) {
-          x["category"] = {"name": filter};
-          courses.add(Course.fromJson(x));
+        for (var dataEntry in response.data["data"]) {
+          dataEntry["category"] = {"name": filter};
+          Course crs = Course.fromJson(dataEntry);
+          debugPrint("course stream: ${crs.stream ?? "NO Stream"}");
+          courses.add(crs);
         }
       }
     } on DioException catch (e) {

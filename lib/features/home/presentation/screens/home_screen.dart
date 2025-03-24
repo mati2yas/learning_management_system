@@ -12,19 +12,18 @@ import 'package:lms_system/features/current_user/provider/current_user_provider.
 import 'package:lms_system/features/home/presentation/widgets/carousel.dart';
 import 'package:lms_system/features/home/presentation/widgets/category_indicator.dart';
 import 'package:lms_system/features/home/presentation/widgets/custom_home_app_bar_widget.dart';
+import 'package:lms_system/features/home/provider/carousel_provider.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../provider/home_provider.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pageviewParts = ref.watch(pageviewPartsProvider);
+    //final pageviewParts = ref.watch(pageviewPartsProvider);
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
 
@@ -36,6 +35,7 @@ class HomePage extends ConsumerWidget {
     final homeApiState = ref.watch(homeScreenApiProvider);
     final homeApiController = ref.watch(homeScreenApiProvider.notifier);
     final currentUserState = ref.watch(currentUserProvider);
+    final carouselApiState = ref.watch(carouselApiProvider);
 
     print("ktoolbarheight: $kToolbarHeight");
     final PageController pageController = PageController();
@@ -63,29 +63,27 @@ class HomePage extends ConsumerWidget {
                 ),
                 child: SingleChildScrollView(
                   child: Column(
+                    spacing: 8,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 8),
-                        height: 160,
-                        width: size.width * 0.85,
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
+                      const SizedBox(height: 8),
+                      carouselApiState.when(
+                        error: (error, stack) => Column(
+                          spacing: 10,
                           children: [
                             SizedBox(
-                              height: 130,
-                              width: size.width * 0.85,
+                              height: 165,
+                              width: size.width * 0.9,
                               child: PageView.builder(
                                 controller: pageController,
                                 itemBuilder: (_, index) {
-                                  return CarouselPage(
-                                    tag: pageviewParts["tag"]!,
-                                    img: pageviewParts["img"]!,
+                                  return const CarouselPage(
+                                    tag: "What would you like to learn today ?",
+                                    img: "assets/images/online_course1.png",
                                   );
                                 },
                                 itemCount: 2,
                               ),
                             ),
-                            const SizedBox(height: 6),
                             SmoothPageIndicator(
                               effect: const WormEffect(
                                 dotHeight: 8,
@@ -99,8 +97,53 @@ class HomePage extends ConsumerWidget {
                             ),
                           ],
                         ),
+                        loading: () => Container(
+                          height: 152,
+                          width: size.width * 0.9,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Colors.grey,
+                          ),
+                          alignment: Alignment.center,
+                          child: const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        data: (contents) => Column(
+                          spacing: 10,
+                          children: [
+                            SizedBox(
+                              height: 165,
+                              width: size.width * 0.9,
+                              child: PageView.builder(
+                                controller: pageController,
+                                itemBuilder: (_, index) {
+                                  return CarouselPageNetwork(
+                                    tag: contents[index].tag,
+                                    img: contents[index].imageUrl,
+                                  );
+                                },
+                                itemCount: contents.length,
+                              ),
+                            ),
+                            SmoothPageIndicator(
+                              effect: const WormEffect(
+                                dotHeight: 8,
+                                dotWidth: 8,
+                                strokeWidth: 2,
+                                dotColor: AppColors.darkerGrey,
+                                activeDotColor: AppColors.mainBlue,
+                              ),
+                              controller: pageController,
+                              count: contents.length,
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 8),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -111,13 +154,13 @@ class HomePage extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
                       SizedBox(
                         height: 90,
                         width: double.infinity,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
+                            spacing: 8,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               GestureDetector(
@@ -138,7 +181,6 @@ class HomePage extends ConsumerWidget {
                                       AppColors.courseCategoryColorsLighter[0],
                                 ),
                               ),
-                              const SizedBox(width: 5),
                               GestureDetector(
                                 onTap: () {
                                   currentCourseFilterController
@@ -157,7 +199,6 @@ class HomePage extends ConsumerWidget {
                                       AppColors.courseCategoryColorsLighter[1],
                                 ),
                               ),
-                              const SizedBox(width: 5),
                               GestureDetector(
                                 onTap: () {
                                   currentCourseFilterController
@@ -176,7 +217,6 @@ class HomePage extends ConsumerWidget {
                                       AppColors.courseCategoryColorsLighter[2],
                                 ),
                               ),
-                              const SizedBox(width: 5),
                               GestureDetector(
                                 onTap: () {
                                   currentCourseFilterController
@@ -199,7 +239,6 @@ class HomePage extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 9),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(

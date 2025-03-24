@@ -49,6 +49,9 @@ class CustomHomeAppBar extends ConsumerWidget {
               const Spacer(),
               GestureDetector(
                 onTap: () {
+                  ref
+                      .refresh(notificationApiProvider.notifier)
+                      .fetchNotifs(page: 1);
                   Navigator.of(context).pushNamed(Routes.notifications);
                 },
                 child: Stack(
@@ -178,36 +181,76 @@ class CustomHomeAppBar extends ConsumerWidget {
             padding: const EdgeInsets.only(left: 4.0),
             child: SizedBox(
               height: 40,
-              width: 200,
-              child: Row(
-                spacing: 8,
-                children: [
-                  const Text(
-                    "👋 Hello,",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),
-                  userState.when(
-                    error: (error, stack) {
-                      return Text(error.toString());
-                    },
-                    loading: () => const Text("Loading User..."),
-                    data: (user) {
-                      String name = user.name.replaceAll("\"", "");
-                      return Text(
-                        name,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 18),
-                      );
-                    },
-                  ),
-                ],
+              width: MediaQuery.sizeOf(context).width,
+              child: userState.when(
+                error: (error, stack) {
+                  return Text(error.toString());
+                },
+                loading: () => const Text("Loading User..."),
+                data: (user) {
+                  String name = user.name.replaceAll("\"", "");
+                  return Row(
+                    spacing: 8,
+                    children: [
+                      Text(
+                        "👋 Hello,",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: name.length < 20 ? 18 : 15,
+                        ),
+                      ),
+                      NameTextContainer(
+                        name: name,
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: name.length < 20 ? 18 : 15,
+                        ),
+                        maxWidth: MediaQuery.sizeOf(context).width * 0.6,
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class NameTextContainer extends StatelessWidget {
+  final String name;
+  final TextStyle textStyle;
+  final double maxWidth;
+
+  const NameTextContainer({
+    super.key,
+    required this.name,
+    required this.textStyle,
+    required this.maxWidth,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Calculate the actual height of the text
+    final textPainter = TextPainter(
+      text: TextSpan(text: name, style: textStyle),
+      maxLines: null, // Allow unlimited lines
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: maxWidth);
+
+    final textHeight = textPainter.height;
+
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.all(8),
+      width: maxWidth,
+      height: textHeight + 20, // Add padding/margins
+      child: Text(
+        name,
+        style: textStyle,
+        textAlign: TextAlign.center,
       ),
     );
   }

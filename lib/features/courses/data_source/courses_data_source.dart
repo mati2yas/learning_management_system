@@ -18,7 +18,7 @@ class CourseDataSource {
 
     List<Course> courses = [];
     try {
-      final response = await _dio.get("/random-courses");
+      final response = await _dio.get(AppUrls.getCourses);
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         print("response is 200");

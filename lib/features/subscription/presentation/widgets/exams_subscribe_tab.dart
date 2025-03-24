@@ -7,6 +7,7 @@ import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/current_exam_type_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
 import 'package:lms_system/features/requests/presentation/widgets/exam_request_tile.dart';
 import 'package:lms_system/features/requests/presentation/widgets/subscription_widget.dart';
 import 'package:lms_system/features/subscription/provider/requests/exam_requests_provider.dart';
@@ -290,9 +291,10 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
                                     .removeAll();
                                 resetImagePicked();
                                 _transactionIdController.clear();
-                                // await ref
-                                //     .refresh(homeScreenApiProvider.notifier)
-                                //     .fetchHomeScreenData();
+                                await ref
+                                    .refresh(paidExamsApiProvider.notifier)
+                                    .fetchPaidExams();
+
                                 // we need this so that next time home page fetches
                                 // courses that are not bought.
                               }

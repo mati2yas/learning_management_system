@@ -16,8 +16,8 @@ class CategoryIndicator extends StatelessWidget {
     return Card(
       elevation: 3,
       child: Container(
-        height: 75,
-        width: 120,
+        height: 60,
+        width: 100,
         padding: const EdgeInsets.only(bottom: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -38,7 +38,7 @@ class CategoryIndicator extends StatelessWidget {
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w600,
-              fontSize: 14,
+              fontSize: 13,
             ),
           ),
         ),

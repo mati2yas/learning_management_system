@@ -9,6 +9,7 @@ import 'package:lms_system/features/edit_profile/presentation/screens/edit_profi
 import 'package:lms_system/features/forgot_password/model/forgot_password_model.dart';
 import 'package:lms_system/features/forgot_password/presentation/change_password_screen.dart';
 import 'package:lms_system/features/forgot_password/presentation/forgot_password_screen.dart';
+import 'package:lms_system/features/home/presentation/screens/faq_contact_us.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/notification/presentation/screens/notification_screen.dart';
 import 'package:lms_system/features/onboarding/presentation/screens/onboarding_screen.dart';
@@ -32,6 +33,11 @@ class Approuter {
 
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const HomePage());
+      case Routes.contactUs:
+        return MaterialPageRoute(builder: (_) => const ContactUsPage());
+
+      case Routes.faq:
+        return MaterialPageRoute(builder: (_) => const FAQPage());
 
       case Routes.login:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
@@ -52,7 +58,7 @@ class Approuter {
         final forgotPassModel = settings.arguments as ForgotPasswordModel;
         return MaterialPageRoute(
           builder: (_) => ChangePasswordScreen(
-           forgotPasswordModel: forgotPassModel,
+            forgotPasswordModel: forgotPassModel,
           ),
         );
       case Routes.courses:
@@ -99,14 +105,6 @@ class Approuter {
       case Routes.notifications:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
 
-      // case Routes.signUp:
-      //   final prevRoute = settings.arguments as String;
-      //   return MaterialPageRoute(
-      //     builder: (_) => SignUpPage(
-      //       previousRoute: prevRoute,
-      //     ),
-      //   );
-
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
@@ -123,6 +121,8 @@ class Routes {
   static const String wrapper = "wrapper";
   static const String onboarding = "onboarding";
   static const String home = "home";
+  static const String contactUs = "contactUs";
+  static const String faq = "faq";
   static const String login = "login";
   static const String profileAdd = "profile_add";
   static const String profileEdit = "profile_edit";

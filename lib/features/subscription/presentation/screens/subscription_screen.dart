@@ -1,39 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
+import 'package:lms_system/features/subscription/model/bank_info.dart';
 import 'package:lms_system/features/subscription/presentation/widgets/courses_subscribe_tab.dart';
 import 'package:lms_system/features/subscription/presentation/widgets/exams_subscribe_tab.dart';
+import 'package:lms_system/features/subscription/provider/bank_info_provider.dart';
 
 class BankData extends StatelessWidget {
-  final String accountNumber;
+  final String accountNumber, accountName;
   const BankData({
     super.key,
     required this.accountNumber,
+    required this.accountName,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
+      height: 70,
       width: double.infinity,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Text(accountNumber),
-          ),
-          IconButton(
-            onPressed: () async {
-              await Clipboard.setData(
-                ClipboardData(
-                  text: accountNumber,
+          Text(accountName),
+          SizedBox(
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(accountNumber),
                 ),
-              );
-            },
-            icon: const Icon(
-              Icons.copy,
-              color: AppColors.mainBlue,
+                IconButton(
+                  onPressed: () async {
+                    await Clipboard.setData(
+                      ClipboardData(
+                        text: accountNumber,
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.copy,
+                    color: AppColors.mainBlue,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -43,23 +56,25 @@ class BankData extends StatelessWidget {
 }
 
 class BankPricesWidget extends StatelessWidget {
-  const BankPricesWidget({super.key});
+  final List<BankInfo> infos;
+  const BankPricesWidget({
+    super.key,
+    required this.infos,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 250,
       width: MediaQuery.sizeOf(context).width * 0.8,
-      child: const SingleChildScrollView(
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("CBE Account:"),
-            BankData(accountNumber: "1000xxxxxxx"),
-            Text("Dashen Account:"),
-            BankData(accountNumber: "XXX-XXX-X"),
-            Text("Abyssinia Account:"),
-            BankData(accountNumber: "XXX-XXX-X"),
+            ...infos.map(
+              (bInfo) => BankData(
+                  accountNumber: bInfo.bankNumber, accountName: bInfo.bankName),
+            ),
           ],
         ),
       ),
@@ -88,33 +103,47 @@ class SubscriptionScreen extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.white,
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: FilledButton(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.mainBlue,
+            Consumer(
+              builder: (context, ref, child) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.info,
+                      color: AppColors.mainBlue,
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Bank Accounts'),
+                            content: ref.watch(bankInfoApiProvider).when(
+                                  loading: () => const Center(
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.mainBlue,
+                                    ),
+                                  ),
+                                  error: (error, stack) => ErrorWidget(error),
+                                  data: (infos) =>
+                                      BankPricesWidget(infos: infos),
+                                ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('Back'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                   ),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Bank Accounts'),
-                          content: const BankPricesWidget(),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('Back'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: const Text("Account Info")),
-            )
+                );
+              },
+            ),
           ],
           bottom: PreferredSize(
             preferredSize: Size(MediaQuery.sizeOf(context).width, 30),

@@ -11,11 +11,13 @@ import 'package:lms_system/features/exam_courses_filter/presentation/screens/exa
 import 'package:lms_system/features/exam_grade_filter/presentation/screens/exam_grade_filter_screen.dart';
 import 'package:lms_system/features/exam_questions/presentation/exam_questions_page.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
+import 'package:lms_system/features/home/provider/carousel_provider.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/presentation/screens/paid_screen.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
+import 'package:lms_system/features/subscription/provider/bank_info_provider.dart';
 import 'package:lms_system/features/subscription/provider/requests/course_requests_provider.dart';
 import 'package:lms_system/features/wrapper/presentation/widgets/nav_item.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
@@ -44,6 +46,7 @@ class WrapperScreen extends ConsumerWidget {
       const ExamGradeFilterScreen(), // 8
     ];
     if (currentPage == 0) {
+      ref.read(carouselApiProvider.notifier).build();
       ref.read(homeScreenApiProvider.notifier).build();
       ref.read(currentUserProvider.notifier).build();
       if (ref.read(courseRequestsProvider).isEmpty) {
@@ -55,6 +58,7 @@ class WrapperScreen extends ConsumerWidget {
       ref.read(allCoursesApiProvider.notifier).build();
     }
     if (currentPage == 2) {
+      ref.read(bankInfoApiProvider.notifier).build();
       ref.read(paidCoursesApiProvider.notifier).build();
       ref.read(paidExamsApiProvider.notifier).build();
     }

@@ -83,13 +83,14 @@ class ExamYear {
           double.tryParse(json["on_sale_six_month"]);
     }
 
+    debugPrint("exam duratoin: ${json["duration"]}");
     return ExamYear(
       id: json["id"] ?? 0,
       title: json["year_name"] ?? "year name",
       parentCourseTitle: json["parent_course_title"],
       examSheetId: json["exam_sheet_id"] ?? 0,
       questionCount: json['exam_questions_count'] ?? 0,
-      duration: json["duration"] ?? 20,
+      duration: json["duration"] ?? 30,
       price: {
         SubscriptionType.oneMonth: priceOneMonth,
         SubscriptionType.threeMonths: priceThreeMonth,
