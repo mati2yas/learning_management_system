@@ -16,11 +16,11 @@ import 'package:lms_system/features/subscription/provider/requests/exam_requests
 import 'package:lms_system/features/subscription/provider/subscriptions/exam_subscription_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-class TakeOrFitler extends StatelessWidget {
+class TakeOrFilter extends StatelessWidget {
   final WidgetRef ref;
   final ExamCourse course;
   final ExamYear year;
-  const TakeOrFitler({
+  const TakeOrFilter({
     super.key,
     required this.ref,
     required this.course,
@@ -151,7 +151,7 @@ class YearsList extends ConsumerWidget {
             title: Text(year.title),
             subtitle: Text('${year.questionCount} questions'),
             trailing: year.subscribed
-                ? TakeOrFitler(
+                ? TakeOrFilter(
                     ref: ref,
                     course: course,
                     year: year,

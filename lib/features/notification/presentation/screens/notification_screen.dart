@@ -68,7 +68,9 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
                   error: (error, stack) => AsyncErrorWidget(
                     errorMsg: error.toString(),
                     callback: () async {
-                      await notifsController.fetchNotifs(page: currentPage);
+                      await ref
+                          .refresh(notificationApiProvider.notifier)
+                          .fetchNotifs(page: currentPage);
                     },
                   ),
                   data: (notifs) {

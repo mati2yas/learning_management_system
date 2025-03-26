@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/exams/model/exam_year.dart';
 import 'package:lms_system/features/shared/model/api_response_model.dart';
 import 'package:lms_system/features/subscription/repository/exams_subscription_repository.dart';
@@ -24,12 +25,13 @@ class ExamsSubscriptionController extends StateNotifier<ExamSubscriptionModel> {
     String statusMsg = "";
     bool statusBool = false;
     Response? response;
-    
-    
+    int? statusCode;
+
     try {
       state = state.copyWith(apiState: ApiState.busy);
 
       response = await _repository.subscribe(state);
+      statusCode = response.statusCode;
       debugPrint(response.data["message"]);
 
       state = state.copyWith(
@@ -51,11 +53,11 @@ class ExamsSubscriptionController extends StateNotifier<ExamSubscriptionModel> {
           apiState: ApiState.error,
         );
       }
-    } catch (e) {
+    } catch (e, stack) {
       debugPrint("exception case");
 
       state = state.copyWith(
-        statusMsg: e.toString().replaceAll("Exception:", ""),
+        statusMsg: ApiExceptions.getExceptionMessage(e as Exception, statusCode),
         statusSuccess: response?.data["status"] ?? false,
         apiState: ApiState.error,
       );

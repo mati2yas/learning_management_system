@@ -165,65 +165,79 @@ class CourseCardNetworkImage extends ConsumerWidget {
                 ],
               ),
             ] else ...[
-              if (course.onSalePrices[SubscriptionType.oneMonth] != null)
-                GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Course Prices'),
-                          content: PricesDialogWidget(course: course),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('Back'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      spacing: 6,
-                      children: [
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text:
-                                    '${course.price[SubscriptionType.oneMonth]}',
-                                style: const TextStyle(
-                                  decoration: TextDecoration
-                                      .lineThrough, // Strikethrough effect
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              TextSpan(
-                                text:
-                                    " ${course.onSalePrices[SubscriptionType.oneMonth]} ETB",
-                                style: const TextStyle(
-                                  color: AppColors.darkerBlue,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
+              if (course.onSalePrices[SubscriptionType.oneMonth] != null ||
+                  course.onSalePrices[SubscriptionType.threeMonths] != null ||
+                  course.onSalePrices[SubscriptionType.sixMonths] != null ||
+                  course.onSalePrices[SubscriptionType.yearly] != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    spacing: 6,
+                    children: [
+                      Text(
+                        '${course.price[SubscriptionType.oneMonth]} ETB',
+                        style: const TextStyle(
+                          color: AppColors.darkerBlue,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Course Prices'),
+                                content: PricesDialogWidget(course: course),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('Back'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: const Text(
+                          "Onsale",
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
                           ),
                         ),
-                        const Icon(
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Course Prices'),
+                                content: PricesDialogWidget(course: course),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('Back'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: const Icon(
                           Icons.info,
                           color: AppColors.mainBlue,
                           size: 20,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 )
               else

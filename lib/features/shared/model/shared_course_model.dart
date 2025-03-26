@@ -79,9 +79,9 @@ class Course {
       topics: json["chapter_count"] ?? 0,
       likes: json["likes_count"] ?? 0,
       saves: json["saves_count"] ?? 0,
-      liked: json["liked"] ?? false,
-      saved: json["saved"] ?? false,
-      subscribed: json["paid"] ?? false,
+      liked: json["is_liked"] ?? false,
+      saved: json["is_saved"] ?? false,
+      subscribed: json["is_paid"] ?? false,
       image: json["thumbnail"],
       category: categ,
       price: {

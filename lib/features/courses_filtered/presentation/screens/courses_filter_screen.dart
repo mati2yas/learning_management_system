@@ -269,7 +269,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                   errorMsg: error.toString().replaceAll("Exception:", ""),
                   callback: () async {
                     await ref
-                        .read(coursesFilteredProvider.notifier)
+                        .refresh(coursesFilteredProvider.notifier)
                         .fetchCoursesFiltered(filter: category);
                   },
                 ),

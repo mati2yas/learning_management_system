@@ -271,13 +271,15 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
                           ),
                           onPressed: () async {
                             _validateInput(); // Validate when button is pressed
-                            _validateImagePath();
+                            await _validateImagePath();
                             // subscriptionController.updateExamType(
                             //   ref;.read(currentExamTypeProvider),
                             // )
-                            if (_errorMessageTransactionId != null) {
+                            if (_errorMessageTransactionId != null ||
+                                _errorMessageImagePath != null) {
                               return;
-                            } else if (_errorMessageTransactionId == null) {
+                            } else if (_errorMessageTransactionId == null &&
+                                _errorMessageImagePath == null) {
                               debugPrint(
                                   "in subscribe screen, before subscribe, examyears length ${requestsProv.length}");
                               final result =
@@ -447,14 +449,31 @@ class _ExamsSubscribePageState extends ConsumerState<ExamsSubscribePage> {
     );
   }
 
-  void _validateImagePath() {
-    setState(() {
-      if (!imagePicked) {
+  Future<void> _validateImagePath() async {
+    if (!imagePicked) {
+      setState(() {
         _errorMessageImagePath = "This field cannot be empty";
+        transactionImage == null;
+      });
+    } else if (transactionImage != null) {
+      var file = File(transactionImage!.path);
+      int bytes = await file.length();
+      if (bytes > 5 * 1024 * 1024) {
+        setState(() {
+          transactionImage == null;
+          _errorMessageImagePath =
+              "File size too big. It should be less than 5 Mb";
+        });
       } else {
-        _errorMessageImagePath = null;
+        setState(() {
+          _errorMessageImagePath = null;
+        });
       }
-    });
+    } else {
+      setState(() {
+        _errorMessageImagePath = null;
+      });
+    }
   }
 
   void _validateInput() {

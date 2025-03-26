@@ -22,7 +22,7 @@ class PaidCoursesDataSource {
       final response = await _dio.get(AppUrls.paidCourses);
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
-        print("response is 200");
+        debugPrint("response is 200");
         //var data = response.data["data"];
         //print(response.data["data"]);
         for (var x in response.data["data"]) {

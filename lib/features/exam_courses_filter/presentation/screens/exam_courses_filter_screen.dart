@@ -129,7 +129,7 @@ class _ExamCoursesFilterScreenState
           errorMsg: error.toString().replaceAll("Exception:", ""),
           callback: () async {
             await ref
-                .read(examCoursesFilterApiProvider.notifier)
+                .refresh(examCoursesFilterApiProvider.notifier)
                 .fetchExamCourses();
           },
         ),

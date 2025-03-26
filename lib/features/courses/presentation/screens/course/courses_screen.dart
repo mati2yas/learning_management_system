@@ -130,7 +130,7 @@ class CoursePage extends ConsumerWidget {
             error: (error, stack) => AsyncErrorWidget(
               errorMsg: error.toString().replaceAll("Exception: ", ""),
               callback: () async {
-                await allCourseController.loadCourses();
+                await ref.refresh(allCoursesApiProvider.notifier).loadCourses();
               },
             ),
             data: (courses) {

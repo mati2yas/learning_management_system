@@ -38,6 +38,7 @@ class ChapterContent {
       quizs.add(
         Quiz(
           id: quiz["id"],
+          duration: quiz["quiz_duration"] ?? 0,
           title: quiz['title'],
           numberOfQuestions: quiz['number_of_questions'],
           questions: [],

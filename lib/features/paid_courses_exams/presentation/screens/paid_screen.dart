@@ -73,8 +73,10 @@ class PaidScreen extends ConsumerWidget {
                 errorMsg: error.toString(),
                 callback: () async {
                   Future.wait([
-                    coursesApiController.fetchPaidCourses(),
-                    examsApiController.fetchPaidExams(),
+                    ref
+                        .refresh(paidCoursesApiProvider.notifier)
+                        .fetchPaidCourses(),
+                    ref.refresh(paidExamsApiProvider.notifier).fetchPaidExams(),
                   ]);
                 },
               ),

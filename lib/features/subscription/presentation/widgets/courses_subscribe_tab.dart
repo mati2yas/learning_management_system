@@ -269,10 +269,12 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
                           ),
                           onPressed: () async {
                             _validateInput(); // Validate when button is pressed
-                            _validateImagePath();
-                            if (_errorMessageTransactionId != null) {
+                            await _validateImagePath();
+                            if (_errorMessageTransactionId != null ||
+                                _errorMessageImagePath != null) {
                               return;
-                            } else if (_errorMessageTransactionId == null) {
+                            } else if (_errorMessageTransactionId == null &&
+                                _errorMessageImagePath == null) {
                               final result =
                                   await subscriptionController.subscribe();
                               debugPrint(
@@ -441,14 +443,31 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
     );
   }
 
-  void _validateImagePath() {
-    setState(() {
-      if (!imagePicked) {
+  Future<void> _validateImagePath() async {
+    if (!imagePicked) {
+      setState(() {
+        transactionImage == null;
         _errorMessageImagePath = "This field cannot be empty";
+      });
+    } else if (transactionImage != null) {
+      var file = File(transactionImage!.path);
+      int bytes = await file.length();
+      if (bytes > 5 * 1024 * 1024) {
+        setState(() {
+          transactionImage == null;
+          _errorMessageImagePath =
+              "File size too big. It should be less than 5 Mb";
+        });
       } else {
-        _errorMessageImagePath = null;
+        setState(() {
+          _errorMessageImagePath = null;
+        });
       }
-    });
+    } else {
+      setState(() {
+        _errorMessageImagePath = null;
+      });
+    }
   }
 
   void _validateInput() {

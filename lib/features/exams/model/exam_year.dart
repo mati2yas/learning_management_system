@@ -97,8 +97,8 @@ class ExamYear {
         SubscriptionType.sixMonths: priceSixMonth,
         SubscriptionType.yearly: priceOneYear,
       },
-      subscribed: json["is_paid"],
-      pending: json["pending"] ?? false,
+      subscribed: json["is_paid"] ?? false,
+      pending: json["is_pending"] ?? false,
     );
   }
 

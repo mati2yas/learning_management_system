@@ -2,11 +2,13 @@ class Quiz {
   final int id;
   final String title;
   final int numberOfQuestions;
+  final int duration;
   final List<QuizQuestion> questions;
 
   Quiz({
     required this.id,
     required this.title,
+    required this.duration,
     required this.numberOfQuestions,
     required this.questions,
   });
@@ -20,6 +22,7 @@ class Quiz {
     }
     return Quiz(
       id: json['id'] ?? -1,
+      duration: json["quiz_duration"],
       title: json['title'] ?? "No Title",
       numberOfQuestions: json['number_of_questions'] ?? 0,
       questions: questions,
@@ -31,6 +34,7 @@ class Quiz {
       id: -1,
       title: "",
       numberOfQuestions: 0,
+      duration: 10,
       questions: [],
     );
   }
