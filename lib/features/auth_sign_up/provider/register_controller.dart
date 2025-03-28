@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/auth_sign_up/model/register_state.dart';
-import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 
 import '../repository/register_repository.dart';
 import 'register_repository_provider.dart';

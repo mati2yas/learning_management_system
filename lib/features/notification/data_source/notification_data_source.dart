@@ -70,10 +70,10 @@ class NotificationsDataSource {
       );
 
       statusCode = response.statusCode;
-      debugPrint("Dio response status code: $statusCode");
-      debugPrint("Dio response headers: ${response.headers}");
-      debugPrint(
-          "Dio response data: ${response.data}"); // Log the entire response data
+      // debugPrint("Dio response status code: $statusCode");
+      // debugPrint("Dio response headers: ${response.headers}");
+      // debugPrint(
+      //     "Dio response data: ${response.data}"); // Log the entire response data
 
       if (response.statusCode == 200) {
         var dataMap = response.data as Map<String, dynamic>;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/quiz/model/quiz_model.dart';
 import 'package:lms_system/features/shared/model/answers_holder.dart';
 

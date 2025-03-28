@@ -27,7 +27,8 @@ class CoursesFilteredDataSource {
         for (var dataEntry in response.data["data"]) {
           dataEntry["category"] = {"name": filter};
           Course crs = Course.fromJson(dataEntry);
-          debugPrint("course stream: ${crs.stream ?? "NO Stream"}");
+
+          //debugPrint("in coures datasource: course stream: ${crs.stream}");
           courses.add(crs);
         }
       }

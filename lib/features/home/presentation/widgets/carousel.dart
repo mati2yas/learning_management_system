@@ -141,7 +141,7 @@ class CarouselPageNetwork extends StatelessWidget {
 
   String getCarouselUrl(String input) {
     input = input.replaceAll("\\", "");
-    String finalInput = AppUrls.backendStorage + input;
+    String finalInput = "${AppUrls.backendStorage}/$input";
     debugPrint("carousel image: $finalInput");
     return finalInput;
   }

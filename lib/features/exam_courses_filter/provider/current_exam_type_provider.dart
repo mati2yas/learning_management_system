@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/enums.dart';
-import 'package:lms_system/features/exams/model/exams_model.dart';
 
 final currentExamTypeProvider =
     StateNotifierProvider<CurrentExamTypeNotifier, ExamType>((ref) {

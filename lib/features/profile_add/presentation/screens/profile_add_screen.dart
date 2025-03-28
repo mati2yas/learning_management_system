@@ -7,7 +7,6 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
-import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
 
 import '../../../../core/constants/app_colors.dart';

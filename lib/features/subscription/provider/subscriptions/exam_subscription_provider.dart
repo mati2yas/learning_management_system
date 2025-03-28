@@ -53,7 +53,7 @@ class ExamsSubscriptionController extends StateNotifier<ExamSubscriptionModel> {
           apiState: ApiState.error,
         );
       }
-    } catch (e, stack) {
+    } catch (e) {
       debugPrint("exception case");
 
       state = state.copyWith(

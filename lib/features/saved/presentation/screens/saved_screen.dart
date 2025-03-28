@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/saved/provider/saved_provider.dart';
-import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 import '../widgets/courses_list.dart';

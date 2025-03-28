@@ -23,9 +23,11 @@ class AppStrings {
   static const String grade10 = "Grade 10";
   static const String grade11 = "Grade 11";
   static const String grade12 = "Grade 12";
-  static const String naturalStream = "Natural";
 
+  static const String naturalStream = "Natural";
   static const String socialStream = "Social";
+  static const String commonStream = "Common";
+
   static const List<String> highSchoolGrades = [
     grade9,
     grade10,
@@ -107,7 +109,6 @@ class AppStrings {
   static const String forgotPassStorageKey = "forgotPassword";
   static const String onboardingStatusStorageKey = "onboarding_status";
   static const String subbedCoursesStorageKey = "subbed_courses";
-
 
   static const List<String> fourYearDepts = [
     "Accounting and Finance",

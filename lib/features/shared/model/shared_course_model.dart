@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 
@@ -69,13 +71,24 @@ class Course {
 
     var chapters = json["chapters"] ?? <dynamic>[];
 
+    String? grade = json["grade"]?["grade_name"];
+    String? stream = json["grade"]?["stream"];
+
+    debugPrint("in course model: grade: $grade, stream: $stream");
+    if (grade == AppStrings.grade11 || grade == AppStrings.grade12) {
+      //debugPrint("grade 11/12, stream is: $stream");
+      stream ??= AppStrings.commonStream;
+      //debugPrint("grade 11/12, after setting stream: $stream");
+    }
+
     return Course(
       id: json["id"].toString(),
       title: json["course_name"],
       department: json["department"]?["department_name"],
-      stream: json["grade"]?["stream"],
+      //stream: json["grade"]?["stream"],
+      stream: stream,
       batch: json["batch"]?["batch_name"],
-      grade: json["grade"]?["grade_name"],
+      grade: grade,
       topics: json["chapter_count"] ?? 0,
       likes: json["likes_count"] ?? 0,
       saves: json["saves_count"] ?? 0,

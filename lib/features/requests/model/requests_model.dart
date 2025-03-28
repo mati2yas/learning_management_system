@@ -1,7 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:lms_system/core/constants/enums.dart';
-import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
 // class SubscriptionRequest {
 //   final List<Course> courses;
