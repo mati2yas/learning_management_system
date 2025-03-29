@@ -11,11 +11,19 @@ import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_login/provider/login_controller.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 
-class LoginScreen extends ConsumerWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
     final loginController = ref.watch(loginControllerProvider.notifier);
     final state = ref.watch(loginControllerProvider);
     final size = MediaQuery.sizeOf(context);
@@ -69,7 +77,7 @@ class LoginScreen extends ConsumerWidget {
 
                         return null; // Return null if the input is valid
                       },
-                      initialValue: state.email,
+                      controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       hintText: 'Your Email',
                       onSaved: (value) {
@@ -92,7 +100,7 @@ class LoginScreen extends ConsumerWidget {
                         }
                         return null;
                       },
-                      initialValue: state.password,
+                      controller: passwordController,
                       hintText: 'Password',
                       obscure: true,
                       onSaved: (value) {
@@ -146,8 +154,8 @@ class LoginScreen extends ConsumerWidget {
                                   UtilFunctions.buildInfoSnackbar(
                                       message: "Login Successful"),
                                 );
-                                loginController.updateEmail("");
-                                loginController.updatePassword("");
+                                emailController.clear();
+                                passwordController.clear();
                                 Navigator.of(context)
                                     .pushReplacementNamed(Routes.profileAdd);
                               }
@@ -231,5 +239,15 @@ class LoginScreen extends ConsumerWidget {
         );
       }),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final state = ref.watch(loginControllerProvider);
+      emailController.text = state.email;
+      passwordController.text = state.password;
+    });
   }
 }

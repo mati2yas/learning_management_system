@@ -11,7 +11,7 @@ import 'package:lms_system/features/current_user/provider/current_user_provider.
 import 'package:lms_system/features/forgot_password/model/forgot_password_model.dart';
 import 'package:lms_system/features/forgot_password/provider/change_password_provider.dart';
 
-class ChangePasswordScreen extends ConsumerWidget {
+class ChangePasswordScreen extends ConsumerStatefulWidget {
   final ForgotPasswordModel forgotPasswordModel;
   const ChangePasswordScreen({
     super.key,
@@ -19,7 +19,16 @@ class ChangePasswordScreen extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ChangePasswordScreen> createState() =>
+      _ChangePasswordScreenState();
+}
+
+class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController pinController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     final changePassController =
         ref.watch(changePasswordControllerProvider.notifier);
     final state = ref.watch(changePasswordControllerProvider);
@@ -59,7 +68,7 @@ class ChangePasswordScreen extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      'Your Email: ${forgotPasswordModel.email}',
+                      'Your Email: ${widget.forgotPasswordModel.email}',
                       style: textTh.bodyLarge!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -73,14 +82,14 @@ class ChangePasswordScreen extends ConsumerWidget {
                     InputWidget(
                       validator: (value) {
                         if (value.isEmpty) {
-                          return "Please Enter Password";
+                          return "Please Enter New Password";
                         }
                         if (value.length < 4) {
                           return "Password must be at least 4 characters long";
                         }
                         return null;
                       },
-                      initialValue: state.password,
+                      controller: passwordController,
                       hintText: 'Password',
                       obscure: true,
                       onSaved: (value) {
@@ -101,7 +110,7 @@ class ChangePasswordScreen extends ConsumerWidget {
 
                         return null;
                       },
-                      initialValue: state.pinToken,
+                      controller: pinController,
                       hintText: 'PIN',
                       obscure: true,
                       onSaved: (value) {
@@ -130,8 +139,8 @@ class ChangePasswordScreen extends ConsumerWidget {
                               true) {
                             AppKeys.changePasswordFormKey.currentState!.save();
                             try {
-                              changePassController
-                                  .updateEmail(forgotPasswordModel.email);
+                              changePassController.updateEmail(
+                                  widget.forgotPasswordModel.email);
                               ForgotPasswordState result =
                                   await changePassController.changePassword();
                               if (result.responseSuccess) {
@@ -147,7 +156,8 @@ class ChangePasswordScreen extends ConsumerWidget {
                                       message: "Password Change Successful",
                                     ),
                                   );
-                                  changePassController.updateEmail("");
+                                  passwordController.clear();
+                                  pinController.clear();
                                   Navigator.of(context)
                                       .pushReplacementNamed(Routes.profileAdd);
                                 }
@@ -206,5 +216,15 @@ class ChangePasswordScreen extends ConsumerWidget {
         );
       }),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final state = ref.watch(changePasswordControllerProvider);
+      passwordController.text = state.password;
+      pinController.text = state.pinToken;
+    });
   }
 }

@@ -28,6 +28,8 @@ class ExamsSubscriptionController extends StateNotifier<ExamSubscriptionModel> {
     int? statusCode;
 
     try {
+      debugPrint(
+          "in exam sub provider: current exam sheets: [${state.examYears.map((yr) => yr.examSheetId).toList().join(",")}]");
       state = state.copyWith(apiState: ApiState.busy);
 
       response = await _repository.subscribe(state);
@@ -57,7 +59,8 @@ class ExamsSubscriptionController extends StateNotifier<ExamSubscriptionModel> {
       debugPrint("exception case");
 
       state = state.copyWith(
-        statusMsg: ApiExceptions.getExceptionMessage(e as Exception, statusCode),
+        statusMsg:
+            ApiExceptions.getExceptionMessage(e as Exception, statusCode),
         statusSuccess: response?.data["status"] ?? false,
         apiState: ApiState.error,
       );

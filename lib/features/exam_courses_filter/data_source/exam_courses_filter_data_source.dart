@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
@@ -24,10 +25,15 @@ class ExamCoursesFilterDataSource {
       if (response.statusCode == 200) {
         var data = response.data["data"];
 
-        
         for (var d in data) {
           var exam = ExamCourse.fromJson(d);
           examCourses.add(exam);
+        }
+
+        debugPrint("in exam-course-fetcheer datasource");
+        for (var exCourse in examCourses) {
+          debugPrint(
+              "exam sheet ids for course of id ${exCourse.id}: [${exCourse.years.map((yr) => yr.examSheetId).toList().join(",")}] ");
         }
       }
     } on DioException catch (e) {

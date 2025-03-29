@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
-import 'package:lms_system/core/constants/app_urls.dart';
 
 class CarouselPage extends StatelessWidget {
   final String tag, img;
@@ -59,12 +58,12 @@ class CarouselPage extends StatelessWidget {
 }
 
 class CarouselPageNetwork extends StatelessWidget {
-  final String tag, img;
+  final String tag, imgUrl;
 
   const CarouselPageNetwork({
     super.key,
     required this.tag,
-    required this.img,
+    required this.imgUrl,
   });
 
   @override
@@ -107,7 +106,7 @@ class CarouselPageNetwork extends StatelessWidget {
             child: Image.network(
               height: 90,
               width: double.infinity,
-              getCarouselUrl(img),
+              imgUrl,
               fit: BoxFit.cover,
               loadingBuilder: (BuildContext context, Widget child,
                   ImageChunkEvent? loadingProgress) {
@@ -139,10 +138,10 @@ class CarouselPageNetwork extends StatelessWidget {
     );
   }
 
-  String getCarouselUrl(String input) {
-    input = input.replaceAll("\\", "");
-    String finalInput = "${AppUrls.backendStorage}/$input";
-    debugPrint("carousel image: $finalInput");
-    return finalInput;
-  }
+  // String getCarouselUrl(String input) {
+  //   input = input.replaceAll("\\", "");
+  //   //String finalInput = "${AppUrls.backendStorage}/$input";
+  //   debugPrint("carousel image: $finalInput");
+  //   return finalInput;
+  // }
 }

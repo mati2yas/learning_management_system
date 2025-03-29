@@ -21,6 +21,7 @@ class ForgotPasswordScreen extends ConsumerStatefulWidget {
 class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   List<Widget> bodyWidgets = [];
   int currentWidget = 0;
+  final TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +62,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
 
                   return null; // Return null if the input is valid
                 },
-                initialValue: state.email,
+                controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 hintText: 'Your Email',
                 onSaved: (value) {
@@ -101,7 +102,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                                   "Password Reset Successfully. Check Your Email for PIN.",
                             ),
                           );
-                          Navigator.pop(context);
+                          emailController.clear();
                           Navigator.of(context).pushReplacementNamed(
                             Routes.changePassword,
                             arguments: forgotPassData,
@@ -149,5 +150,14 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final state = ref.watch(forgotPasswordControllerProvider);
+      emailController.text = state.email;
+    });
   }
 }

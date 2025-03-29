@@ -18,6 +18,8 @@ class ExamSubscriptionDataSource {
   Future<Response> subscribe(ExamSubscriptionModel request) async {
     FormData formData = await request.toFormData();
     int? statusCode;
+    debugPrint(
+        "in exam sub datasource: current exam ids: [ ${request.examYears.map((yr) => yr.examSheetId).toList().join(",")} ]");
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {

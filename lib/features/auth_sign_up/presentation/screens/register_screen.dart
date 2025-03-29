@@ -10,11 +10,20 @@ import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_sign_up/provider/register_controller.dart';
 
-class RegisterScreen extends ConsumerWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+  TextEditingController nameController = TextEditingController();
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
     final textTh = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
     final regController = ref.watch(registerControllerProvider.notifier);
@@ -50,7 +59,7 @@ class RegisterScreen extends ConsumerWidget {
                       _buildInputLabel('Your Name', textTh),
                       InputWidget(
                         hintText: 'Your Name',
-                        initialValue: state.name,
+                        controller: nameController,
                         validator: _validateInput,
                         onSaved: (value) {
                           regController.updateName(value!);
@@ -59,7 +68,7 @@ class RegisterScreen extends ConsumerWidget {
                       _buildInputLabel('Email', textTh),
                       InputWidget(
                         hintText: 'Email',
-                        initialValue: state.email,
+                        controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (value.isEmpty) {
@@ -92,7 +101,7 @@ class RegisterScreen extends ConsumerWidget {
                           }
                           return null;
                         },
-                        initialValue: state.password,
+                        controller: passwordController,
                         obscure: true,
                         onSaved: (value) {
                           regController.updatePassword(value!);
@@ -130,12 +139,15 @@ class RegisterScreen extends ConsumerWidget {
                                           "Registration Successful. Check your email for verification",
                                     ),
                                   );
-                                  regController.updateName("");
-                                  regController.updateEmail("");
-                                  regController.updatePassword("");
 
-                                  Navigator.of(context)
-                                      .pushReplacementNamed(Routes.login);
+                                  nameController.clear();
+                                  emailController.clear();
+                                  passwordController.clear();
+
+                                  //Navigator.of(context)
+                                  //   .pushReplacementNamed(Routes.login);
+
+                                  Navigator.of(context).pushNamed(Routes.login);
                                 }
                               } catch (e) {
                                 String exc =
@@ -220,6 +232,18 @@ class RegisterScreen extends ConsumerWidget {
         },
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final state = ref.watch(registerControllerProvider);
+      nameController.text = state.name;
+      emailController.text = state.email;
+      passwordController.text = state.password;
+    });
   }
 
   Widget _buildInputLabel(String label, TextTheme textTh) {

@@ -124,7 +124,7 @@ class HomePage extends ConsumerWidget {
                                 itemBuilder: (_, index) {
                                   return CarouselPageNetwork(
                                     tag: contents[index].tag,
-                                    img: contents[index].imageUrl,
+                                    imgUrl: contents[index].imageUrl,
                                   );
                                 },
                                 itemCount: contents.length,
@@ -276,7 +276,7 @@ class HomePage extends ConsumerWidget {
                             padding: const EdgeInsets.only(bottom: 30),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
-                              mainAxisExtent: 202,
+                              mainAxisExtent: 227,
                               crossAxisCount: 2,
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 10,
@@ -320,7 +320,7 @@ class HomePage extends ConsumerWidget {
                                         .toggleLiked(courses[index]);
                                   },
                                   course: courses[index],
-                                  mainAxisExtent: 202,
+                                  mainAxisExtent: 227,
                                 ),
                               );
                             },

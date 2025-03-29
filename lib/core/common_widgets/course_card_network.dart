@@ -99,7 +99,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 course.title,
-                maxLines: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: AppColors.mainBlue,
@@ -108,6 +108,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
                 ),
               ),
             ),
+            const Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Row(
@@ -179,7 +180,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
                         style: const TextStyle(
                           color: AppColors.darkerBlue,
                           fontWeight: FontWeight.w500,
-                          fontSize: 14,
+                          fontSize: 12,
                         ),
                       ),
                       GestureDetector(
@@ -207,7 +208,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
                           style: TextStyle(
                             color: Colors.red,
                             fontWeight: FontWeight.w500,
-                            fontSize: 14,
+                            fontSize: 12,
                           ),
                         ),
                       ),
@@ -234,7 +235,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
                         child: const Icon(
                           Icons.info,
                           color: AppColors.mainBlue,
-                          size: 20,
+                          size: 18,
                         ),
                       ),
                     ],
@@ -271,13 +272,13 @@ class CourseCardNetworkImage extends ConsumerWidget {
                           style: const TextStyle(
                             color: AppColors.mainBlue,
                             fontWeight: FontWeight.w500,
-                            fontSize: 14,
+                            fontSize: 12,
                           ),
                         ),
                         const Icon(
                           Icons.info,
                           color: AppColors.mainBlue,
-                          size: 20,
+                          size: 18,
                         ),
                       ],
                     ),

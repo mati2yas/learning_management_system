@@ -55,7 +55,7 @@ class UtilFunctions {
       elevation: 4,
       content: Text(
         //stripExceptionLabel(error.toString()),
-        "$errorMessage $exceptionStripped",
+        errorMessage,
         style: const TextStyle(
           color: Colors.white,
         ),
@@ -87,7 +87,6 @@ class UtilFunctions {
     if (size.width < 700) return 1.4;
     return 1.7;
   }
-
 
   static String? stripExceptionLabel(dynamic exc) {
     if (exc == null) {

@@ -3,6 +3,7 @@ import 'package:lms_system/core/constants/app_colors.dart';
 
 class InputWidget extends StatefulWidget {
   final Function(String?) onSaved;
+  final Function(String?)? onChanged;
 
   TextEditingController? controller;
   final dynamic Function(String) validator;
@@ -14,6 +15,7 @@ class InputWidget extends StatefulWidget {
   InputWidget({
     super.key,
     required this.onSaved,
+    this.onChanged,
     this.keyboardType,
     required this.hintText,
     required this.validator,
@@ -44,6 +46,7 @@ class _InputWidgetState extends State<InputWidget> {
           ),
           child: TextFormField(
             onSaved: widget.onSaved,
+            onChanged: widget.onChanged,
             keyboardType: widget.keyboardType ?? TextInputType.name,
             obscureText: widget.obscure ? isObscured : false,
             controller: widget.controller,

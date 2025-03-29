@@ -146,7 +146,7 @@ class CoursePage extends ConsumerWidget {
                     crossAxisSpacing: 10,
                     childAspectRatio:
                         UtilFunctions.getResponsiveChildAspectRatio(size),
-                    mainAxisExtent: 202,
+                    mainAxisExtent: 230,
                   ),
                   itemBuilder: (_, index) {
                     return GestureDetector(
@@ -173,7 +173,7 @@ class CoursePage extends ConsumerWidget {
                         );
                       },
                       child: CourseCardNetworkImage(
-                        mainAxisExtent: 202,
+                        mainAxisExtent: 230,
                         course: courses[index],
                         onLike: () async {
                           ref

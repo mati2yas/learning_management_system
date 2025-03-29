@@ -301,7 +301,7 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
                     }
                   } catch (e) {
                     setState(() {
-                      _errorMessageImagePath = e.toString();
+                      _errorMessageImagePath = "Couldn't Pick image";
                     });
                   }
                 },
@@ -326,7 +326,7 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
                     }
                   } catch (e) {
                     setState(() {
-                      _errorMessageImagePath = e.toString();
+                      _errorMessageImagePath = "Couldn't pick image";
                     });
                   }
                 },

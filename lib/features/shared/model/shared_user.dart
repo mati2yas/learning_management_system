@@ -43,6 +43,7 @@ class User {
     formData.fields.add(MapEntry("name", name));
     formData.fields.add(MapEntry("bio", bio));
     formData.fields.add(MapEntry("email", email));
+    formData.fields.add(MapEntry("password", password));
 
     final fileExt = image.split(".").last;
     final fileName = 'avatar.$fileExt';

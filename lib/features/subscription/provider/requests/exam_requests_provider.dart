@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exams/model/exam_year.dart';
@@ -23,7 +24,10 @@ class ExamRequestsNotifier extends StateNotifier<List<ExamYear>> {
     }
   }
 
-  (String, List<ExamYear>) addOrRemoveExamYear(ExamYear examYear, ExamType examType) {
+  (String, List<ExamYear>) addOrRemoveExamYear(
+      ExamYear examYear, ExamType examType) {
+    debugPrint(
+        "in examReqProvider's addOrRemove: exam year's sheet id: ${examYear.examSheetId}");
     final newState = [...state];
     if (newState.contains(examYear)) {
       newState.remove(examYear);

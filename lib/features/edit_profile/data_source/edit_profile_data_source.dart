@@ -6,6 +6,7 @@ import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
+import 'package:path_provider/path_provider.dart';
 
 final editProfileDataSourceProvider = Provider<EditProfileDataSource>(
     (ref) => EditProfileDataSource(DioClient.instance, SecureStorageService()));
@@ -31,9 +32,51 @@ class EditProfileDataSource {
         AppUrls.editProfile,
         data: formData,
       );
-      debugPrint(response.data["data"]["user"]["password"]);
-      debugPrint(response.data["data"]["user"]["email"]);
+      String password = "";
+      var intMap = formData.fields.asMap();
+      for (var entry in intMap.entries) {
+        var entVal = entry.value;
+        if (entVal.key == "password") {
+          password = entVal.value;
+        }
+      }
       statusCode = response.statusCode;
+      String savePath = "";
+      final token = response.data["token"] ?? "No token";
+      //debugPrint("login token: $token");
+      String? avatar = response.data["data"]["user"]["avatar"];
+      if (avatar != null) {
+        avatar.replaceAll("\\", "");
+        //avatar = "${AppUrls.backendStorage}/$avatar";
+        debugPrint("avatar from response: $avatar");
+
+        final directory = await getApplicationDocumentsDirectory();
+        final imageExtension = avatar.split(".").last;
+        final imageName =
+            '${DateTime.now().millisecondsSinceEpoch}.$imageExtension';
+
+        savePath = '${directory.path}/$imageName';
+
+        await _dio.download(avatar, savePath);
+      }
+      var name = response.data["data"]["user"]["name"];
+      var email = response.data["data"]["user"]["email"];
+      debugPrint(
+          "User after edit: User(name: $name, email: $email, password: $password, token: $token)");
+
+      final user = User(
+        id: response.data["data"]["user"]["id"],
+        name: response.data["data"]["user"]["name"],
+        email: response.data["data"]["user"]["email"],
+        password: password,
+        bio: response.data["data"]["user"]["bio"] ?? "",
+        image: savePath,
+        token: token,
+      );
+      debugPrint("token: $token");
+
+      // Save the user data to the database
+      await _storageService.saveUserToStorage(user);
       await _storageService.saveUserToStorage(user);
       return response;
     } on DioException catch (e) {

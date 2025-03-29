@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/edit_profile/model/edit_profile_state.dart';
 import 'package:lms_system/features/edit_profile/repository/edit_profile_repository.dart';
 import 'package:lms_system/features/shared/model/api_response_model.dart';
@@ -27,29 +26,14 @@ class EditProfileController extends StateNotifier<UserWrapper> {
     bool responseStatus = false;
     int? statusCode;
 
-    var usrr = await SecureStorageService().getUserFromStorage();
-    state = state.copyWith(password: usrr?.password);
-    state = state.copyWith(apiState: ApiState.busy);
-    if (usrr?.token != null) {
-      await DioClient.setToken();
+    await DioClient.setToken();
 
-      state = state.copyWith(token: usrr?.token);
-    }
     try {
       var user = state.toUser();
-      debugPrint("user bio: ${user.bio}, user pfp: ${user.image}");
       debugPrint(user.toString());
 
-      //final databaseService = DatabaseService();
-      final storageService = SecureStorageService();
-      //await databaseService.updateUserBioAndPfp(user, user.bio, user.image);
-      //await storageService.updateUserBioAndPfp(user, user.bio, user.image);
-
-      await storageService.updateUserInStorage(user);
-
-      final newUser = await storageService.getUserFromStorage();
       debugPrint(
-          "user after... User{name: ${newUser?.name}, bio: ${newUser?.bio}, image: ${newUser?.image}}");
+          "user in state: User(password: ${user.password}, bio: ${user.bio}, image: ${user.image})");
 
       final response = await _repository.editProfile(user);
       statusCode = response.statusCode;
@@ -61,6 +45,8 @@ class EditProfileController extends StateNotifier<UserWrapper> {
 
         (responseMessage, responseStatus) =
             (response.data["message"], response.data["status"]);
+
+        debugPrint("user: ${response.data["user"] ?? {"no user": "yes"}}");
       } else {
         state = state.copyWith(statusMsg: "Profile edit failed");
 
@@ -89,6 +75,7 @@ class EditProfileController extends StateNotifier<UserWrapper> {
   }
 
   void updateImage(XFile? image) async {
+    debugPrint("state imagePath before update: ${state.image}");
     if (image != null) {
       final directory = await getApplicationDocumentsDirectory();
       final imageName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
@@ -96,10 +83,7 @@ class EditProfileController extends StateNotifier<UserWrapper> {
       await File(image.path).copy(imagePath);
       state = state.copyWith(image: imagePath);
     }
-  }
-
-  void updateImagePath(String imagePath) {
-    state = state.copyWith(image: imagePath);
+    debugPrint("state imagePath after update: ${state.image}");
   }
 
   void updateName(String newName) {

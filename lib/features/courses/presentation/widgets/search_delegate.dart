@@ -84,7 +84,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
                         childAspectRatio:
                             UtilFunctions.getResponsiveChildAspectRatio(
                                 MediaQuery.of(context).size),
-                        mainAxisExtent: 200,
+                        mainAxisExtent: 227,
                       ),
                       itemBuilder: (_, index) {
                         final course = courses[index];
@@ -120,7 +120,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
                             Navigator.of(context).pop();
                           },
                           child: CourseCardNetworkImage(
-                            mainAxisExtent: 200,
+                            mainAxisExtent: 227,
                             course: course,
                             onLike: () async {
                               // Handle like/bookmark actions
@@ -175,7 +175,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
                 crossAxisSpacing: 0,
                 childAspectRatio: UtilFunctions.getResponsiveChildAspectRatio(
                     MediaQuery.of(context).size),
-                mainAxisExtent: 210,
+                mainAxisExtent: 235,
               ),
               itemBuilder: (_, index) {
                 final course = filteredCourses[index];
@@ -189,7 +189,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
                       // Handle course selection
                     },
                     child: CourseCardNetworkImage(
-                      mainAxisExtent: 210,
+                      mainAxisExtent: 235,
                       course: course,
                       onLike: () async {
                         // Handle like/bookmark actions

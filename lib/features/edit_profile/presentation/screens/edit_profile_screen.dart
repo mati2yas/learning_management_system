@@ -22,16 +22,20 @@ class EditProfileScreen extends ConsumerStatefulWidget {
 
 class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   XFile? profilePic;
-  String? _errorMessageImagePath;
+  String? _errorMessageImagePath,
+      _errorMessageName,
+      _errorMessageEmail,
+      _errorMessageBio,
+      _errorMessagePassword;
   bool profileEditSuccess = false;
 
   bool profilePicPicked = false;
   User user = User.initial();
+
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController bioController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final editProfileController = ref.watch(editProfileProvider.notifier);
@@ -40,8 +44,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     final editState = ref.watch(editProfileProvider);
     debugPrint(
         "User{name: ${user.name}, email: ${user.email}, bio: ${user.bio}}");
-
-    XFile? profilePic;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -78,9 +80,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.7),
                         ),
-                        child: user.image.isNotEmpty
+                        child: (profilePicPicked &&
+                                profilePic != null &&
+                                _errorMessageImagePath == null)
                             ? Image.file(
-                                File(user.image),
+                                File(profilePic!.path),
                                 width: size.width,
                                 height: size.height * 0.25,
                                 fit: BoxFit.cover,
@@ -88,7 +92,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             : Image.asset(
                                 "assets/images/pfp-placeholder.jpg",
                                 width: size.width,
-                                height: size.height * 0.18,
+                                height: size.height * 0.25,
                                 fit: BoxFit.cover,
                               ),
                       ),
@@ -123,8 +127,24 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   onSaved: (value) {
                     editProfileController.updateName(value!);
                   },
+                  onChanged: (value) {
+                    if (_errorMessageName == null) {
+                      editProfileController.updateName(nameController.text);
+                    }
+                  },
                   hintText: "",
-                  validator: (value) {},
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      setState(() {
+                        _errorMessageName = "Enter Proper Name";
+                      });
+                      return _errorMessageName;
+                    }
+                    setState(() {
+                      _errorMessageName = null;
+                    });
+                    return null;
+                  },
                   controller: nameController,
                 ),
                 _buildInputLabel("Email", textTh),
@@ -132,8 +152,24 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   onSaved: (value) {
                     editProfileController.updateEmail(value!);
                   },
+                  onChanged: (value) {
+                    if (_errorMessageEmail == null) {
+                      editProfileController.updateEmail(emailController.text);
+                    }
+                  },
                   hintText: "",
-                  validator: (value) {},
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      setState(() {
+                        _errorMessageEmail = "Enter Proper Email";
+                      });
+                      return _errorMessageEmail;
+                    }
+                    setState(() {
+                      _errorMessageEmail = null;
+                    });
+                    return null;
+                  },
                   controller: emailController,
                 ),
                 _buildInputLabel("Password", textTh),
@@ -141,8 +177,33 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   onSaved: (value) {
                     editProfileController.updatePassword(value!);
                   },
+                  onChanged: (value) {
+                    if (_errorMessagePassword == null) {
+                      editProfileController
+                          .updatePassword(passwordController.text);
+                    }
+                  },
                   hintText: "",
-                  validator: (value) {},
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      setState(() {
+                        _errorMessagePassword = "Please input password";
+                      });
+                      setState(() {
+                        _errorMessagePassword = null;
+                      });
+                      return _errorMessagePassword;
+                    }
+                    if (value.length < 4) {
+                      setState(() {
+                        _errorMessagePassword =
+                            "Password must be at least 4 Characters";
+                      });
+                      return _errorMessagePassword;
+                    }
+
+                    return null;
+                  },
                   controller: passwordController,
                 ),
                 _buildInputLabel("Bio", textTh),
@@ -150,10 +211,27 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   onSaved: (value) {
                     editProfileController.updateBio(value!);
                   },
+                  onChanged: (value) {
+                    if (_errorMessageBio == null) {
+                      editProfileController.updateBio(bioController.text);
+                    }
+                  },
                   maxLines: 2,
                   maxLength: 250,
                   hintText: "",
-                  validator: (value) {},
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      setState(() {
+                        _errorMessageBio = "Please input Bio";
+                      });
+                      setState(() {
+                        _errorMessageBio = null;
+                      });
+                      return _errorMessageBio;
+                    }
+
+                    return null;
+                  },
                   controller: bioController,
                 ),
                 const SizedBox(height: 20),
@@ -174,7 +252,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       _validateImagePath();
                       if (_errorMessageImagePath != null && user.image == "") {
                         setState(() {
-                          profileEditSuccess = true;
+                          profileEditSuccess = false;
                         });
                         return;
                       }
@@ -185,16 +263,27 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           true) {
                         AppKeys.editProfileKey.currentState!.save();
                         try {
-                          await editProfileController.editProfile();
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Profile Edit Successful!')),
-                            );
+                          final result =
+                              await editProfileController.editProfile();
+                          if (result.responseStatus) {
+                            setState(() {
+                              profileEditSuccess = true;
+                            });
+                            nameController.clear();
+                            emailController.clear();
+                            passwordController.clear();
+                            bioController.clear();
+                            resetImagePicked();
+
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Profile Edit Successful!')),
+                              );
+
+                              Navigator.pop(context, profileEditSuccess);
+                            }
                           }
-                          setState(() {
-                            profileEditSuccess = true;
-                          });
                         } catch (e) {
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -259,6 +348,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   void initState() {
     super.initState();
     getUser();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      var prof = ref.read(editProfileProvider);
+      nameController.text = prof.name;
+      emailController.text = prof.email;
+      passwordController.text = prof.password;
+      bioController.text = prof.bio;
+    });
   }
 
   Future<bool> pickProfilePic() async {
@@ -266,10 +363,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     if (image != null) {
       setState(() {
         profilePic = XFile(image.path);
+        _errorMessageImagePath = null;
       });
       return true;
     }
     return false;
+  }
+
+  void resetImagePicked() {
+    setState(() {
+      profilePicPicked = false;
+      profilePic = null;
+    });
   }
 
   Future<XFile?> showImagePickSheet() async {
@@ -292,10 +397,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             children: [
               GestureDetector(
                 onTap: () async {
-                  final XFile? image =
-                      await picker.pickImage(source: ImageSource.camera);
-                  if (image != null && context.mounted) {
-                    Navigator.pop(context, image);
+                  try {
+                    final XFile? image =
+                        await picker.pickImage(source: ImageSource.camera);
+                    if (image != null && context.mounted) {
+                      Navigator.pop(context, image);
+                    }
+                  } catch (e) {
+                    setState(() {
+                      _errorMessageImagePath = "Couldn't pick image.";
+                    });
                   }
                 },
                 child: const SizedBox(
@@ -312,10 +423,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               ),
               GestureDetector(
                 onTap: () async {
-                  final XFile? image =
-                      await picker.pickImage(source: ImageSource.gallery);
-                  if (image != null && context.mounted) {
-                    Navigator.pop(context, image);
+                  try {
+                    final XFile? image =
+                        await picker.pickImage(source: ImageSource.gallery);
+                    if (image != null && context.mounted) {
+                      Navigator.pop(context, image);
+                    }
+                  } catch (e) {
+                    setState(() {
+                      _errorMessageImagePath = "Couldn't pick image";
+                    });
                   }
                 },
                 child: const SizedBox(

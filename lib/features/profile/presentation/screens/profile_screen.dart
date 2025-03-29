@@ -169,18 +169,39 @@ class ProfilePage extends ConsumerWidget {
                   ),
                   TextButton.icon(
                     onPressed: () async {
-                      ref.read(authStatusProvider.notifier).clearStatus();
-                      ref
-                          .read(authStatusProvider.notifier)
-                          .setAuthStatus(AuthStatus.pending);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        UtilFunctions.buildInfoSnackbar(
-                            message: "Logged Out Successfully."),
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: const Text("Are You Sure?"),
+                          content: const Text(
+                              "Are You Certain That You Want To Log Out?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () async {
+                                ref
+                                    .read(authStatusProvider.notifier)
+                                    .clearStatus();
+                                ref
+                                    .read(authStatusProvider.notifier)
+                                    .setAuthStatus(AuthStatus.pending);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  UtilFunctions.buildInfoSnackbar(
+                                      message: "Logged Out Successfully."),
+                                );
+                                if (context.mounted) {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed(Routes.login);
+                                }
+                              },
+                              child: const Text("Logout"),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text("Cancel"),
+                            ),
+                          ],
+                        ),
                       );
-                      if (context.mounted) {
-                        Navigator.of(context)
-                            .pushReplacementNamed(Routes.login);
-                      }
                     },
                     label: Text(
                       "Logout",

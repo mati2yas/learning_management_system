@@ -93,7 +93,7 @@ class PaidScreen extends ConsumerWidget {
                     : GridView.builder(
                         padding: const EdgeInsets.all(16),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          mainAxisExtent: 185,
+                          mainAxisExtent: 210,
                           crossAxisCount: 2,
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
@@ -127,7 +127,7 @@ class PaidScreen extends ConsumerWidget {
                               );
                             },
                             child: CourseCardNetworkImage(
-                              mainAxisExtent: 185,
+                              mainAxisExtent: 210,
                               onBookmark: () {
                                 coursesApiController
                                     .toggleSaved(courses[index]);

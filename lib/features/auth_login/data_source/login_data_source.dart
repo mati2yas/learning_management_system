@@ -37,14 +37,17 @@ class LoginDataSource {
 
         String savePath = "";
         final token = response.data["token"];
+        debugPrint("login token: $token");
         String? avatar = response.data["data"]["user"]["avatar"];
         if (avatar != null) {
           avatar.replaceAll("\\", "");
-          avatar = "${AppUrls.backendStorage}/$avatar";
-          debugPrint(avatar);
+          //avatar = "${AppUrls.backendStorage}/$avatar";
+          debugPrint("avatar from response: $avatar");
 
           final directory = await getApplicationDocumentsDirectory();
-          final imageName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+          final imageExtension = avatar.split(".").last;
+          final imageName =
+              '${DateTime.now().millisecondsSinceEpoch}.$imageExtension';
 
           savePath = '${directory.path}/$imageName';
 
