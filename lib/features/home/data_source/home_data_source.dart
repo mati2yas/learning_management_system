@@ -29,8 +29,10 @@ class HomeDataSource {
         List<dynamic> data = response.data["data"];
         debugPrint("${data.length} values");
 
+
         for (var dataVl in data) {
           //print(dataVl);
+          debugPrint("image url: ${dataVl["thumbnail"] ?? "_"}");
           Course crs = Course.fromJson(dataVl);
           //print(crs.title);
 

@@ -108,7 +108,6 @@ class CourseCardNetworkImage extends ConsumerWidget {
                 ),
               ),
             ),
-            const Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Row(
@@ -349,7 +348,8 @@ class CourseCardNetworkImage extends ConsumerWidget {
                     ],
                   ),
                 ),
-              )
+              ),
+              const Spacer(),
             ],
           ],
         ),

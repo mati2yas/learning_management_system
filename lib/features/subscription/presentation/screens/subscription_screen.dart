@@ -8,12 +8,11 @@ import 'package:lms_system/features/subscription/presentation/widgets/courses_su
 import 'package:lms_system/features/subscription/presentation/widgets/exams_subscribe_tab.dart';
 import 'package:lms_system/features/subscription/provider/bank_info_provider.dart';
 
-class BankData extends StatelessWidget {
-  final String accountNumber, accountName;
-  const BankData({
+class BankInfoWidget extends StatelessWidget {
+  final BankInfo bankInfo;
+  const BankInfoWidget({
     super.key,
-    required this.accountNumber,
-    required this.accountName,
+    required this.bankInfo,
   });
 
   @override
@@ -24,29 +23,26 @@ class BankData extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(accountName),
-          SizedBox(
-            width: double.infinity,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+          ListTile(
+            title: Text(bankInfo.accountNumber),
+            subtitle: Column(
               children: [
-                Expanded(
-                  child: Text(accountNumber),
-                ),
-                IconButton(
-                  onPressed: () async {
-                    await Clipboard.setData(
-                      ClipboardData(
-                        text: accountNumber,
-                      ),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.copy,
-                    color: AppColors.mainBlue,
-                  ),
-                ),
+                Text(bankInfo.bankName),
+                Text(bankInfo.accountName),
               ],
+            ),
+            trailing: IconButton(
+              onPressed: () async {
+                await Clipboard.setData(
+                  ClipboardData(
+                    text: bankInfo.accountNumber,
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.copy,
+                color: AppColors.mainBlue,
+              ),
             ),
           ),
         ],
@@ -65,15 +61,16 @@ class BankPricesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250,
+      height: 300,
       width: MediaQuery.sizeOf(context).width * 0.8,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ...infos.map(
-              (bInfo) => BankData(
-                  accountNumber: bInfo.bankNumber, accountName: bInfo.bankName),
+              (bInfo) => BankInfoWidget(
+                bankInfo: bInfo,
+              ),
             ),
           ],
         ),

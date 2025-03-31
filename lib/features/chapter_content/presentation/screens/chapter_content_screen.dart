@@ -119,19 +119,14 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                                             ref.read(documentProvider.notifier);
                                         String urll = chapterContent
                                             .documents[index].fileUrl;
-                                        if (urll == "") {
-                                          urll =
-                                              "https://www2.tntech.edu/leap/murdock/books/v1chap1.pdf";
-                                        } else {
-                                          urll =
-                                              "https://lms.biruklemma.com/storage/$urll";
-                                        }
 
                                         String identifier = chapterContent
                                             .documents[index].title;
-                                        await docProcessor.processPDF(
-                                            urll, identifier);
 
+                                        await docProcessor.processPDF(
+                                            chapterContent
+                                                .documents[index].fileUrl,
+                                            identifier);
                                         if (context.mounted) {
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
@@ -165,15 +160,13 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                                       debugPrint("course subbed");
                                       var docProcessor =
                                           ref.read(documentProvider.notifier);
-                                      String urll = chapterContent
-                                          .documents[index].fileUrl;
-                                      urll =
-                                          "https://lms.biruklemma.com/storage/$urll";
 
                                       String identifier =
                                           chapterContent.documents[index].title;
                                       await docProcessor.processPDF(
-                                          urll, identifier);
+                                          chapterContent
+                                              .documents[index].fileUrl,
+                                          identifier);
 
                                       if (context.mounted) {
                                         Navigator.of(context).push(

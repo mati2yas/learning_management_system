@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
@@ -26,6 +27,7 @@ class CourseDataSource {
         //print(response.data["data"]);
         for (var x in response.data["data"]) {
           Course crs = Course.fromJson(x);
+          debugPrint("image url: ${x["thumbnail"] ?? "_"}");
           courses.add(crs);
         }
       }
