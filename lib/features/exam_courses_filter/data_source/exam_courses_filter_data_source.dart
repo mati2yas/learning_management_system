@@ -21,6 +21,7 @@ class ExamCoursesFilterDataSource {
     try {
       String examTypeString = getExamStringValue(type);
       final response = await _dio.get("${AppUrls.examCourses}/$examTypeString");
+      debugPrint("url: ${AppUrls.examCourses}/$examTypeString");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];
@@ -33,7 +34,7 @@ class ExamCoursesFilterDataSource {
         debugPrint("in exam-course-fetcheer datasource");
         for (var exCourse in examCourses) {
           debugPrint(
-              "exam sheet ids for course of id ${exCourse.id}: [${exCourse.years.map((yr) => yr.examSheetId).toList().join(",")}] ");
+              "exam sheet ids for course of id ${exCourse.id} and name of ${exCourse.title}: [${exCourse.years.map((yr) => yr.examSheetId).toList().join(",")}] ");
         }
       }
     } on DioException catch (e) {

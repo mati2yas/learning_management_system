@@ -12,17 +12,17 @@ class ApiExceptions {
 
     final response = exc.response?.data;
 
-    // Handle Validation Errors (e.g., "The email has already been taken.")
-    // if (response is Map && response.containsKey("errors")) {
-    //   final errors = response["errors"];
-    //   if (errors is Map && errors.isNotEmpty) {
-    //     final firstKey = errors.keys.first; // Get the first error field
-    //     final errorMessages = errors[firstKey]; // Get error messages list
-    //     if (errorMessages is List && errorMessages.isNotEmpty) {
-    //       return errorMessages.first; // Return the first error message
-    //     }
-    //   }
-    // }
+    //Handle Validation Errors (e.g., "The email has already been taken.")
+    if (response is Map && response.containsKey("errors")) {
+      final errors = response["errors"];
+      if (errors is Map && errors.isNotEmpty) {
+        final firstKey = errors.keys.first; // Get the first error field
+        final errorMessages = errors[firstKey]; // Get error messages list
+        if (errorMessages is List && errorMessages.isNotEmpty) {
+          return errorMessages.first; // Return the first error message
+        }
+      }
+    }
 
     switch (exc.type) {
       case DioExceptionType.badResponse:

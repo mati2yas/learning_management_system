@@ -6,11 +6,13 @@ class ChapterContent {
   final List<Video> videos;
   final List<Document> documents;
   final List<Quiz> quizzes;
+  final int order;
 
   ChapterContent({
     required this.videos,
     required this.documents,
     required this.quizzes,
+    required this.order,
   });
 
   static ChapterContent fromJson(Map<String, dynamic> json) {
@@ -46,6 +48,7 @@ class ChapterContent {
       );
     }
     return ChapterContent(
+      order: json["order"] ?? -1,
       videos: vids,
       documents: docs,
       quizzes: quizs,

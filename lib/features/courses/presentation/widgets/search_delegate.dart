@@ -110,10 +110,10 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
                             debugPrint(
                                 "current course: Course{ id: ${widgetRef.read(courseSubTrackProvider).id}, title: ${widgetRef.read(courseSubTrackProvider).title} }");
                             pageNavController.navigatePage(
-                              previousScreenIndex,
+                              5,
                               arguments: {
                                 "course": courses[index],
-                                "previousScreenIndex": 0,
+                                "previousScreenIndex": previousScreenIndex,
                               },
                             );
                             close(context, courses[index]);
@@ -187,6 +187,35 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
                   child: GestureDetector(
                     onTap: () {
                       // Handle course selection
+                      final pageNavController =
+                          widgetRef.read(pageNavigationProvider.notifier);
+                      final courseIdController =
+                          widgetRef.watch(currentCourseIdProvider.notifier);
+
+                      courseIdController
+                          .changeCourseId(filteredCourses[index].id);
+
+                      widgetRef
+                          .read(courseChaptersProvider.notifier)
+                          .fetchCourseChapters();
+
+                      widgetRef
+                          .read(courseSubTrackProvider.notifier)
+                          .changeCurrentCourse(filteredCourses[index]);
+
+                      debugPrint(
+                          "Current course ID: ${widgetRef.read(currentCourseIdProvider)}");
+                      debugPrint(
+                          "Current course: ${widgetRef.read(courseSubTrackProvider)}");
+
+                      pageNavController.navigatePage(
+                        5,
+                        arguments: {
+                          "course": filteredCourses[index],
+                          "previousScreenIndex": previousScreenIndex,
+                        },
+                      );
+                      close(context, filteredCourses[index]);
                     },
                     child: CourseCardNetworkImage(
                       mainAxisExtent: 235,

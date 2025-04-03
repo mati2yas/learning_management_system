@@ -10,6 +10,7 @@ import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
 import 'package:lms_system/features/profile/provider/profile_provider.dart';
 import 'package:lms_system/features/saved/provider/saved_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
@@ -140,13 +141,13 @@ class ProfilePage extends ConsumerWidget {
                   ),
                   TextButton.icon(
                     onPressed: () async {
-                      //pageNavController.navigatePage(2);
-                      await ref
-                          .read(savedApiProvider.notifier)
+                      pageNavController.navigatePage(2);
+                      ref
+                          .refresh(savedApiProvider.notifier)
                           .fetchSavedCoursesData();
+
                       if (context.mounted) {
-                        Navigator.of(context)
-                            .pushReplacementNamed(Routes.savedCourses);
+                        Navigator.of(context).pop();
                       }
                     },
                     label: Text(
@@ -158,7 +159,16 @@ class ProfilePage extends ConsumerWidget {
                     icon: const Icon((Icons.pending)),
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () async {
+                      pageNavController.navigatePage(2);
+                      ref
+                          .refresh(paidExamsApiProvider.notifier)
+                          .fetchPaidExams();
+
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    },
                     label: Text(
                       "My Exams",
                       style: textTh.titleMedium!.copyWith(

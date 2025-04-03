@@ -70,7 +70,6 @@ class ForgotPasswordDataSource {
         String? avatar = response.data["data"]["user"]["avatar"];
         if (avatar != null) {
           avatar.replaceAll("\\", "");
-          avatar = "${AppUrls.backendStorage}/$avatar";
           debugPrint(avatar);
 
           final directory = await getApplicationDocumentsDirectory();

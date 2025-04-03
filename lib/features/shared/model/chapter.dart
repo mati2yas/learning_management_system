@@ -4,11 +4,12 @@ import 'package:lms_system/features/chapter_content/model/chapter_content_model.
 
 class Chapter {
   final String title, name, id;
-
+  final int order;
   ChapterContent? chapterDetail;
   List<Video> videos;
   Chapter({
     this.id = "",
+    required this.order,
     required this.name,
     required this.title,
     this.chapterDetail,
@@ -21,6 +22,7 @@ class Chapter {
     debugPrint("chapter id: ${json["id"] ?? 0}");
     return Chapter(
       id: json["id"].toString(),
+      order: json["order"] ?? 0,
       name: json["name"],
       title: json["name"],
     );

@@ -97,7 +97,10 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                   children: [
                     TabBarView(
                       children: [
-                        VideosListView(videos: chapterContent.videos),
+                        VideosListView(
+                          chapterOrder: chapterContent.order,
+                          videos: chapterContent.videos,
+                        ),
                         chapterContent.documents.isEmpty
                             ? const Center(
                                 child:
@@ -111,9 +114,10 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                                   document: chapterContent.documents[index],
                                   callBack: () async {
                                     if (!currentCourse.subscribed) {
-                                      if (index == 0) {
+                                      if (chapterContent.order == 1 &&
+                                          index == 0) {
                                         debugPrint(
-                                            "course not subbed, index 0");
+                                            "course not subbed, index 0 and chapter order 1");
 
                                         var docProcessor =
                                             ref.read(documentProvider.notifier);
@@ -137,7 +141,7 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                                         }
                                       } else {
                                         debugPrint(
-                                            "course not subbed, index not 0");
+                                            "course not subbed, index not 0, or chapter not first");
                                         showDialog(
                                           context: context,
                                           builder: (context) => AlertDialog(
@@ -181,6 +185,7 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                                 ),
                               ),
                         QuizzesListView(
+                          chapterOrder: chapterContent.order,
                           quizzes: chapterContent.quizzes,
                         ),
                       ],

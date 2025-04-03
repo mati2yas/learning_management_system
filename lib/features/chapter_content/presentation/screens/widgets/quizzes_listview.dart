@@ -10,9 +10,11 @@ import 'package:lms_system/features/shared/provider/course_subbed_provider.dart'
 
 class QuizzesListView extends ConsumerWidget {
   final List<Quiz> quizzes;
+  final int chapterOrder;
   const QuizzesListView({
     super.key,
     required this.quizzes,
+    required this.chapterOrder,
   });
 
   @override
@@ -25,7 +27,7 @@ class QuizzesListView extends ConsumerWidget {
       itemBuilder: (_, index) => ChapterQuizTile(
         callback: () async {
           if (!currentCourse.subscribed) {
-            if (index == 0) {
+            if (index == 0 && chapterOrder == 1) {
               debugPrint("course not subbed, index 0");
               ref
                   .read(currentQuizIdProvider.notifier)
@@ -66,7 +68,9 @@ class QuizzesListView extends ConsumerWidget {
                 .changeQuizId(quizzes[index].id.toString());
             Quiz quize =
                 await ref.refresh(quizProvider.notifier).fetchQuizData();
-            ref.read(examTimerProvider.notifier).resetTimer(duration: quizzes[index].duration);
+            ref
+                .read(examTimerProvider.notifier)
+                .resetTimer(duration: quizzes[index].duration);
 
             if (context.mounted) {
               Navigator.of(context).push(

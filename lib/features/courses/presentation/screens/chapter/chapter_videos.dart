@@ -428,6 +428,7 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
   int videoIndex = 0;
 
   late CurrentPlayingVideoTracker videoTracker;
+  bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -449,57 +450,66 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
                   child: Stack(
                     children: [
                       Center(
-                        child: YoutubePlayer(
-                          width: constraints.maxWidth * 0.9,
-                          aspectRatio: 16 / 9,
-                          bottomActions: [
-                            const CurrentPosition(),
-                            const ProgressBar(isExpanded: false),
-                            const MetaData(),
-                            const CurrentPosition(),
-                            FullScreenButton(
-                              controller: ytCtrl,
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isPressed = !isPressed;
+                            });
+                          },
+                          child: YoutubePlayer(
+                            width: constraints.maxWidth * 0.9,
+                            aspectRatio: 16 / 9,
+                            bottomActions: [
+                              const CurrentPosition(),
+                              const ProgressBar(isExpanded: false),
+                              const MetaData(),
+                              const CurrentPosition(),
+                              FullScreenButton(
+                                controller: ytCtrl,
+                              ),
+                            ],
+                            controller: ytCtrl,
+                            showVideoProgressIndicator: true,
+                            progressIndicatorColor: AppColors.mainBlue,
+                            progressColors: ProgressBarColors(
+                              playedColor: AppColors.mainBlue,
+                              handleColor:
+                                  AppColors.mainBlue.withValues(alpha: 0.6),
                             ),
-                          ],
-                          controller: ytCtrl,
-                          showVideoProgressIndicator: true,
-                          progressIndicatorColor: AppColors.mainBlue,
-                          progressColors: ProgressBarColors(
-                            playedColor: AppColors.mainBlue,
-                            handleColor:
-                                AppColors.mainBlue.withValues(alpha: 0.6),
                           ),
                         ),
                       ),
-                      Positioned(
-                        child: Container(
-                          height: 40,
-                          width: constraints.maxWidth,
-                          decoration: const BoxDecoration(
-                            color: Colors.black54,
-                          ),
-                          child: Row(
-                            spacing: 12,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: const Icon(
-                                  Icons.arrow_back,
-                                  color: Colors.white,
-                                ),
+                      if (isPressed)
+                        Positioned(
+                          child: Container(
+                            height: 120,
+                            width: constraints.maxWidth * 0.4,
+                            decoration: const BoxDecoration(
+                             color: Colors.black87,
+                            ),
+                            child: Text(
+                              widget.video.title,
+                              style: textTh.titleMedium!.copyWith(
+                                color: Colors.white,
                               ),
-                              Text(
-                                widget.video.title,
-                                style: textTh.titleMedium!.copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
+                            ),
+                            // child: Row(
+                            //   spacing: 12,
+                            //   children: [
+                            //     IconButton(
+                            //       onPressed: () {
+                            //         Navigator.pop(context);
+                            //       },
+                            //       icon: const Icon(
+                            //         Icons.arrow_back,
+                            //         color: Colors.white,
+                            //       ),
+                            //     ),
+
+                            //   ],
+                            // ),
                           ),
-                        ),
-                      )
+                        )
                     ],
                   ),
                 ),

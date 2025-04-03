@@ -96,7 +96,16 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          ...myAnswersText.map((ans) => Text(ans)),
+                          ...myAnswersText.map(
+                            (ans) => Text(
+                              ans,
+                              style: TextStyle(
+                                color: currentQuestion.answers.contains(ans)
+                                    ? Colors.green
+                                    : Colors.red,
+                              ),
+                            ),
+                          ),
                           Text(
                             "Correct Answer(s):",
                             style: textTh.bodyMedium!.copyWith(

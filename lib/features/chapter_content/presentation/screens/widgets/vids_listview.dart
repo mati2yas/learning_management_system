@@ -7,9 +7,11 @@ import 'package:lms_system/features/shared/provider/course_subbed_provider.dart'
 
 class VideosListView extends ConsumerWidget {
   final List<Video> videos;
+  final int chapterOrder;
   const VideosListView({
     super.key,
     required this.videos,
+    required this.chapterOrder,
   });
 
   @override
@@ -23,7 +25,7 @@ class VideosListView extends ConsumerWidget {
       itemBuilder: (context, index) => VideoTile(
         onTap: () {
           if (!currentCourse.subscribed) {
-            if (index == 0) {
+            if (index == 0 && chapterOrder == 1) {
               debugPrint("course not subbed, index 0");
               Navigator.of(context)
                   .pushNamed(Routes.chapterVideo, arguments: videos[index]);

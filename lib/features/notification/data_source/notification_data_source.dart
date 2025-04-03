@@ -60,13 +60,13 @@ class NotificationsDataSource {
     int? statusCode;
     try {
       debugPrint(
-          "notifications fetch url: ${AppUrls.baseUrl}${AppUrls.readNotifications}");
+          "notifications fetch url: ${AppUrls.baseUrl}${AppUrls.readNotifications}?page=$page");
       await DioClient.setToken();
 
       _dio.options.headers['Content-Type'] = 'application/json';
       _dio.options.headers['Accept'] = 'application/json';
       final response = await _dio.get(
-        AppUrls.unreadNotifications,
+        "${AppUrls.unreadNotifications}?page=$page",
       );
 
       statusCode = response.statusCode;

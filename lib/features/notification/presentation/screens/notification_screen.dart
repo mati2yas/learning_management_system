@@ -92,11 +92,11 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
                 NumberPagination(
                   selectedButtonColor: AppColors.mainBlue,
                   buttonRadius: 6,
-                  onPageChanged: (number) {
+                  onPageChanged: (number) async {
                     setState(() {
                       currentPage = number;
                     });
-                    notifsController.fetchNotifs(page: number);
+                    await notifsController.fetchNotifs(page: currentPage);
                   },
                   totalPages: 10,
                   currentPage: currentPage,

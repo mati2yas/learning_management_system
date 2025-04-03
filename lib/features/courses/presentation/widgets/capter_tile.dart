@@ -35,7 +35,7 @@ class ChapterTile extends ConsumerWidget {
         ),
         child: ListTile(
           title: Text(
-            chapter.name,
+            "Chapter ${chapter.order}",
             style: textTh.labelMedium!.copyWith(
               fontWeight: FontWeight.w600,
             ),

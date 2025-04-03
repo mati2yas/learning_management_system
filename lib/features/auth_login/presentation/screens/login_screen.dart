@@ -85,7 +85,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       },
                     ),
                     Text(
-                      'Password ( 4 characters)',
+                      'Password (at least 4 characters)',
                       style: textTh.bodyLarge!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),

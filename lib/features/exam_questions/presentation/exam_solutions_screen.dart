@@ -87,7 +87,16 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          ...answerText.map((ans) => Text(ans)),
+                          ...answerText.map(
+                            (ans) => Text(
+                              ans,
+                              style: TextStyle(
+                                color: currentQuestion.answers.contains(ans)
+                                    ? Colors.green
+                                    : Colors.red,
+                              ),
+                            ),
+                          ),
                           ExplanationContainer(
                             explanation: currentQuestion.explanation,
                             textStyle: textTh.bodyMedium!,
