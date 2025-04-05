@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
+import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/notification/model/notification_model.dart';
@@ -75,12 +76,13 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
                   ),
                   data: (notifs) {
                     return notifs.notifs.isEmpty
-                        ? Center(
-                            child: Text(
-                              "No Notifications Yet.",
-                              style: textTh.bodyLarge!
-                                  .copyWith(fontWeight: FontWeight.w700),
-                            ),
+                        ? NoDataWidget(
+                            noDataMsg: "No notifications yet.",
+                            callback: () async {
+                              await ref
+                                  .refresh(notificationApiProvider.notifier)
+                                  .fetchNotifs(page: currentPage);
+                            },
                           )
                         : _buildNotificationList(
                             notifs.notifs, NotifType.unread, ref);

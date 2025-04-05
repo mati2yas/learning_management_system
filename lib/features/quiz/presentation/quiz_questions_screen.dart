@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
+import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_layout.dart';
@@ -61,7 +62,9 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
         leading: IconButton(
           onPressed: () {
             //reset timer and the go back to previous screen
-            ref.read(examTimerProvider.notifier).resetTimer(duration: widget.quiz.duration);
+            ref
+                .read(examTimerProvider.notifier)
+                .resetTimer(duration: widget.quiz.duration);
             pageNavController.navigatePage(previousScreen);
             Navigator.pop(context);
           },
@@ -112,8 +115,11 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
         ),
         data: (quiz) {
           return (quiz.questions.isEmpty)
-              ? const Center(
-                  child: Text("There are no Questions for this quiz yet."),
+              ? NoDataWidget(
+                  noDataMsg: "There are no questions for this quiz.",
+                  callback: () async {
+                    await ref.refresh(quizProvider.notifier).fetchQuizData();
+                  },
                 )
               : Padding(
                   padding: const EdgeInsets.symmetric(

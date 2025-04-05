@@ -47,6 +47,8 @@ class ExamQuestionsDataSource {
     try {
       final response =
           await _dio.get("${AppUrls.examYearQuestions}/$courseId/$yearId");
+      debugPrint(
+          "the of exam question fetch: ${AppUrls.examYearQuestions}/$courseId/$yearId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];

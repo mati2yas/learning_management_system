@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
+import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/features/exam_courses_filter/presentation/widgets/years_list.dart';
@@ -24,11 +25,6 @@ class ExamCoursesFiltersScreen extends ConsumerStatefulWidget {
 class _ExamCoursesFilterScreenState
     extends ConsumerState<ExamCoursesFiltersScreen>
     with TickerProviderStateMixin {
-  List<String> tabsList = [], yearsDropDown = ["2012", "2013"];
-  String currentTab = "";
-  String yearDropDownValue = "";
-  bool initializingPage = false;
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -134,34 +130,43 @@ class _ExamCoursesFilterScreenState
           },
         ),
         data: (examCourses) {
-          return DefaultTabController(
-            length: examCourses.length,
-            child: Column(
-              children: [
-                CustomTabBar(
-                  isScrollable: true,
-                  alignment: TabAlignment.start,
-                  tabs: examCourses
-                      .map(
-                        (course) => Tab(height: 28, text: course.title),
-                      )
-                      .toList(),
-                ),
-                Expanded(
-                  child: TabBarView(
-                    children: examCourses
-                        .map(
-                          (course) => YearsList(
-                            examType: ref.read(currentExamTypeProvider),
-                            course: course,
-                          ),
-                        )
-                        .toList(),
-                  ),
+          return examCourses.isEmpty
+              ? NoDataWidget(
+                  noDataMsg: "No Data For This Exam Type Yet.",
+                  callback: () async {
+                    await ref
+                        .refresh(examCoursesFilterApiProvider.notifier)
+                        .fetchExamCourses();
+                  },
                 )
-              ],
-            ),
-          );
+              : DefaultTabController(
+                  length: examCourses.length,
+                  child: Column(
+                    children: [
+                      CustomTabBar(
+                        isScrollable: true,
+                        alignment: TabAlignment.start,
+                        tabs: examCourses
+                            .map(
+                              (course) => Tab(height: 28, text: course.title),
+                            )
+                            .toList(),
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          children: examCourses
+                              .map(
+                                (course) => YearsList(
+                                  examType: ref.read(currentExamTypeProvider),
+                                  course: course,
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      )
+                    ],
+                  ),
+                );
         },
       ),
     );

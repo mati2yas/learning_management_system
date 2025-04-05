@@ -85,6 +85,7 @@ class TakeOrFilter extends StatelessWidget {
                   pageController.navigatePage(
                     8,
                     arguments: <String, dynamic>{
+                      "previous screen": 7,
                       "exam course": course.title,
                       "exam year": year,
                       "courseId": course.id,
@@ -197,7 +198,7 @@ class YearsList extends ConsumerWidget {
                             ),
                           );
                         },
-                        child: const Text("Buy"),
+                        child: const Text("Add To Cart"),
                       ),
           ),
         );

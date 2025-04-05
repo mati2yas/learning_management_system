@@ -25,7 +25,9 @@ class PageNavigationController extends StateNotifier<int> {
     }
 
     if (index == 7) {
-      return pageArguments[index] as String;
+      var arg = pageArguments[index];
+      arg ??= "Exam Title";
+      return arg;
     }
     if (index == 8) {
       print("index argument is 8");

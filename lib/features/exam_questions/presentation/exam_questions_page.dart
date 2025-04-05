@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
@@ -57,7 +58,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
         leading: IconButton(
           onPressed: () {
             // reset timer and the go back to previous screen
-            ref.read(examTimerProvider.notifier).resetTimer(duration: 30);
+            ref.read(examTimerProvider.notifier).resetTimer(duration: 0);
             pageNavController.navigatePage(previousScreen);
           },
           icon: const Icon(
@@ -112,13 +113,18 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
           data: (questions) {
             questionsList = questions;
             return questions.isEmpty
-                ? const Center(
-                    child: Text("There are no Questions for this Exam yet."),
+                ? NoDataWidget(
+                    noDataMsg: "There are no Questions for this Exam yet.",
+                    callback: () async {
+                      await ref
+                          .refresh(examQuestionsApiProvider.notifier)
+                          .fetchQuestions();
+                    },
                   )
                 : Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 18.0,
-                      horizontal: 12,
+                      horizontal: 6,
                     ),
                     child: SizedBox(
                       width: size.width,

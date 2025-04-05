@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
+import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/chapter_content/provider/current_chapter_id_provider.dart';
 import 'package:lms_system/features/courses/presentation/widgets/capter_tile.dart';
@@ -55,12 +56,13 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
           ),
         ),
         data: (chapters) => chapters.isEmpty
-            ? Center(
-                child: Text(
-                  "No Chapters for this course yet.",
-                  style:
-                      textTh.bodyLarge!.copyWith(fontWeight: FontWeight.w700),
-                ),
+            ? NoDataWidget(
+                noDataMsg: "No Chapters for this course yet.",
+                callback: () async {
+                  await ref
+                      .refresh(courseChaptersProvider.notifier)
+                      .fetchCourseChapters();
+                },
               )
             : Padding(
                 padding: const EdgeInsets.only(bottom: 60),

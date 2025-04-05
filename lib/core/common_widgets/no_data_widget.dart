@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 
-class AsyncErrorWidget extends StatefulWidget {
-  final String errorMsg;
+class NoDataWidget extends StatefulWidget {
+  final String noDataMsg;
   final Function callback;
-  const AsyncErrorWidget({
+  const NoDataWidget({
     super.key,
-    required this.errorMsg,
+    required this.noDataMsg,
     required this.callback,
   });
 
   @override
-  State<AsyncErrorWidget> createState() => _AsyncErrorWidgetState();
+  State<NoDataWidget> createState() => _NoDataWidgetState();
 }
 
-class _AsyncErrorWidgetState extends State<AsyncErrorWidget> {
+class _NoDataWidgetState extends State<NoDataWidget> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -27,8 +27,10 @@ class _AsyncErrorWidgetState extends State<AsyncErrorWidget> {
           spacing: 12,
           children: [
             Text(
-              widget.errorMsg.replaceAll("Exception:", ""),
-              style: textTh.titleMedium!.copyWith(color: Colors.red),
+              widget.noDataMsg,
+              style: textTh.titleMedium!.copyWith(
+                color: AppColors.mainBlue,
+              ),
             ),
             FilledButton(
               style: FilledButton.styleFrom(

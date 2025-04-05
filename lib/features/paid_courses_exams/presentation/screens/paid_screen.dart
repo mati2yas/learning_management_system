@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
+import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
@@ -88,12 +89,13 @@ class PaidScreen extends ConsumerWidget {
               data: (courses) => SizedBox(
                 width: double.infinity,
                 child: courses.isEmpty
-                    ? Center(
-                        child: Text(
-                          "No Paid Courses Yet.",
-                          style: textTh.bodyLarge!
-                              .copyWith(fontWeight: FontWeight.w700),
-                        ),
+                    ? NoDataWidget(
+                        noDataMsg: "No Paid Courses Yet.",
+                        callback: () async {
+                          await ref
+                              .refresh(paidCoursesApiProvider.notifier)
+                              .fetchPaidCourses();
+                        },
                       )
                     : GridView.builder(
                         padding: const EdgeInsets.all(16),
@@ -163,12 +165,13 @@ class PaidScreen extends ConsumerWidget {
                 ),
               ),
               data: (exams) => exams.isEmpty
-                  ? Center(
-                      child: Text(
-                        "No Paid Exams Yet.",
-                        style: textTh.bodyLarge!
-                            .copyWith(fontWeight: FontWeight.w700),
-                      ),
+                  ? NoDataWidget(
+                      noDataMsg: "No Paid Exams Yet.",
+                      callback: () async {
+                        await ref
+                            .refresh(paidExamsApiProvider.notifier)
+                            .fetchPaidExams();
+                      },
                     )
                   : SizedBox(
                       width: double.infinity,
@@ -186,12 +189,14 @@ class PaidScreen extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: exams.isEmpty
-                                  ? Center(
-                                      child: Text(
-                                        "No Paid Exams Yet.",
-                                        style: textTh.bodyLarge!.copyWith(
-                                            fontWeight: FontWeight.w700),
-                                      ),
+                                  ? NoDataWidget(
+                                      noDataMsg: "No Paid Exams Yet.",
+                                      callback: () async {
+                                        await ref
+                                            .refresh(
+                                                paidExamsApiProvider.notifier)
+                                            .fetchPaidExams();
+                                      },
                                     )
                                   : ListTile(
                                       title: Text(exams[index].examYear),
@@ -295,7 +300,7 @@ class PaidScreen extends ConsumerWidget {
                                                         "exam year":
                                                             exams[index]
                                                                 .examYear,
-                                                        "previousScreen": 2,
+                                                        "previous screen": 2,
                                                         //"courseId": course.id,
                                                       },
                                                     );
