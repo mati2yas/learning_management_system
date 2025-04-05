@@ -50,11 +50,15 @@ class SecureStorageService {
 
   Future<User?> getUserFromStorage() async {
     final userJson = await _storage.read(key: AppStrings.userStorageKey);
+    User? usr;
     if (userJson != null) {
       final userMap = jsonDecode(userJson);
-      return User.fromMap(userMap);
+
+      usr = User.fromMap(userMap);
+      debugPrint(
+          "user from storage: User(name: ${usr.name}, email: ${usr.email}, password: ${usr.password}, token: ${usr.token})");
     }
-    return null;
+    return usr;
   }
 
   // Future<void> saveCoursesToLocal(List<Course> savedCourses) async {
@@ -66,7 +70,7 @@ class SecureStorageService {
 
   Future<void> saveUserToStorage(User user) async {
     debugPrint("the user is: User{ name: ${user.name}, email: ${user.email}");
-    debugPrint("password: ${user.password}}, token: ${user.token}");
+    debugPrint("password: ${user.password}, token: ${user.token}}");
     await _storage.write(
         key: AppStrings.userStorageKey, value: jsonEncode(user.toMap()));
     Future.delayed(Duration.zero);

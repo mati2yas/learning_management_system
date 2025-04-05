@@ -10,7 +10,7 @@ class InputWidget extends StatefulWidget {
   TextInputType? keyboardType;
   final String hintText;
   String? initialValue;
-  bool obscure;
+  bool obscureOption;
   int? maxLines, maxLength;
   InputWidget({
     super.key,
@@ -20,7 +20,7 @@ class InputWidget extends StatefulWidget {
     required this.hintText,
     required this.validator,
     this.initialValue,
-    this.obscure = false,
+    this.obscureOption = false,
     this.maxLength,
     this.maxLines,
     this.controller,
@@ -48,7 +48,7 @@ class _InputWidgetState extends State<InputWidget> {
             onSaved: widget.onSaved,
             onChanged: widget.onChanged,
             keyboardType: widget.keyboardType ?? TextInputType.name,
-            obscureText: widget.obscure ? isObscured : false,
+            obscureText: widget.obscureOption ? isObscured : false,
             controller: widget.controller,
             validator: (value) {
               return widget.validator(value!);
@@ -64,7 +64,7 @@ class _InputWidgetState extends State<InputWidget> {
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),
-              suffix: widget.obscure
+              suffix: widget.obscureOption
                   ? IconButton(
                       onPressed: () {
                         setState(() {

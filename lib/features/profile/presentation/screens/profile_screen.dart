@@ -11,6 +11,7 @@ import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_screen_tab_index_prov.dart';
 import 'package:lms_system/features/profile/provider/profile_provider.dart';
 import 'package:lms_system/features/saved/provider/saved_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
@@ -142,6 +143,10 @@ class ProfilePage extends ConsumerWidget {
                   TextButton.icon(
                     onPressed: () async {
                       pageNavController.navigatePage(2);
+
+                      ref
+                          .watch(paidScreenTabIndexProv.notifier)
+                          .changeTabIndex(0);
                       ref
                           .refresh(savedApiProvider.notifier)
                           .fetchSavedCoursesData();
@@ -160,7 +165,11 @@ class ProfilePage extends ConsumerWidget {
                   ),
                   TextButton.icon(
                     onPressed: () async {
+                      ref
+                          .watch(paidScreenTabIndexProv.notifier)
+                          .changeTabIndex(1);
                       pageNavController.navigatePage(2);
+
                       ref
                           .refresh(paidExamsApiProvider.notifier)
                           .fetchPaidExams();
@@ -170,7 +179,7 @@ class ProfilePage extends ConsumerWidget {
                       }
                     },
                     label: Text(
-                      "My Exams",
+                      "Saved Exams",
                       style: textTh.titleMedium!.copyWith(
                         fontWeight: FontWeight.w600,
                       ),

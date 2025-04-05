@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/utils/root_checker.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/check_seen_onboarding/provider/check_seen_onboarding_provider.dart';
 import 'package:lms_system/features/shared/model/start_routes.dart';
@@ -12,7 +12,6 @@ import 'core/constants/app_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
     const ProviderScope(child: MyApp()),
   );
@@ -22,6 +21,7 @@ final initialRouteProvider = FutureProvider<StartRoutes>((ref) async {
   final checkSeenOnboardingController =
       ref.watch(checkSeenOnboardingControllerProvider.notifier);
   final checkAuthedController = ref.watch(authStatusProvider.notifier);
+  final rootCheckResult = await RootCheckerService.checkRoot();
 
   bool hasSeenOnboarding =
       await checkSeenOnboardingController.checkSeenOnboarding();
@@ -29,7 +29,10 @@ final initialRouteProvider = FutureProvider<StartRoutes>((ref) async {
   String firstRoute = Routes.onboarding;
   String secondRoute = Routes.signup;
 
-  if (hasSeenOnboarding) {
+  if ([true, null].contains(rootCheckResult)) {
+    firstRoute = Routes.rootDetection;
+    secondRoute = Routes.rootDetection;
+  } else if (hasSeenOnboarding) {
     switch (authStat) {
       case AuthStatus.authed:
         firstRoute = Routes.wrapper;

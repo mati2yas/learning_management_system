@@ -429,6 +429,7 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
 
   late CurrentPlayingVideoTracker videoTracker;
   bool isPressed = false;
+  double videoWidthFactor = 0.8;
 
   @override
   Widget build(BuildContext context) {
@@ -444,23 +445,18 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
 
         return isLandscape
             ? SafeArea(
-                child: SizedBox(
-                  width: constraints.maxWidth,
-                  height: constraints.maxHeight,
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isPressed = !isPressed;
-                            });
-                          },
+                child: Scaffold(
+                  body: SizedBox(
+                    width: constraints.maxWidth,
+                    height: constraints.maxHeight,
+                    child: Stack(
+                      children: [
+                        Center(
                           child: YoutubePlayer(
-                            width: constraints.maxWidth * 0.9,
+                            width: constraints.maxWidth * videoWidthFactor,
                             aspectRatio: 16 / 9,
+                            topActions: const [],
                             bottomActions: [
-                              const CurrentPosition(),
                               const ProgressBar(isExpanded: false),
                               const MetaData(),
                               const CurrentPosition(),
@@ -478,39 +474,45 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
                             ),
                           ),
                         ),
-                      ),
-                      if (isPressed)
                         Positioned(
+                          left: hidingContainerDistance(constraints.maxWidth),
+                          top: 0,
                           child: Container(
-                            height: 120,
-                            width: constraints.maxWidth * 0.4,
+                            height: 60,
+                            width: 60,
                             decoration: const BoxDecoration(
-                             color: Colors.black87,
+                              color: Colors.black54,
                             ),
-                            child: Text(
-                              widget.video.title,
-                              style: textTh.titleMedium!.copyWith(
+                            child: IconButton(
+                              onPressed: () {
+                                ytCtrl.reset();
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back,
                                 color: Colors.white,
                               ),
                             ),
-                            // child: Row(
-                            //   spacing: 12,
-                            //   children: [
-                            //     IconButton(
-                            //       onPressed: () {
-                            //         Navigator.pop(context);
-                            //       },
-                            //       icon: const Icon(
-                            //         Icons.arrow_back,
-                            //         color: Colors.white,
-                            //       ),
-                            //     ),
-
-                            //   ],
-                            // ),
                           ),
-                        )
-                    ],
+                        ),
+                        Positioned(
+                          right: hidingContainerDistance(constraints.maxWidth),
+                          top: 0,
+                          child: Container(
+                            height: 70,
+                            width: 70,
+                            decoration: const BoxDecoration(
+                              color: Colors.black54,
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  "assets/images/ngat.png",
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )
@@ -557,8 +559,13 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
   @override
   void dispose() {
     ytCtrl.dispose();
-
     super.dispose();
+  }
+
+  double hidingContainerDistance(double maxWidth) {
+    var videoWidth = maxWidth * videoWidthFactor;
+    var leftRightDistance = maxWidth - videoWidth;
+    return leftRightDistance / 2;
   }
 
   @override

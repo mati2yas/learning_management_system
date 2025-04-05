@@ -102,7 +102,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       },
                       controller: passwordController,
                       hintText: 'Password',
-                      obscure: true,
+                      obscureOption: true,
                       onSaved: (value) {
                         loginController.updatePassword(value!);
                       },
@@ -202,6 +202,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: SizedBox(
                         height: 80,
                         child: RichText(
+                          textDirection: TextDirection.ltr,
                           text: TextSpan(
                             children: [
                               const TextSpan(

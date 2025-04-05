@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
@@ -10,6 +11,7 @@ import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
+import 'package:lms_system/features/edit_profile/presentation/widgets/check_password_dialog.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
@@ -43,7 +45,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     var textTh = Theme.of(context).textTheme;
     final editState = ref.watch(editProfileProvider);
     debugPrint(
-        "User{name: ${user.name}, email: ${user.email}, bio: ${user.bio}}");
+        "editState = User{name: ${editState.name}, email: ${editState.email}, bio: ${editState.bio}, password: ${editState.password}}");
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -173,38 +175,27 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   controller: emailController,
                 ),
                 _buildInputLabel("Password", textTh),
-                InputWidget(
-                  onSaved: (value) {
-                    editProfileController.updatePassword(value!);
+                FilledButton(
+                  style: FilledButton.styleFrom(
+                      fixedSize: Size(size.width, 50),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12))),
+                  onPressed: () {
+                    debugPrint("user password: ${editState.password}");
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Enter Your Current Password"),
+                          content: CheckPassword(
+                            password: editState.password,
+                            email: editState.email,
+                          ),
+                        );
+                      },
+                    );
                   },
-                  onChanged: (value) {
-                    if (_errorMessagePassword == null) {
-                      editProfileController
-                          .updatePassword(passwordController.text);
-                    }
-                  },
-                  hintText: "",
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      setState(() {
-                        _errorMessagePassword = "Please input password";
-                      });
-                      setState(() {
-                        _errorMessagePassword = null;
-                      });
-                      return _errorMessagePassword;
-                    }
-                    if (value.length < 4) {
-                      setState(() {
-                        _errorMessagePassword =
-                            "Password must be at least 4 Characters";
-                      });
-                      return _errorMessagePassword;
-                    }
-
-                    return null;
-                  },
-                  controller: passwordController,
+                  child: const Text("Edit Password"),
                 ),
                 _buildInputLabel("Bio", textTh),
                 InputWidget(
@@ -243,7 +234,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         horizontal: 50,
                         vertical: 15,
                       ),
-                      fixedSize: Size(size.width * 0.6, 50),
+                      fixedSize: Size(size.width, 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -271,7 +262,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             });
                             nameController.clear();
                             emailController.clear();
-                            passwordController.clear();
                             bioController.clear();
                             resetImagePicked();
 
@@ -356,6 +346,27 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       passwordController.text = prof.password;
       bioController.text = prof.bio;
     });
+  }
+
+  void onConfirm(
+    String enteredPassword,
+    String editStatePassword,
+    String userEmail,
+  ) {
+    if (enteredPassword == editStatePassword) {
+      Navigator.of(context).pushNamed(
+        Routes.forgotPasswordProfile,
+        arguments: userEmail,
+      );
+    } else {
+      // You might want to update the error message in the CheckPassword widget
+      // or handle the error here. For simplicity, we'll just pop the dialog
+      // and potentially show a snackbar.
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Email does not match.")),
+      );
+    }
   }
 
   Future<bool> pickProfilePic() async {

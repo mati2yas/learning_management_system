@@ -102,7 +102,7 @@ class UserWrapper extends User {
       return UserWrapper(
         name: user.name,
         email: user.email,
-        password: "",
+        password: user.password,
         bio: user.bio,
         image: user.image,
       );

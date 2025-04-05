@@ -119,12 +119,6 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Categories",
-                              style: textTh.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
                             if (dropdownItems.isNotEmpty)
                               DropdownButton<String>(
                                 dropdownColor: Colors.white,
@@ -444,7 +438,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                           SizedBox(
                                             height: highSchoolListsMap[grade]!
                                                         .length *
-                                                    202 +
+                                                    227 +
                                                 highSchoolListsMap[grade]!
                                                         .length *
                                                     10,
@@ -521,7 +515,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                         children: [
                                           SizedBox(
                                             height:
-                                                selectedCourses.length * 202 +
+                                                selectedCourses.length * 227 +
                                                     selectedCourses.length * 10,
                                             child: GridView.builder(
                                               gridDelegate:

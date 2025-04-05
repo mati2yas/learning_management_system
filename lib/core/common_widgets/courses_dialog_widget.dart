@@ -55,6 +55,7 @@ class RichTextFormat extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 15),
       child: Text.rich(
+        textDirection: TextDirection.ltr,
         TextSpan(
           children: [
             const TextSpan(

@@ -129,24 +129,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
               color: AppColors.mainBlue, size: 30),
           title: Text(notification.title),
           subtitle: Text(notification.content),
-          trailing: PopupMenuButton<void>(
-            icon: const Icon(Icons.more_vert),
-            itemBuilder: (context) {
-              return <PopupMenuEntry<void>>[
-                PopupMenuItem<void>(
-                  onTap: () async {
-                    await ref
-                        .read(notificationApiProvider.notifier)
-                        .markAsRead(notification);
-                  },
-                  child: const ListTile(
-                    leading: Icon(Icons.mark_as_unread),
-                    title: Text("Mark As Read"),
-                  ),
-                ),
-              ];
-            },
-          ),
         );
       },
     );

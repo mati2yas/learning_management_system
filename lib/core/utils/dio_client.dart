@@ -44,7 +44,7 @@ class DioClient {
   static Future<void> setToken() async {
     final user = await SecureStorageService().getUserFromStorage();
     var token = user?.token;
-    debugPrint("user token to be set: $token");
+    debugPrint("in set token: user token to be set: $token");
     if (token != null && token.isNotEmpty) {
       _dio.options.headers['Authorization'] = 'Bearer $token';
       debugPrint("header: ${_dio.options.headers["Authorization"]}");

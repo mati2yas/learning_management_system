@@ -21,7 +21,11 @@ import 'package:lms_system/features/shared/provider/course_subbed_provider.dart'
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class PaidScreen extends ConsumerWidget {
-  const PaidScreen({super.key});
+  final int tabIndex;
+  const PaidScreen({
+    super.key,
+    required this.tabIndex,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,6 +39,7 @@ class PaidScreen extends ConsumerWidget {
     var size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 2,
+      initialIndex: tabIndex,
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Your Courses and Exams"),
@@ -157,163 +162,191 @@ class PaidScreen extends ConsumerWidget {
                   style: textTh.titleMedium!.copyWith(color: Colors.red),
                 ),
               ),
-              data: (exams) => SizedBox(
-                width: double.infinity,
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  separatorBuilder: (_, index) => const SizedBox(height: 15),
-                  itemCount: exams.length,
-                  itemBuilder: (_, index) {
-                    return GestureDetector(
-                      child: Card(
-                        color: Colors.white,
-                        elevation: 3,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: exams.isEmpty
-                            ? Center(
-                                child: Text(
-                                  "No Paid Exams Yet.",
-                                  style: textTh.bodyLarge!
-                                      .copyWith(fontWeight: FontWeight.w700),
-                                ),
-                              )
-                            : ListTile(
-                                title: Text(exams[index].examYear),
-                                subtitle: Text(exams[index].parentCourseTitle),
-                                trailing: exams[index].examType ==
-                                        UtilFunctions()
-                                            .getExamStringValue(ExamType.matric)
-                                    ? PopupMenuButton<void>(
-                                        icon: const Icon(
-                                          Icons.more_vert,
-                                        ), // Vertical three dots
-                                        itemBuilder: (BuildContext context) =>
-                                            <PopupMenuEntry<void>>[
-                                          PopupMenuItem<void>(
-                                            onTap: () {
-                                              // navigate to the page that
-                                              // shows the exam
-                                              Map<String, dynamic> examData = {
-                                                "exam course": exams[index]
-                                                    .parentCourseTitle,
-                                                "exam year":
-                                                    exams[index].examYear,
-                                                "previousScreen": 2,
-                                                "hasTimerOption": true,
-                                                "duration":
-                                                    exams[index].duration,
-                                              };
-                                              ref
-                                                  .read(currentIdStubProvider
-                                                      .notifier)
-                                                  .changeStub({
-                                                "idType": IdType.all,
-                                                "id": exams[index].examId,
-                                                "courseId":
-                                                    exams[index].parentCourseId,
-                                              });
-                                              ref
-                                                  .refresh(
-                                                      examQuestionsApiProvider
-                                                          .notifier)
-                                                  .fetchQuestions();
-                                              ref
-                                                  .read(examTimerProvider
-                                                      .notifier)
-                                                  .resetTimer(
-                                                      duration: exams[index]
-                                                          .duration);
-                                              pageNavController.navigatePage(6,
-                                                  arguments: examData);
-                                            },
-                                            child: const ListTile(
-                                              leading:
-                                                  Icon(Icons.question_answer),
-                                              title: Text('Take All'),
-                                            ),
-                                          ),
-                                          PopupMenuItem<void>(
-                                            onTap: () {
-                                              // navigate to the page that
-                                              // further filter the exams
-                                              debugPrint(
-                                                  "to page 8, exam title: examtitle");
-
-                                              ref
-                                                  .read(
-                                                      currentExamYearIdProvider
-                                                          .notifier)
-                                                  .changeYearId(
-                                                      exams[index].examId);
-                                              ref
-                                                  .read(
-                                                      currentExamCourseIdProvider
-                                                          .notifier)
-                                                  .changeCourseId(exams[index]
-                                                      .parentCourseId);
-
-                                              ref
-                                                  .read(
-                                                      examGradeFilterApiProvider
-                                                          .notifier)
-                                                  .fetchExamGrades();
-                                              pageNavController.navigatePage(
-                                                8,
-                                                arguments: <String, dynamic>{
-                                                  "exam course": exams[index]
-                                                      .parentCourseTitle,
-                                                  "exam year":
-                                                      exams[index].examYear,
-                                                  "previousScreen": 2,
-                                                  //"courseId": course.id,
-                                                },
-                                              );
-                                            },
-                                            child: const ListTile(
-                                              leading: Icon(Icons.filter_alt),
-                                              title: Text('Filter'),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : FilledButton(
-                                        style: FilledButton.styleFrom(
-                                          backgroundColor: AppColors.mainBlue,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          if (exams[index].examType ==
+              data: (exams) => exams.isEmpty
+                  ? Center(
+                      child: Text(
+                        "No Paid Exams Yet.",
+                        style: textTh.bodyLarge!
+                            .copyWith(fontWeight: FontWeight.w700),
+                      ),
+                    )
+                  : SizedBox(
+                      width: double.infinity,
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(16),
+                        separatorBuilder: (_, index) =>
+                            const SizedBox(height: 15),
+                        itemCount: exams.length,
+                        itemBuilder: (_, index) {
+                          return GestureDetector(
+                            child: Card(
+                              color: Colors.white,
+                              elevation: 3,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: exams.isEmpty
+                                  ? Center(
+                                      child: Text(
+                                        "No Paid Exams Yet.",
+                                        style: textTh.bodyLarge!.copyWith(
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    )
+                                  : ListTile(
+                                      title: Text(exams[index].examYear),
+                                      subtitle:
+                                          Text(exams[index].parentCourseTitle),
+                                      trailing: exams[index].examType ==
                                               UtilFunctions()
                                                   .getExamStringValue(
-                                                      ExamType.matric)) {
-                                          } else {
-                                            // if null then other pages, move on to
-                                            // questions page
-                                            Map<String, dynamic> examData = {
-                                              "exam course": exams[index]
-                                                  .parentCourseTitle,
-                                              "exam year":
-                                                  exams[index].examYear,
-                                              "previousScreen": 2,
-                                              "hasTimerOption": false,
-                                            };
-                                            pageNavController.navigatePage(6,
-                                                arguments: examData);
-                                          }
-                                        },
-                                        child: const Text("Take"),
-                                      ),
-                              ),
+                                                      ExamType.matric)
+                                          ? PopupMenuButton<void>(
+                                              icon: const Icon(
+                                                Icons.more_vert,
+                                              ), // Vertical three dots
+                                              itemBuilder:
+                                                  (BuildContext context) =>
+                                                      <PopupMenuEntry<void>>[
+                                                PopupMenuItem<void>(
+                                                  onTap: () {
+                                                    // navigate to the page that
+                                                    // shows the exam
+                                                    Map<String, dynamic>
+                                                        examData = {
+                                                      "exam course": exams[
+                                                              index]
+                                                          .parentCourseTitle,
+                                                      "exam year":
+                                                          exams[index].examYear,
+                                                      "previousScreen": 2,
+                                                      "hasTimerOption": true,
+                                                      "duration":
+                                                          exams[index].duration,
+                                                    };
+                                                    ref
+                                                        .read(
+                                                            currentIdStubProvider
+                                                                .notifier)
+                                                        .changeStub({
+                                                      "idType": IdType.all,
+                                                      "id": exams[index].examId,
+                                                      "courseId": exams[index]
+                                                          .parentCourseId,
+                                                    });
+                                                    ref
+                                                        .refresh(
+                                                            examQuestionsApiProvider
+                                                                .notifier)
+                                                        .fetchQuestions();
+                                                    ref
+                                                        .read(examTimerProvider
+                                                            .notifier)
+                                                        .resetTimer(
+                                                            duration:
+                                                                exams[index]
+                                                                    .duration);
+                                                    pageNavController
+                                                        .navigatePage(6,
+                                                            arguments:
+                                                                examData);
+                                                  },
+                                                  child: const ListTile(
+                                                    leading: Icon(
+                                                        Icons.question_answer),
+                                                    title: Text('Take All'),
+                                                  ),
+                                                ),
+                                                PopupMenuItem<void>(
+                                                  onTap: () {
+                                                    // navigate to the page that
+                                                    // further filter the exams
+                                                    debugPrint(
+                                                        "to page 8, exam title: examtitle");
+
+                                                    ref
+                                                        .read(
+                                                            currentExamYearIdProvider
+                                                                .notifier)
+                                                        .changeYearId(
+                                                            exams[index]
+                                                                .examId);
+                                                    ref
+                                                        .read(
+                                                            currentExamCourseIdProvider
+                                                                .notifier)
+                                                        .changeCourseId(exams[
+                                                                index]
+                                                            .parentCourseId);
+
+                                                    ref
+                                                        .read(
+                                                            examGradeFilterApiProvider
+                                                                .notifier)
+                                                        .fetchExamGrades();
+                                                    pageNavController
+                                                        .navigatePage(
+                                                      8,
+                                                      arguments: <String,
+                                                          dynamic>{
+                                                        "exam course": exams[
+                                                                index]
+                                                            .parentCourseTitle,
+                                                        "exam year":
+                                                            exams[index]
+                                                                .examYear,
+                                                        "previousScreen": 2,
+                                                        //"courseId": course.id,
+                                                      },
+                                                    );
+                                                  },
+                                                  child: const ListTile(
+                                                    leading:
+                                                        Icon(Icons.filter_alt),
+                                                    title: Text('Filter'),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          : FilledButton(
+                                              style: FilledButton.styleFrom(
+                                                backgroundColor:
+                                                    AppColors.mainBlue,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                if (exams[index].examType ==
+                                                    UtilFunctions()
+                                                        .getExamStringValue(
+                                                            ExamType.matric)) {
+                                                } else {
+                                                  // if null then other pages, move on to
+                                                  // questions page
+                                                  Map<String, dynamic>
+                                                      examData = {
+                                                    "exam course": exams[index]
+                                                        .parentCourseTitle,
+                                                    "exam year":
+                                                        exams[index].examYear,
+                                                    "previousScreen": 2,
+                                                    "hasTimerOption": false,
+                                                  };
+                                                  pageNavController
+                                                      .navigatePage(6,
+                                                          arguments: examData);
+                                                }
+                                              },
+                                              child: const Text("Take"),
+                                            ),
+                                    ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
-              ),
+                    ),
             ),
           ],
         ),

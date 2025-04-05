@@ -6,6 +6,7 @@ import 'package:lms_system/features/chapter_content/presentation/screens/chapter
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_videos.dart';
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
 import 'package:lms_system/features/edit_profile/presentation/screens/edit_profile_screen.dart';
+import 'package:lms_system/features/edit_profile/presentation/screens/forgot_password_profile_screen.dart';
 import 'package:lms_system/features/forgot_password/model/forgot_password_model.dart';
 import 'package:lms_system/features/forgot_password/presentation/change_password_screen.dart';
 import 'package:lms_system/features/forgot_password/presentation/forgot_password_screen.dart';
@@ -18,6 +19,7 @@ import 'package:lms_system/features/profile_add/presentation/screens/profile_add
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
 import 'package:lms_system/features/subscription/presentation/screens/subscription_screen.dart';
 import 'package:lms_system/features/wrapper/presentation/screens/wrapper_screen.dart';
+import 'package:lms_system/root_checker.dart';
 
 import '../features/courses/presentation/screens/course/courses_screen.dart';
 import '../features/shared/model/chapter.dart';
@@ -25,6 +27,9 @@ import '../features/shared/model/chapter.dart';
 class Approuter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case Routes.rootDetection:
+        return MaterialPageRoute(
+            builder: (_) => const AdvancedRootDetectionScreen());
       case Routes.wrapper:
         return MaterialPageRoute(builder: (_) => const WrapperScreen());
 
@@ -60,6 +65,11 @@ class Approuter {
           builder: (_) => ChangePasswordScreen(
             forgotPasswordModel: forgotPassModel,
           ),
+        );
+      case Routes.forgotPasswordProfile:
+        final email = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => ProfileForgotPasswordScreen(email: email),
         );
       case Routes.courses:
         return MaterialPageRoute(builder: (_) => const CoursePage());
@@ -118,6 +128,7 @@ class Approuter {
 }
 
 class Routes {
+  static const String rootDetection = '/root_detection';
   static const String wrapper = "wrapper";
   static const String onboarding = "onboarding";
   static const String home = "home";
@@ -137,5 +148,6 @@ class Routes {
   static const String chapterVideo = "chapterVideo";
   static const String tempScreen = "tempScreen";
   static const String forgotPassword = "forgotPassword";
+  static const String forgotPasswordProfile = "forgotPasswordProfile";
   static const String changePassword = "changePassword";
 }

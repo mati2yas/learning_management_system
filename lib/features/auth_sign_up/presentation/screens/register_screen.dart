@@ -102,7 +102,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           return null;
                         },
                         controller: passwordController,
-                        obscure: true,
+                        obscureOption: true,
                         onSaved: (value) {
                           regController.updatePassword(value!);
                         },
@@ -196,6 +196,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       Align(
                         alignment: Alignment.center,
                         child: RichText(
+                          textDirection: TextDirection.ltr,
                           text: TextSpan(
                             children: [
                               const TextSpan(

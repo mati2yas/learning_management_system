@@ -91,7 +91,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                       },
                       controller: passwordController,
                       hintText: 'Password',
-                      obscure: true,
+                      obscureOption: true,
                       onSaved: (value) {
                         changePassController.updatePassword(value!);
                       },
@@ -112,7 +112,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                       },
                       controller: pinController,
                       hintText: 'PIN',
-                      obscure: true,
+                      obscureOption: true,
                       onSaved: (value) {
                         changePassController.updateToken(value!);
                       },

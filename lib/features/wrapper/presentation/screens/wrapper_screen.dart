@@ -17,6 +17,7 @@ import 'package:lms_system/features/notification/provider/notification_provider.
 import 'package:lms_system/features/paid_courses_exams/presentation/screens/paid_screen.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_screen_tab_index_prov.dart';
 import 'package:lms_system/features/subscription/provider/bank_info_provider.dart';
 import 'package:lms_system/features/subscription/provider/requests/course_requests_provider.dart';
 import 'package:lms_system/features/wrapper/presentation/widgets/nav_item.dart';
@@ -32,12 +33,13 @@ class WrapperScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentPage = ref.watch(pageNavigationProvider);
     final pageController = ref.read(pageNavigationProvider.notifier);
+    final paidScreenTabIndexProvider = ref.watch(paidScreenTabIndexProv);
     var size = MediaQuery.of(context).size;
     final currentCategory = ref.watch(currentCategoryProvider);
     final List<Widget> pages = [
       const HomePage(), // 0
       const CoursePage(), // 1
-      const PaidScreen(), // 2
+      PaidScreen(tabIndex: paidScreenTabIndexProvider), // 2
       const ExamsScreen(), // 3
       const CoursesFilterScreen(), // 4
       const CourseChaptersScreen(), // 5
