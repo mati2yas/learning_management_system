@@ -49,11 +49,4 @@ android/my-release-key.jks
 android/mykeystore.jks
 
 android/app/.cxx/Debug/*
-android/app/.cxx/RelWithDebInfo/4l2h1w6u/arm64-v8a/configure_fingerprint.bin
-android/app/.cxx/RelWithDebInfo/4l2h1w6u/arm64-v8a/configure_fingerprint.bin
-android/app/.cxx/RelWithDebInfo/4l2h1w6u/armeabi-v7a/configure_fingerprint.bin
-android/app/.cxx/RelWithDebInfo/4l2h1w6u/armeabi-v7a/configure_fingerprint.bin
-android/app/.cxx/RelWithDebInfo/4l2h1w6u/armeabi-v7a/configure_fingerprint.bin
-android/app/.cxx/RelWithDebInfo/4l2h1w6u/x86/configure_fingerprint.bin
-android/app/.cxx/RelWithDebInfo/4l2h1w6u/x86_64/configure_fingerprint.bin
-android/app/.cxx/RelWithDebInfo/4l2h1w6u/arm64-v8a/configure_fingerprint.bin
+android/app/.cxx/RelWithDebInfo/*
