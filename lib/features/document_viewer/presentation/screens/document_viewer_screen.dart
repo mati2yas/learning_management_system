@@ -1,62 +1,5 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_pdfview/flutter_pdfview.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:lms_system/core/common_widgets/common_app_bar.dart';
-// import 'package:lms_system/core/constants/colors.dart';
-// import 'package:lms_system/core/utils/file_download_handler.dart';
+import 'dart:io';
 
-// class SecurePDFViewer extends ConsumerStatefulWidget {
-//   final String encryptedFilePath;
-
-//   const SecurePDFViewer({super.key, required this.encryptedFilePath});
-
-//   @override
-//   ConsumerState<SecurePDFViewer> createState() => _SecurePDFViewerState();
-// }
-
-// class _SecurePDFViewerState extends ConsumerState<SecurePDFViewer> {
-//   String decryptedFilePath = "";
-//   bool isLoading = true;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: CommonAppBar(titleText: "View Document"),
-//       body: isLoading
-//           ? const Center(
-//               child: CircularProgressIndicator(
-//                 color: AppColors.mainBlue,
-//               ),
-//             )
-//           : PDFView(
-//               filePath: decryptedFilePath,
-//               enableSwipe: true,
-//               swipeHorizontal: false,
-//               autoSpacing: true,
-//               pageFling: true,
-//             ),
-//     );
-//   }
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     //_disableScreenshots(); // we actually wont implement this here, remember to turn on the
-//     // kotlin flag that we already setup earlier.
-//     _loadPDF();
-//   }
-
-//   /// **Decrypt and Load PDF**
-//   Future<void> _loadPDF() async {
-//     final file = await SecureFileHandler.decryptPDF(
-//         widget.encryptedFilePath, "temp_view");
-//     setState(() {
-//       decryptedFilePath = file.path;
-//       isLoading = false;
-//     });
-//   }
-// }
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -100,13 +43,21 @@ class _SecurePDFViewerState extends ConsumerState<SecurePDFViewer> {
       case DocumentStatus.decrypting:
         return const Center(child: Text("Decrypting PDF..."));
       case DocumentStatus.loaded:
+        final file = File(state.decryptedFilePath!);
+        if (!file.existsSync()) {
+          return const Center(child: Text("Error: PDF file not found"));
+        }
+
         return PDFView(
           filePath: state.decryptedFilePath!,
           enableSwipe: true,
           swipeHorizontal: false,
           autoSpacing: true,
           pageFling: true,
+          onRender: (pages) => debugPrint("Rendered $pages pages"),
+          onError: (error) => debugPrint("PDFView Error: $error"),
         );
+
       case DocumentStatus.error:
         return Center(
             child: Text("Error: ${state.errorMessage}",

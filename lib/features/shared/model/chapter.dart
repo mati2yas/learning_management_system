@@ -1,13 +1,15 @@
+import 'package:flutter/material.dart';
 import 'package:lms_system/features/chapter_content/model/chapter_content_model.dart';
 //import 'package:lms_system/features/exams/model/exams_model.dart';
 
 class Chapter {
   final String title, name, id;
-
+  final int order;
   ChapterContent? chapterDetail;
   List<Video> videos;
   Chapter({
     this.id = "",
+    required this.order,
     required this.name,
     required this.title,
     this.chapterDetail,
@@ -15,10 +17,12 @@ class Chapter {
   });
 
   factory Chapter.fromJson(Map<String, dynamic> json) {
-    print("json:");
-    print(json);
+    // print("json:");
+    // print(json);
+    debugPrint("chapter id: ${json["id"] ?? 0}");
     return Chapter(
       id: json["id"].toString(),
+      order: json["order"] ?? 0,
       name: json["name"],
       title: json["name"],
     );

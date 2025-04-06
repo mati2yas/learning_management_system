@@ -1,6 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/features/shared/model/shared_course_model.dart';
-
 
 // Riverpod provider for the controller
 final pageNavigationProvider =
@@ -14,7 +12,6 @@ class PageNavigationController extends StateNotifier<int> {
   PageNavigationController() : super(0);
 
   dynamic getArgumentsForPage(int index) {
-   
     if (index == 3) {
       return pageArguments[index] as int;
     }
@@ -24,9 +21,14 @@ class PageNavigationController extends StateNotifier<int> {
     }
 
     if (index == 5) {
-      return pageArguments[index] as Course;
+      return pageArguments[index] as Map<String, dynamic>;
     }
-    
+
+    if (index == 7) {
+      var arg = pageArguments[index];
+      arg ??= "Exam Title";
+      return arg;
+    }
     if (index == 8) {
       print("index argument is 8");
       return pageArguments[index] as Map<String, dynamic>;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 
-class AsyncErrorWidget extends StatelessWidget {
+class AsyncErrorWidget extends StatefulWidget {
   final String errorMsg;
   final Function callback;
   const AsyncErrorWidget({
@@ -9,6 +9,13 @@ class AsyncErrorWidget extends StatelessWidget {
     required this.errorMsg,
     required this.callback,
   });
+
+  @override
+  State<AsyncErrorWidget> createState() => _AsyncErrorWidgetState();
+}
+
+class _AsyncErrorWidgetState extends State<AsyncErrorWidget> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     final textTh = Theme.of(context).textTheme;
@@ -20,7 +27,7 @@ class AsyncErrorWidget extends StatelessWidget {
           spacing: 12,
           children: [
             Text(
-              errorMsg,
+              widget.errorMsg.replaceAll("Exception:", ""),
               style: textTh.titleMedium!.copyWith(color: Colors.red),
             ),
             FilledButton(
@@ -29,9 +36,19 @@ class AsyncErrorWidget extends StatelessWidget {
                 foregroundColor: Colors.white,
               ),
               onPressed: () async {
-                await callback();
+                setState(() {
+                  isLoading = true;
+                });
+                await widget.callback();
+                setState(() {
+                  isLoading = false;
+                });
               },
-              child: const Text("Try Again"),
+              child: isLoading
+                  ? const CircularProgressIndicator(
+                      color: Colors.white,
+                    )
+                  : const Text("Try Again"),
             ),
           ],
         ),

@@ -1,39 +1,14 @@
-import 'package:lms_system/core/utils/connectivity/connectivity_service.dart';
-import 'package:lms_system/core/utils/dio_client.dart';
-import 'package:lms_system/features/home/data_source/home_data_source.dart';
 import 'package:lms_system/features/home/repository/home_repository.dart';
 import 'package:riverpod/riverpod.dart';
 
 import '../../shared/model/shared_course_model.dart';
-import '../../shared/model/shared_user.dart';
 
-final homeDataSourceProvider = Provider<HomeDataSource>((ref) {
-  return HomeDataSource(DioClient.instance);
-});
-
-final homeRepositoryProvider = Provider<HomeRepository>((ref) {
-  return HomeRepository(
-    ref.watch(homeDataSourceProvider),
-    ref.watch(connectivityServiceProvider),
-  );
-});
 
 final pageviewPartsProvider = Provider<Map<String, String>>((ref) {
   return {
     "tag": "What would you like to learn today ?",
-    "img": "university.png"
+    "img": "online_course1.png"
   };
-});
-
-final userProvider = Provider<User>((ref) {
-  return User(
-    name: "Biruk",
-    lastName: "Lemma",
-    email: "Biruk@gmail.com",
-    password: "123",
-    bio: "mi casa es tu casa",
-    image: "image.png",
-  );
 });
 
 class HomeNotifier extends StateNotifier<AsyncValue<List<Course>>> {

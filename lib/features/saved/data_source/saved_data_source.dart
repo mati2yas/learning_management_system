@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
@@ -6,30 +8,22 @@ class SavedDataSource {
   final Dio _dio;
   SavedDataSource(this._dio);
 
-  Future<List<Course>> getCourses() async {
+  Future<List<Course>> getSavedCourses() async {
     List<Course> courses = [];
-    //final Map<String, dynamic> mapVal = await getUserData();
     int? statusCode;
-    //print(mapVal);
     try {
-      //var token = mapVal["token"];
-      //print("token: $token");
-      //_dio.options.headers = {"Authorization": "Bearer $token"};
-      final response = await _dio.get("/random-courses");
+      final response = await _dio.get(AppUrls.savedCourses);
+      debugPrint("${_dio.options.baseUrl}/saved-courses");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];
 
         for (var dataVl in data) {
-          //print(dataVl);
           Course crs = Course.fromJson(dataVl);
-          //print(crs.title);
-
           courses.add(crs);
         }
-        courses = courses.take(5).toList();
 
-        print("courses: \n ${courses.length}");
+        debugPrint("courses: \n ${courses.length}");
       }
     } on DioException catch (e) {
       final errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);

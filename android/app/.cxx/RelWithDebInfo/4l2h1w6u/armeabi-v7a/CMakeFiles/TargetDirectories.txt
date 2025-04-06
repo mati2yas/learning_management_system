@@ -1,0 +1,2 @@
+/home/dechasa/Dev/Work/Flutter/learning_management_system/android/app/.cxx/RelWithDebInfo/4l2h1w6u/armeabi-v7a/CMakeFiles/edit_cache.dir
+/home/dechasa/Dev/Work/Flutter/learning_management_system/android/app/.cxx/RelWithDebInfo/4l2h1w6u/armeabi-v7a/CMakeFiles/rebuild_cache.dir

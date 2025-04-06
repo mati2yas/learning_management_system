@@ -13,8 +13,11 @@ class RegisterRepository {
     required String name,
     required String email,
     required String password,
-  }) {
-    return _dataSource.registerUser(
+  }) async {
+    if (!await _connectivityService.hasConnection()) {
+      throw Exception("No internet connection");
+    }
+    return await _dataSource.registerUser(
       name: name,
       email: email,
       password: password,

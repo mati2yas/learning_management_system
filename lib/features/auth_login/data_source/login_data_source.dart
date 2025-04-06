@@ -1,14 +1,22 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
+import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
+import 'package:lms_system/features/shared/model/shared_user.dart';
+import 'package:path_provider/path_provider.dart';
+
+final loginDataSourceProvider = Provider<LoginDataSource>((ref) {
+  return LoginDataSource(DioClient.instance, SecureStorageService());
+});
 
 class LoginDataSource {
   final Dio _dio;
+  final SecureStorageService _storageService;
 
-  LoginDataSource(this._dio);
+  LoginDataSource(this._dio, this._storageService);
 
   Future<void> loginUser({
     required String email,
@@ -16,7 +24,7 @@ class LoginDataSource {
   }) async {
     int? statusCode;
     try {
-      final response = await _dio.post('/login', data: {
+      final response = await _dio.post(AppUrls.login, data: {
         'email': email,
         'password': password,
       });
@@ -26,35 +34,39 @@ class LoginDataSource {
         if (response.data["is_verified"] == false) {
           throw Exception("Email not verified");
         }
-        //final token = response.data['token'] ?? "";
-        //final user = response.data['data']['user'] ?? "";
-        //var name = user["name"];
 
-        // TODO: fix the email thingy here. it shouldn't be email in the attribute of name
-        final prefs = await SharedPreferences.getInstance();
-        Map<String, dynamic> userData = jsonDecode(
-          prefs.getString("userData") ?? "{\"data\": \"no data\"}",
-        );
-        var name = userData["name"];
-        if (name != null) {
-          name = name.replaceAll("\"", "");
-        } else {
-          name = "user-name";
+        String savePath = "";
+        final token = response.data["token"];
+        debugPrint("login token: $token");
+        String? avatar = response.data["data"]["user"]["avatar"];
+        if (avatar != null) {
+          avatar.replaceAll("\\", "");
+          //avatar = "${AppUrls.backendStorage}/$avatar";
+          debugPrint("avatar from response: $avatar");
+
+          final directory = await getApplicationDocumentsDirectory();
+          final imageExtension = avatar.split(".").last;
+          final imageName =
+              '${DateTime.now().millisecondsSinceEpoch}.$imageExtension';
+
+          savePath = '${directory.path}/$imageName';
+
+          await _dio.download(avatar, savePath);
         }
-        var token = response.data["token"];
-        final valueData = jsonEncode({
-          "name": "\"$name\"",
-          "email": "\"$email\"",
-          "token": "\"$token\"",
-          "password": "\"$password\"",
-        });
 
-        await prefs.setString("userData", valueData);
+        final user = User(
+          id: response.data["data"]["user"]["id"],
+          name: response.data["data"]["user"]["name"],
+          email: email,
+          password: password,
+          bio: response.data["data"]["user"]["bio"] ?? "",
+          image: savePath,
+          token: token,
+        );
+        debugPrint("token: $token");
 
-        debugPrint("User Data to Save:");
-        debugPrint(valueData);
-
-        // // Save the JSON string
+        // Save the user data to the database
+        await _storageService.saveUserToStorage(user);
       } else if (response.statusCode == 403) {
         var msg = response.data["message"];
         throw Exception(msg);

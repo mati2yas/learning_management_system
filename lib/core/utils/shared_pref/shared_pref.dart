@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefService {
@@ -19,16 +17,12 @@ class SharedPrefService {
     return docs.contains(documentPath);
   }
 
-  static Future<String?> getUserToken() async {
+  static Future<String?> getEncryptedFilePath(String identifier) async {
     final prefs = await SharedPreferences.getInstance();
-    Map<String, dynamic> data = jsonDecode(
-      prefs.getString("userData") ?? "{\"data\": \"no data\"}",
-    );
-
-    String? token = data["token"];
-    if (token != null) {
-      token = token.replaceAll("\"", "");
-    }
-    return token;
+    List<String> docs = prefs.getStringList("documentPaths") ?? [];
+    return docs.firstWhere((path) => path.contains(identifier),
+        orElse: () => "");
   }
+
+  
 }

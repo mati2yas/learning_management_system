@@ -1,179 +1,243 @@
-import 'dart:ui';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
-import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/features/shared/model/shared_user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
+import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
+import 'package:lms_system/features/notification/provider/notification_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_screen_tab_index_prov.dart';
+import 'package:lms_system/features/profile/provider/profile_provider.dart';
+import 'package:lms_system/features/saved/provider/saved_provider.dart';
+import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userState = ref.watch(profileProvider);
 
-class _ProfilePageState extends State<ProfilePage> {
-  User user = User(
-    name: "Matu",
-    lastName: "Sala",
-    email: "matusala@gmail.com",
-    password: "12343",
-    bio:
-        "Explorer of life's wonders | Coffee enthusiast ☕ | Aspiring [Your Profession] | 🌍 Traveler | Cat lover 🐾 | Sharing my journey and thoughts. Let's connect!",
-    image: "matusala.png",
-  );
-  @override
-  Widget build(BuildContext context) {
+    final pageNavController = ref.read(pageNavigationProvider.notifier);
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CommonAppBar(titleText: "Profile"),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: double.infinity,
-              height: size.height * 0.25,
-              child: Stack(
+      appBar: CommonAppBar(
+        titleText: "Profile",
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
+      ),
+      body: userState.when(
+          loading: () => const CircularProgressIndicator(
+                color: AppColors.mainBlue,
+                strokeWidth: 5,
+              ),
+          error: (error, stack) => Center(
+                child: Text(
+                  ApiExceptions.getExceptionMessage(error as Exception, 400),
+                  style: textTh.titleMedium!.copyWith(color: Colors.red),
+                ),
+              ),
+          data: (user) {
+            return Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BackdropFilter(
-                    filter: ImageFilter.blur(
-                      sigmaX: 30,
-                      sigmaY: 30,
-                      tileMode: TileMode.clamp,
+                  SizedBox(
+                    width: double.infinity,
+                    height: size.height * 0.25,
+                    child: Stack(
+                      children: [
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.7),
+                          ),
+                          child: user.image.isNotEmpty
+                              ? Image.file(
+                                  File(user
+                                      .image), // Replace 'imagePath' with the actual path obtained from the database
+                                  width: size.width,
+                                  height: size.height * 0.25,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  "assets/images/pfp-placeholder.jpg",
+                                  width: size.width,
+                                  height: size.height * 0.25,
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                      ],
                     ),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.7),
-                      ),
-                      child: Image.asset(
-                        width: size.width,
-                        height: size.height * 0.18,
-                        "assets/images/web_design.png",
-                        fit: BoxFit.cover,
+                  ),
+                  const SizedBox(height: 16),
+                  Center(
+                    child: Text(
+                      user.name,
+                      style: textTh.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 15,
-                    left: size.width * 0.5 -
-                        (50 +
-                            12), // 50 for radius of circle and 12 for the padding of screen on left
-                    child: const CircleAvatar(
-                      backgroundImage:
-                          AssetImage("assets/images/profile_pic.png"),
-                      radius: 50,
+                  const SizedBox(height: 12),
+                  Center(
+                    child: Text(
+                      user.email,
+                      style: textTh.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 20,
-                    left: size.width * 0.5,
-                    child: IconButton(
-                      style: IconButton.styleFrom(
-                        backgroundColor: AppColors.mainGrey,
-                        foregroundColor: Colors.black,
-                        iconSize: 24,
+                  const SizedBox(height: 12),
+                  const Divider(),
+                  Center(
+                    child: Text(
+                      user.bio,
+                      style: textTh.bodyMedium!.copyWith(color: Colors.black),
+                    ),
+                  ),
+                  const Divider(),
+                  const SizedBox(height: 28),
+                  TextButton.icon(
+                    onPressed: () async {
+                      bool? result = await Navigator.of(context)
+                          .pushNamed<bool>(Routes.profileEdit);
+                      if (result == true) {
+                        ref.read(profileProvider.notifier).fetchUserData();
+                      }
+                    },
+                    label: Text(
+                      "Edit Profile",
+                      style: textTh.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
                       ),
-                      onPressed: () {},
-                      icon: const Icon(Icons.image),
+                    ),
+                    icon: const Icon((Icons.edit)),
+                  ),
+                  TextButton.icon(
+                    onPressed: () {
+                      ref
+                          .refresh(notificationApiProvider.notifier)
+                          .fetchNotifs(page: 1);
+                      Navigator.of(context).pushNamed(Routes.notifications);
+                    },
+                    label: Text(
+                      "Notifications",
+                      style: textTh.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    icon: const Icon((Icons.notifications)),
+                  ),
+                  TextButton.icon(
+                    onPressed: () async {
+                      pageNavController.navigatePage(2);
+
+                      ref
+                          .watch(paidScreenTabIndexProv.notifier)
+                          .changeTabIndex(0);
+                      ref
+                          .refresh(savedApiProvider.notifier)
+                          .fetchSavedCoursesData();
+
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    label: Text(
+                      "Saved Courses",
+                      style: textTh.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    icon: const Icon((Icons.pending)),
+                  ),
+                  TextButton.icon(
+                    onPressed: () async {
+                      ref
+                          .watch(paidScreenTabIndexProv.notifier)
+                          .changeTabIndex(1);
+                      pageNavController.navigatePage(2);
+
+                      ref
+                          .refresh(paidExamsApiProvider.notifier)
+                          .fetchPaidExams();
+
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    label: Text(
+                      "Saved Exams",
+                      style: textTh.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    icon: const Icon((Icons.school)),
+                  ),
+                  TextButton.icon(
+                    onPressed: () async {
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: const Text("Are You Sure?"),
+                          content: const Text(
+                              "Are You Certain That You Want To Log Out?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () async {
+                                ref
+                                    .read(authStatusProvider.notifier)
+                                    .clearStatus();
+                                ref
+                                    .read(authStatusProvider.notifier)
+                                    .setAuthStatus(AuthStatus.pending);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  UtilFunctions.buildInfoSnackbar(
+                                      message: "Logged Out Successfully."),
+                                );
+                                if (context.mounted) {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed(Routes.login);
+                                }
+                              },
+                              child: const Text("Logout"),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text("Cancel"),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    label: Text(
+                      "Logout",
+                      style: textTh.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.red,
+                      ),
+                    ),
+                    icon: const Icon(
+                      (Icons.logout),
+                      color: Colors.red,
                     ),
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 16),
-            Center(
-              child: Text(
-                "${user.name} ${user.lastName}",
-                style: textTh.titleMedium!.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Center(
-              child: Text(
-                user.email,
-                style: textTh.titleMedium!.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              user.bio,
-              style: textTh.bodyMedium!.copyWith(
-                color: AppColors.mainGrey,
-              ),
-            ),
-            const SizedBox(height: 28),
-            TextButton.icon(
-              onPressed: () {
-                Navigator.of(context).pushNamed(Routes.profileEdit);
-              },
-              label: Text(
-                "Edit Profile",
-                style: textTh.titleMedium!.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              icon: const Icon((Icons.edit)),
-            ),
-            TextButton.icon(
-              onPressed: () {},
-              label: Text(
-                "Notification",
-                style: textTh.titleMedium!.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              icon: const Icon((Icons.notifications)),
-            ),
-            TextButton.icon(
-              onPressed: () {},
-              label: Text(
-                "My Exam",
-                style: textTh.titleMedium!.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              icon: const Icon((Icons.pending)),
-            ),
-            TextButton.icon(
-              onPressed: () {},
-              label: Text(
-                "My Education",
-                style: textTh.titleMedium!.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              icon: const Icon((Icons.school)),
-            ),
-            TextButton.icon(
-              onPressed: () async {
-                final prefs = await SharedPreferences.getInstance();
-                prefs.remove("userData");
-              },
-              label: Text(
-                "Logout",
-                style: textTh.titleMedium!.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: Colors.red,
-                ),
-              ),
-              icon: const Icon(
-                (Icons.logout),
-                color: Colors.red,
-              ),
-            ),
-          ],
-        ),
-      ),
+            );
+          }),
     );
   }
 }

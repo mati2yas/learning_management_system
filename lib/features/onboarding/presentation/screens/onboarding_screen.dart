@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
-import 'package:lms_system/core/constants/colors.dart';
-import 'package:lms_system/features/auth_status_registration/provider/reg_status_repository_provider.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/features/check_seen_onboarding/provider/check_seen_onboarding_provider.dart';
+import 'package:lms_system/features/shared/provider/start_routes_provider.dart';
 
 import '../../data_source/onboarding_data_source.dart';
 import '../../provider/onboarding_provider.dart';
@@ -18,8 +19,6 @@ class OnboardingScreen extends ConsumerWidget {
     final onboardingController = ref.read(onboardingProvider.notifier);
     final repository = OnboardingRepository(OnboardingDataSource());
     final onboardingPages = repository.getOnboardingPages();
-    final registeredStatController =
-        ref.watch(registrationStatusControllerProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -30,7 +29,7 @@ class OnboardingScreen extends ConsumerWidget {
               if (currentPage < 2) {
                 onboardingController.skipToLastPage();
               } else {
-                Navigator.of(context).pushReplacementNamed('/signup');
+                Navigator.of(context).pushReplacementNamed(Routes.signup);
               }
             },
             child: Text(
@@ -85,17 +84,21 @@ class OnboardingScreen extends ConsumerWidget {
                     backgroundColor: AppColors.mainBlue,
                     child: IconButton(
                       color: Colors.white,
-                      onPressed: () async {
+                      onPressed: () {
+                        if (currentPage == onboardingPages.length - 2) {
+                          ref
+                              .read(checkSeenOnboardingControllerProvider
+                                  .notifier)
+                              .setHasSeenOnboardingAlready();
+                        }
                         if (currentPage == onboardingPages.length - 1) {
-                          final registered = await registeredStatController
-                              .checkRegistrationStatus();
+                          final initialRouteProv =
+                              ref.watch(startRoutesProvider);
+                          String nextRoute = initialRouteProv.secondRoute;
 
-                          if (registered) {
+                          if (context.mounted) {
                             Navigator.of(context)
-                                .pushReplacementNamed(Routes.wrapper);
-                          } else {
-                            Navigator.of(context)
-                                .pushReplacementNamed(Routes.signup);
+                                .pushReplacementNamed(nextRoute);
                           }
                         } else {
                           onboardingController.nextPage();

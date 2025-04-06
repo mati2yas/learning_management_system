@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/current_id_stub_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/exam_questions_provider.dart';
+import 'package:lms_system/features/exams/model/exam_year.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
@@ -28,9 +29,20 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
   @override
   Widget build(BuildContext context) {
     final apiState = ref.watch(examGradeFilterApiProvider);
-    print("Current Tab: $currentTab");
-    print("exam titleee: ${examData["exam title"]}");
-    final pageController = ref.read(pageNavigationProvider.notifier);
+    debugPrint("Current Tab: $currentTab");
+    debugPrint("exam titleee: ${examData["exam title"]}");
+    final pageNavController = ref.read(pageNavigationProvider.notifier);
+    examData = pageNavController.getArgumentsForPage(8);
+    var examYearValue;
+    if (examData["exam year"] != null) {
+      if (examData["exam year"] is ExamYear) {
+        examYearValue = (examData["exam year"] as ExamYear).title;
+      } else if (examData["exam year"] is String) {
+        examYearValue = examData["exam year"];
+      }
+    } else {
+      examYearValue = "";
+    }
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     return DefaultTabController(
@@ -48,14 +60,14 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {
-                pageController.navigatePage(7);
+                pageNavController.navigatePage(examData["previous screen"]!);
               },
               icon: const Icon(
                 Icons.arrow_back,
                 color: Colors.black,
               ),
             ),
-            title: Text(examData["exam title"] ?? "title"),
+            title: Text("${examData["exam course"]} $examYearValue"),
             centerTitle: true,
             elevation: 5,
             shadowColor: Colors.black87,
@@ -132,7 +144,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                           child: ListTile(
                             title: Text(chapters[index].title),
                             subtitle: Text(
-                              "${chapters[index].questions.length} questions",
+                              "${chapters[index].questionsCount} questions",
                             ),
                             trailing: FilledButton(
                               style: FilledButton.styleFrom(
@@ -144,25 +156,28 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                               onPressed: () {
                                 Map<String, dynamic> examDataNext = {
                                   //"exam title": examData["exam title"],
-                                  "exam course": "examCourse", 
-                                  "exam year": "year.title",
+                                  "exam course": examData["exam course"]!,
+                                  "exam year": examData["exam year"]!,
                                   "questions": chapters[index].questions,
                                   "previousScreen": 8,
                                   "hasTimerOption": false,
                                 };
                                 ref
                                     .read(currentIdStubProvider.notifier)
-                                    .changeStub({
-                                  "idType": IdType.all,
-                                  "id": chapters[index].id,
-                                });
+                                    .changeStub(
+                                  {
+                                    "idType": IdType.all,
+                                    "id": chapters[index].id,
+                                    "courseId": examData["courseId"],
+                                  },
+                                );
                                 ref
-                                    .read(examQuestionsApiProvider.notifier)
+                                    .refresh(examQuestionsApiProvider.notifier)
                                     .fetchQuestions();
-                                pageController.navigatePage(6,
+                                pageNavController.navigatePage(6,
                                     arguments: examDataNext);
                               },
-                              child: const Text("Take?"),
+                              child: const Text("Take"),
                             ),
                           ),
                         );

@@ -1,13 +1,17 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterDataSource {
   final Dio _dio;
+  final SecureStorageService _storageService;
 
-  RegisterDataSource(this._dio);
+  RegisterDataSource(this._dio, this._storageService);
 
   Future<void> deleteAccount() async {
     final prefs = await SharedPreferences.getInstance();
@@ -17,7 +21,7 @@ class RegisterDataSource {
     int? statusCode;
     var userId = mapVal["userId"] ?? "0";
     try {
-      final response = await _dio.post("delete-user/$userId");
+      final response = await _dio.post("${AppUrls.deleteUser}/$userId");
       statusCode = response.statusCode;
       if (response.statusCode == 200 && response.data['status'] == true) {
         await prefs.remove("userData");
@@ -39,36 +43,34 @@ class RegisterDataSource {
   }) async {
     int? statusCode;
     try {
-      final response = await _dio.post('/student-register', data: {
-        'name': name,
-        'email': email,
-        'password': password,
-        'password_confirmation': password,
-      });
+      final response = await _dio.post(
+        AppUrls.signUp,
+        data: {
+          'name': name,
+          'email': email,
+          'password': password,
+          'password_confirmation': password,
+        },
+        options: Options(headers: {"Content-Type": "application/json"}),
+      );
+      debugPrint("register status code: ${response.statusCode}");
+      debugPrint("register response data: ${response.data}");
       statusCode = response.statusCode;
-      if (response.statusCode == 200 && response.data['status'] == true) {
+      if ([200, 201].contains(response.statusCode)) {
         // Parse and store the token and user data in SharedPreferences
 
-        final user = response.data['data']['user'];
-        print("User Data to Save:");
-        final prefs = await SharedPreferences.getInstance();
-        var userId = user["id"] ?? "0";
-        print("user id: $userId");
-        final valueData = jsonEncode({
-          "id": "\"$userId\"",
-          "name": "\"$name\"",
-          "email": "\"$email\"",
-          "token": "",
-          "password": "\"$password\"",
-        });
-
-        await prefs.setString("userData", valueData);
         // Save the JSON string
+      } else if (response.statusCode == 403) {
+        var msg = response.data["message"];
+        throw Exception(msg);
       } else {
         throw Exception('Failed to register user: ${response.data['message']}');
       }
     } on DioException catch (e) {
-      String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
+      String errorMessage = "Registration Failed.";
+      errorMessage = ApiExceptions.getExceptionMessage(
+          e, statusCode ?? e.response?.statusCode);
+
       throw Exception(errorMessage);
     }
   }

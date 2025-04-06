@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/exam_grade_filter/repository/exam_grade_filter_repository.dart';
-import 'package:lms_system/features/exam_year_filter/provider/current_exam_year_provider.dart';
+import 'package:lms_system/features/exam_courses_filter/provider/current_exam_year_provider.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
+import 'package:lms_system/features/exams/provider/current_exam_course_id.dart';
 
 final examGradeFilterApiProvider =
     AsyncNotifierProvider<ExamGradeFilterNotifier, List<ExamGrade>>(
@@ -27,10 +28,11 @@ class ExamGradeFilterNotifier extends AsyncNotifier<List<ExamGrade>> {
   }
 
   Future<List<ExamGrade>> fetchExamGrades() async {
-    int id = ref.read(currentExamYearIdProvider);
+    int yearId = ref.read(currentExamYearIdProvider);
+    int courseId = ref.read(currentExamCourseIdProvider);
     state = const AsyncValue.loading();
     try {
-      final examGrades = await _repository.fetchExamGrades(id);
+      final examGrades = await _repository.fetchExamGrades(yearId: yearId, courseId: courseId);
       state = AsyncValue.data(examGrades);
     } catch (e, stack) {
       state = AsyncError(e, stack);

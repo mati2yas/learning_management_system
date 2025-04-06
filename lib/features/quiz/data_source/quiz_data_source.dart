@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 
@@ -18,10 +19,11 @@ class QuizDataSource {
   // }
 
   Future<Quiz> fetchQuizData(String quizId) async {
-    Quiz quiz = Quiz();
+    Quiz quiz = Quiz.initial();
     int? statusCode;
+    await DioClient.setToken();
     try {
-      final response = await _dio.get("/quizzes/1536");
+      final response = await _dio.get("${AppUrls.quizzes}/$quizId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         quiz = Quiz.fromJson(response.data["data"]);

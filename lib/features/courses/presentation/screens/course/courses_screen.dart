@@ -1,43 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/common_widgets/course_card.dart';
-import 'package:lms_system/features/courses/model/categories_sub_categories.dart';
+import 'package:lms_system/core/common_widgets/async_error_widget.dart';
+import 'package:lms_system/core/common_widgets/course_card_network.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_strings.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
+import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
+import 'package:lms_system/features/courses/provider/course_content_providers.dart';
+import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
-import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
+import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-import '../../../../../core/app_router.dart';
 import '../../../provider/courses_provider.dart';
 import '../../widgets/category_show.dart';
-
-final categories = [
-  "lower_grades",
-  "high_school",
-  "university",
-  "random_courses"
-];
-
-Map<String, String> categoryFormatted = {
-  "lower_grades": "Lower Grades",
-  "high_school": "Highschool",
-  "university": "University",
-  "random_courses": "Random Courses",
-};
 
 class CoursePage extends ConsumerWidget {
   const CoursePage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final courses = ref.watch(coursesProvider);
+    final courses = ref.watch(allCoursesApiProvider);
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     final pageController = ref.read(pageNavigationProvider.notifier);
     final categoryController = ref.watch(currentCategoryProvider.notifier);
 
+    final paidApiController = ref.watch(paidCoursesApiProvider.notifier);
     final currentCourseFilterController =
         ref.watch(currentCourseFilterProvider.notifier);
+    final allCourseApiState = ref.watch(allCoursesApiProvider);
+    final allCourseController = ref.watch(allCoursesApiProvider.notifier);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -48,21 +43,23 @@ class CoursePage extends ConsumerWidget {
             color: Colors.black,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: CourseSearchDelegate(
+                    widgetRef: ref, previousScreenIndex: 1),
+              );
+            },
+          ),
+        ],
         centerTitle: true,
         shadowColor: Colors.black87,
         surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
         elevation: 4,
-        bottom: PreferredSize(
-          preferredSize: Size(
-            MediaQuery.of(context).size.width,
-            70,
-          ),
-          child: Container(
-            color: Colors.white,
-            child: CustomSearchBar(hintText: "Search Courses", size: size),
-          ),
-        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(12),
@@ -73,29 +70,42 @@ class CoursePage extends ConsumerWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 12),
           SizedBox(
-            height: 266,
+            height: 276,
             width: double.infinity,
             child: GridView(
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisExtent: 125,
+                mainAxisExtent: 130,
                 crossAxisCount: 2,
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 15,
               ),
-              children: categories
+              children: AppStrings.courseCategories
                   .map(
                     (cat) => CategoryShow(
-                      category: categoryFormatted[cat]!,
+                      category: AppStrings.categoryFormatted(cat),
                       categoryImage: cat,
+                      // onTap: () {
+                      //   currentCourseFilterController.changeFilter(cat);
+                      //   ref
+                      //       .read(coursesFilteredProvider.notifier)
+                      //       .fetchCoursesFiltered(filter: cat);
+                      //   pageController.navigatePage(4);
+                      // },
                       onTap: () {
-                        currentCourseFilterController.changeFilter(cat);
-                        ref
-                            .read(coursesFilteredProvider.notifier)
-                            .fetchCoursesFiltered(filter: cat);
-                        pageController.navigatePage(4);
+                        Future.microtask(() {
+                          ref
+                              .read(currentCourseFilterProvider.notifier)
+                              .changeFilter(cat);
+                          ref
+                              .read(coursesFilteredProvider.notifier)
+                              .fetchCoursesFiltered(filter: cat);
+                          ref
+                              .read(pageNavigationProvider.notifier)
+                              .navigatePage(4);
+                        });
                       },
                     ),
                   )
@@ -110,61 +120,86 @@ class CoursePage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 15),
-          SizedBox(
-            height: size.height * 1.35,
-            width: double.infinity,
-            child: GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                childAspectRatio: getResponsiveChildAspectRatio(size),
-                mainAxisExtent: 200,
+          allCourseApiState.when(
+            loading: () => const Center(
+              child: CircularProgressIndicator(
+                color: AppColors.mainBlue,
+                strokeWidth: 5,
               ),
-              itemBuilder: (_, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(
-                      Routes.courseDetails,
-                      arguments: courses[index],
+            ),
+            error: (error, stack) => AsyncErrorWidget(
+              errorMsg: error.toString().replaceAll("Exception: ", ""),
+              callback: () async {
+                await ref.refresh(allCoursesApiProvider.notifier).loadCourses();
+              },
+            ),
+            data: (courses) {
+              return SizedBox(
+                height: 202 * 10 + 100,
+                // main-axis extent (202) multiplied by 10 per row, plus 10 times main axis spacing (10)
+                width: double.infinity,
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    childAspectRatio:
+                        UtilFunctions.getResponsiveChildAspectRatio(size),
+                    mainAxisExtent: 230,
+                  ),
+                  itemBuilder: (_, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        final courseIdController =
+                            ref.watch(currentCourseIdProvider.notifier);
+                        courseIdController.changeCourseId(courses[index].id);
+
+                        ref
+                            .read(courseSubTrackProvider.notifier)
+                            .changeCurrentCourse(courses[index]);
+
+                        debugPrint(
+                            "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
+                        ref
+                            .read(courseChaptersProvider.notifier)
+                            .fetchCourseChapters();
+                        pageController.navigatePage(
+                          5,
+                          arguments: {
+                            "course": courses[index],
+                            "previousScreenIndex": 1,
+                          },
+                        );
+                      },
+                      child: CourseCardNetworkImage(
+                        mainAxisExtent: 230,
+                        course: courses[index],
+                        onLike: () async {
+                          ref
+                              .read(allCoursesApiProvider.notifier)
+                              .toggleLiked(courses[index]);
+
+                          await paidApiController.toggleLiked(courses[index]);
+                        },
+                        onBookmark: () async {
+                          ref
+                              .read(allCoursesApiProvider.notifier)
+                              .toggleSaved(courses[index]);
+
+                          await paidApiController.toggleLiked(courses[index]);
+                        },
+                      ),
                     );
                   },
-                  child: CourseCard(
-                    course: courses[index],
-                    onLike: () {
-                      ref
-                          .read(coursesProvider.notifier)
-                          .toggleLiked(courses[index]);
-                    },
-                    onBookmark: () {
-                      ref
-                          .read(coursesProvider.notifier)
-                          .toggleSaved(courses[index]);
-                    },
-                  ),
-                );
-              },
-              itemCount: courses.length,
-            ),
+                  itemCount: courses.length,
+                ),
+              );
+            },
           ),
+          const SizedBox(height: 100),
         ],
       ),
     );
-  }
-
-  getResponsiveChildAspectRatio(Size size) {
-    print("width: ${size.width}");
-    if (size.width <= 200) return 0.65;
-    if (size.width <= 400) return 0.85;
-
-    if (size.width < 500) return 1.0;
-    if (size.width < 600) return 1.3;
-    if (size.width < 700) return 1.4;
-    return 1.7;
-  }
-
-  void handleCategorySelection(WidgetRef ref, CourseCategory category) {
-    // Keep the navbar active item on 'Courses'
   }
 }

@@ -33,35 +33,19 @@ class ChapterTile extends ConsumerWidget {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(5.5)),
         ),
-        child: SizedBox(
-          height: 55,
-          child: Row(
-            children: <Widget>[
-              ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(5.5),
-                    bottomLeft: Radius.circular(5.5),
-                  ),
-                  child: SizedBox(
-                    width: 55,
-                    height: 55,
-                    child: Image.asset(
-                      "assets/images/applied_math.png",
-                      fit: BoxFit.cover,
-                    ),
-                  )),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 15, 8.0),
-                  child: Text(
-                    "${chapter.name} | ${chapter.title}",
-                    style: textTh.labelMedium!.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+        child: ListTile(
+          title: Text(
+            "Chapter ${chapter.order}",
+            style: textTh.labelMedium!.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          subtitle: Text(
+            chapter.title,
+            overflow: TextOverflow.ellipsis,
+            style: textTh.labelSmall!.copyWith(
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),

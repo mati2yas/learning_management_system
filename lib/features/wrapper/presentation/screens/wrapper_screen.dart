@@ -1,90 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/course_chapters_screen.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/courses_screen.dart';
+import 'package:lms_system/features/courses/provider/courses_provider.dart';
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
+import 'package:lms_system/features/exam_courses_filter/presentation/screens/exam_courses_filter_screen.dart';
 import 'package:lms_system/features/exam_grade_filter/presentation/screens/exam_grade_filter_screen.dart';
 import 'package:lms_system/features/exam_questions/presentation/exam_questions_page.dart';
-import 'package:lms_system/features/exam_year_filter/presentation/screens/exam_year_filter_screen.dart';
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
+import 'package:lms_system/features/home/provider/carousel_provider.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
-import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
+import 'package:lms_system/features/notification/provider/notification_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/presentation/screens/paid_screen.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_screen_tab_index_prov.dart';
+import 'package:lms_system/features/subscription/provider/bank_info_provider.dart';
+import 'package:lms_system/features/subscription/provider/requests/course_requests_provider.dart';
+import 'package:lms_system/features/wrapper/presentation/widgets/nav_item.dart';
 import 'package:lms_system/features/wrapper/provider/current_category.dart';
 
 import '../../../exams/presentation/screens/exams_screen.dart';
 import '../../provider/wrapper_provider.dart';
 import '../widgets/drawer_widget.dart';
-
-class Keys {
-  static final globalkey = GlobalKey<ScaffoldState>();
-}
-
-class NavItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final WidgetRef ref;
-  final Function onTap;
-  final bool isCurr;
-  const NavItem({
-    super.key,
-    required this.icon,
-    required this.label,
-    required this.isCurr,
-    required this.onTap,
-    required this.ref,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    var textTh = Theme.of(context).textTheme;
-    return GestureDetector(
-      onTap: () {
-        onTap();
-      },
-      child: SizedBox(
-        height: 40,
-        child: isCurr
-            ? Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: isCurr ? 12 : 0),
-                    decoration: BoxDecoration(
-                      color: isCurr ? Colors.white : AppColors.mainBlue,
-                      borderRadius: BorderRadius.circular(45),
-                    ),
-                    child: Icon(
-                      icon,
-                      color: AppColors.mainBlue,
-                    ),
-                  ),
-                  Text(
-                    label,
-                    style: textTh.labelSmall!.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              )
-            : Column(
-                children: [
-                  Icon(
-                    icon,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    label,
-                    style: textTh.labelSmall!.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-      ),
-    );
-  }
-}
 
 class WrapperScreen extends ConsumerWidget {
   const WrapperScreen({super.key});
@@ -92,24 +33,36 @@ class WrapperScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentPage = ref.watch(pageNavigationProvider);
     final pageController = ref.read(pageNavigationProvider.notifier);
+    final paidScreenTabIndexProvider = ref.watch(paidScreenTabIndexProv);
     var size = MediaQuery.of(context).size;
     final currentCategory = ref.watch(currentCategoryProvider);
     final List<Widget> pages = [
       const HomePage(), // 0
       const CoursePage(), // 1
-      const SavedCoursesPage(), // 2
+      PaidScreen(tabIndex: paidScreenTabIndexProvider), // 2
       const ExamsScreen(), // 3
-      const CoursesFilterScreen(
-          // 4
-          ),
+      const CoursesFilterScreen(), // 4
       const CourseChaptersScreen(), // 5
       const ExamQuestionsPage(), // 6
-      const ExamYearFiltersScreen(), // 7
+      const ExamCoursesFiltersScreen(), // 7
       const ExamGradeFilterScreen(), // 8
     ];
     if (currentPage == 0) {
+      ref.read(carouselApiProvider.notifier).build();
       ref.read(homeScreenApiProvider.notifier).build();
       ref.read(currentUserProvider.notifier).build();
+      if (ref.read(courseRequestsProvider).isEmpty) {
+        ref.read(courseRequestsProvider.notifier).loadData();
+      }
+      ref.read(notificationApiProvider.notifier).build();
+    }
+    if (currentPage == 1) {
+      ref.read(allCoursesApiProvider.notifier).build();
+    }
+    if (currentPage == 2) {
+      ref.read(bankInfoApiProvider.notifier).build();
+      ref.read(paidCoursesApiProvider.notifier).build();
+      ref.read(paidExamsApiProvider.notifier).build();
     }
     // if (currentPage == 3) {
     //   ref.read(examYearFilterApiProvider.notifier).build();
@@ -118,10 +71,8 @@ class WrapperScreen extends ConsumerWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        key: Keys.globalkey,
-        drawer: const Drawer(
-          child: CustomDrawer(),
-        ),
+        key: AppKeys.drawerKey,
+        drawer: const CustomDrawer(),
         body: Stack(
           children: [
             pages[currentPage],
@@ -145,7 +96,7 @@ class WrapperScreen extends ConsumerWidget {
                         children: [
                           NavItem(
                             icon: Icons.home_outlined,
-                            onTap: () async {
+                            onTap: () {
                               pageController.navigatePage(0);
                             },
                             label: "Home",
@@ -160,9 +111,9 @@ class WrapperScreen extends ConsumerWidget {
                             ref: ref,
                           ),
                           NavItem(
-                            icon: Icons.bookmark_outline,
+                            icon: Icons.workspace_premium,
                             onTap: () => pageController.navigatePage(2),
-                            label: "My Courses",
+                            label: "Paid",
                             isCurr: currentPage == 2,
                             ref: ref,
                           ),

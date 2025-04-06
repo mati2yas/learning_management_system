@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/features/courses_filtered/providers/courses_filtered_repo_provider.dart';
 import 'package:lms_system/features/courses_filtered/providers/current_filter_provider.dart';
 import 'package:lms_system/features/courses_filtered/repository/courses_filtered_repository.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';

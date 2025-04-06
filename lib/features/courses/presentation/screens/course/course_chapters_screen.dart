@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
-import 'package:lms_system/core/constants/colors.dart';
+import 'package:lms_system/core/common_widgets/no_data_widget.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/chapter_content/provider/current_chapter_id_provider.dart';
 import 'package:lms_system/features/courses/presentation/widgets/capter_tile.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
+import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
 import '../../../../wrapper/provider/wrapper_provider.dart';
 
@@ -22,7 +24,9 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     final pageController = ref.read(pageNavigationProvider.notifier);
-    final course = pageController.getArgumentsForPage(5);
+    final Map<String, dynamic> args = pageController.getArgumentsForPage(5);
+    final course = args["course"] as Course;
+    final previousScreen = args["previousScreenIndex"];
     // 5 cause the 5th page in the wrapper screen pages list
     //final courseIdcurrent = ref.watch(currentCourseIdProvider);
     final apiState = ref.watch(courseChaptersProvider);
@@ -32,11 +36,11 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
       appBar: CommonAppBar(
         leading: IconButton(
           onPressed: () {
-            pageController.navigatePage(4);
+            pageController.navigatePage(previousScreen);
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        titleText: "${course.title}",
+        titleText: "${course.title} Chapters",
       ),
       body: apiState.when(
         loading: () => const Center(
@@ -52,22 +56,26 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
           ),
         ),
         data: (chapters) => chapters.isEmpty
-            ? Center(
-                child: Text(
-                  "No Chapters for this course yet.",
-                  style:
-                      textTh.bodyLarge!.copyWith(fontWeight: FontWeight.w700),
-                ),
-              )
-            : ListView.separated(
-                itemCount: chapters.length,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                itemBuilder: (_, index) {
-                  return ChapterTile(chapter: chapters[index]);
+            ? NoDataWidget(
+                noDataMsg: "No Chapters for this course yet.",
+                callback: () async {
+                  await ref
+                      .refresh(courseChaptersProvider.notifier)
+                      .fetchCourseChapters();
                 },
-                separatorBuilder: (_, index) => const SizedBox(
-                  height: 15,
+              )
+            : Padding(
+                padding: const EdgeInsets.only(bottom: 60),
+                child: ListView.separated(
+                  itemCount: chapters.length,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  itemBuilder: (_, index) {
+                    return ChapterTile(chapter: chapters[index]);
+                  },
+                  separatorBuilder: (_, index) => const SizedBox(
+                    height: 15,
+                  ),
                 ),
               ),
       ),

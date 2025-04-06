@@ -1,7 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
-import 'package:lms_system/core/constants/colors.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/utils/util_functions.dart';
+import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
+import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
+import 'package:lms_system/features/notification/provider/notification_provider.dart';
+import 'package:lms_system/features/profile/provider/profile_provider.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -9,87 +17,149 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Drawer(
-      width: size.width * 0.6,
-      backgroundColor: AppColors.mainBlue,
-      elevation: 3,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(30),
-          bottomRight: Radius.circular(30),
+
+    return Consumer(builder: (context, ref, child) {
+      var userState = ref.watch(currentUserProvider);
+      return Drawer(
+        width: size.width * 0.65,
+        backgroundColor: AppColors.mainBlue,
+        elevation: 3,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(8),
+            bottomRight: Radius.circular(8),
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              height: 128,
-              child: Row(
-                spacing: 10,
-                children: [
-                  const SizedBox(
-                    height: 75,
-                    width: 75,
-                    child: CircleAvatar(
-                      backgroundImage:
-                          AssetImage("assets/images/profile_pic.png"),
-                      radius: 75,
-                    ),
-                  ),
-                  Text(
-                    "Matiyas Seifu",
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                height: 128,
+                child: userState.when(
+                  error: (error, stack) {
+                    return Text(error.toString());
+                  },
+                  loading: () => const Text("Loading User..."),
+                  data: (user) {
+                    return Row(
+                      spacing: 10,
+                      children: [
+                        SizedBox(
+                          height: 75,
+                          width: 75,
+                          child: CircleAvatar(
+                            backgroundImage: FileImage(File(user.image)),
+                            radius: 75,
+                          ),
                         ),
-                  ),
-                ],
+                        NameTextContainer(
+                          name: user.name,
+                          textStyle:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                          maxWidth: size.width * 0.65 - 115,
+                          // width of drawer - avatar width - row spacing. (115 = avatar width (75) + row spacing (10) + padding on both sides - 15 each)
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
-            ),
-            const Divider(),
-            // const ListTileButton(
-            //   iconData: Icons.dark_mode,
-            //   titleText: "Dark Mode",
-            // ),
-            ListTileButton(
-              onTap: () {
-                //Navigator.of(context).pushNamed(Routes.notifications);
-                Navigator.of(context).pushNamed(Routes.login);
-              },
-              iconData: Icons.notifications_outlined,
-              titleText: "Notification",
-            ),
-            ListTileButton(
-              onTap: () {
-                Navigator.of(context).pushNamed(Routes.profile);
-              },
-              iconData: Icons.person_outline,
-              titleText: "Profile",
-            ),
-            ListTileButton(
-              onTap: () {},
-              iconData: Icons.help_outline,
-              titleText: "FAQ",
-            ),
-            ListTileButton(
-              onTap: () {},
-              iconData: Icons.phone_outlined,
-              titleText: "Contact",
-            ),
-            ListTileButton(
-              onTap: () async {
-                final prefs = await SharedPreferences.getInstance();
-                prefs.remove("userData");
-              },
-              iconData: Icons.logout_outlined,
-              titleText: "logout",
-            ),
-          ],
+              const Divider(),
+              ListTileButton(
+                onTap: () {
+                  ref
+                      .read(notificationApiProvider.notifier)
+                      .fetchNotifs(page: 1);
+                  Navigator.of(context).pushNamed(Routes.notifications);
+                },
+                iconData: Icons.notifications_outlined,
+                titleText: "Notification",
+              ),
+              ListTileButton(
+                onTap: () {
+                  ref.read(profileProvider.notifier).fetchUserData();
+                  Navigator.pop(context);
+                  Navigator.of(context).pushNamed(Routes.profile);
+                },
+                iconData: Icons.person_outline,
+                titleText: "Profile",
+              ),
+              ListTileButton(
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).pushNamed(Routes.faq);
+                },
+                iconData: Icons.help_outline,
+                titleText: "FAQ",
+              ),
+              ListTileButton(
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).pushNamed(Routes.contactUs);
+                },
+                iconData: Icons.phone_outlined,
+                titleText: "Contact",
+              ),
+              ListTileButton(
+                onTap: () async {
+                  // ref.read(authStatusProvider.notifier).clearStatus();
+                  // ref
+                  //     .read(authStatusProvider.notifier)
+                  //     .setAuthStatus(AuthStatus.pending);
+                  // ref.invalidate(currentUserProvider);
+                  // Navigator.pop(context);
+                  // Navigator.of(context).pushReplacementNamed(Routes.login);
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   UtilFunctions.buildInfoSnackbar(
+                  //     message: "Logged Out Successfully.",
+                  //   ),
+                  // );
+
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: const Text("Are You Sure?"),
+                      content: const Text(
+                          "Are You Certain That You Want To Log Out?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () async {
+                            ref.read(authStatusProvider.notifier).clearStatus();
+                            ref
+                                .read(authStatusProvider.notifier)
+                                .setAuthStatus(AuthStatus.pending);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              UtilFunctions.buildInfoSnackbar(
+                                  message: "Logged Out Successfully."),
+                            );
+                            if (context.mounted) {
+                              Navigator.of(context)
+                                  .pushReplacementNamed(Routes.login);
+                            }
+                          },
+                          child: const Text("Logout"),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text("Cancel"),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                iconData: Icons.logout_outlined,
+                titleText: "logout",
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
@@ -129,6 +199,43 @@ class ListTileButton extends StatelessWidget {
               fontWeight: FontWeight.w500,
               color: Colors.white,
             ),
+      ),
+    );
+  }
+}
+
+class NameTextContainer extends StatelessWidget {
+  final String name;
+  final TextStyle textStyle;
+  final double maxWidth;
+
+  const NameTextContainer({
+    super.key,
+    required this.name,
+    required this.textStyle,
+    required this.maxWidth,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Calculate the actual height of the text
+    final textPainter = TextPainter(
+      text: TextSpan(text: name, style: textStyle),
+      maxLines: null, // Allow unlimited lines
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: maxWidth);
+
+    final textHeight = textPainter.height;
+
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.all(8),
+      width: maxWidth,
+      height: textHeight + 20, // Add padding/margins
+      child: Text(
+        name,
+        style: textStyle,
+        textAlign: TextAlign.center,
       ),
     );
   }

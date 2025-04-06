@@ -33,18 +33,19 @@ class ExamQuestionsRepository {
     if (idStub["idType"] == IdType.filtered) {
       return await _dataSource.fetchQuestionsByChapterId(idStub["id"]!);
     } else if (idStub["idType"] == IdType.all) {
-      List<Question> questions =
-          await _dataSource.fetchQuestionsByYearId(idStub["id"]!);
+      List<Question> questions = await _dataSource.fetchQuestionsByYearId(
+          idStub["id"]!, idStub["courseId"]!);
 
       return questions;
     }
     return [];
   }
 
-  Future<List<Question>> fetchQuestionsByYearId(int yearId) async {
+  Future<List<Question>> fetchQuestionsByYearId(
+      int yearId, int courseId) async {
     if (!await _connectivityService.hasConnection()) {
       throw Exception("No internet connection");
     }
-    return await _dataSource.fetchQuestionsByYearId(yearId);
+    return await _dataSource.fetchQuestionsByYearId(yearId, courseId);
   }
 }

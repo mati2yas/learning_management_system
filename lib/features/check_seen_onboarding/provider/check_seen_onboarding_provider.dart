@@ -13,12 +13,16 @@ class CheckSeenOnboardingController extends StateNotifier<bool> {
   CheckSeenOnboardingController(this._repository) : super(false);
 
   Future<bool> checkSeenOnboarding() async {
-    await _repository.hasUserSeenOnboarding();
+    state = await _repository.hasUserSeenOnboarding();
     return state;
   }
 
   Future<void> clearHasSeenOnboarding() async {
     await _repository.clearHasSeenOnboarding();
     state = false;
+  }
+
+  Future<void> setHasSeenOnboardingAlready() async {
+    await _repository.setHasSeeOnboardingAlready();
   }
 }

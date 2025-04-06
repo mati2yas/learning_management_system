@@ -1,6 +1,14 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/connectivity/connectivity_service.dart';
 import 'package:lms_system/features/courses_filtered/data_source/courses_filtered_data_source.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
+final coursesFilteredRepositoryProvider =
+    Provider<CoursesFilteredRepository>((ref) {
+  return CoursesFilteredRepository(
+    ref.watch(coursesFilteredDataSourceProvider),
+    ref.watch(connectivityServiceProvider),
+  );
+});
 
 class CoursesFilteredRepository {
   final CoursesFilteredDataSource _dataSource;
