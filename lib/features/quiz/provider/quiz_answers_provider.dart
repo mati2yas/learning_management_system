@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/quiz/model/quiz_model.dart';
-import 'package:lms_system/features/shared/model/answers_holder.dart';
+import 'package:lms_system/features/shared/model/exam_and_quiz/answers_holder.dart';
 
 final quizAnswersProvider =
     StateNotifierProvider<AnswersNotifier, List<AnswersHolder>>(

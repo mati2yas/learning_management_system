@@ -4,7 +4,7 @@ import 'package:lms_system/core/common_widgets/explanation_container.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/quiz/model/quiz_model.dart';
-import 'package:lms_system/features/shared/model/answers_holder.dart';
+import 'package:lms_system/features/shared/model/exam_and_quiz/answers_holder.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class QuizSolutionsScreen extends StatefulWidget {

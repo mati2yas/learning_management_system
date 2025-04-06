@@ -11,13 +11,13 @@ import '../constants/app_strings.dart';
 class SecureStorageService {
   static final SecureStorageService _instance =
       SecureStorageService._internal();
-  final _storage = const FlutterSecureStorage();
-
+  late final FlutterSecureStorage _storage;
   factory SecureStorageService() {
     return _instance;
   }
-  SecureStorageService._internal();
-
+  SecureStorageService._internal() {
+    _storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  }
   Future<void> deleteUser() async {
     await _storage.delete(key: AppStrings.userStorageKey);
   }
@@ -94,4 +94,8 @@ class SecureStorageService {
   Future<void> updateUserInStorage(User user) async {
     await saveUserToStorage(user);
   }
+
+  AndroidOptions _getAndroidOptions() => const AndroidOptions(
+        encryptedSharedPreferences: true,
+      );
 }

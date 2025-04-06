@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/app.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/root_checker.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
@@ -8,7 +9,6 @@ import 'package:lms_system/features/shared/model/start_routes.dart';
 import 'package:lms_system/features/shared/provider/start_routes_provider.dart';
 
 import 'core/app_router.dart';
-import 'core/constants/app_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,49 +57,3 @@ final initialRouteProvider = FutureProvider<StartRoutes>((ref) async {
     secondRoute: secondRoute,
   );
 });
-
-class MyApp extends ConsumerStatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  ConsumerState<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
-  @override
-  Widget build(BuildContext context) {
-    final routesAsync = ref.watch(initialRouteProvider);
-
-    return routesAsync.when(
-      loading: () => Container(color: Colors.white),
-      error: (error, stackTrace) => Text('Error: $error'),
-      data: (routesData) {
-        return OrientationBuilder(
-          builder: (context, orientation) {
-            return MaterialApp(
-              theme: ThemeData(
-                colorScheme:
-                    ColorScheme.fromSeed(seedColor: AppColors.mainBlue),
-                useMaterial3: true,
-              ),
-              initialRoute: routesData.firstRoute,
-              onGenerateRoute: Approuter.generateRoute,
-            );
-          },
-        );
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-}
