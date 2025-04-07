@@ -34,7 +34,7 @@ class QuizzesListView extends ConsumerWidget {
                   .changeQuizId(quizzes[index].id.toString());
               Quiz quize =
                   await ref.refresh(quizProvider.notifier).fetchQuizData();
-              ref.read(examTimerProvider.notifier).resetTimer(duration: 20);
+              // ref.read(examTimerProvider.notifier).resetTimer(duration: 20);
 
               if (context.mounted) {
                 Navigator.of(context).push(
@@ -68,9 +68,9 @@ class QuizzesListView extends ConsumerWidget {
                 .changeQuizId(quizzes[index].id.toString());
             Quiz quize =
                 await ref.refresh(quizProvider.notifier).fetchQuizData();
-            ref
-                .read(examTimerProvider.notifier)
-                .resetTimer(duration: quizzes[index].duration);
+            // ref
+            //     .read(examTimerProvider.notifier)
+            //     .resetTimer(duration: quizzes[index].duration);
 
             if (context.mounted) {
               Navigator.of(context).push(

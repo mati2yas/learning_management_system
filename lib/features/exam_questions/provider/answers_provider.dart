@@ -14,28 +14,38 @@ class AnswersNotifier extends StateNotifier<ScoreManagement> {
   AnswersNotifier() : super(ScoreManagement.initial());
   void getScore() {
     int score = 0;
+    int attempted = 0;
     for (var answerHolder in state.answersHolders) {
-      List correctListCurrentQuestion = answerHolder.correctAnswers;
-      List selectedListCurrentQuestion = answerHolder.selectedAnswers.toList();
-      if (correctListCurrentQuestion.length == 1 &&
-          correctListCurrentQuestion[0] == selectedListCurrentQuestion[0]) {
-        debugPrint("sigle answer case, selected answer is correct");
-        score++;
-        continue;
-      }
-      bool containsAll = correctListCurrentQuestion
-          .every((ans) => selectedListCurrentQuestion.contains(ans));
-      if (containsAll) {
-        debugPrint(
-            "multi answer case, selected answers include all correct answers.");
-        score++;
-        continue;
+      if (answerHolder.selectedAnswers.isNotEmpty) {
+        attempted++;
+        List correctListCurrentQuestion = answerHolder.correctAnswers;
+        List selectedListCurrentQuestion =
+            answerHolder.selectedAnswers.toList();
+        if (correctListCurrentQuestion.length == 1 &&
+            correctListCurrentQuestion[0] == selectedListCurrentQuestion[0]) {
+          debugPrint("sigle answer case, selected answer is correct");
+          score++;
+          continue;
+        }
+        bool containsAll = correctListCurrentQuestion
+            .every((ans) => selectedListCurrentQuestion.contains(ans));
+        if (containsAll) {
+          debugPrint(
+              "multi answer case, selected answers include all correct answers.");
+          score++;
+          continue;
+        }
       }
     }
-    score;
+
+    debugPrint(
+        "is score higher than attempted? score $score vs attempted $attempted");
 
     var scr = state.scoreValue;
-    scr = scr.copyWith(score: score);
+    scr = scr.copyWith(
+      score: score,
+      attemptedQuestions: attempted,
+    );
     state = state.copyWith(scoreValue: scr);
   }
 
@@ -48,7 +58,10 @@ class AnswersNotifier extends StateNotifier<ScoreManagement> {
 
     var scrV = ScoreValue(
         attemptedQuestions: 0, totalQuestions: totalQuestions, score: 0);
-    state = state.copyWith(scoreValue: scrV);
+    state = state.copyWith(
+      scoreValue: scrV,
+      answersHolders: answerHolders,
+    );
   }
 
   void selectAnswerForQuestion({
@@ -107,6 +120,8 @@ class AnswersNotifier extends StateNotifier<ScoreManagement> {
 
       return answerHolder;
     }).toList();
+
     state = state.copyWith(answersHolders: ansHold);
+    getScore();
   }
 }

@@ -42,7 +42,9 @@ class ExamQuestionsNotifier extends AsyncNotifier<List<Question>> {
 
       final answersController = ref.watch(examAnswersProvider.notifier);
       answersController.initializeWithQuestionsList(questions);
-      state = AsyncValue.data(questions);
+      state = AsyncValue.data(
+        
+        questions);
 
       return questions;
     } catch (e, stack) {

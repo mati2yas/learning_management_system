@@ -5,13 +5,16 @@ import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
+import 'package:lms_system/features/shared/model/exam_and_quiz/answers_holder.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ExamSolutionsScreen extends StatefulWidget {
   final List<Question> questions;
+  final List<AnswersHolder> answerHolders;
   const ExamSolutionsScreen({
     super.key,
     required this.questions,
+    required this.answerHolders,
   });
 
   @override
@@ -37,11 +40,17 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
             child: PageView.builder(
               scrollDirection: Axis.horizontal,
               controller: pageViewController,
-              itemCount: widget.questions.length,
+              itemCount: widget.answerHolders.length,
               itemBuilder: (_, index) {
+                final currentAnswerHolder = widget.answerHolders[index];
                 final currentQuestion = widget.questions[index];
+
+                if (currentQuestion.videoExplanationUrl != null) {
+                  ytCtrl = YoutubePlayerController(
+                      initialVideoId: currentQuestion.videoExplanationUrl!);
+                }
                 String multipleQuestionsIndicator = "";
-                if (currentQuestion.answers.length > 1) {
+                if (currentAnswerHolder.correctAnswers.length > 1) {
                   multipleQuestionsIndicator = "(Select all that apply.)";
                 }
                 List<String> answerLetters = [
@@ -53,14 +62,18 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                   "F",
                   "G"
                 ];
-                List<String> answerText = [];
+                List<String> selectedAnswerText = [];
+                List<String> correctAnswerText = [];
 
                 int answerIndex = 0;
-
-                for (var ans in currentQuestion.answers) {
+                for (var ans in currentAnswerHolder.correctAnswers) {
                   answerIndex = currentQuestion.options.indexOf(ans);
+                  correctAnswerText.add("${answerLetters[answerIndex]}. $ans");
+                }
 
-                  answerText.add("${answerLetters[answerIndex]}. $ans");
+                for (var ans in currentAnswerHolder.selectedAnswers) {
+                  answerIndex = currentQuestion.options.indexOf(ans);
+                  selectedAnswerText.add("${answerLetters[answerIndex]}. $ans");
                 }
 
                 if (currentQuestion.videoExplanationUrl != null) {
@@ -82,26 +95,43 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                             maxWidth: size.width * 0.75,
                           ),
                           Text(
-                            "Answer(s):",
+                            "Your Answer(s):",
                             style: textTh.bodyMedium!.copyWith(
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          ...answerText.map(
+                          ...selectedAnswerText.map(
                             (ans) => Text(
                               ans,
                               style: TextStyle(
-                                color: currentQuestion.answers.contains(ans)
+                                color: currentAnswerHolder.correctAnswers
+                                        .contains(ans)
                                     ? Colors.green
                                     : Colors.red,
                               ),
                             ),
                           ),
-                          ExplanationContainer(
-                            explanation: currentQuestion.explanation,
-                            textStyle: textTh.bodyMedium!,
-                            maxWidth: size.width * 0.75,
+                          const SizedBox(height: 12),
+                          Text(
+                            "Correct Answer(s):",
+                            style: textTh.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
+                          ...correctAnswerText.map(
+                            (ans) => Text(
+                              ans,
+                              style: const TextStyle(
+                                color: AppColors.mainBlue,
+                              ),
+                            ),
+                          ),
+                          if (currentQuestion.explanation.isNotEmpty)
+                            ExplanationContainer(
+                              explanation: currentQuestion.explanation,
+                              textStyle: textTh.bodyMedium!,
+                              maxWidth: size.width * 0.75,
+                            ),
                           if (currentQuestion.imageExplanationUrl != null)
                             SizedBox(
                               width: size.width * 0.8,
@@ -141,7 +171,7 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                                 ),
                               ),
                             ),
-                          if (currentQuestion.videoExplanationUrl != null)
+                        if (currentQuestion.videoExplanationUrl != null && currentQuestion.videoExplanationUrl != "")
                             YoutubePlayer(
                               width: size.width * 0.75,
                               aspectRatio: 16 / 9,

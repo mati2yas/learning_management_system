@@ -10,10 +10,7 @@ final examTimerProvider =
 class FinalExamTimerNotifier extends StateNotifier<AsyncValue<int>> {
   Timer? _timer;
 
-  FinalExamTimerNotifier()
-      : super(AsyncValue.data(const Duration(minutes: 20).inSeconds)) {
-    startTimer(30);
-  }
+  FinalExamTimerNotifier() : super(const AsyncValue.data(0));
 
   @override
   void dispose() {
@@ -24,10 +21,10 @@ class FinalExamTimerNotifier extends StateNotifier<AsyncValue<int>> {
   void resetTimer({required int duration}) {
     _timer?.cancel();
     state = AsyncValue.data(const Duration(minutes: 0).inSeconds);
-    startTimer(duration);
+    //startTimer(duration: duration);
   }
 
-  void startTimer(int duration) {
+  void startTimer({required int duration}) {
     final endTime = DateTime.now().add(Duration(minutes: duration));
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {

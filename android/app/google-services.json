@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "109312290924",
+    "project_id": "excelet-academy",
+    "storage_bucket": "excelet-academy.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109312290924:android:893bf9d9655669c595e849",
+        "android_client_info": {
+          "package_name": "com.exceletacademy.lms"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDs-TOlz72YqRQlj484r8QVKBRSbXBJTX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

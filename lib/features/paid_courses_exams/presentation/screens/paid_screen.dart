@@ -4,6 +4,7 @@ import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
@@ -14,7 +15,6 @@ import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter
 import 'package:lms_system/features/exam_questions/provider/current_id_stub_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/exam_questions_provider.dart';
 import 'package:lms_system/features/exams/provider/current_exam_course_id.dart';
-import 'package:lms_system/features/exams/provider/timer_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
@@ -219,14 +219,19 @@ class PaidScreen extends ConsumerWidget {
                                                     // shows the exam
                                                     Map<String, dynamic>
                                                         examData = {
-                                                      "exam course": exams[
+                                                      AppStrings
+                                                          .examCourseKey: exams[
                                                               index]
                                                           .parentCourseTitle,
-                                                      "exam year":
+                                                      AppStrings.examYearKey:
                                                           exams[index].examYear,
-                                                      "previousScreen": 2,
-                                                      "hasTimerOption": true,
-                                                      "duration":
+                                                      AppStrings
+                                                          .previousScreenKey: 2,
+                                                      AppStrings
+                                                              .hasTimerOptionKey:
+                                                          true,
+                                                      AppStrings
+                                                              .timerDurationKey:
                                                           exams[index].duration,
                                                     };
                                                     ref
@@ -244,13 +249,7 @@ class PaidScreen extends ConsumerWidget {
                                                             examQuestionsApiProvider
                                                                 .notifier)
                                                         .fetchQuestions();
-                                                    ref
-                                                        .read(examTimerProvider
-                                                            .notifier)
-                                                        .resetTimer(
-                                                            duration:
-                                                                exams[index]
-                                                                    .duration);
+
                                                     pageNavController
                                                         .navigatePage(6,
                                                             arguments:
@@ -294,14 +293,22 @@ class PaidScreen extends ConsumerWidget {
                                                       8,
                                                       arguments: <String,
                                                           dynamic>{
-                                                        "exam course": exams[
+                                                        AppStrings
+                                                            .previousScreenKey: 2,
+                                                        AppStrings
+                                                            .examCourseKey: exams[
                                                                 index]
                                                             .parentCourseTitle,
-                                                        "exam year":
+                                                        AppStrings.examYearKey:
                                                             exams[index]
                                                                 .examYear,
-                                                        "previous screen": 2,
-                                                        //"courseId": course.id,
+                                                        AppStrings
+                                                                .timerDurationKey:
+                                                            exams[index]
+                                                                .duration,
+                                                        AppStrings
+                                                                .hasTimerOptionKey:
+                                                            true,
                                                       },
                                                     );
                                                   },
@@ -332,12 +339,18 @@ class PaidScreen extends ConsumerWidget {
                                                   // questions page
                                                   Map<String, dynamic>
                                                       examData = {
-                                                    "exam course": exams[index]
-                                                        .parentCourseTitle,
-                                                    "exam year":
+                                                    AppStrings.examCourseKey:
+                                                        exams[index]
+                                                            .parentCourseTitle,
+                                                    AppStrings.examYearKey:
                                                         exams[index].examYear,
-                                                    "previousScreen": 2,
-                                                    "hasTimerOption": false,
+                                                    AppStrings
+                                                        .previousScreenKey: 2,
+                                                    AppStrings
+                                                            .hasTimerOptionKey:
+                                                        false,
+                                                    AppStrings.timerDurationKey:
+                                                        exams[index].duration,
                                                   };
                                                   pageNavController
                                                       .navigatePage(6,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/current_exam_type_provider.dart';
@@ -42,11 +43,11 @@ class TakeOrFilter extends StatelessWidget {
                   // navigate to the page that
                   // shows the exam
                   Map<String, dynamic> examData = {
-                    "exam course": course.title,
-                    "exam year": year.title,
-                    "previousScreen": 7,
-                    "hasTimerOption": true,
-                    "duration": year.duration,
+                    AppStrings.examCourseKey: course.title,
+                    AppStrings.examYearKey: year.title,
+                    AppStrings.previousScreenKey: 7,
+                    AppStrings.hasTimerOptionKey: true,
+                    AppStrings.timerDurationKey: year.duration,
                   };
                   ref.read(currentIdStubProvider.notifier).changeStub({
                     "idType": IdType.all,
@@ -56,9 +57,9 @@ class TakeOrFilter extends StatelessWidget {
                   ref
                       .refresh(examQuestionsApiProvider.notifier)
                       .fetchQuestions();
-                  ref
-                      .read(examTimerProvider.notifier)
-                      .resetTimer(duration: year.duration);
+                  // ref
+                  //     .read(examTimerProvider.notifier)
+                  //     .resetTimer(duration: year.duration);
                   pageController.navigatePage(6, arguments: examData);
                 },
                 child: const ListTile(
@@ -74,7 +75,7 @@ class TakeOrFilter extends StatelessWidget {
 
                   ref
                       .read(currentExamYearIdProvider.notifier)
-                      .changeYearId(year.id);
+                      .changeYearId(year.examSheetId);
                   ref
                       .read(currentExamCourseIdProvider.notifier)
                       .changeCourseId(course.id);
@@ -85,10 +86,10 @@ class TakeOrFilter extends StatelessWidget {
                   pageController.navigatePage(
                     8,
                     arguments: <String, dynamic>{
-                      "previous screen": 7,
-                      "exam course": course.title,
-                      "exam year": year,
-                      "courseId": course.id,
+                      AppStrings.previousScreenKey: 7,
+                      AppStrings.examCourseKey: course.title,
+                      AppStrings.examYearKey: year,
+                      AppStrings.examCourseIdKey: course.id,
                     },
                   );
                 },
@@ -112,10 +113,11 @@ class TakeOrFilter extends StatelessWidget {
                 // if null then other pages, move on to
                 // questions page
                 Map<String, dynamic> examData = {
-                  "exam course": course.title,
-                  "exam year": year.title,
-                  "previousScreen": 7,
-                  "hasTimerOption": false,
+                  AppStrings.examCourseKey: course.title,
+                  AppStrings.examYearKey: year.title,
+                  AppStrings.timerDurationKey: year.duration,
+                  AppStrings.previousScreenKey: 7,
+                  AppStrings.hasTimerOptionKey: false,
                 };
                 pageController.navigatePage(6, arguments: examData);
               }

@@ -1,15 +1,18 @@
 class AnswersHolder {
   final int questionId;
   List<String> correctAnswers;
+  List<String> options;
   Set<String> selectedAnswers;
   AnswersHolder({
     required this.questionId,
     this.correctAnswers = const [],
+    this.options = const [],
     this.selectedAnswers = const {},
   });
 
   AnswersHolder copyWith({
     List<String>? correctAnswer,
+    List<String>? options,
     String? selectedAnswer,
     Set<String>? selectedAnswers,
   }) {
@@ -21,11 +24,8 @@ class AnswersHolder {
     return AnswersHolder(
       questionId: questionId,
       correctAnswers: correctAnswer ?? correctAnswers,
+      options: options ?? this.options,
       selectedAnswers: selectedAnswers ?? this.selectedAnswers,
     );
   }
 }
-
-
-
-

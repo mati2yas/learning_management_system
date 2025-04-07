@@ -61,12 +61,6 @@ class SecureStorageService {
     return usr;
   }
 
-  // Future<void> saveCoursesToLocal(List<Course> savedCourses) async {
-  //   final savedCoursesJson =
-  //       jsonEncode(savedCourses.map((course) => course.toJsonLocal()).toList());
-  //   await _storage.write(
-  //       key: AppStrings.subbedCoursesStorageKey, value: savedCoursesJson);
-  // }
 
   Future<void> saveUserToStorage(User user) async {
     debugPrint("the user is: User{ name: ${user.name}, email: ${user.email}");

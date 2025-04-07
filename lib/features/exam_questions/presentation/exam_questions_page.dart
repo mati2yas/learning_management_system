@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exam_questions/presentation/exam_solutions_screen.dart';
 import 'package:lms_system/features/exam_questions/provider/answers_provider.dart';
@@ -30,32 +31,33 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
   String examCourse = "", examYear = "", examChapter = "";
   Map<String, dynamic> examData = {};
   List<Question> questionsList = [];
+  int timerDuration = 0;
 
   int currentQuestionIndexTrack = 0;
   ScreenLayoutConfig layoutConfig = ScreenLayoutConfig();
   bool allQuestionsAnswered = false;
 
   bool hasTimerOption = false;
-
+  bool _timerStarted = false;
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
 
     final scoreManager = ref.watch(examAnswersProvider);
     final answersController = ref.watch(examAnswersProvider.notifier);
+    final answersState = ref.watch(examAnswersProvider);
     var size = MediaQuery.sizeOf(context);
     final timerAsyncValue = ref.watch(examTimerProvider);
 
     final apiState = ref.watch(examQuestionsApiProvider);
-    debugPrint("curentquestionindextrack: $currentQuestionIndexTrack");
-
+    ("curentquestionindextrack: $currentQuestionIndexTrack");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
             // reset timer and the go back to previous screen
-            ref.read(examTimerProvider.notifier).resetTimer(duration: 0);
+            //ref.read(examTimerProvider.notifier).resetTimer(duration: 0);
             pageNavController.navigatePage(previousScreen);
           },
           icon: const Icon(
@@ -72,20 +74,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                 color: Colors.black,
               ),
             ),
-            if (hasTimerOption)
-              timerAsyncValue.when(
-                data: (remainingSeconds) {
-                  final minutes = remainingSeconds ~/ 60;
-                  final seconds = remainingSeconds % 60;
-
-                  return Text(
-                    "Time Left: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}",
-                    style: textTh.bodySmall!.copyWith(color: Colors.red),
-                  );
-                },
-                loading: () => const Text("Calculating time..."),
-                error: (e, _) => const Text("Error with timer"),
-              ),
+            //if (hasTimerOption)
           ],
         ),
         centerTitle: true,
@@ -93,6 +82,47 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.black87,
         backgroundColor: Colors.white,
+        bottom: PreferredSize(
+          preferredSize: Size(size.width, 30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _timerStarted
+                  ? timerAsyncValue.when(
+                      data: (remainingSeconds) {
+                        final minutes = remainingSeconds ~/ 60;
+                        final seconds = remainingSeconds % 60;
+
+                        return Text(
+                          "Time Left: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}",
+                          style: textTh.bodySmall!.copyWith(color: Colors.red),
+                        );
+                      },
+                      loading: () => const Text("Calculating time..."),
+                      error: (e, _) => const Text("Error with timer"),
+                    )
+                  : Text(
+                      "$timerDuration:00",
+                      style: textTh.bodySmall!.copyWith(color: Colors.green),
+                    ),
+              Visibility(
+                visible: !_timerStarted,
+                child: FilledButton(
+                  onPressed: () {
+                    ref
+                        .read(examTimerProvider.notifier)
+                        .startTimer(duration: timerDuration);
+                    setState(() {
+                      _timerStarted = true;
+                    });
+                  },
+                  child: const Text("Start"),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: apiState.when(
         loading: () => const Center(
@@ -146,7 +176,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                               }
 
                               return SizedBox(
-                                height: size.height * 0.66,
+                                height: size.height * 0.7,
                                 child: SingleChildScrollView(
                                   child: Column(
                                     children: [
@@ -212,37 +242,40 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                             leading: Radio<String>(
                                               activeColor: AppColors.mainBlue,
                                               value: op,
-                                              groupValue: scoreManager.answersHolders[index]
+                                              groupValue: scoreManager
+                                                  .answersHolders[index]
                                                   .selectedAnswers
                                                   .elementAtOrNull(0),
                                               onChanged: (value) {
                                                 debugPrint(
                                                     "in ui page: groupValue: ${scoreManager.answersHolders[index].selectedAnswers.elementAtOrNull(0)}, current option's value: $op  selectedAnswer: $value");
-                                                setState(() {
-                                                  if (value != null) {
-                                                    answersController
-                                                        .selectAnswerForQuestion(
-                                                      qn: questions[index],
-                                                      selectedAnswer: value,
-                                                      radioButtonValue: op,
-                                                    );
-                                                  } else {
-                                                    // this is the logic for tracking the state when an
-                                                    // option is unselected.
-                                                    // in this one we send selectedAnswer as null
-                                                    // intentionally, to track the state where this option is
-                                                    // unselected and thus remove it from the state if it
-                                                    // previously existed. and that's why we also send
-                                                    // radioButtonValue, we check if that value already
-                                                    // exists in the state and then remove it.
-                                                    answersController
-                                                        .selectAnswerForQuestion(
-                                                      qn: questions[index],
-                                                      selectedAnswer: null,
-                                                      radioButtonValue: op,
-                                                    );
-                                                  }
-                                                });
+                                                setState(
+                                                  () {
+                                                    if (value != null) {
+                                                      answersController
+                                                          .selectAnswerForQuestion(
+                                                        qn: questions[index],
+                                                        selectedAnswer: value,
+                                                        radioButtonValue: op,
+                                                      );
+                                                    } else {
+                                                      // this is the logic for tracking the state when an
+                                                      // option is unselected.
+                                                      // in this one we send selectedAnswer as null
+                                                      // intentionally, to track the state where this option is
+                                                      // unselected and thus remove it from the state if it
+                                                      // previously existed. and that's why we also send
+                                                      // radioButtonValue, we check if that value already
+                                                      // exists in the state and then remove it.
+                                                      answersController
+                                                          .selectAnswerForQuestion(
+                                                        qn: questions[index],
+                                                        selectedAnswer: null,
+                                                        radioButtonValue: op,
+                                                      );
+                                                    }
+                                                  },
+                                                );
                                               },
                                             ),
                                             title: Text(
@@ -264,7 +297,8 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                                 leading: Checkbox(
                                                   activeColor:
                                                       AppColors.mainBlue,
-                                                  value: scoreManager.answersHolders[index]
+                                                  value: scoreManager
+                                                      .answersHolders[index]
                                                       .selectedAnswers
                                                       .contains(op),
                                                   onChanged: (value) {
@@ -297,6 +331,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                             );
                                           },
                                         ),
+                                      const SizedBox(height: 50),
                                     ],
                                   ),
                                 ),
@@ -351,16 +386,39 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    submitExam();
-                                    
-                                        answersController.getScore();
+                                    //submitExam(answersController);
+
+                                    answersController.getScore();
 
                                     showDialog(
                                       context: context,
                                       builder: (context) => AlertDialog(
                                         title: const Text('Exam Results'),
-                                        content: Text(
-                                          "You got ${answersController} out of ${questions.length} Questions right.",
+                                        content: SizedBox(
+                                          height: 80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            spacing: 12,
+                                            children: [
+                                              Text(
+                                                "Attempted Questions: ${answersState.scoreValue.attemptedQuestions}",
+                                                style:
+                                                    textTh.bodyMedium!.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppColors.mainBlue,
+                                                ),
+                                              ),
+                                              Text(
+                                                "Score: ${answersState.scoreValue.score} / ${answersState.scoreValue.totalQuestions}",
+                                                style:
+                                                    textTh.bodyMedium!.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppColors.mainBlue,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                         actions: [
                                           TextButton(
@@ -370,6 +428,8 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                                 MaterialPageRoute(
                                                   builder: (ctx) =>
                                                       ExamSolutionsScreen(
+                                                    answerHolders: answersState
+                                                        .answersHolders,
                                                     questions: questions,
                                                   ),
                                                 ),
@@ -442,19 +502,23 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
       pageNavController = ref.read(pageNavigationProvider.notifier);
       final examData =
           pageNavController.getArgumentsForPage(6) as Map<String, dynamic>;
+      debugPrint(
+          "does it have timer option? ${examData[AppStrings.hasTimerOptionKey]}");
 
       setState(() {
-        examCourse = examData["exam course"]!;
-        examYear = examData["exam year"]!;
-        previousScreen = examData["previousScreen"]! as int;
-        hasTimerOption = examData["hasTimerOption"]! as bool;
-
+        examCourse = examData[AppStrings.examCourseKey]! as String;
+        timerDuration = examData[AppStrings.timerDurationKey]! as int;
+        examYear = examData[AppStrings.examYearKey]! as String;
+        previousScreen = examData[AppStrings.previousScreenKey]! as int;
+        hasTimerOption = examData[AppStrings.hasTimerOptionKey]! as bool;
         pageViewController.addListener(trackLayoutConfig);
       });
     });
   }
 
-  void submitExam() {}
+  void submitExam(AnswersNotifier answersController) {
+    answersController.getScore();
+  }
 
   // this tracks the state of the layout config object
   // based on the current pageview index.
