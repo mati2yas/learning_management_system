@@ -15,9 +15,6 @@ class ChapterDocumentTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var textTh = Theme.of(context).textTheme;
     return GestureDetector(
-      onTap: () async {
-        await callBack();
-      },
       child: Card(
         margin: const EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
         elevation: 5,
@@ -57,7 +54,9 @@ class ChapterDocumentTile extends ConsumerWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await callBack();
+                      },
                       icon: const Icon(
                         Icons.download_outlined,
                         color: Colors.green,

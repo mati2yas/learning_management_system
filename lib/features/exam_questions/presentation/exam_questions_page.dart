@@ -12,7 +12,7 @@ import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_layout.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-import '../../exams/provider/timer_provider.dart';
+import '../../exams/provider/exam_timer_provider.dart';
 
 class ExamQuestionsPage extends ConsumerStatefulWidget {
   const ExamQuestionsPage({
@@ -35,17 +35,17 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
 
   int currentQuestionIndexTrack = 0;
   ScreenLayoutConfig layoutConfig = ScreenLayoutConfig();
-  bool allQuestionsAnswered = false;
 
   bool hasTimerOption = false;
   bool _timerStarted = false;
+  bool _dialogShown = false;
+  bool _timerInitializing = true;
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
 
     final scoreManager = ref.watch(examAnswersProvider);
     final answersController = ref.watch(examAnswersProvider.notifier);
-    final answersState = ref.watch(examAnswersProvider);
     var size = MediaQuery.sizeOf(context);
     final timerAsyncValue = ref.watch(examTimerProvider);
 
@@ -87,16 +87,56 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
+            spacing: 8,
             children: [
               _timerStarted
                   ? timerAsyncValue.when(
                       data: (remainingSeconds) {
                         final minutes = remainingSeconds ~/ 60;
                         final seconds = remainingSeconds % 60;
+                        final minutesString = remainingSeconds == 0
+                            ? timerDuration
+                            : minutes.toString().padLeft(2, '0');
+                        final secondsString =
+                            seconds.toString().padLeft(2, '0');
+
+                        if (remainingSeconds == 0 &&
+                            !_dialogShown &&
+                            !_timerInitializing) {
+                          WidgetsBinding.instance.addPostFrameCallback(
+                            (_) {
+                              if (!mounted) return;
+                              showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                  content: const Text("Time's up buddy."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("Ok"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        submitExam(answersController);
+                                      },
+                                      child: const Text("Submit Exam"),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        }
 
                         return Text(
-                          "Time Left: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}",
-                          style: textTh.bodySmall!.copyWith(color: Colors.red),
+                          "Time Left: $minutesString:$secondsString",
+                          style: textTh.bodyMedium!.copyWith(
+                            color: Colors.red,
+                            fontWeight: FontWeight.w600,
+                          ),
                         );
                       },
                       loading: () => const Text("Calculating time..."),
@@ -109,15 +149,38 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
               Visibility(
                 visible: !_timerStarted,
                 child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.mainBlue,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
                   onPressed: () {
+                    Future.delayed((const Duration(seconds: 2)), () {
+                      if (mounted) {
+                        setState(() {
+                          _timerInitializing = false;
+                        });
+                      }
+                    });
                     ref
                         .read(examTimerProvider.notifier)
                         .startTimer(duration: timerDuration);
-                    setState(() {
-                      _timerStarted = true;
-                    });
+                    _dialogShown = false;
+                    if (mounted) {
+                      setState(() {
+                        _timerStarted = true;
+                      });
+                    }
                   },
-                  child: const Text("Start"),
+                  child: Text(
+                    "Start",
+                    style: textTh.bodyMedium!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -402,7 +465,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                             spacing: 12,
                                             children: [
                                               Text(
-                                                "Attempted Questions: ${answersState.scoreValue.attemptedQuestions}",
+                                                "Attempted Questions: ${scoreManager.scoreValue.attemptedQuestions}",
                                                 style:
                                                     textTh.bodyMedium!.copyWith(
                                                   fontWeight: FontWeight.w600,
@@ -410,7 +473,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                                 ),
                                               ),
                                               Text(
-                                                "Score: ${answersState.scoreValue.score} / ${answersState.scoreValue.totalQuestions}",
+                                                "Score: ${scoreManager.scoreValue.score} / ${scoreManager.scoreValue.totalQuestions}",
                                                 style:
                                                     textTh.bodyMedium!.copyWith(
                                                   fontWeight: FontWeight.w600,
@@ -428,7 +491,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                                 MaterialPageRoute(
                                                   builder: (ctx) =>
                                                       ExamSolutionsScreen(
-                                                    answerHolders: answersState
+                                                    answerHolders: scoreManager 
                                                         .answersHolders,
                                                     questions: questions,
                                                   ),

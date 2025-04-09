@@ -97,14 +97,27 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                   children: [
                     TabBarView(
                       children: [
-                        VideosListView(
-                          chapterOrder: chapterContent.order,
-                          videos: chapterContent.videos,
-                        ),
+                        chapterContent.videos.isEmpty
+                            ? const Center(
+                                child: Text(
+                                  "No Documents For This Chapter Yet.",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              )
+                            : VideosListView(
+                                chapterOrder: chapterContent.order,
+                                videos: chapterContent.videos,
+                              ),
                         chapterContent.documents.isEmpty
                             ? const Center(
-                                child:
-                                    Text("No Documents For This Chapter Yet."),
+                                child: Text(
+                                  "No Documents For This Chapter Yet.",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               )
                             : ListView.builder(
                                 padding: const EdgeInsets.all(12),
@@ -121,8 +134,6 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
 
                                         var docProcessor =
                                             ref.read(documentProvider.notifier);
-                                        String urll = chapterContent
-                                            .documents[index].fileUrl;
 
                                         String identifier = chapterContent
                                             .documents[index].title;
@@ -184,10 +195,19 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                                   },
                                 ),
                               ),
-                        QuizzesListView(
-                          chapterOrder: chapterContent.order,
-                          quizzes: chapterContent.quizzes,
-                        ),
+                        chapterContent.quizzes.isEmpty
+                            ? const Center(
+                                child: Text(
+                                  "No Quizzes For This Chapter Yet.",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              )
+                            : QuizzesListView(
+                                chapterOrder: chapterContent.order,
+                                quizzes: chapterContent.quizzes,
+                              ),
                       ],
                     ),
                     if ([

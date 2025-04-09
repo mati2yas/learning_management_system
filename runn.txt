@@ -1,0 +1,1795 @@
+Launching lib/main.dart on SM A155M in debug mode...
+Running Gradle task 'assembleDebug'...                          
+Running Gradle task 'assembleDebug'...                             10.0s
+✓ Built build/app/outputs/flutter-apk/app-debug.apk
+Installing build/app/outputs/flutter-apk/app-debug.apk...       
+I/flutter (23731): [IMPORTANT:flutter/shell/platform/android/android_context_gl_impeller.cc(94)] Using the Impeller rendering backend (OpenGLES).
+E/flutter (23731): [ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: PlatformException(TASK_FAILURE, -10: Install Error(-10): The app is not owned by any user on this device. An app is "owned" if it has been acquired from Play. (https://developer.android.com/reference/com/google/android/play/core/install/model/InstallErrorCode#ERROR_APP_NOT_OWNED), null, null)
+E/flutter (23731): #0      StandardMethodCodec.decodeEnvelope (package:flutter/src/services/message_codecs.dart:652:7)
+E/flutter (23731): #1      MethodChannel._invokeMethod (package:flutter/src/services/platform_channel.dart:370:18)
+E/flutter (23731): <asynchronous suspension>
+E/flutter (23731): #2      InAppUpdate.checkForUpdate (package:in_app_update/in_app_update.dart:62:20)
+E/flutter (23731): <asynchronous suspension>
+E/flutter (23731): #3      UpdateNotifier.checkForUpdates (package:lms_system/features/check_update/provider/check_update_provider.dart:27:24)
+E/flutter (23731): <asynchronous suspension>
+E/flutter (23731): 
+I/flutter (23731): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23731): called fetchNotifs with current page: 1
+I/flutter (23731): called fetchNotifs with current page: 1
+I/flutter (23731): ktoolbarheight: 56.0
+Installing build/app/outputs/flutter-apk/app-debug.apk...           8.3s
+I/flutter (23914): [IMPORTANT:flutter/shell/platform/android/android_context_gl_impeller.cc(94)] Using the Impeller rendering backend (OpenGLES).
+Syncing files to device SM A155M...                             
+D/BLASTBufferQueue(23914): [SurfaceView[com.exceletacademy.lms/com.exceletacademy.lms.MainActivity]@0#1](f:0,a:0) onFrameAvailable the first frame is available
+D/BLASTBufferQueue(23914): [SurfaceView[com.exceletacademy.lms/com.exceletacademy.lms.MainActivity]@0#1](f:0,a:1) acquireNextBufferLocked size=1080x2205 mFrameNumber=1 applyTransaction=true mTimestamp=47801269494463(auto) mPendingTransactions.size=0 graphicBufferId=102709847916544 transform=0
+I/Choreographer(23914): Skipped 34 frames!  The application may be doing too much work on its main thread.
+D/SurfaceView@d5f6071(23914): 224354417 setAlpha: alpha=1.0
+I/SurfaceView(23914): 224354417 Changes: creating=false format=false size=false visible=false alpha=true hint=false visible=false left=false top=false z=false attached=true lifecycleStrategy=false
+I/SurfaceView@d5f6071(23914): 224354417 Cur surface: Surface(name=null)/@0x58abe54
+I/SurfaceView@d5f6071(23914): updateSurface: mVisible = true mSurface.isValid() = true
+I/SurfaceView@d5f6071(23914): updateSurface: mSurfaceCreated = true surfaceChanged = false visibleChanged = false
+I/SurfaceView(23914): 224354417 surfaceRedrawNeeded
+I/SurfaceView(23914): 224354417 finishedDrawing
+V/SurfaceView@d5f6071(23914): Layout: x=0 y=0 w=1080 h=2205, frame=Rect(0, 0 - 1080, 2205)
+I/PlayCore(23914): UID: [10552]  PID: [23914] AppUpdateService : requestUpdateInfo(com.exceletacademy.lms)
+I/PlayCore(23914): UID: [10552]  PID: [23914] AppUpdateService : Initiate binding to the service.
+I/ViewRootImpl@d0bff92[MainActivity](23914): Setup new sync=wmsSync-ViewRootImpl@d0bff92[MainActivity]#2
+I/ViewRootImpl@d0bff92[MainActivity](23914): Creating new active sync group ViewRootImpl@d0bff92[MainActivity]#3
+I/ViewRootImpl@d0bff92[MainActivity](23914): registerCallbacksForSync syncBuffer=false
+D/SurfaceView(23914): 224354417 updateSurfacePosition RenderWorker, frameNr = 1, position = [0, 0, 1080, 2205] surfaceSize = 1080x2205
+I/SurfaceView@d5f6071(23914): uSP: rtp = Rect(0, 0 - 1080, 2205) rtsw = 1080 rtsh = 2205
+I/SurfaceView@d5f6071(23914): onSSPAndSRT: pl = 0 pt = 0 sx = 1.0 sy = 1.0
+I/SurfaceView@d5f6071(23914): aOrMT: ViewRootImpl@d0bff92[MainActivity] t = android.view.SurfaceControl$Transaction@d8d976f fN = 1 android.view.SurfaceView.-$$Nest$mapplyOrMergeTransaction:0 android.view.SurfaceView$SurfaceViewPositionUpdateListener.positionChanged:1666 android.graphics.RenderNode$CompositePositionUpdateListener.positionChanged:369 
+I/ViewRootImpl@d0bff92[MainActivity](23914): mWNT: t=0xb40000701a9ee600 mBlastBufferQueue=0xb40000713d349f00 fn= 1 mRenderHdrSdrRatio=1.0 caller= android.view.SurfaceView.applyOrMergeTransaction:1598 android.view.SurfaceView.-$$Nest$mapplyOrMergeTransaction:0 android.view.SurfaceView$SurfaceViewPositionUpdateListener.positionChanged:1666 
+I/ViewRootImpl@d0bff92[MainActivity](23914): Received frameDrawingCallback syncResult=0 frameNum=1.
+I/ViewRootImpl@d0bff92[MainActivity](23914): mWNT: t=0xb40000701a9efb00 mBlastBufferQueue=0xb40000713d349f00 fn= 1 mRenderHdrSdrRatio=1.0 caller= android.view.ViewRootImpl$8.onFrameDraw:13841 android.view.ThreadedRenderer$1.onFrameDraw:792 <bottom of call stack> 
+I/ViewRootImpl@d0bff92[MainActivity](23914): Setting up sync and frameCommitCallback
+D/BLASTBufferQueue(23914): [ViewRootImpl@d0bff92[MainActivity]#0](f:0,a:0) onFrameAvailable the first frame is available
+D/BLASTBufferQueue(23914): [ViewRootImpl@d0bff92[MainActivity]#0](f:0,a:1) acquireNextBufferLocked size=1080x2340 mFrameNumber=1 applyTransaction=true mTimestamp=47801342639386(auto) mPendingTransactions.size=0 graphicBufferId=102709847916546 transform=0
+I/ViewRootImpl@d0bff92[MainActivity](23914): Received frameCommittedCallback lastAttemptedDrawFrameNum=1 didProduceBuffer=true
+D/OpenGLRenderer(23914): CFMS:: SetUp Pid : 23914    Tid : 23943
+I/ViewRootImpl@d0bff92[MainActivity](23914): reportDrawFinished seqId=0
+I/PlayCore(23914): UID: [10552]  PID: [23914] AppUpdateService : ServiceConnectionImpl.onServiceConnected(ComponentInfo{com.android.vending/com.google.android.finsky.installservice.DevTriggeredUpdateService})
+I/PlayCore(23914): UID: [10552]  PID: [23914] AppUpdateService : linkToDeath
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/ViewRootImpl@d0bff92[MainActivity](23914): handleWindowFocusChanged: 1 0 call from android.view.ViewRootImpl.-$$Nest$mhandleWindowFocusChanged:0
+D/ViewRootImpl@d0bff92[MainActivity](23914): mThreadedRenderer.initializeIfNeeded()#2 mSurface={isValid=true 0xb400007012000800}
+D/InputMethodManagerUtils(23914): startInputInner - Id : 0
+I/InputMethodManager(23914): startInputInner - IInputMethodManagerGlobalInvoker.startInputOrWindowGainedFocus
+I/PlayCore(23914): UID: [10552]  PID: [23914] OnRequestInstallCallback : onRequestInfo
+I/PlayCore(23914): UID: [10552]  PID: [23914] AppUpdateService : Unbind from service.
+Syncing files to device SM A155M...                                115ms
+E/flutter (23914): [ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: PlatformException(TASK_FAILURE, -10: Install Error(-10): The app is not owned by any user on this device. An app is "owned" if it has been acquired from Play. (https://developer.android.com/reference/com/google/android/play/core/install/model/InstallErrorCode#ERROR_APP_NOT_OWNED), null, null)
+E/flutter (23914): #0      StandardMethodCodec.decodeEnvelope (package:flutter/src/services/message_codecs.dart:652:7)
+E/flutter (23914): #1      MethodChannel._invokeMethod (package:flutter/src/services/platform_channel.dart:370:18)
+E/flutter (23914): <asynchronous suspension>
+E/flutter (23914): #2      InAppUpdate.checkForUpdate (package:in_app_update/in_app_update.dart:62:20)
+E/flutter (23914): <asynchronous suspension>
+E/flutter (23914): #3      UpdateNotifier.checkForUpdates (package:lms_system/features/check_update/provider/check_update_provider.dart:27:24)
+E/flutter (23914): <asynchronous suspension>
+E/flutter (23914): 
+D/InputMethodManagerUtils(23914): startInputInner - Id : 0
+I/InsetsController(23914): onStateChanged: host=com.exceletacademy.lms/com.exceletacademy.lms.MainActivity, from=android.view.ViewRootImpl$ViewRootHandler.handleMessageImpl:7209, state=InsetsState: {mDisplayFrame=Rect(0, 0 - 1080, 2340), mDisplayCutout=DisplayCutout{insets=Rect(0, 80 - 0, 0) waterfall=Insets{left=0, top=0, right=0, bottom=0} boundingRect={Bounds=[Rect(0, 0 - 0, 0), Rect(472, 0 - 608, 80), Rect(0, 0 - 0, 0), Rect(0, 0 - 0, 0)]} cutoutPathParserInfo={CutoutPathParserInfo{displayWidth=1080 displayHeight=2340 physicalDisplayWidth=1080 physicalDisplayHeight=2340 density={2.8125} cutoutSpec={M 0,0 H -24.177777778 V 28.4444444444 H 24.177777778 V 0 H 0 Z @dp} rotation={0} scale={1.0} physicalPixelDisplaySizeRatio={1.0}}}}, mRoundedCorners=RoundedCorners{[RoundedCorner{position=TopLeft, radius=0, center=Point(0, 0)}, RoundedCorner{position=TopRight, radius=0, center=Point(0, 0)}, RoundedCorner{position=BottomRight, radius=0, center=Point(0, 0)}, RoundedCorner{position=BottomLeft, radius=0, center=Point(0, 0)}]}  mRoundedCornerFrame=Rect(0, 0 - 1080, 2340), mPrivacyIndicatorBounds=PrivacyIndicatorBounds {static bounds=Rect(956, 0 - 1080, 80) rotation=0}, mDisplayShape=DisplayShape{ spec=-311912193 displayWidth=1080 displayHeight=2340 physicalPixelDisplaySizeRatio=1.0 rotation=0 offsetX=0 offsetY=0 scale=1.0}, mSources= { InsetsSource: {3 mType=ime mFrame=[0,0][0,0] mVisible=false mFlags=[]}, InsetsSource: {27 mType=displayCutout mFrame=[0,0][1080,80] mVisible=true mFlags=[]}, InsetsSource: {45cf0000 mType=statusBars mFrame=[0,0][1080,80] mVisible=true mFlags=[]}, InsetsSource: {45cf0005 mType=mandatorySystemGestures mFrame=[0,0][1080,114] mVisible=true mFlags=[]}, InsetsSource: {45cf0006 mType=tappableElement mFrame=[0,0][1080,80] mVisible=true mFlags=[]}, InsetsSource: {49900001 mType=navigationBars mFrame=[0,2205][1080,2340] mVisible=true mFlags=[]}, InsetsSource: {49900004 mType=systemGestures mFrame=[0,0][0,0] mVisible=true mFlags=[]}, InsetsSource: {49900005 mType=mandatorySystemGestures mFrame=[0,2205][1080,2340] mVisible=true mFlags=[]}, InsetsSource: {49900006 mType=tappableElement mFrame=[0,2205][1080,2340] mVisible=true mFlags=[]}, InsetsSource: {49900024 mType=systemGestures mFrame=[0,0][0,0] mVisible=true mFlags=[]} }
+I/InsetsSourceConsumer(23914): applyRequestedVisibilityToControl: visible=false, type=ime, host=com.exceletacademy.lms/com.exceletacademy.lms.MainActivity
+
+Flutter run key commands.
+r Hot reload. 🔥🔥🔥
+R Hot restart.
+h List all available interactive commands.
+d Detach (terminate "flutter run" but leave application running).
+c Clear the screen
+q Quit (terminate the application on the device).
+
+A Dart VM Service on SM A155M is available at: http://127.0.0.1:34143/W8XVhz8fv5I=/
+The Flutter DevTools debugger and profiler on SM A155M is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:34143/W8XVhz8fv5I=/
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): called fetchNotifs with current page: 1
+I/flutter (23914): called fetchNotifs with current page: 1
+I/flutter (23914): ktoolbarheight: 56.0
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): call fetchUnreadNotifs
+I/flutter (23914): notifications fetch url: https://lms.biruklemma.com/api/notifications?page=1
+I/flutter (23914): call fetchUnreadNotifs
+I/flutter (23914): notifications fetch url: https://lms.biruklemma.com/api/notifications?page=1
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): ktoolbarheight: 56.0
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/carousel-contents-api
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/carousel-contents-api
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/carousel-contents-api
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/homepage/courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/homepage/courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/homepage/courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/homepage/courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/homepage/courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/homepage/courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/carousel-contents-api
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/carousel-contents-api
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/carousel-contents-api
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): current_page: 1
+I/flutter (23914): data: [{id: 60, user_id: 50, type: subscription, message: Your subscription request has been approved., read: 0, created_at: 2025-04-05T21:15:19.000000Z, updated_at: 2025-04-05T21:15:19.000000Z}]
+I/flutter (23914): first_page_url: https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter (23914): from: 1
+I/flutter (23914): last_page: 21
+I/flutter (23914): last_page_url: https://lms.biruklemma.com/api/notifications-new?page=21
+I/flutter (23914): links: [{url: null, label: &laquo; Previous, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=1, label: 1, active: true}, {url: https://lms.biruklemma.com/api/notifications-new?page=2, label: 2, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=3, label: 3, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=4, label: 4, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=5, label: 5, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=6, label: 6, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=7, label: 7, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=8, label: 8, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=9, label: 9, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=10, label: 10, active: false}, {url: null, label: ..., active: false}, {url: https://lms.biruklemma.co
+I/flutter (23914): next_page_url: https://lms.biruklemma.com/api/notifications-new?page=2
+I/flutter (23914): path: https://lms.biruklemma.com/api/notifications-new
+I/flutter (23914): per_page: 1
+I/flutter (23914): prev_page_url: null
+I/flutter (23914): to: 1
+I/flutter (23914): total: 21
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+D/ProfileInstaller(23914): Installing profile for com.exceletacademy.lms
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): carousel content:
+I/flutter (23914): id: 2
+I/flutter (23914): tag: xc ,jabc,jzsdcv,j
+I/flutter (23914): image_url: https://lms.biruklemma.com/storage/carousel-image/HWHRjou6PtHcpcqraImP8koqPR7WbJnJuWT5yjPO.png
+I/flutter (23914): status: active
+I/flutter (23914): order: 1
+I/flutter (23914): carousel content:
+I/flutter (23914): id: 4
+I/flutter (23914): tag: hellow gang
+I/flutter (23914): image_url: https://lms.biruklemma.com/storage/carousel-image/cWnrsmtmWb2DmmBxxQnoTt4lnjot3oX8pvRZvDXo.png
+I/flutter (23914): status: active
+I/flutter (23914): order: 1000
+I/flutter (23914): carousel content:
+I/flutter (23914): id: 5
+I/flutter (23914): tag: Description
+I/flutter (23914): image_url: https://lms.biruklemma.com/storage/carousel-image/MDHm5tWyyXELsQSnlUPcshs5amJQIuXjjuMb4U88.jpg
+I/flutter (23914): status: active
+I/flutter (23914): order: 0
+I/flutter (23914): ktoolbarheight: 56.0
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): 4 values
+I/flutter (23914): image url: https://lms.biruklemma.com/storage/thumbnail/gkYGujBZeHnvR66Mu8xtKmH65PFQTK1MqqDsv1gJ.jpg
+I/flutter (23914): in course model: grade: Grade 9, stream: null
+I/flutter (23914): image url: https://lms.biruklemma.com/storage/thumbnail/QBYRjT6EiwJhHaXzATzSfI09npdtygbKozV1X8Lk.png
+I/flutter (23914): in course model: grade: Grade 12, stream: null
+I/flutter (23914): image url: https://lms.biruklemma.com/storage/thumbnail/3UyTma6XnwGnRxwnbBa9XpkXBPW1xE4D9Ah5vnME.png
+I/flutter (23914): in course model: grade: Grade 11, stream: null
+I/flutter (23914): image url: https://lms.biruklemma.com/storage/thumbnail/RW8iMG8afeMcLCd36vIgobRGKQqbDKFb4KDxx78O.png
+I/flutter (23914): in course model: grade: null, stream: null
+I/flutter (23914): courses length: 
+I/flutter (23914):  4
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ktoolbarheight: 56.0
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): width: 384.0
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): 4 values
+I/flutter (23914): image url: https://lms.biruklemma.com/storage/thumbnail/VHBZvRsQMYVfcE6tgav54HDx9eLE3iyZhsXFeoxj.png
+I/flutter (23914): in course model: grade: Grade 12, stream: null
+I/flutter (23914): image url: https://lms.biruklemma.com/storage/thumbnail/3UyTma6XnwGnRxwnbBa9XpkXBPW1xE4D9Ah5vnME.png
+I/flutter (23914): in course model: grade: Grade 11, stream: null
+I/flutter (23914): image url: https://lms.biruklemma.com/storage/thumbnail/QBYRjT6EiwJhHaXzATzSfI09npdtygbKozV1X8Lk.png
+I/flutter (23914): in course model: grade: Grade 12, stream: null
+I/flutter (23914): image url: https://lms.biruklemma.com/storage/thumbnail/RW8iMG8afeMcLCd36vIgobRGKQqbDKFb4KDxx78O.png
+I/flutter (23914): in course model: grade: null, stream: null
+I/flutter (23914): courses length: 
+I/flutter (23914):  4
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): current_page: 1
+I/flutter (23914): data: [{id: 60, user_id: 50, type: subscription, message: Your subscription request has been approved., read: 0, created_at: 2025-04-05T21:15:19.000000Z, updated_at: 2025-04-05T21:15:19.000000Z}]
+I/flutter (23914): first_page_url: https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter (23914): from: 1
+I/flutter (23914): last_page: 21
+I/flutter (23914): last_page_url: https://lms.biruklemma.com/api/notifications-new?page=21
+I/flutter (23914): links: [{url: null, label: &laquo; Previous, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=1, label: 1, active: true}, {url: https://lms.biruklemma.com/api/notifications-new?page=2, label: 2, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=3, label: 3, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=4, label: 4, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=5, label: 5, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=6, label: 6, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=7, label: 7, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=8, label: 8, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=9, label: 9, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=10, label: 10, active: false}, {url: null, label: ..., active: false}, {url: https://lms.biruklemma.co
+I/flutter (23914): next_page_url: https://lms.biruklemma.com/api/notifications-new?page=2
+I/flutter (23914): path: https://lms.biruklemma.com/api/notifications-new
+I/flutter (23914): per_page: 1
+I/flutter (23914): prev_page_url: null
+I/flutter (23914): to: 1
+I/flutter (23914): total: 21
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): carousel content:
+I/flutter (23914): id: 2
+I/flutter (23914): tag: xc ,jabc,jzsdcv,j
+I/flutter (23914): image_url: https://lms.biruklemma.com/storage/carousel-image/HWHRjou6PtHcpcqraImP8koqPR7WbJnJuWT5yjPO.png
+I/flutter (23914): status: active
+I/flutter (23914): order: 1
+I/flutter (23914): carousel content:
+I/flutter (23914): id: 4
+I/flutter (23914): tag: hellow gang
+I/flutter (23914): image_url: https://lms.biruklemma.com/storage/carousel-image/cWnrsmtmWb2DmmBxxQnoTt4lnjot3oX8pvRZvDXo.png
+I/flutter (23914): status: active
+I/flutter (23914): order: 1000
+I/flutter (23914): carousel content:
+I/flutter (23914): id: 5
+I/flutter (23914): tag: Description
+I/flutter (23914): image_url: https://lms.biruklemma.com/storage/carousel-image/MDHm5tWyyXELsQSnlUPcshs5amJQIuXjjuMb4U88.jpg
+I/flutter (23914): status: active
+I/flutter (23914): order: 0
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): response is 200
+I/flutter (23914): in course model: grade: Grade 9, stream: null
+I/flutter (23914): in course model: grade: Grade 5, stream: null
+I/flutter (23914): in course model: grade: Grade 1, stream: null
+I/flutter (23914): in course model: grade: Grade 1, stream: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+W/JavaBinder(23914): BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.google.android.play.core.appupdate.internal.zzp
+I/BpBinder(23914): onLastStrongRef automatically unlinking death recipients: 
+I/flutter (23914): width: 384.0
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): response is 200
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): width: 384.0
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): response is 200
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): response is 200
+I/flutter (23914): in course model: grade: Grade 9, stream: null
+I/flutter (23914): in course model: grade: Grade 5, stream: null
+I/flutter (23914): in course model: grade: Grade 1, stream: null
+I/flutter (23914): in course model: grade: Grade 1, stream: null
+W/WindowOnBackDispatcher(23914): OnBackInvokedCallback is not enabled for the application.
+W/WindowOnBackDispatcher(23914): Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): State set to AsyncLoading()
+I/flutter (23914): State set to AsyncLoading()
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): does it have timer option? true
+I/flutter (23914): year id: 8310
+I/flutter (23914): year id: 8310
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): the of exam question fetch: /exams/exam-questions-year/238/8310
+I/flutter (23914): questions length: 0
+I/flutter (23914): Fetched questions type: List<Question>
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): the of exam question fetch: /exams/exam-questions-year/238/8310
+I/flutter (23914): questions length: 0
+I/flutter (23914): Fetched questions type: List<Question>
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): started timer.
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): width: 384.0
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): response is 200
+I/flutter (23914): in course model: grade: Grade 9, stream: null
+I/flutter (23914): in course model: grade: Grade 5, stream: null
+I/flutter (23914): in course model: grade: Grade 1, stream: null
+I/flutter (23914): in course model: grade: Grade 1, stream: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): response is 200
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+W/WindowOnBackDispatcher(23914): OnBackInvokedCallback is not enabled for the application.
+W/WindowOnBackDispatcher(23914): Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): State set to AsyncLoading()
+I/flutter (23914): State set to AsyncLoading()
+I/flutter (23914): does it have timer option? true
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): year id: 8310
+I/flutter (23914): year id: 8310
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/exams/exam-questions-year/238/8310
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): the of exam question fetch: /exams/exam-questions-year/238/8310
+I/flutter (23914): questions length: 0
+I/flutter (23914): Fetched questions type: List<Question>
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): the of exam question fetch: /exams/exam-questions-year/238/8310
+I/flutter (23914): questions length: 0
+I/flutter (23914): Fetched questions type: List<Question>
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): started timer.
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): width: 384.0
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/bank-accounts
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e)
+I/flutter (23914): in set token: user token to be set: 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): header: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/flutter (23914): ➡️ Request: GET https://lms.biruklemma.com/api/paid-exams
+I/flutter (23914): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e, Accept: application/json}
+I/flutter (23914): 🛜 Authorization: Bearer 282|3KjXQQmDxpHh9FMZI7WJEKRbxBP4pOEAHDYqyxpf0864160e
+I/flutter (23914): 🛜 Body: null
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): response is 200
+I/flutter (23914): in course model: grade: Grade 9, stream: null
+I/flutter (23914): in course model: grade: Grade 5, stream: null
+I/flutter (23914): in course model: grade: Grade 1, stream: null
+I/flutter (23914): in course model: grade: Grade 1, stream: null
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): response is 200
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/flutter (23914): type of paid course json _Map<String, dynamic>
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/flutter (23914): ✅ Response: 200
+I/flutter (23914): ✅ Response Time: null ms
+I/gralloc4(23914): @set_metadata: update dataspace from GM (0x00000000 -> 0x08010000)
+Lost connection to device.

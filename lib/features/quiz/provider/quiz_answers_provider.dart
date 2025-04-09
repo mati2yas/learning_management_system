@@ -2,43 +2,60 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/quiz/model/quiz_model.dart';
 import 'package:lms_system/features/shared/model/exam_and_quiz/answers_holder.dart';
+import 'package:lms_system/features/shared/model/exam_and_quiz/score_management.dart';
+import 'package:lms_system/features/shared/model/exam_and_quiz/score_value.dart';
 
 final quizAnswersProvider =
-    StateNotifierProvider<AnswersNotifier, List<AnswersHolder>>(
+    StateNotifierProvider<AnswersNotifier, ScoreManagement>(
   (ref) => AnswersNotifier(),
 );
 
-class AnswersNotifier extends StateNotifier<List<AnswersHolder>> {
-  AnswersNotifier() : super([]);
-  int getScore() {
+class AnswersNotifier extends StateNotifier<ScoreManagement> {
+  AnswersNotifier() : super(ScoreManagement.initial());
+  void getScore() {
     int score = 0;
-    for (var answerHolder in state) {
-      List correctListCurrentQuestion = answerHolder.correctAnswers;
-      List selectedListCurrentQuestion = answerHolder.selectedAnswers.toList();
-      if (correctListCurrentQuestion.length == 1 &&
-          correctListCurrentQuestion[0] == selectedListCurrentQuestion[0]) {
-        debugPrint("sigle answer case, selected answer is correct");
-        score++;
-        continue;
-      }
-      bool containsAll = correctListCurrentQuestion
-          .every((ans) => selectedListCurrentQuestion.contains(ans));
-      if (containsAll) {
-        debugPrint(
-            "multi answer case, selected answers include all correct answers.");
-        score++;
-        continue;
+    int attempted = 0;
+    for (var answerHolder in state.answersHolders) {
+      if (answerHolder.selectedAnswers.isNotEmpty) {
+        List correctListCurrentQuestion = answerHolder.correctAnswers;
+        List selectedListCurrentQuestion =
+            answerHolder.selectedAnswers.toList();
+        if (correctListCurrentQuestion.length == 1 &&
+            correctListCurrentQuestion[0] == selectedListCurrentQuestion[0]) {
+          debugPrint("sigle answer case, selected answer is correct");
+          score++;
+          continue;
+        }
+        bool containsAll = correctListCurrentQuestion
+            .every((ans) => selectedListCurrentQuestion.contains(ans));
+        if (containsAll) {
+          debugPrint(
+              "multi answer case, selected answers include all correct answers.");
+          score++;
+          continue;
+        }
       }
     }
-    return score;
+    var scr = state.scoreValue;
+    scr = scr.copyWith(
+      score: score,
+      attemptedQuestions: attempted,
+    );
+    state = state.copyWith(scoreValue: scr);
   }
 
   void initializeWithQuestionsList(List<QuizQuestion> questionsList) {
-    state = questionsList
+    List<AnswersHolder> answerHolders = questionsList
         .map((question) => AnswersHolder(
             questionId: question.id, correctAnswers: question.answers))
         .toList();
-    debugPrint("answerHolder state length: ${state.length}");
+    int totalQuestions = questionsList.length;
+    var scrV = ScoreValue(
+        attemptedQuestions: 0, totalQuestions: totalQuestions, score: 0);
+    state = state.copyWith(
+      scoreValue: scrV,
+      answersHolders: answerHolders,
+    );
   }
 
   void selectAnswerForQuestion({
@@ -51,7 +68,7 @@ class AnswersNotifier extends StateNotifier<List<AnswersHolder>> {
     // the radio buttons go on a loop to call either the
     // copyWith method in case they have a non-null value,
     // or emptyList in case they have null value.
-    state = state.map((answerHolder) {
+    var ansHold = state.answersHolders.map((answerHolder) {
       if (answerHolder.questionId == qn.id) {
         Set<String> newSelectedAnswers = {...answerHolder.selectedAnswers};
 
@@ -96,5 +113,8 @@ class AnswersNotifier extends StateNotifier<List<AnswersHolder>> {
 
       return answerHolder;
     }).toList();
+
+    state = state.copyWith(answersHolders: ansHold);
+    getScore();
   }
 }

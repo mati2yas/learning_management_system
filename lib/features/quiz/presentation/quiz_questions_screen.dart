@@ -5,8 +5,9 @@ import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_layout.dart';
-import 'package:lms_system/features/exams/provider/timer_provider.dart';
+import 'package:lms_system/features/exams/provider/exam_timer_provider.dart';
 import 'package:lms_system/features/quiz/presentation/quiz_solutions_screen.dart';
+import 'package:lms_system/features/quiz/presentation/quiz_timer_provider.dart';
 import 'package:lms_system/features/quiz/provider/quiz_answers_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
@@ -44,15 +45,18 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
   int currentQuestionImageTrack = 0;
   ScreenLayoutConfig layoutConfig = ScreenLayoutConfig();
 
+  bool _timerStarted = false;
+  bool _dialogShown = false;
+  bool _timerInitializing = true;
   int questionsIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.sizeOf(context);
-    final timerAsyncValue = ref.watch(examTimerProvider);
+    final timerAsyncValue = ref.watch(quizTimerProvider);
 
-    final answersTrack = ref.watch(quizAnswersProvider);
+    final scoreManager = ref.watch(quizAnswersProvider);
     final answersController = ref.watch(quizAnswersProvider.notifier);
 
     final apiState = ref.watch(quizProvider);
@@ -62,9 +66,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
         leading: IconButton(
           onPressed: () {
             //reset timer and the go back to previous screen
-            ref
-                .read(examTimerProvider.notifier)
-                .resetTimer(duration: widget.quiz.duration);
+            ref.read(examTimerProvider.notifier).resetTimer(duration: 0);
             pageNavController.navigatePage(previousScreen);
             Navigator.pop(context);
           },
@@ -82,19 +84,111 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                 color: Colors.black,
               ),
             ),
-            timerAsyncValue.when(
-              data: (remainingSeconds) {
-                final minutes = remainingSeconds ~/ 60;
-                final seconds = remainingSeconds % 60;
-                return Text(
-                  "Time Left: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}",
-                  style: textTh.bodySmall!.copyWith(color: Colors.red),
-                );
-              },
-              loading: () => const Text("Calculating time..."),
-              error: (e, _) => const Text("Error with timer"),
-            ),
           ],
+        ),
+        bottom: PreferredSize(
+          preferredSize: Size(size.width, 30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            children: [
+              _timerStarted
+                  ? timerAsyncValue.when(
+                      data: (remainingSeconds) {
+                        final minutes = remainingSeconds ~/ 60;
+                        final seconds = remainingSeconds % 60;
+                        final minutesString = remainingSeconds == 0
+                            ? widget.quiz.duration
+                            : minutes.toString().padLeft(2, '0');
+                        final secondsString =
+                            seconds.toString().padLeft(2, '0');
+
+                        if (remainingSeconds == 0 &&
+                            !_dialogShown &&
+                            !_timerInitializing) {
+                          WidgetsBinding.instance.addPostFrameCallback(
+                            (_) {
+                              if (!mounted) return;
+                              showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                  content: const Text("Time's up buddy."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("Ok"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        submitExam(answersController);
+                                      },
+                                      child: const Text("Submit Exam"),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        }
+
+                        return Text(
+                          "Time Left: $minutesString:$secondsString",
+                          style: textTh.bodyMedium!.copyWith(
+                            color: Colors.red,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        );
+                      },
+                      loading: () => const Text("Calculating time..."),
+                      error: (e, _) => const Text("Error with timer"),
+                    )
+                  : Text(
+                      "${widget.quiz.duration}:00",
+                      style: textTh.bodySmall!.copyWith(color: Colors.green),
+                    ),
+              Visibility(
+                visible: !_timerStarted,
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.mainBlue,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
+                  onPressed: () {
+                    Future.delayed((const Duration(seconds: 2)), () {
+                      if (mounted) {
+                        setState(() {
+                          _timerInitializing = false;
+                        });
+                      }
+                    });
+                    ref
+                        .read(quizTimerProvider.notifier)
+                        .startTimer(duration: widget.quiz.duration);
+                    _dialogShown = false;
+                    if (mounted) {
+                      setState(() {
+                        _timerStarted = true;
+                      });
+                    }
+                  },
+                  child: Text(
+                    "Start",
+                    style: textTh.bodyMedium!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         centerTitle: true,
         elevation: 6,
@@ -138,23 +232,6 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                             scrollDirection: Axis.horizontal,
                             controller: pageViewController,
                             itemCount: questions.length,
-                            onPageChanged: (index) {
-                              debugPrint("current page index: $index");
-                              setState(() {
-                                questionsIndex = index;
-                              });
-                              if (index == (quiz.questions.length)) {
-                                setState(() {
-                                  allQuestionsAnswered = answersTrack.every(
-                                    (answer) =>
-                                        answer.selectedAnswers.isNotEmpty,
-                                  );
-                                });
-
-                                debugPrint(
-                                    "all questions answered? $allQuestionsAnswered");
-                              }
-                            },
                             itemBuilder: (_, index) {
                               QuizQuestion currentQuestionItem =
                                   questions[index];
@@ -234,12 +311,13 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                               leading: Radio<String>(
                                                 activeColor: AppColors.mainBlue,
                                                 value: op,
-                                                groupValue: answersTrack[index]
+                                                groupValue: scoreManager
+                                                    .answersHolders[index]
                                                     .selectedAnswers
                                                     .elementAtOrNull(0),
                                                 onChanged: (value) {
                                                   debugPrint(
-                                                      "in ui page: groupValue: ${answersTrack[index].selectedAnswers.elementAtOrNull(0)}, current option's value: $op  selectedAnswer: $value");
+                                                      "in ui page: groupValue: ${scoreManager.answersHolders[index].selectedAnswers.elementAtOrNull(0)}, current option's value: $op  selectedAnswer: $value");
                                                   setState(() {
                                                     if (value != null) {
                                                       answersController
@@ -289,7 +367,8 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                                 leading: Checkbox(
                                                   activeColor:
                                                       AppColors.mainBlue,
-                                                  value: answersTrack[index]
+                                                  value: scoreManager
+                                                      .answersHolders[index]
                                                       .selectedAnswers
                                                       .contains(op),
                                                   onChanged: (value) {
@@ -341,6 +420,12 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
                                     elevation: 4,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        bottomLeft: Radius.circular(20),
+                                      ),
+                                    ),
                                   ),
                                   onPressed: () {
                                     if (currentQuestionImageTrack > 0) {
@@ -349,7 +434,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                       });
                                       pageViewController.previousPage(
                                         duration:
-                                            const Duration(milliseconds: 850),
+                                            const Duration(milliseconds: 700),
                                         curve: Curves.decelerate,
                                       );
                                     }
@@ -361,16 +446,90 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                 ),
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.mainBlue,
+                                    backgroundColor: Colors.white,
                                     elevation: 4,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
                                   ),
                                   onPressed: () {
-                                    allQuestionsAnswered = answersTrack.every(
-                                        (answer) =>
-                                            answer.selectedAnswers.isNotEmpty);
+                                    //submitExam(answersController);
 
-                                    debugPrint(
-                                        "all questions answered? $allQuestionsAnswered");
+                                    answersController.getScore();
+
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Exam Results'),
+                                        content: SizedBox(
+                                          height: 80,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            spacing: 12,
+                                            children: [
+                                              Text(
+                                                "Attempted Questions: ${scoreManager.scoreValue.attemptedQuestions}",
+                                                style:
+                                                    textTh.bodyMedium!.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppColors.mainBlue,
+                                                ),
+                                              ),
+                                              Text(
+                                                "Score: ${scoreManager.scoreValue.score} / ${scoreManager.scoreValue.totalQuestions}",
+                                                style:
+                                                    textTh.bodyMedium!.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppColors.mainBlue,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (ctx) =>
+                                                      QuizSolutionsScreen(
+                                                    myAnswers: scoreManager
+                                                        .answersHolders,
+                                                    questions: questions,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: const Text("See Solutions"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    'Submit',
+                                    style: TextStyle(color: AppColors.mainBlue),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    elevation: 4,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () {
                                     if (currentQuestionImageTrack <
                                         (questions.length) - 1) {
                                       setState(() {
@@ -381,67 +540,11 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                             const Duration(milliseconds: 700),
                                         curve: Curves.decelerate,
                                       );
-                                    } else if (allQuestionsAnswered) {
-                                      submitExam();
-                                      int rightAnswers =
-                                          answersController.getScore();
-
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          title: const Text('Quiz Results'),
-                                          content: Text(
-                                            "You got $rightAnswers out of ${questions.length ?? 0} Questions right.",
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                                Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                    builder: (ctx) =>
-                                                        QuizSolutionsScreen(
-                                                      questions: questions,
-                                                      myAnswers: answersTrack,
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                              child:
-                                                  const Text("See Solutions"),
-                                            ),
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.of(context).pop(),
-                                              child: const Text('OK'),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    } else {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          title: const Text('Quiz Incomplete'),
-                                          content: const Text(
-                                              'Please answer all questions before submitting.'),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.of(context).pop(),
-                                              child: const Text('OK'),
-                                            ),
-                                          ],
-                                        ),
-                                      );
                                     }
                                   },
-                                  child: Text(
-                                    currentQuestionImageTrack ==
-                                            (questions.length) - 1
-                                        ? 'Submit Quiz'
-                                        : 'Next',
-                                    style: const TextStyle(color: Colors.white),
+                                  child: const Text(
+                                    'Next',
+                                    style: TextStyle(color: AppColors.mainBlue),
                                   ),
                                 ),
                               ],
@@ -486,7 +589,9 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
     });
   }
 
-  void submitExam() {}
+  void submitExam(AnswersNotifier answersController) {
+    answersController.getScore();
+  }
 
   // this tracks the state of the layout config object
   // based on the current pageview index.

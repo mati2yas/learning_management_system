@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_quiz_tile.dart';
-import 'package:lms_system/features/exams/provider/timer_provider.dart';
+import 'package:lms_system/features/exams/provider/exam_timer_provider.dart';
 import 'package:lms_system/features/quiz/model/quiz_model.dart';
 import 'package:lms_system/features/quiz/presentation/quiz_questions_screen.dart';
 import 'package:lms_system/features/quiz/provider/current_quiz_id_provider.dart';

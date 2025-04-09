@@ -12,7 +12,7 @@ import 'package:lms_system/features/exam_questions/provider/exam_questions_provi
 import 'package:lms_system/features/exams/model/exam_year.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/exams/provider/current_exam_course_id.dart';
-import 'package:lms_system/features/exams/provider/timer_provider.dart';
+import 'package:lms_system/features/exams/provider/exam_timer_provider.dart';
 import 'package:lms_system/features/subscription/provider/requests/exam_requests_provider.dart';
 import 'package:lms_system/features/subscription/provider/subscriptions/exam_subscription_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
