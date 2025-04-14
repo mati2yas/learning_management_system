@@ -34,6 +34,12 @@ class ApiExceptions {
           return "Unauthorized. invalid credentials or permissions:";
         } else if (statusCode == 404) {
           return "Resource not found.";
+        } else if (statusCode == 403) {
+          String responseStr = "";
+          if (response is Map && response.containsKey("message")) {
+            responseStr = response["message"];
+          }
+          return responseStr;
         } else if (response is Map && response.containsKey("message")) {
           return response["message"]; // Handle generic error messages from API
         } else {

@@ -27,7 +27,7 @@ class FinalExamTimerNotifier extends StateNotifier<AsyncValue<int>> {
   }
 
   void startTimer({required int duration}) {
-    final endTime = DateTime.now().add(const Duration(minutes: 1));
+    final endTime = DateTime.now().add(Duration(minutes: duration));
     debugPrint("started timer.");
     resetTimer(duration: 0);
     _timer = Timer.periodic(
@@ -44,5 +44,9 @@ class FinalExamTimerNotifier extends StateNotifier<AsyncValue<int>> {
         }
       },
     );
+  }
+
+  void stopTimer() {
+    _timer?.cancel();
   }
 }

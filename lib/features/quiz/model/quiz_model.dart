@@ -22,7 +22,7 @@ class Quiz {
     }
     return Quiz(
       id: json['id'] ?? -1,
-      duration: json["quiz_duration"],
+      duration: json["quiz_duration"] ?? 30,
       title: json['title'] ?? "No Title",
       numberOfQuestions: json['number_of_questions'] ?? 0,
       questions: questions,

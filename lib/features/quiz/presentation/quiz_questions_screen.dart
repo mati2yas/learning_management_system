@@ -249,13 +249,13 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                     children: [
                                       if (currentQuestionItem.imageUrl != null)
                                         SizedBox(
-                                          width: size.width * 0.8,
+                                          width: size.width * 0.9,
                                           height: 150,
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             child: Image.network(
-                                              height: 80,
+                                              height: 90,
                                               width: double.infinity,
                                               "${currentQuestionItem.imageUrl}.jpg", //?? "",
                                               fit: BoxFit.cover,
@@ -270,7 +270,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                                 return Image.asset(
                                                   fit: BoxFit.cover,
                                                   "assets/images/error-image.png",
-                                                  height: 80,
+                                                  height: 90,
                                                   width: double.infinity,
                                                 );
                                               },
@@ -296,7 +296,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                           question:
                                               "${index + 1}. ${currentQuestionItem.text} $multipleQuestionsIndicator",
                                           textStyle: textTh.bodyMedium!,
-                                          maxWidth: size.width * 0.75,
+                                          maxWidth: size.width * 0.9,
                                         ),
                                       ),
                                       const SizedBox(height: 10),
@@ -305,7 +305,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                         ...currentQuestionItem.options
                                             .map((op) {
                                           return SizedBox(
-                                            width: size.width * 0.8,
+                                            width: size.width * 0.9,
                                             height: 50,
                                             child: ListTile(
                                               leading: Radio<String>(
@@ -428,6 +428,9 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                     ),
                                   ),
                                   onPressed: () {
+                                    if (!_timerStarted) {
+                                      return;
+                                    }
                                     if (currentQuestionImageTrack > 0) {
                                       setState(() {
                                         currentQuestionImageTrack--;
@@ -455,6 +458,9 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                   onPressed: () {
                                     //submitExam(answersController);
 
+                                    if (!_timerStarted) {
+                                      return;
+                                    }
                                     answersController.getScore();
 
                                     showDialog(
@@ -530,6 +536,9 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                     ),
                                   ),
                                   onPressed: () {
+                                    if (!_timerStarted) {
+                                      return;
+                                    }
                                     if (currentQuestionImageTrack <
                                         (questions.length) - 1) {
                                       setState(() {

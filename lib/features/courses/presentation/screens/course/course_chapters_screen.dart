@@ -49,12 +49,14 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
             strokeWidth: 5,
           ),
         ),
-        error: (error, stack) => Center(
-          child: Text(
-            error.toString(),
-            style: textTh.titleMedium!.copyWith(color: Colors.red),
-          ),
-        ),
+        error: (error, stack) {
+          return Center(
+            child: Text(
+              error.toString(),
+              style: textTh.titleMedium!.copyWith(color: Colors.red),
+            ),
+          );
+        },
         data: (chapters) => chapters.isEmpty
             ? NoDataWidget(
                 noDataMsg: "No Chapters for this course yet.",

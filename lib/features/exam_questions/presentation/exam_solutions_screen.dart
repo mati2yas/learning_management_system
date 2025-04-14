@@ -3,7 +3,6 @@ import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/explanation_container.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
-import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/shared/model/exam_and_quiz/answers_holder.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -77,8 +76,12 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                 }
 
                 if (currentQuestion.videoExplanationUrl != null) {
+                  debugPrint(
+                      "video url: ${currentQuestion.videoExplanationUrl}");
                   ytCtrl = YoutubePlayerController(
-                      initialVideoId: currentQuestion.videoExplanationUrl!);
+                      initialVideoId: YoutubePlayer.convertUrlToId(
+                              currentQuestion.videoExplanationUrl!) ??
+                          "");
                 }
 
                 return SizedBox(
@@ -104,8 +107,7 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                             (ans) => Text(
                               ans,
                               style: TextStyle(
-                                color: currentAnswerHolder.correctAnswers
-                                        .contains(ans)
+                                color: correctAnswerText.contains(ans)
                                     ? Colors.green
                                     : Colors.red,
                               ),
@@ -141,9 +143,7 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                                 child: Image.network(
                                   height: 80,
                                   width: double.infinity,
-                                  UtilFunctions().determineProperImageUrl(
-                                      currentQuestion.imageExplanationUrl ??
-                                          ""),
+                                  currentQuestion.imageExplanationUrl ?? "",
                                   fit: BoxFit.cover,
                                   loadingBuilder: (BuildContext context,
                                       Widget child,
@@ -171,7 +171,8 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                                 ),
                               ),
                             ),
-                        if (currentQuestion.videoExplanationUrl != null && currentQuestion.videoExplanationUrl != "")
+                          if (currentQuestion.videoExplanationUrl != null &&
+                              currentQuestion.videoExplanationUrl != "")
                             YoutubePlayer(
                               width: size.width * 0.75,
                               aspectRatio: 16 / 9,

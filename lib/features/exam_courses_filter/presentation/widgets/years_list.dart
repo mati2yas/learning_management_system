@@ -12,7 +12,6 @@ import 'package:lms_system/features/exam_questions/provider/exam_questions_provi
 import 'package:lms_system/features/exams/model/exam_year.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 import 'package:lms_system/features/exams/provider/current_exam_course_id.dart';
-import 'package:lms_system/features/exams/provider/exam_timer_provider.dart';
 import 'package:lms_system/features/subscription/provider/requests/exam_requests_provider.dart';
 import 'package:lms_system/features/subscription/provider/subscriptions/exam_subscription_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
@@ -50,10 +49,12 @@ class TakeOrFilter extends StatelessWidget {
                     AppStrings.timerDurationKey: year.duration,
                   };
                   ref.read(currentIdStubProvider.notifier).changeStub({
-                    "idType": IdType.all,
-                    "id": year.id,
-                    "courseId": course.id,
+                    AppStrings.stubIdType: IdType.all,
+                    AppStrings.stubId: year.id,
+                    AppStrings.stubCourseId: course.id,
                   });
+                  debugPrint(
+                      "before fetching for take all: year id: ${year.id} and course id: ${course.id}");
                   ref
                       .refresh(examQuestionsApiProvider.notifier)
                       .fetchQuestions();
@@ -75,7 +76,7 @@ class TakeOrFilter extends StatelessWidget {
 
                   ref
                       .read(currentExamYearIdProvider.notifier)
-                      .changeYearId(year.examSheetId);
+                      .changeYearId(year.id);
                   ref
                       .read(currentExamCourseIdProvider.notifier)
                       .changeCourseId(course.id);
@@ -109,9 +110,36 @@ class TakeOrFilter extends StatelessWidget {
             ),
             onPressed: () {
               if (examTypeProv == ExamType.matric) {
+                ref.read(currentIdStubProvider.notifier).changeStub({
+                  AppStrings.stubIdType: IdType.filtered,
+                  AppStrings.stubId: year.id,
+                  AppStrings.stubCourseId: course.id,
+                  //AppStrings.stubGradeId: course
+                });
+                ref
+                    .read(currentExamYearIdProvider.notifier)
+                    .changeYearId(year.id);
+                ref.refresh(examQuestionsApiProvider.notifier).fetchQuestions();
+                Map<String, dynamic> examData = {
+                  AppStrings.examCourseKey: course.title,
+                  AppStrings.examYearKey: year.title,
+                  AppStrings.timerDurationKey: year.duration,
+                  AppStrings.previousScreenKey: 7,
+                  AppStrings.hasTimerOptionKey: false,
+                };
+                pageController.navigatePage(6, arguments: examData);
               } else {
                 // if null then other pages, move on to
                 // questions page
+                ref.read(currentIdStubProvider.notifier).changeStub({
+                  AppStrings.stubIdType: IdType.all,
+                  AppStrings.stubId: year.id,
+                  AppStrings.stubCourseId: course.id,
+                });
+                ref
+                    .read(currentExamYearIdProvider.notifier)
+                    .changeYearId(year.id);
+                ref.refresh(examQuestionsApiProvider.notifier).fetchQuestions();
                 Map<String, dynamic> examData = {
                   AppStrings.examCourseKey: course.title,
                   AppStrings.examYearKey: year.title,

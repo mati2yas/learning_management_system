@@ -61,7 +61,8 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {
-                pageNavController.navigatePage(examData[AppStrings.previousScreenKey]!);
+                pageNavController
+                    .navigatePage(examData[AppStrings.previousScreenKey]!);
               },
               icon: const Icon(
                 Icons.arrow_back,
@@ -170,9 +171,9 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                                     .read(currentIdStubProvider.notifier)
                                     .changeStub(
                                   {
-                                    "idType": IdType.all,
-                                    "id": chapters[index].id,
-                                    "courseId": examData["courseId"],
+                                    AppStrings.stubIdType: IdType.filtered,
+                                    AppStrings.stubId: chapters[index].id,
+                                    AppStrings.stubGradeId: selectedGrade.id,
                                   },
                                 );
                                 ref

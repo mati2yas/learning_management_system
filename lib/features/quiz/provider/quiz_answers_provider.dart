@@ -17,6 +17,7 @@ class AnswersNotifier extends StateNotifier<ScoreManagement> {
     int attempted = 0;
     for (var answerHolder in state.answersHolders) {
       if (answerHolder.selectedAnswers.isNotEmpty) {
+        attempted++;
         List correctListCurrentQuestion = answerHolder.correctAnswers;
         List selectedListCurrentQuestion =
             answerHolder.selectedAnswers.toList();

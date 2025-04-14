@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/features/exam_questions/provider/answers_provider.dart';
+import 'package:lms_system/features/exam_questions/provider/exam_answers_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/current_id_stub_provider.dart';
 import 'package:lms_system/features/exam_questions/repository/exam_questions_repository.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';

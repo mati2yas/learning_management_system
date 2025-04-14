@@ -164,7 +164,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   UtilFunctions.buildErrorSnackbar(
                                     errorMessage:
-                                        "Login Failed: ${e.toString()}",
+                                        "Login Failed: ${e.toString().replaceAll("Exception:", "")}",
                                     exception: e,
                                   ),
                                 );

@@ -54,40 +54,15 @@ class CustomHomeAppBar extends ConsumerWidget {
                       .fetchNotifs(page: 1);
                   Navigator.of(context).pushNamed(Routes.notifications);
                 },
-                child: Stack(
-                  children: [
-                    const CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Center(
-                        child: Icon(
-                          Icons.notifications_outlined,
-                          color: Colors.black,
-                          size: 20,
-                        ),
-                      ),
+                child: const CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Center(
+                    child: Icon(
+                      Icons.notifications_outlined,
+                      color: Colors.black,
+                      size: 20,
                     ),
-                    if (notifsProv.hasValue &&
-                        (notifsProv.value!.notifs.isNotEmpty))
-                      Positioned(
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 18,
-                          width: 18,
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          child: Text(
-                            "${notifsProv.value!.notifs.length}",
-                            style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
+                  ),
                 ),
               ),
               GestureDetector(

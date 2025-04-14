@@ -135,7 +135,7 @@ class CoursePage extends ConsumerWidget {
             ),
             data: (courses) {
               return SizedBox(
-                height: 202 * 10 + 100,
+                height: 230 * (courses.length / 2) + (10 * courses.length / 2),
                 // main-axis extent (202) multiplied by 10 per row, plus 10 times main axis spacing (10)
                 width: double.infinity,
                 child: GridView.builder(

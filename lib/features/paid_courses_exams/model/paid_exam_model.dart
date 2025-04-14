@@ -16,7 +16,7 @@ class PaidExam {
 
   factory PaidExam.fromJson(Map<String, dynamic> json) {
     return PaidExam(
-      examId: json["exam_sheet_id"] ?? -1,
+      examId: json["exam_year_id"] ?? -1,
       examYear: json["exam_year"] ?? "Year Unknown",
       examType: json["exam_type"] ?? "Type Unknown",
       parentCourseTitle: json["course"] ?? "Parent Course Unknown",

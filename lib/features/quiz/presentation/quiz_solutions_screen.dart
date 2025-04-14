@@ -72,8 +72,12 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                 }
 
                 if (currentQuestion.videoExplanationUrl != null) {
+                  debugPrint(
+                      "video url: ${currentQuestion.videoExplanationUrl}");
                   ytCtrl = YoutubePlayerController(
-                      initialVideoId: currentQuestion.videoExplanationUrl!);
+                      initialVideoId: YoutubePlayer.convertUrlToId(
+                              currentQuestion.videoExplanationUrl!) ??
+                          "");
                 }
 
                 return SizedBox(
@@ -88,7 +92,7 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                           QuestionTextContainer(
                             question: currentQuestion.text,
                             textStyle: textTh.bodyMedium!,
-                            maxWidth: size.width * 0.75,
+                            maxWidth: size.width * 0.9,
                           ),
                           Text(
                             "Your Answer(s):",
@@ -100,7 +104,7 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                             (ans) => Text(
                               ans,
                               style: TextStyle(
-                                color: currentQuestion.answers.contains(ans)
+                                color: answerText.contains(ans)
                                     ? Colors.green
                                     : Colors.red,
                               ),
@@ -115,12 +119,12 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                           ...answerText.map((ans) => Text(ans)),
                           ExplanationContainer(
                             explanation: currentQuestion.textExplanation,
-                            textStyle: textTh.bodySmall!,
-                            maxWidth: size.width * 0.75,
+                            textStyle: textTh.bodyMedium!,
+                            maxWidth: size.width * 0.9,
                           ),
                           if (currentQuestion.imageExplanationUrl != null)
                             SizedBox(
-                              width: size.width * 0.8,
+                              width: size.width * 0.9,
                               height: 150,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
@@ -157,7 +161,7 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                             ),
                           if (currentQuestion.videoExplanationUrl != null)
                             YoutubePlayer(
-                              width: size.width * 0.75,
+                              width: size.width * 0.9,
                               aspectRatio: 16 / 9,
                               bottomActions: [
                                 const CurrentPosition(),

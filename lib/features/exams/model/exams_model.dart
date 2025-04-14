@@ -118,28 +118,7 @@ class Question {
     List<String> answersString =
         answersJson.map((ans) => ans.toString()).toList();
     debugPrint("question img url: ${json["question_image_url"]}");
-    var imgUrl = "";
-
-    if (json["question_image_url"] != null) {
-      if (json["question_image_url"] is Map) {
-        imgUrl = "";
-      } else if (json["question_image_url"] is String) {
-        imgUrl = json["question_image_url"];
-      }
-    } else {
-      imgUrl = "";
-    }
-    var explUrl = "";
-
-    if (json["image_explantion_url"] != null) {
-      if (json["image_explanation_url"] is Map) {
-        explUrl = "";
-      } else if (json["image_explanation_url"] is String) {
-        explUrl = json["image_explanation_url"];
-      }
-    } else {
-      explUrl = "";
-    }
+    
 
     return Question(
       id: json["id"],
@@ -149,8 +128,8 @@ class Question {
       //options: json["options"] as List<String>,
       options: optionsString,
       answers: answersString,
-      imageUrl: imgUrl,
-      imageExplanationUrl: explUrl,
+      imageUrl: json["question_image_url"],
+      imageExplanationUrl: json["image_explanation_url"],
       videoExplanationUrl: json["video_explanation_url"],
       explanation: json["text_explanation"] ?? "",
     );
