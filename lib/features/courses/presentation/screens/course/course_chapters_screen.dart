@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
@@ -50,11 +51,13 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
           ),
         ),
         error: (error, stack) {
-          return Center(
-            child: Text(
-              error.toString(),
-              style: textTh.titleMedium!.copyWith(color: Colors.red),
-            ),
+          return AsyncErrorWidget(
+            errorMsg: error.toString(),
+            callback: () async {
+              await ref
+                  .refresh(courseChaptersProvider.notifier)
+                  .fetchCourseChapters();
+            },
           );
         },
         data: (chapters) => chapters.isEmpty

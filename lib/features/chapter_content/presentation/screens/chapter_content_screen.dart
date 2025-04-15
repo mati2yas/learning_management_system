@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
-import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/features/chapter_content/presentation/screens/widgets/quizzes_listview.dart';
 import 'package:lms_system/features/chapter_content/presentation/screens/widgets/vids_listview.dart';
 import 'package:lms_system/features/chapter_content/provider/chapter_content_provider.dart';
@@ -86,11 +86,13 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                   strokeWidth: 5,
                 ),
               ),
-              error: (error, stack) => Center(
-                child: Text(
-                  ApiExceptions.getExceptionMessage(error as Exception, 400),
-                  style: textTh.titleMedium!.copyWith(color: Colors.red),
-                ),
+              error: (error, stack) => AsyncErrorWidget(
+                errorMsg: error.toString(),
+                callback: () async {
+                  ref
+                      .refresh(chapterContentProvider.notifier)
+                      .fetchChapterContent();
+                },
               ),
               data: (chapterContent) {
                 return Stack(
@@ -126,52 +128,7 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                                     ChapterDocumentTile(
                                   document: chapterContent.documents[index],
                                   callBack: () async {
-                                    if (!currentCourse.subscribed) {
-                                      if (chapterContent.order == 1 &&
-                                          index == 0) {
-                                        debugPrint(
-                                            "course not subbed, index 0 and chapter order 1");
-
-                                        var docProcessor =
-                                            ref.read(documentProvider.notifier);
-
-                                        String identifier = chapterContent
-                                            .documents[index].title;
-
-                                        await docProcessor.processPDF(
-                                            chapterContent
-                                                .documents[index].fileUrl,
-                                            identifier);
-                                        if (context.mounted) {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const SecurePDFViewer(),
-                                            ),
-                                          );
-                                        }
-                                      } else {
-                                        debugPrint(
-                                            "course not subbed, index not 0, or chapter not first");
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                            title: const Text(
-                                                'Cannot access contents'),
-                                            content: const Text(
-                                              "You need to buy this course to access more contents",
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: const Text('OK'),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }
-                                    } else {
+                                    if (currentCourse.subscribed) {
                                       debugPrint("course subbed");
                                       var docProcessor =
                                           ref.read(documentProvider.notifier);
@@ -191,6 +148,24 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                                           ),
                                         );
                                       }
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: const Text(
+                                              'Cannot access contents'),
+                                          content: const Text(
+                                            "You need to buy this course to access contents",
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
                                     }
                                   },
                                 ),

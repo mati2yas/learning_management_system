@@ -81,6 +81,9 @@ class Course {
       //debugPrint("grade 11/12, after setting stream: $stream");
     }
 
+    if ((json["course_name"] ?? "coursee").contains("Amharic")) {
+      debugPrint("course ${json["course_name"]} is subbed: ${json["is_paid"]}");
+    }
     return Course(
       id: json["id"].toString(),
       title: json["course_name"],

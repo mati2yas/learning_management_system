@@ -57,7 +57,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
                 ),
               ),
               error: (error, stack) => AsyncErrorWidget(
-                errorMsg: error.toString().replaceAll("Exception: ", ""),
+                errorMsg: error.toString(),
                 callback: () async {
                   final allCourseController =
                       widgetRef.read(allCoursesApiProvider.notifier);
@@ -151,7 +151,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
             ),
           ),
           error: (error, stack) => AsyncErrorWidget(
-            errorMsg: error.toString().replaceAll("Exception: ", ""),
+            errorMsg: error.toString(),
             callback: () async {
               final allCourseController =
                   widgetRef.read(allCoursesApiProvider.notifier);

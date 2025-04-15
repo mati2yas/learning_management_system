@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
@@ -112,11 +113,13 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                       strokeWidth: 5,
                     ),
                   ),
-              error: (error, stack) => Center(
-                    child: Text(
-                      error.toString(),
-                      style: textTh.titleMedium!.copyWith(color: Colors.red),
-                    ),
+              error: (error, stack) => AsyncErrorWidget(
+                    errorMsg: error.toString(),
+                    callback: () async {
+                      ref
+                          .watch(examGradeFilterApiProvider.notifier)
+                          .fetchExamGrades();
+                    },
                   ),
               data: (grades) {
                 return TabBarView(
@@ -124,7 +127,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                   children: tabsList.map((tabTitle) {
                     // Filter the gradconst es by the current tab
                     debugPrint("current tabTitle: $tabTitle");
-                    print(
+                    debugPrint(
                         "all grades: ${grades.map((gr) => gr.title).join(",")}");
                     final selectedGrade = grades.firstWhere(
                       (grade) => grade.title == tabTitle,

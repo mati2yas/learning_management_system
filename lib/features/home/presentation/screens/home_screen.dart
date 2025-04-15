@@ -260,8 +260,7 @@ class HomePage extends ConsumerWidget {
                           ),
                         ),
                         error: (error, stack) => AsyncErrorWidget(
-                          errorMsg:
-                              error.toString().replaceAll("Exception: ", ""),
+                          errorMsg: error.toString(),
                           callback: () async {
                             await ref
                                 .refresh(homeScreenApiProvider.notifier)

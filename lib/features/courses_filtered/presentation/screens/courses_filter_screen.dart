@@ -265,7 +265,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                   ),
                 ),
                 error: (error, stack) => AsyncErrorWidget(
-                  errorMsg: error.toString().replaceAll("Exception:", ""),
+                  errorMsg: error.toString(),
                   callback: () async {
                     await ref
                         .refresh(coursesFilteredProvider.notifier)

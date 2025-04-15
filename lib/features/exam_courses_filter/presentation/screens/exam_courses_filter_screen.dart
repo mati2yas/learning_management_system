@@ -122,7 +122,7 @@ class _ExamCoursesFilterScreenState
           ),
         ),
         error: (error, _) => AsyncErrorWidget(
-          errorMsg: error.toString().replaceAll("Exception:", ""),
+          errorMsg: error.toString(),
           callback: () async {
             await ref
                 .refresh(examCoursesFilterApiProvider.notifier)

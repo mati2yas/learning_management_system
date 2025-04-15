@@ -76,94 +76,95 @@ class WrapperScreen extends ConsumerWidget {
         body: Stack(
           children: [
             pages[currentPage],
-            Positioned(
-              bottom: 10,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(55),
-                  ),
-                  color: AppColors.mainBlue,
-                  child: SizedBox(
-                    width: size.width - 24,
-                    height: 58,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          NavItem(
-                            icon: Icons.home_outlined,
-                            onTap: () {
-                              pageController.navigatePage(0);
-                            },
-                            label: "Home",
-                            isCurr: currentPage == 0,
-                            ref: ref,
-                          ),
-                          NavItem(
-                            icon: Icons.school_outlined,
-                            onTap: () => pageController.navigatePage(1),
-                            label: "Courses",
-                            isCurr: [1, 4, 5].contains(currentPage),
-                            ref: ref,
-                          ),
-                          NavItem(
-                            icon: Icons.workspace_premium,
-                            onTap: () => pageController.navigatePage(2),
-                            label: "Paid",
-                            isCurr: currentPage == 2,
-                            ref: ref,
-                          ),
-                          NavItem(
-                            icon: Icons.quiz,
-                            onTap: () {
-                              if (ref.read(pageNavigationProvider) == 6) {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text("Confirmation"),
-                                      content: const Text(
-                                          "Are you sure to leave the current page?"),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context)
-                                                .pop(); // Dismiss the dialog
-                                          },
-                                          child: const Text("Cancel"),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context)
-                                                .pop(); // Dismiss the dialog
+            if (currentPage != 6)
+              Positioned(
+                bottom: 10,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(55),
+                    ),
+                    color: AppColors.mainBlue,
+                    child: SizedBox(
+                      width: size.width - 24,
+                      height: 58,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            NavItem(
+                              icon: Icons.home_outlined,
+                              onTap: () {
+                                pageController.navigatePage(0);
+                              },
+                              label: "Home",
+                              isCurr: currentPage == 0,
+                              ref: ref,
+                            ),
+                            NavItem(
+                              icon: Icons.school_outlined,
+                              onTap: () => pageController.navigatePage(1),
+                              label: "Courses",
+                              isCurr: [1, 4, 5].contains(currentPage),
+                              ref: ref,
+                            ),
+                            NavItem(
+                              icon: Icons.workspace_premium,
+                              onTap: () => pageController.navigatePage(2),
+                              label: "Paid",
+                              isCurr: currentPage == 2,
+                              ref: ref,
+                            ),
+                            NavItem(
+                              icon: Icons.quiz,
+                              onTap: () {
+                                if (ref.read(pageNavigationProvider) == 6) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text("Confirmation"),
+                                        content: const Text(
+                                            "Are you sure to leave the current page?"),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(); // Dismiss the dialog
+                                            },
+                                            child: const Text("Cancel"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(); // Dismiss the dialog
 
-                                            pageController.navigatePage(3);
-                                          },
-                                          child: const Text("Yes"),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              } else {
-                                pageController.navigatePage(3);
-                              }
-                            },
-                            label: "Exams",
-                            isCurr: [3, 6, 7].contains(currentPage),
-                            ref: ref,
-                          ),
-                        ],
+                                              pageController.navigatePage(3);
+                                            },
+                                            child: const Text("Yes"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  pageController.navigatePage(3);
+                                }
+                              },
+                              label: "Exams",
+                              isCurr: [3, 6, 7].contains(currentPage),
+                              ref: ref,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            )
+              )
           ],
         ),
       ),
