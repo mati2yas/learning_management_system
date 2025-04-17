@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lms_system/core/constants/enums.dart';
-import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
 import '../constants/app_strings.dart';
@@ -22,15 +21,15 @@ class SecureStorageService {
     await _storage.delete(key: AppStrings.userStorageKey);
   }
 
-  Future<List<Course>> getCoursesFromLocal() async {
-    final courseJson =
-        await _storage.read(key: AppStrings.subbedCoursesStorageKey);
-    if (courseJson != null) {
-      final courseList = jsonDecode(courseJson) as List<dynamic>;
-      return courseList.map((json) => Course.fromJsonLocal(json)).toList();
-    }
-    return [];
-  }
+  // Future<List<Course>> getCoursesFromLocal() async {
+  //   final courseJson =
+  //       await _storage.read(key: AppStrings.subbedCoursesStorageKey);
+  //   if (courseJson != null) {
+  //     final courseList = jsonDecode(courseJson) as List<dynamic>;
+  //     return courseList.map((json) => Course.fromJsonLocal(json)).toList();
+  //   }
+  //   return [];
+  // }
 
   Future<bool> getOnboardingStatus() async {
     final status =
@@ -60,7 +59,6 @@ class SecureStorageService {
     }
     return usr;
   }
-
 
   Future<void> saveUserToStorage(User user) async {
     debugPrint("the user is: User{ name: ${user.name}, email: ${user.email}");

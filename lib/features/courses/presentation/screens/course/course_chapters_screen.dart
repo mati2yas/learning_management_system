@@ -37,7 +37,8 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
       appBar: CommonAppBar(
         leading: IconButton(
           onPressed: () {
-            pageController.navigatePage(previousScreen);
+            //pageController.navigatePage(previousScreen);
+            pageController.navigateBack();
           },
           icon: const Icon(Icons.arrow_back),
         ),

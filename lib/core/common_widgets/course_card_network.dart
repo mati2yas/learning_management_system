@@ -29,8 +29,8 @@ class CourseCardNetworkImage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //print(course.image);
-
+    print(course.image);
+    bool color = course.subscriptionStatus == "expired";
     var subscriptionController =
         ref.watch(courseSubscriptionControllerProvider.notifier);
 
@@ -327,20 +327,21 @@ class CourseCardNetworkImage extends ConsumerWidget {
                   padding:
                       const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
                   decoration: BoxDecoration(
-                    color: AppColors.mainBlue,
+                    //color: AppColors.mainBlue,
+                    color: color ? Colors.red : AppColors.mainBlue,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 8,
                     children: [
                       Text(
-                        "Buy",
-                        style: TextStyle(
+                        color ? "Expired" : "Buy",
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(width: 8),
-                      Icon(
+                      const Icon(
                         Icons.lock,
                         size: 14,
                         color: Colors.white,

@@ -19,6 +19,9 @@ class ApiExceptions {
         final firstKey = errors.keys.first; // Get the first error field
         final errorMessages = errors[firstKey]; // Get error messages list
         if (errorMessages is List && errorMessages.isNotEmpty) {
+          if (errorMessages.contains("is not a subtype of type")) {
+            return "Something Went Wrong";
+          }
           return errorMessages.first; // Return the first error message
         }
       }

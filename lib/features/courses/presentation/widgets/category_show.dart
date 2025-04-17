@@ -11,7 +11,6 @@ class CategoryShow extends StatelessWidget {
     super.key,
     required this.category,
     required this.categoryImage,
-
     required this.onTap,
   });
 
@@ -43,7 +42,7 @@ class CategoryShow extends StatelessWidget {
               height: 100,
             ),
             Text(
-              category,
+              category == "Lower Grades" ? "Elementary" : category,
               style: textTh.bodyMedium!.copyWith(
                 color: Colors.black,
                 fontWeight: FontWeight.w600,

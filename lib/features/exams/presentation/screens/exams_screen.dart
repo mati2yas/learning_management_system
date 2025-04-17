@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/current_exam_type_provider.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/exam_courses_filter_provider.dart';
@@ -22,7 +23,13 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Browse Exams"),
+        title: Text(
+          "Browse Exams",
+          style: textTh.titleLarge!.copyWith(
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
         elevation: 5,
         shadowColor: Colors.black87,
@@ -40,7 +47,6 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
               right: 15,
               left: 15,
             ),
-            //physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisExtent: 125,
               crossAxisCount: 2,
@@ -56,7 +62,11 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                   ref
                       .read(examCoursesFilterApiProvider.notifier)
                       .fetchExamCourses();
-                  pageNavController.navigatePage(7, arguments: "ESSLCE");
+                  pageNavController.navigateTo(
+                    nextScreen: AppInts.examCoursesFiltersPageIndex,
+                    //previousScreen: AppInts.examsPageIndex,
+                    arguments: "ESSLCE",
+                  );
                 },
                 categoryImage: "matric",
                 categoryName: "ESSLCE",
@@ -70,7 +80,11 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                       .read(examCoursesFilterApiProvider.notifier)
                       .fetchExamCourses();
 
-                  pageNavController.navigatePage(7, arguments: "Exit Exam");
+                  pageNavController.navigateTo(
+                    nextScreen: AppInts.examCoursesFiltersPageIndex,
+                    //previousScreen: AppInts.examsPageIndex,
+                    arguments: "Exit Exam",
+                  );
                 },
                 categoryImage: "exit_exam",
                 categoryName: "Exit Exam",
@@ -84,7 +98,11 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                       .read(examCoursesFilterApiProvider.notifier)
                       .fetchExamCourses();
 
-                  pageNavController.navigatePage(7, arguments: "UAT");
+                  pageNavController.navigateTo(
+                    nextScreen: AppInts.examCoursesFiltersPageIndex,
+                    //previousScreen: AppInts.examsPageIndex,
+                    arguments: "UAT",
+                  );
                 },
                 categoryImage: "uat",
                 categoryName: "UAT",
@@ -98,7 +116,11 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                       .read(examCoursesFilterApiProvider.notifier)
                       .fetchExamCourses();
 
-                  pageNavController.navigatePage(7, arguments: "NGAT");
+                  pageNavController.navigateTo(
+                    nextScreen: AppInts.examCoursesFiltersPageIndex,
+                    //previousScreen: AppInts.examsPageIndex,
+                    arguments: "NGAT",
+                  );
                 },
                 categoryImage: "ngat",
                 categoryName: "NGAT",
@@ -112,8 +134,11 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                       .read(examCoursesFilterApiProvider.notifier)
                       .fetchExamCourses();
 
-                  pageNavController.navigatePage(7,
-                      arguments: "6th Grade Ministry");
+                  pageNavController.navigateTo(
+                    nextScreen: AppInts.examCoursesFiltersPageIndex,
+                    //previousScreen: AppInts.examsPageIndex,
+                    arguments: "6th Grade Ministry",
+                  );
                 },
                 categoryImage: "ministry_6th",
                 categoryName: "6th Grade Ministry",
@@ -127,8 +152,11 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                       .read(examCoursesFilterApiProvider.notifier)
                       .fetchExamCourses();
 
-                  pageNavController.navigatePage(7,
-                      arguments: "8th Grade Ministry");
+                  pageNavController.navigateTo(
+                    nextScreen: AppInts.examCoursesFiltersPageIndex,
+                    //previousScreen: AppInts.examsPageIndex,
+                    arguments: "8th Grade Ministry",
+                  );
                 },
                 categoryImage: "ministry_8th",
                 categoryName: "8th Grade Ministry",
@@ -142,10 +170,14 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                       .read(examCoursesFilterApiProvider.notifier)
                       .fetchExamCourses();
 
-                  pageNavController.navigatePage(7, arguments: "SAT");
+                  pageNavController.navigateTo(
+                    nextScreen: AppInts.examCoursesFiltersPageIndex,
+                    //previousScreen: AppInts.examsPageIndex,
+                    arguments: "SAT",
+                  );
                 },
                 categoryImage: "sat_exam",
-                categoryName: "SAT",
+                categoryName: "Standardized Tests",
               ),
               ExamCategoryShow(
                 onTap: () {
@@ -156,7 +188,11 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                       .read(examCoursesFilterApiProvider.notifier)
                       .fetchExamCourses();
 
-                  pageNavController.navigatePage(7, arguments: "Exam");
+                  pageNavController.navigateTo(
+                    nextScreen: AppInts.examCoursesFiltersPageIndex,
+                    //previousScreen: AppInts.examsPageIndex,
+                    arguments: "Exam",
+                  );
                 },
                 categoryImage: "other_exams",
                 categoryName: "Exam",

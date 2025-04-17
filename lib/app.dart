@@ -20,6 +20,31 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final routesAsync = ref.watch(initialRouteProvider);
 
+    @override
+    void didChangeAppLifecycleState(AppLifecycleState state) {
+      super.didChangeAppLifecycleState(state);
+      switch (state) {
+        case AppLifecycleState.resumed:
+          // App is in the foreground, refresh data or re-initialize.
+          // Example:
+          // ref.read(myAppStateProvider.notifier).loadState();
+          break;
+        case AppLifecycleState.inactive:
+        case AppLifecycleState.paused:
+          // App is in the background, save critical state.
+          // Example:
+          // ref.read(myAppStateProvider.notifier).saveState();
+          break;
+        case AppLifecycleState.detached:
+          // The app is about to be terminated.  Do minimal cleanup.
+          break;
+        case AppLifecycleState.hidden:
+          // The application is running in the background but is not
+          // visible and not interacting with the user.
+          break;
+      }
+    }
+
     return routesAsync.when(
       loading: () => Container(color: Colors.white),
       error: (error, stackTrace) => Text('Error: $error'),

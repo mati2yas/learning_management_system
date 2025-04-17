@@ -47,7 +47,7 @@ class AppStrings {
   ];
 
   static const List<String> universityGrades = [
-    "Freshman",
+    "1st Year",
     "2nd Year",
     "3rd Year",
     "4th Year",
@@ -216,7 +216,7 @@ class AppStrings {
 
   static String categoryFormatted(String input) {
     return switch (input) {
-      lowerGradesCategory => "Lower Grades",
+      lowerGradesCategory => "Elementary",
       highSchoolCategory => "High School",
       universityCategory => "University",
       otherCoursesCategory => "Courses",

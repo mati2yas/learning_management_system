@@ -6,6 +6,7 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
@@ -144,7 +145,9 @@ class ProfilePage extends ConsumerWidget {
                 ),
                 TextButton.icon(
                   onPressed: () async {
-                    pageNavController.navigatePage(2);
+                    pageNavController.navigateTo(
+                      nextScreen: AppInts.paidPageIndex,
+                    );
 
                     ref
                         .watch(paidScreenTabIndexProv.notifier)
@@ -170,7 +173,8 @@ class ProfilePage extends ConsumerWidget {
                     ref
                         .watch(paidScreenTabIndexProv.notifier)
                         .changeTabIndex(1);
-                    pageNavController.navigatePage(2);
+                    pageNavController.navigateTo(
+                        nextScreen: AppInts.paidPageIndex);
 
                     ref.refresh(paidExamsApiProvider.notifier).fetchPaidExams();
 

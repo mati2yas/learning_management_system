@@ -33,7 +33,6 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
   PageNavigationController pageNavController = PageNavigationController();
   //PageNavigationController pageNavController = PageNavigationController();
   int middleExpandedFlex = 2;
-  //int currentQuestion = 0;
   int previousScreen =
       1; // we use wrapper screen index to track which screen we navigated from
   String examTitle = "", examYear = "";
@@ -69,7 +68,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
           onPressed: () {
             //reset timer and the go back to previous screen
             ref.read(examTimerProvider.notifier).resetTimer(duration: 0);
-            pageNavController.navigatePage(previousScreen);
+            //pageNavController.navigateBack();
             Navigator.pop(context);
           },
           icon: const Icon(

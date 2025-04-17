@@ -16,6 +16,8 @@ import 'package:lms_system/features/notification/presentation/screens/notificati
 import 'package:lms_system/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:lms_system/features/profile/presentation/screens/profile_screen.dart';
 import 'package:lms_system/features/profile_add/presentation/screens/profile_add_screen.dart';
+import 'package:lms_system/features/quiz/model/quiz_model.dart';
+import 'package:lms_system/features/quiz/presentation/quiz_questions_screen.dart';
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
 import 'package:lms_system/features/subscription/presentation/screens/subscription_screen.dart';
 import 'package:lms_system/features/wrapper/presentation/screens/wrapper_screen.dart';
@@ -100,6 +102,11 @@ class Approuter {
             video: video,
           ),
         );
+      case Routes.quizQuestions:
+        final quiz = settings.arguments as Quiz;
+        return MaterialPageRoute(
+          builder: (context) => QuizQuestionsPage(quiz: quiz),
+        );
 
       case Routes.savedCourses:
         return MaterialPageRoute(builder: (_) => const SavedCoursesPage());
@@ -141,6 +148,7 @@ class Routes {
   static const String courses = "courses";
   static const String filterCourses = "courseDetails";
   static const String chapterContent = "chapterDetails";
+  static const String quizQuestions = "quizQuestions";
   static const String savedCourses = "saved";
   static const String subscriptions = "requests";
   static const String profile = "profile";

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
@@ -46,6 +47,11 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
   @override
   Widget build(BuildContext context) {
     var category = ref.watch(currentCourseFilterProvider);
+    bool isHighSchoolOrUni = [
+      AppStrings.universityCategory,
+      AppStrings.highSchoolCategory
+    ].contains(category);
+    double appbarBottomHeight = isHighSchoolOrUni ? 82 : 32;
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     final pageNavController = ref.read(pageNavigationProvider.notifier);
@@ -63,19 +69,22 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
       child: Builder(
         builder: (context) {
           final tabController = DefaultTabController.of(context);
-          tabController.addListener(() {
-            if (!tabController.indexIsChanging) {
-              setState(() {
-                currentTabIndex = tabController.index;
-                updateDropdownValue();
-              });
-            }
-          });
+          tabController.addListener(
+            () {
+              if (!tabController.indexIsChanging) {
+                setState(() {
+                  currentTabIndex = tabController.index;
+                  updateDropdownValue();
+                });
+              }
+            },
+          );
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(
                 onPressed: () {
-                  pageNavController.navigatePage(1);
+                  //pageNavController.navigatePage(1);
+                  pageNavController.navigateBack();
                 },
                 icon: const Icon(Icons.arrow_back),
               ),
@@ -92,7 +101,9 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                     showSearch(
                       context: context,
                       delegate: CourseSearchDelegate(
-                          widgetRef: ref, previousScreenIndex: 1),
+                        widgetRef: ref,
+                        previousScreenIndex: 1,
+                      ),
                     );
                   },
                   icon: const Icon(Icons.search),
@@ -104,138 +115,148 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
               shadowColor: Colors.black87,
               backgroundColor: Colors.white,
               bottom: PreferredSize(
-                preferredSize: Size(size.width, 82),
+                preferredSize: Size(size.width, appbarBottomHeight),
                 child: Container(
                   width: size.width,
                   color: Colors.white,
-                  height: 82,
+                  height: appbarBottomHeight,
                   child: Column(
                     spacing: 5,
                     children: [
-                      //CustomSearchBar(hintText: "Search Courses", size: size),
-                      SizedBox(
-                        width: size.width * 0.85,
-                        height: 45,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            if (dropdownItems.isNotEmpty)
-                              DropdownButton<String>(
-                                dropdownColor: Colors.white,
-                                value: dropDownValue,
-                                items: dropdownItems
-                                    .map(
-                                      (item) => DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(item),
-                                      ),
-                                    )
-                                    .toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    dropDownValue = value!;
-                                  });
-                                },
-                              ),
-                            if (category == AppStrings.universityCategory)
-                              ElevatedButton(
-                                onPressed: () {
-                                  showBottomSheet(
-                                    context: context,
-                                    builder: (context) => SizedBox(
-                                      width: size.width,
-                                      height: size.height * 0.6,
-                                      child: DraggableScrollableSheet(
-                                        maxChildSize: 1,
-                                        initialChildSize: 1,
-                                        minChildSize: 0.4,
-                                        builder: (context, controller) =>
-                                            Column(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(16.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "Select Department",
-                                                    style: textTh.titleMedium!
-                                                        .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                      if (isHighSchoolOrUni)
+                        SizedBox(
+                          width: size.width * 0.85,
+                          height: 45,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Spacer(),
+                              if (dropdownItems.isNotEmpty)
+                                DropdownButton<String>(
+                                  dropdownColor: Colors.white,
+                                  value: dropDownValue,
+                                  items: dropdownItems
+                                      .map(
+                                        (item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(item),
+                                        ),
+                                      )
+                                      .toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      dropDownValue = value!;
+                                    });
+                                  },
+                                ),
+                              if (category == AppStrings.universityCategory)
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.mainBlue,
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    showBottomSheet(
+                                      context: context,
+                                      builder: (context) => SizedBox(
+                                        width: size.width,
+                                        height: size.height * 0.6,
+                                        child: DraggableScrollableSheet(
+                                          maxChildSize: 1,
+                                          initialChildSize: 1,
+                                          minChildSize: 0.4,
+                                          builder: (context, controller) =>
+                                              Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(16.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      "Select Department",
+                                                      style: textTh.titleMedium!
+                                                          .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  IconButton(
-                                                    onPressed: () {
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      icon: const Icon(
+                                                          Icons.close),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: ListView.separated(
+                                                  itemCount: AppStrings
+                                                      .universityDepartments
+                                                      .length,
+                                                  itemBuilder: (_, index) =>
+                                                      ListTile(
+                                                    tileColor: selectedDepartment ==
+                                                            AppStrings
+                                                                    .universityDepartments[
+                                                                index]
+                                                        ? AppColors.mainBlue
+                                                        : Theme.of(context)
+                                                            .colorScheme
+                                                            .surface,
+                                                    onTap: () {
+                                                      setState(() {
+                                                        selectedDepartment =
+                                                            AppStrings
+                                                                    .universityDepartments[
+                                                                index];
+                                                      });
                                                       Navigator.pop(context);
                                                     },
-                                                    icon:
-                                                        const Icon(Icons.close),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: ListView.separated(
-                                                itemCount: AppStrings
-                                                    .universityDepartments
-                                                    .length,
-                                                itemBuilder: (_, index) =>
-                                                    ListTile(
-                                                  tileColor: selectedDepartment ==
-                                                          AppStrings
-                                                                  .universityDepartments[
-                                                              index]
-                                                      ? AppColors.mainBlue
-                                                      : Theme.of(context)
-                                                          .colorScheme
-                                                          .surface,
-                                                  onTap: () {
-                                                    setState(() {
-                                                      selectedDepartment =
-                                                          AppStrings
-                                                                  .universityDepartments[
-                                                              index];
-                                                    });
-                                                    Navigator.pop(context);
-                                                  },
-                                                  title: Text(
-                                                    AppStrings
-                                                            .universityDepartments[
-                                                        index],
-                                                    style: textTh.bodyMedium!
-                                                        .copyWith(
-                                                      color: selectedDepartment ==
-                                                              AppStrings
-                                                                      .universityDepartments[
-                                                                  index]
-                                                          ? Colors.white
-                                                          : Colors.black,
+                                                    title: Text(
+                                                      AppStrings
+                                                              .universityDepartments[
+                                                          index],
+                                                      style: textTh.bodyMedium!
+                                                          .copyWith(
+                                                        color: selectedDepartment ==
+                                                                AppStrings
+                                                                        .universityDepartments[
+                                                                    index]
+                                                            ? Colors.white
+                                                            : Colors.black,
+                                                      ),
                                                     ),
                                                   ),
+                                                  separatorBuilder:
+                                                      (_, index) =>
+                                                          const Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 12.0),
+                                                    child: Divider(),
+                                                  ),
                                                 ),
-                                                separatorBuilder: (_, index) =>
-                                                    const Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 12.0),
-                                                  child: Divider(),
-                                                ),
-                                              ),
-                                            )
-                                          ],
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
-                                child: const Text("Select Department"),
-                              ),
-                          ],
+                                    );
+                                  },
+                                  child: const Text("Select Department"),
+                                ),
+                            ],
+                          ),
                         ),
-                      ),
                       if (category != AppStrings.otherCoursesCategory)
                         CustomTabBar(
                           alignment: TabAlignment.start,
@@ -302,8 +323,10 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
 
                                 debugPrint(
                                     "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
-                                pageNavController.navigatePage(
-                                  5,
+                                pageNavController.navigateTo(
+                                  nextScreen: AppInts.courseChaptersPageIndex,
+                                  //previousScreen:
+                                  //AppInts.coursesFilterPageIndex,
                                   arguments: {
                                     "previousScreenIndex": 4,
                                     "course": courses[index],
@@ -481,8 +504,11 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                                     debugPrint(
                                                         "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
                                                     pageNavController
-                                                        .navigatePage(
-                                                      5,
+                                                        .navigateTo(
+                                                      nextScreen: AppInts
+                                                          .courseChaptersPageIndex,
+                                                      //previousScreen: AppInts
+                                                      //.coursesFilterPageIndex,
                                                       arguments: {
                                                         "previousScreenIndex":
                                                             4,
@@ -553,8 +579,11 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                                     debugPrint(
                                                         "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
                                                     pageNavController
-                                                        .navigatePage(
-                                                      5,
+                                                        .navigateTo(
+                                                      nextScreen: AppInts
+                                                          .courseChaptersPageIndex,
+                                                      //previousScreen: AppInts
+                                                      //.coursesFilterPageIndex,
                                                       arguments: {
                                                         "previousScreenIndex":
                                                             4,

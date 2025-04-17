@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
@@ -100,10 +101,10 @@ class ListTilewidget extends ConsumerWidget {
 
               debugPrint(
                   "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
-              pageController.navigatePage(
-                5,
+              pageController.navigateTo(
+                nextScreen: AppInts.courseChaptersPageIndex,
                 arguments: {
-                  "previousScreenIndex": 0,
+                  "previousScreenIndex": AppInts.homePageIndex,
                   "course": course,
                 },
               );

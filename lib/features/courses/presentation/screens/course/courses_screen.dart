@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
@@ -102,9 +103,10 @@ class CoursePage extends ConsumerWidget {
                           ref
                               .read(coursesFilteredProvider.notifier)
                               .fetchCoursesFiltered(filter: cat);
-                          ref
-                              .read(pageNavigationProvider.notifier)
-                              .navigatePage(4);
+                          ref.read(pageNavigationProvider.notifier).navigateTo(
+                                nextScreen: AppInts.coursesFilterPageIndex,
+                                //previousScreen: AppInts.coursePageIndex,
+                              );
                         });
                       },
                     ),
@@ -164,8 +166,9 @@ class CoursePage extends ConsumerWidget {
                         ref
                             .read(courseChaptersProvider.notifier)
                             .fetchCourseChapters();
-                        pageController.navigatePage(
-                          5,
+                        pageController.navigateTo(
+                          nextScreen: AppInts.courseChaptersPageIndex,
+                          //previousScreen: AppInts.coursePageIndex,
                           arguments: {
                             "course": courses[index],
                             "previousScreenIndex": 1,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/course_chapters_screen.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/courses_screen.dart';
@@ -31,7 +32,7 @@ class WrapperScreen extends ConsumerWidget {
   const WrapperScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentPage = ref.watch(pageNavigationProvider);
+    final pageNavData = ref.watch(pageNavigationProvider);
     final pageController = ref.read(pageNavigationProvider.notifier);
     final paidScreenTabIndexProvider = ref.watch(paidScreenTabIndexProv);
     var size = MediaQuery.of(context).size;
@@ -47,7 +48,7 @@ class WrapperScreen extends ConsumerWidget {
       const ExamCoursesFiltersScreen(), // 7
       const ExamGradeFilterScreen(), // 8
     ];
-    if (currentPage == 0) {
+    if (pageNavData.currentPage == 0) {
       ref.read(carouselApiProvider.notifier).build();
       ref.read(homeScreenApiProvider.notifier).build();
       ref.read(currentUserProvider.notifier).build();
@@ -56,10 +57,10 @@ class WrapperScreen extends ConsumerWidget {
       }
       ref.read(notificationApiProvider.notifier).build();
     }
-    if (currentPage == 1) {
+    if (pageNavData.currentPage == 1) {
       ref.read(allCoursesApiProvider.notifier).build();
     }
-    if (currentPage == 2) {
+    if (pageNavData.currentPage == 2) {
       ref.read(bankInfoApiProvider.notifier).build();
       ref.read(paidCoursesApiProvider.notifier).build();
       ref.read(paidExamsApiProvider.notifier).build();
@@ -68,104 +69,133 @@ class WrapperScreen extends ConsumerWidget {
     //   ref.read(examYearFilterApiProvider.notifier).build();
     // }
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        key: AppKeys.drawerKey,
-        drawer: const CustomDrawer(),
-        body: Stack(
-          children: [
-            pages[currentPage],
-            if (currentPage != 6)
-              Positioned(
-                bottom: 10,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(55),
-                    ),
-                    color: AppColors.mainBlue,
-                    child: SizedBox(
-                      width: size.width - 24,
-                      height: 58,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            NavItem(
-                              icon: Icons.home_outlined,
-                              onTap: () {
-                                pageController.navigatePage(0);
-                              },
-                              label: "Home",
-                              isCurr: currentPage == 0,
-                              ref: ref,
-                            ),
-                            NavItem(
-                              icon: Icons.school_outlined,
-                              onTap: () => pageController.navigatePage(1),
-                              label: "Courses",
-                              isCurr: [1, 4, 5].contains(currentPage),
-                              ref: ref,
-                            ),
-                            NavItem(
-                              icon: Icons.workspace_premium,
-                              onTap: () => pageController.navigatePage(2),
-                              label: "Paid",
-                              isCurr: currentPage == 2,
-                              ref: ref,
-                            ),
-                            NavItem(
-                              icon: Icons.quiz,
-                              onTap: () {
-                                if (ref.read(pageNavigationProvider) == 6) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: const Text("Confirmation"),
-                                        content: const Text(
-                                            "Are you sure to leave the current page?"),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context)
-                                                  .pop(); // Dismiss the dialog
-                                            },
-                                            child: const Text("Cancel"),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context)
-                                                  .pop(); // Dismiss the dialog
-
-                                              pageController.navigatePage(3);
-                                            },
-                                            child: const Text("Yes"),
-                                          ),
-                                        ],
-                                      );
-                                    },
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        pageController.navigateBack();
+      },
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          key: AppKeys.drawerKey,
+          drawer: const CustomDrawer(),
+          body: Stack(
+            children: [
+              pages[pageNavData.currentPage],
+              if (pageNavData.currentPage != 6)
+                Positioned(
+                  bottom: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(55),
+                      ),
+                      color: AppColors.mainBlue,
+                      child: SizedBox(
+                        width: size.width - 24,
+                        height: 58,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              NavItem(
+                                icon: Icons.home_outlined,
+                                onTap: () {
+                                  pageController.navigateTo(
+                                    nextScreen: AppInts.homePageIndex,
                                   );
-                                } else {
-                                  pageController.navigatePage(3);
-                                }
-                              },
-                              label: "Exams",
-                              isCurr: [3, 6, 7].contains(currentPage),
-                              ref: ref,
-                            ),
-                          ],
+                                },
+                                label: "Home",
+                                isCurr: pageNavData.currentPage ==
+                                    AppInts.homePageIndex,
+                                ref: ref,
+                              ),
+                              NavItem(
+                                icon: Icons.school_outlined,
+                                onTap: () => pageController.navigateTo(
+                                  nextScreen: AppInts.coursePageIndex,
+                                ),
+                                label: "Courses",
+                                isCurr: [
+                                  AppInts.coursePageIndex,
+                                  AppInts.coursesFilterPageIndex,
+                                  AppInts.courseChaptersPageIndex,
+                                ].contains(pageNavData.currentPage),
+                                ref: ref,
+                              ),
+                              NavItem(
+                                icon: Icons.workspace_premium,
+                                onTap: () => pageController.navigateTo(
+                                  nextScreen: AppInts.paidPageIndex,
+                                ),
+                                label: "Paid",
+                                isCurr: pageNavData.currentPage ==
+                                    AppInts.paidPageIndex,
+                                ref: ref,
+                              ),
+                              NavItem(
+                                icon: Icons.quiz,
+                                onTap: () {
+                                  if (ref
+                                          .read(pageNavigationProvider)
+                                          .currentPage ==
+                                      AppInts.examQuestionsPageIndex) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text("Confirmation"),
+                                          content: const Text(
+                                              "Are you sure to leave the current page?"),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(); // Dismiss the dialog
+                                              },
+                                              child: const Text("Cancel"),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(); // Dismiss the dialog
+
+                                                pageController.navigateTo(
+                                                  nextScreen:
+                                                      AppInts.examsPageIndex,
+                                                );
+                                              },
+                                              child: const Text("Yes"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    pageController.navigateTo(
+                                      nextScreen: AppInts.examsPageIndex,
+                                    );
+                                  }
+                                },
+                                label: "Exams",
+                                isCurr: [
+                                  AppInts.examsPageIndex,
+                                  AppInts.examCoursesFiltersPageIndex,
+                                ].contains(pageNavData.currentPage),
+                                ref: ref,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              )
-          ],
+                )
+            ],
+          ),
         ),
       ),
     );

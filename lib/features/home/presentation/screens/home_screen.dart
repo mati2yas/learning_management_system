@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
@@ -171,10 +172,12 @@ class HomePage extends ConsumerWidget {
                                       .read(coursesFilteredProvider.notifier)
                                       .fetchCoursesFiltered(
                                           filter: "lower_grades");
-                                  pageNavController.navigatePage(4);
+                                  pageNavController.navigateTo(
+                                    nextScreen: AppInts.coursesFilterPageIndex,
+                                  );
                                 },
                                 child: CategoryIndicator(
-                                  title: "Lower Grades",
+                                  title: "Elementary",
                                   colorDarker:
                                       AppColors.courseCategoryColorsDarker[0],
                                   colorLighter:
@@ -189,7 +192,9 @@ class HomePage extends ConsumerWidget {
                                       .read(coursesFilteredProvider.notifier)
                                       .fetchCoursesFiltered(
                                           filter: "high_school");
-                                  pageNavController.navigatePage(4);
+                                  pageNavController.navigateTo(
+                                    nextScreen: AppInts.coursesFilterPageIndex,
+                                  );
                                 },
                                 child: CategoryIndicator(
                                   title: "High School",
@@ -207,7 +212,9 @@ class HomePage extends ConsumerWidget {
                                       .read(coursesFilteredProvider.notifier)
                                       .fetchCoursesFiltered(
                                           filter: "university");
-                                  pageNavController.navigatePage(4);
+                                  pageNavController.navigateTo(
+                                    nextScreen: AppInts.coursesFilterPageIndex,
+                                  );
                                 },
                                 child: CategoryIndicator(
                                   title: "University",
@@ -225,7 +232,9 @@ class HomePage extends ConsumerWidget {
                                       .read(coursesFilteredProvider.notifier)
                                       .fetchCoursesFiltered(
                                           filter: "random_courses");
-                                  pageNavController.navigatePage(4);
+                                  pageNavController.navigateTo(
+                                    nextScreen: AppInts.coursesFilterPageIndex,
+                                  );
                                 },
                                 child: CategoryIndicator(
                                   title: "Other Courses",
@@ -301,8 +310,8 @@ class HomePage extends ConsumerWidget {
 
                                   debugPrint(
                                       "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
-                                  pageNavController.navigatePage(
-                                    5,
+                                  pageNavController.navigateTo(
+                                    nextScreen: AppInts.courseChaptersPageIndex,
                                     arguments: {
                                       "course": courses[index],
                                       "previousScreenIndex": 0,

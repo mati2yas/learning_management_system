@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter_provider.dart';
@@ -62,8 +63,11 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {
-                pageNavController
-                    .navigatePage(examData[AppStrings.previousScreenKey]!);
+                //pageNavController
+                //   .navigatePage(examData[AppStrings.previousScreenKey]!);
+                pageNavController.navigateBack(
+                  //previousScreen: ref.read(pageNavigationProvider).nextScreen,
+                );
               },
               icon: const Icon(
                 Icons.arrow_back,
@@ -182,8 +186,12 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                                 ref
                                     .refresh(examQuestionsApiProvider.notifier)
                                     .fetchQuestions();
-                                pageNavController.navigatePage(6,
-                                    arguments: examDataNext);
+                                pageNavController.navigateTo(
+                                  nextScreen: AppInts.examQuestionsPageIndex,
+                                  // previousScreen:
+                                  //     AppInts.examGradeFilterPageIndex,
+                                  arguments: examDataNext,
+                                );
                               },
                               child: const Text("Take"),
                             ),

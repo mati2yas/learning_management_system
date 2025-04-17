@@ -63,7 +63,8 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
           onPressed: () {
             // reset timer and the go back to previous screen
             //ref.read(examTimerProvider.notifier).resetTimer(duration: 0);
-            pageNavController.navigatePage(previousScreen);
+            //pageNavController.navigatePage(previousScreen);
+            pageNavController.navigateBack();
           },
           icon: const Icon(
             Icons.arrow_back,

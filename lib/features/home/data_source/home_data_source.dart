@@ -26,11 +26,12 @@ class HomeDataSource {
       );
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
-        List<dynamic> data = response.data["data"];
-        debugPrint("${data.length} values");
+        //dynamic data1 = [];
 
+        List<dynamic> data1 = response.data["data"];
+        //debugPrint("${data1.length} values");
 
-        for (var dataVl in data) {
+        for (var dataVl in data1) {
           //print(dataVl);
           debugPrint("image url: ${dataVl["thumbnail"] ?? "_"}");
           Course crs = Course.fromJson(dataVl);

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_quiz_tile.dart';
 import 'package:lms_system/features/quiz/model/quiz_model.dart';
-import 'package:lms_system/features/quiz/presentation/quiz_questions_screen.dart';
 import 'package:lms_system/features/quiz/provider/current_quiz_id_provider.dart';
 import 'package:lms_system/features/quiz/provider/quiz_provider.dart';
 import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
@@ -37,11 +37,8 @@ class QuizzesListView extends ConsumerWidget {
             //     .resetTimer(duration: quizzes[index].duration);
 
             if (context.mounted) {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => QuizQuestionsPage(quiz: quize),
-                ),
-              );
+              Navigator.of(context)
+                  .pushNamed(Routes.quizQuestions, arguments: quize);
             }
           } else {
             showDialog(

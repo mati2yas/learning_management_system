@@ -40,7 +40,18 @@ class _ExamCoursesFilterScreenState
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            pageNavController.navigatePage(3);
+            // if (ref.read(pageNavigationProvider).previousScreen ==
+            //     AppInts.examGradeFilterPageIndex) {
+            //   debugPrint("second back");
+            //   pageNavController.navigateBack(
+            //       //previousScreen: AppInts.examCoursesFiltersPageIndex
+            //       );
+            // } else {
+            //   pageNavController.navigateBack(
+            //       // previousScreen:
+            //       );
+            // }
+            pageNavController.navigateBack();
           },
           icon: const Icon(
             Icons.arrow_back,

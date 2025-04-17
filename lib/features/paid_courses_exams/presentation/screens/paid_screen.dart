@@ -4,6 +4,7 @@ import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
@@ -133,8 +134,8 @@ class PaidScreen extends ConsumerWidget {
 
                               debugPrint(
                                   "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
-                              pageNavController.navigatePage(
-                                5,
+                              pageNavController.navigateTo(
+                                nextScreen: AppInts.courseChaptersPageIndex,
                                 arguments: {
                                   "course": courses[index],
                                   "previousScreenIndex": 2,
@@ -264,9 +265,11 @@ class PaidScreen extends ConsumerWidget {
                                                         .fetchQuestions();
 
                                                     pageNavController
-                                                        .navigatePage(6,
-                                                            arguments:
-                                                                examData);
+                                                        .navigateTo(
+                                                      nextScreen: AppInts
+                                                          .examQuestionsPageIndex,
+                                                      arguments: examData,
+                                                    );
                                                   },
                                                   child: const ListTile(
                                                     leading: Icon(
@@ -302,8 +305,9 @@ class PaidScreen extends ConsumerWidget {
                                                                 .notifier)
                                                         .fetchExamGrades();
                                                     pageNavController
-                                                        .navigatePage(
-                                                      8,
+                                                        .navigateTo(
+                                                      nextScreen: AppInts
+                                                          .examGradeFilterPageIndex,
                                                       arguments: <String,
                                                           dynamic>{
                                                         AppStrings
@@ -385,9 +389,11 @@ class PaidScreen extends ConsumerWidget {
                                                           examQuestionsApiProvider
                                                               .notifier)
                                                       .fetchQuestions();
-                                                  pageNavController
-                                                      .navigatePage(6,
-                                                          arguments: examData);
+                                                  pageNavController.navigateTo(
+                                                    nextScreen: AppInts
+                                                        .examQuestionsPageIndex,
+                                                    arguments: examData,
+                                                  );
                                                 }
                                               },
                                               child: const Text("Take"),

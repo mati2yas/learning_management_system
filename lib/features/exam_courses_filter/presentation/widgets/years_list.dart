@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
@@ -61,7 +62,11 @@ class TakeOrFilter extends StatelessWidget {
                   // ref
                   //     .read(examTimerProvider.notifier)
                   //     .resetTimer(duration: year.duration);
-                  pageController.navigatePage(6, arguments: examData);
+                  pageController.navigateTo(
+                   //previousScreen: AppInts.examCoursesFiltersPageIndex,
+                    nextScreen: AppInts.examQuestionsPageIndex,
+                    arguments: examData,
+                  );
                 },
                 child: const ListTile(
                   leading: Icon(Icons.question_answer),
@@ -84,8 +89,9 @@ class TakeOrFilter extends StatelessWidget {
                   ref
                       .read(examGradeFilterApiProvider.notifier)
                       .fetchExamGrades();
-                  pageController.navigatePage(
-                    8,
+                  pageController.navigateTo(
+                    nextScreen: AppInts.examGradeFilterPageIndex,
+                   //previousScreen: AppInts.examCoursesFiltersPageIndex,
                     arguments: <String, dynamic>{
                       AppStrings.previousScreenKey: 7,
                       AppStrings.examCourseKey: course.title,
@@ -127,7 +133,11 @@ class TakeOrFilter extends StatelessWidget {
                   AppStrings.previousScreenKey: 7,
                   AppStrings.hasTimerOptionKey: false,
                 };
-                pageController.navigatePage(6, arguments: examData);
+                pageController.navigateTo(
+                  nextScreen: AppInts.examQuestionsPageIndex,
+                 //previousScreen: AppInts.examCoursesFiltersPageIndex,
+                  arguments: examData,
+                );
               } else {
                 // if null then other pages, move on to
                 // questions page
@@ -147,7 +157,11 @@ class TakeOrFilter extends StatelessWidget {
                   AppStrings.previousScreenKey: 7,
                   AppStrings.hasTimerOptionKey: false,
                 };
-                pageController.navigatePage(6, arguments: examData);
+                pageController.navigateTo(
+                  nextScreen: AppInts.examQuestionsPageIndex,
+                 //previousScreen: AppInts.examCoursesFiltersPageIndex,
+                  arguments: examData,
+                );
               }
             },
             child: const Text("Take"),
