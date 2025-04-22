@@ -103,16 +103,30 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          ...selectedAnswerText.map(
-                            (ans) => Text(
-                              ans,
-                              style: TextStyle(
-                                color: correctAnswerText.contains(ans)
-                                    ? Colors.green
-                                    : Colors.red,
+                          ...currentQuestion.options.map((op) {
+                            debugPrint("option: $op, answers: [ ${correctAnswerText.join(",")} ]");
+                            return ListTile(
+                              tileColor: correctAnswerText.contains(op)
+                                  ? Colors.green
+                                  : Colors.red,
+                              title: Text(
+                                op,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                ),
                               ),
-                            ),
-                          ),
+                            );
+                          }),
+                          // ...selectedAnswerText.map(
+                          //   (ans) => Text(
+                          //     ans,
+                          //     style: TextStyle(
+                          //       color: correctAnswerText.contains(ans)
+                          //           ? Colors.green
+                          //           : Colors.red,
+                          //     ),
+                          //   ),
+                          // ),
                           const SizedBox(height: 12),
                           Text(
                             "Correct Answer(s):",
@@ -128,7 +142,7 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                               ),
                             ),
                           ),
-                          if (currentQuestion.explanation.isNotEmpty)
+                          if (currentQuestion.explanation != "")
                             ExplanationContainer(
                               explanation: currentQuestion.explanation,
                               textStyle: textTh.bodyMedium!,

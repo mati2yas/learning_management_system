@@ -17,33 +17,41 @@ import 'package:lms_system/features/exam_questions/provider/exam_questions_provi
 import 'package:lms_system/features/exams/provider/current_exam_course_id.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_screen_tab_index_prov.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class PaidScreen extends ConsumerWidget {
-  final int tabIndex;
   const PaidScreen({
     super.key,
-    required this.tabIndex,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final coursesApiState = ref.watch(paidCoursesApiProvider);
-    final examsApiState = ref.watch(paidExamsApiProvider);
     final coursesApiController = ref.watch(paidCoursesApiProvider.notifier);
     final examsApiController = ref.watch(paidExamsApiProvider.notifier);
+    final examsApiState = ref.watch(paidExamsApiProvider);
+    int tabIndex = ref.watch(paidScreenTabIndexProv);
 
+    bool isWideScreen = MediaQuery.sizeOf(context).width > 600;
     final pageNavController = ref.read(pageNavigationProvider.notifier);
-    var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
+    var textTh = Theme.of(context).textTheme;
     return DefaultTabController(
       length: 2,
       initialIndex: tabIndex,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Courses and Exams"),
+          title: Text(
+            "Your Courses and Exams",
+            style: textTh.titleLarge!.copyWith(
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
+          automaticallyImplyLeading: false,
           centerTitle: true,
           elevation: 5,
           shadowColor: Colors.black87,
@@ -53,7 +61,6 @@ class PaidScreen extends ConsumerWidget {
             IconButton(
               onPressed: () {
                 ref.refresh(paidCoursesApiProvider.notifier).fetchPaidCourses();
-                ref.refresh(paidExamsApiProvider.notifier).fetchPaidExams();
               },
               icon: const Icon(
                 Icons.refresh,
@@ -110,7 +117,7 @@ class PaidScreen extends ConsumerWidget {
                         padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           mainAxisExtent: 210,
-                          crossAxisCount: 2,
+                          crossAxisCount: isWideScreen ? 3 : 2,
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                           childAspectRatio:

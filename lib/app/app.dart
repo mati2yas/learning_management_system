@@ -2,9 +2,57 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/utils/root_checker.dart';
+import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
+import 'package:lms_system/features/check_seen_onboarding/provider/check_seen_onboarding_provider.dart';
 import 'package:lms_system/features/check_update/model/check_update_model.dart';
 import 'package:lms_system/features/check_update/provider/check_update_provider.dart';
-import 'package:lms_system/main.dart';
+import 'package:lms_system/features/shared/model/start_routes.dart';
+import 'package:lms_system/features/shared/provider/start_routes_provider.dart';
+
+final initialRouteProvider = FutureProvider<StartRoutes>(
+  (ref) async {
+    final checkSeenOnboardingController =
+        ref.watch(checkSeenOnboardingControllerProvider.notifier);
+    final checkAuthedController = ref.watch(authStatusProvider.notifier);
+    final rootCheckResult = await RootCheckerService.checkRoot();
+
+    bool hasSeenOnboarding =
+        await checkSeenOnboardingController.checkSeenOnboarding();
+    AuthStatus authStat = await checkAuthedController.checkAuthStatus();
+    String firstRoute = Routes.onboarding;
+    String secondRoute = Routes.signup;
+
+    if ([true, null].contains(rootCheckResult)) {
+      firstRoute = Routes.rootDetection;
+      secondRoute = Routes.rootDetection;
+    } else if (hasSeenOnboarding) {
+      switch (authStat) {
+        case AuthStatus.authed:
+          firstRoute = Routes.wrapper;
+          break;
+        case AuthStatus.pending:
+          firstRoute = Routes.login;
+          secondRoute = Routes.wrapper;
+          break;
+        case AuthStatus.notAuthed:
+          firstRoute = Routes.signup;
+          secondRoute = Routes.wrapper;
+          break;
+      }
+    }
+
+    ref.read(startRoutesProvider.notifier).changeRoute(
+          firstRoute: firstRoute,
+          secondRoute: secondRoute,
+        );
+    return StartRoutes(
+      firstRoute: firstRoute,
+      secondRoute: secondRoute,
+    );
+  },
+);
 
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
@@ -47,7 +95,8 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
 
     return routesAsync.when(
       loading: () => Container(color: Colors.white),
-      error: (error, stackTrace) => Text('Error: $error'),
+      error: (error, stackTrace) => Directionality(
+          textDirection: TextDirection.ltr, child: Text('Error: $error')),
       data: (routesData) {
         return OrientationBuilder(
           builder: (context, orientation) {
@@ -57,8 +106,23 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
                     ColorScheme.fromSeed(seedColor: AppColors.mainBlue),
                 useMaterial3: true,
               ),
-              initialRoute: routesData.firstRoute,
               onGenerateRoute: Approuter.generateRoute,
+              initialRoute: Routes.wrapper,
+              // onGenerateInitialRoutes: (initialRouteName) {
+              //   if (initialRouteName == Routes.wrapper) {
+              //     const token =
+              //         "some_token_here"; // Load it from somewhere like SharedPrefs
+              //     return [
+              //       MaterialPageRoute(
+              //         builder: (_) => const WrapperScreen(apiToken: token),
+              //         settings: const RouteSettings(name: Routes.wrapper),
+              //       ),
+              //     ];
+              //   }
+              //   return [
+              //     Approuter.generateRoute(RouteSettings(name: initialRouteName))
+              //   ];
+              // },
             );
           },
         );

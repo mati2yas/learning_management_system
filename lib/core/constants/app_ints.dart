@@ -4,8 +4,8 @@ class AppInts {
 
   static const int homePageIndex = 0;
   static const int coursePageIndex = 1;
-  static const int paidPageIndex = 2;
-  static const int examsPageIndex = 3;
+  static const int examsPageIndex = 2;
+  static const int paidPageIndex = 3;
   static const int coursesFilterPageIndex = 4;
   static const int courseChaptersPageIndex = 5;
   static const int examQuestionsPageIndex = 6;

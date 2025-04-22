@@ -24,6 +24,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
 
   @override
   List<Widget> buildActions(BuildContext context) {
+    final textTh = Theme.of(context).textTheme;
     return [
       IconButton(
         icon: const Icon(Icons.clear),
@@ -46,6 +47,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
 
   @override
   Widget buildResults(BuildContext context) {
+    final textTh = Theme.of(context).textTheme;
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.all(12),
@@ -66,11 +68,29 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
                 },
               ),
               data: (courses) {
-                if (courses.isEmpty) {
-                  return const Center(
-                    child: Text("No courses found for this query."),
+                if (courses.isEmpty && query == "") {
+                  return Center(
+                    child: Text(
+                      "Search your courses here.",
+                      style: textTh.bodyLarge!.copyWith(
+                        color: AppColors.mainBlue,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   );
                 }
+                if (courses.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "No courses found for this query.",
+                      style: textTh.bodyLarge!.copyWith(
+                        color: AppColors.mainBlue,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  );
+                }
+
                 return Scaffold(
                   body: Container(
                     margin: const EdgeInsets.all(12),
@@ -145,6 +165,7 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    var textTh = Theme.of(context).textTheme;
     return widgetRef.watch(searchResultsProvider).when(
           loading: () => const Center(
             child: CircularProgressIndicator(
@@ -161,13 +182,30 @@ class CourseSearchDelegate extends SearchDelegate<Course> {
             },
           ),
           data: (courses) {
+            if (courses.isEmpty && query == "") {
+              return Center(
+                child: Text(
+                  "Search your courses here.",
+                  style: textTh.bodyLarge!.copyWith(
+                    color: AppColors.mainBlue,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              );
+            }
             final filteredCourses = courses
                 .where((course) =>
                     course.title.toLowerCase().contains(query.toLowerCase()))
                 .toList();
             if (filteredCourses.isEmpty) {
-              return const Center(
-                child: Text("No courses found"),
+              return Center(
+                child: Text(
+                  "No courses found",
+                  style: textTh.bodyLarge!.copyWith(
+                    color: AppColors.mainBlue,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               );
             }
             return GridView.builder(

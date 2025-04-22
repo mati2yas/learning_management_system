@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_system/app/root_checker.dart';
 import 'package:lms_system/features/auth_login/presentation/screens/login_screen.dart';
 import 'package:lms_system/features/auth_sign_up/presentation/screens/register_screen.dart';
 import 'package:lms_system/features/auth_sign_up/presentation/screens/temporary_screen.dart';
@@ -14,6 +15,8 @@ import 'package:lms_system/features/home/presentation/screens/faq_contact_us.dar
 import 'package:lms_system/features/home/presentation/screens/home_screen.dart';
 import 'package:lms_system/features/notification/presentation/screens/notification_screen.dart';
 import 'package:lms_system/features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:lms_system/features/paid_courses_exams/presentation/screens/bookmarked_courses_screen.dart';
+import 'package:lms_system/features/paid_courses_exams/presentation/screens/bookmarked_exams_screen.dart';
 import 'package:lms_system/features/profile/presentation/screens/profile_screen.dart';
 import 'package:lms_system/features/profile_add/presentation/screens/profile_add_screen.dart';
 import 'package:lms_system/features/quiz/model/quiz_model.dart';
@@ -21,7 +24,6 @@ import 'package:lms_system/features/quiz/presentation/quiz_questions_screen.dart
 import 'package:lms_system/features/saved/presentation/screens/saved_screen.dart';
 import 'package:lms_system/features/subscription/presentation/screens/subscription_screen.dart';
 import 'package:lms_system/features/wrapper/presentation/screens/wrapper_screen.dart';
-import 'package:lms_system/root_checker.dart';
 
 import '../features/courses/presentation/screens/course/courses_screen.dart';
 import '../features/shared/model/chapter.dart';
@@ -33,7 +35,9 @@ class Approuter {
         return MaterialPageRoute(
             builder: (_) => const AdvancedRootDetectionScreen());
       case Routes.wrapper:
-        return MaterialPageRoute(builder: (_) => const WrapperScreen());
+        return MaterialPageRoute(
+          builder: (_) => const WrapperScreen(),
+        );
 
       case Routes.onboarding:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
@@ -95,6 +99,14 @@ class Approuter {
           ),
         );
 
+      case Routes.bookmarkedCourses:
+        return MaterialPageRoute(
+          builder: (_) => const BookmarkedCoursesScreen(),
+        );
+      case Routes.bookmarkedExams:
+        return MaterialPageRoute(
+          builder: (_) => const BookmarkedExamsScreen(),
+        );
       case Routes.chapterVideo:
         final video = settings.arguments as Video;
         return MaterialPageRoute(
@@ -146,6 +158,8 @@ class Routes {
   static const String profileEdit = "profile_edit";
   static const String signup = "signup";
   static const String courses = "courses";
+  static const String bookmarkedCourses = "bookmarkedCourses";
+  static const String bookmarkedExams = "bookmarkedExams";
   static const String filterCourses = "courseDetails";
   static const String chapterContent = "chapterDetails";
   static const String quizQuestions = "quizQuestions";

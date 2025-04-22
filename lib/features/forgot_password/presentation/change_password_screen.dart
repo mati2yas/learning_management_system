@@ -10,6 +10,7 @@ import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 import 'package:lms_system/features/forgot_password/model/forgot_password_model.dart';
 import 'package:lms_system/features/forgot_password/provider/change_password_provider.dart';
+import 'package:lms_system/features/shared/model/shared_user.dart';
 
 class ChangePasswordScreen extends ConsumerStatefulWidget {
   final ForgotPasswordModel forgotPasswordModel;
@@ -38,6 +39,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
       ),
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
@@ -126,9 +128,12 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                               ? null
                               : const EdgeInsets.symmetric(
                                   horizontal: 50,
-                                  vertical: 15,
+                                  vertical: 10,
                                 ),
-                          fixedSize: Size(size.width - 80, 50),
+                          fixedSize: Size(
+                            size.width - 80,
+                             60,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -158,8 +163,26 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                                   );
                                   passwordController.clear();
                                   pinController.clear();
-                                  Navigator.of(context)
-                                      .pushReplacementNamed(Routes.profileAdd);
+                                  User? user = await SecureStorageService()
+                                      .getUserFromStorage();
+
+                                  await Future.delayed(
+                                      const Duration(seconds: 2));
+                                  debugPrint(
+                                      "tokenINChangePass: ${user?.token}");
+
+                                  if (context.mounted) {
+                                    if ((user?.loginCount ?? 0) > 0) {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                        Routes.wrapper,
+                                      );
+                                    } else {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              Routes.profileAdd);
+                                    }
+                                  }
                                 }
                               }
                             } catch (e) {
@@ -192,18 +215,16 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                             : state.apiStatus == ApiState.error
                                 ? Text(
                                     'Retry',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: size.width * 0.04,
+                                    style: textTh.titleLarge!.copyWith(
                                       fontWeight: FontWeight.w600,
+                                      color: Colors.white,
                                     ),
                                   )
                                 : Text(
                                     'Login',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: size.width * 0.04,
+                                    style: textTh.titleLarge!.copyWith(
                                       fontWeight: FontWeight.w600,
+                                      color: Colors.white,
                                     ),
                                   ),
                       ),
@@ -219,12 +240,19 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
   }
 
   @override
+  void dispose() {
+    passwordController.dispose();
+    pinController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final state = ref.watch(changePasswordControllerProvider);
-      passwordController.text = state.password;
-      pinController.text = state.pinToken;
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   final state = ref.watch(changePasswordControllerProvider);
+    //   passwordController.text = state.password;
+    //   pinController.text = state.pinToken;
+    // });
   }
 }

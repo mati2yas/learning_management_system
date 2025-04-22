@@ -11,6 +11,7 @@ import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_screen_tab_index_prov.dart';
 import 'package:lms_system/features/profile/provider/profile_provider.dart';
@@ -149,15 +150,17 @@ class ProfilePage extends ConsumerWidget {
                       nextScreen: AppInts.paidPageIndex,
                     );
 
-                    ref
-                        .watch(paidScreenTabIndexProv.notifier)
-                        .changeTabIndex(0);
+                    ref.read(paidScreenTabIndexProv.notifier).changeTabIndex(0);
                     ref
                         .refresh(savedApiProvider.notifier)
                         .fetchSavedCoursesData();
 
+                    ref
+                        .refresh(paidCoursesApiProvider.notifier)
+                        .fetchPaidCourses();
+
                     if (context.mounted) {
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed(Routes.bookmarkedCourses);
                     }
                   },
                   label: Text(
@@ -170,16 +173,16 @@ class ProfilePage extends ConsumerWidget {
                 ),
                 TextButton.icon(
                   onPressed: () async {
-                    ref
-                        .watch(paidScreenTabIndexProv.notifier)
-                        .changeTabIndex(1);
+                    ref.read(paidScreenTabIndexProv.notifier).changeTabIndex(1);
                     pageNavController.navigateTo(
                         nextScreen: AppInts.paidPageIndex);
 
                     ref.refresh(paidExamsApiProvider.notifier).fetchPaidExams();
 
+                    ref.refresh(paidExamsApiProvider.notifier).fetchPaidExams();
+
                     if (context.mounted) {
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed(Routes.bookmarkedExams);
                     }
                   },
                   label: Text(
@@ -207,20 +210,33 @@ class ProfilePage extends ConsumerWidget {
                               ref
                                   .read(authStatusProvider.notifier)
                                   .setAuthStatus(AuthStatus.pending);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                UtilFunctions.buildInfoSnackbar(
-                                    message: "Logged Out Successfully."),
-                              );
+
                               if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  UtilFunctions.buildInfoSnackbar(
+                                      message: "Logged Out Successfully."),
+                                );
+                                Navigator.pop(context);
+                                Navigator.pop(context);
                                 Navigator.of(context)
                                     .pushReplacementNamed(Routes.login);
                               }
                             },
-                            child: const Text("Logout"),
+                            child: const Text(
+                              "Logout",
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
                           ),
                           TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: const Text("Cancel"),
+                            child: const Text(
+                              "Cancel",
+                              style: TextStyle(
+                                color: AppColors.mainBlue,
+                              ),
+                            ),
                           ),
                         ],
                       ),

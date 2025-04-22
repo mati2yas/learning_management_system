@@ -133,20 +133,32 @@ class CustomDrawer extends StatelessWidget {
                             ref
                                 .read(authStatusProvider.notifier)
                                 .setAuthStatus(AuthStatus.pending);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              UtilFunctions.buildInfoSnackbar(
-                                  message: "Logged Out Successfully."),
-                            );
                             if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                UtilFunctions.buildInfoSnackbar(
+                                    message: "Logged Out Successfully."),
+                              );
+
+                              Navigator.pop(context);
                               Navigator.of(context)
                                   .pushReplacementNamed(Routes.login);
                             }
                           },
-                          child: const Text("Logout"),
+                          child: const Text(
+                            "Logout",
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
                         ),
                         TextButton(
                           onPressed: () => Navigator.pop(context),
-                          child: const Text("Cancel"),
+                          child: const Text(
+                            "Cancel",
+                            style: TextStyle(
+                              color: AppColors.mainBlue,
+                            ),
+                          ),
                         ),
                       ],
                     ),

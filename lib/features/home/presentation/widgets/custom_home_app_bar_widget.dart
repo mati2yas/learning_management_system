@@ -24,173 +24,341 @@ class CustomHomeAppBar extends ConsumerWidget {
     var courseRequestsProv = ref.watch(courseRequestsProvider);
     var examRequestsProv = ref.watch(examRequestsProvider);
     var notifsProv = ref.watch(notificationApiProvider);
-    return Container(
-      height: 115,
-      padding:
-          const EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 12,
-        children: [
-          Row(
-            spacing: 5,
-            children: [
-              SizedBox(
-                width: 47,
-                child: GestureDetector(
-                  onTap: () {
-                    AppKeys.drawerKey.currentState!.openDrawer();
-                  },
-                  child: SvgPicture.asset(
-                    "assets/svgs/hamburger_menu.svg",
-                  ),
-                ),
-              ),
-              const Spacer(),
-              GestureDetector(
-                onTap: () {
-                  ref
-                      .refresh(notificationApiProvider.notifier)
-                      .fetchNotifs(page: 1);
-                  Navigator.of(context).pushNamed(Routes.notifications);
-                },
-                child: const CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Center(
-                    child: Icon(
-                      Icons.notifications_outlined,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  showSearch(
-                    context: context,
-                    delegate: CourseSearchDelegate(
-                        widgetRef: ref, previousScreenIndex: 0),
-                  );
-                },
-                child: const CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Center(
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushNamed(
-                    Routes.subscriptions,
-                    arguments: AppInts.subscriptionScreenCourseIndex,
-                  );
-                },
-                child: Stack(
+    Size size = MediaQuery.sizeOf(context);
+    bool isWideScreen = size.width > 600;
+
+    return isWideScreen
+        ? Container(
+            height: 65,
+            padding: const EdgeInsetsDirectional.symmetric(
+                horizontal: 12, vertical: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 12,
+              children: [
+                Row(
+                  spacing: 5,
                   children: [
-                    const CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Center(
-                        child: Icon(
-                          Icons.shopping_cart_outlined,
-                          color: Colors.black,
-                          size: 20,
+                    SizedBox(
+                      width: 47,
+                      child: GestureDetector(
+                        onTap: () {
+                          AppKeys.drawerKey.currentState!.openDrawer();
+                        },
+                        child: SvgPicture.asset(
+                          "assets/svgs/hamburger_menu.svg",
                         ),
                       ),
                     ),
-                    if (courseRequestsProv.isNotEmpty)
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 18,
-                          width: 18,
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          child: Text(
-                            "${courseRequestsProv.length}",
-                            style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: userState.when(
+                          error: (error, stack) {
+                            return Text(error.toString());
+                          },
+                          loading: () => const Text("Loading User..."),
+                          data: (user) {
+                            String name = user.name.replaceAll("\"", "");
+                            return Row(
+                              spacing: 5,
+                              children: [
+                                Text(
+                                  "👋 Hello,",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: name.length < 20 ? 18 : 15,
+                                  ),
+                                ),
+                                NameTextContainer(
+                                  name: name,
+                                  textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: name.length < 20 ? 18 : 15,
+                                  ),
+                                  maxWidth: size.width * 0.4,
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        ref
+                            .refresh(notificationApiProvider.notifier)
+                            .fetchNotifs(page: 1);
+                        Navigator.of(context).pushNamed(Routes.notifications);
+                      },
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Center(
+                          child: Icon(
+                            Icons.notifications_outlined,
+                            color: Colors.black,
+                            size: 20,
                           ),
                         ),
                       ),
-                    if (examRequestsProv.isNotEmpty)
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 18,
-                          width: 18,
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          child: Text(
-                            "${examRequestsProv.length}",
-                            style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        showSearch(
+                          context: context,
+                          delegate: CourseSearchDelegate(
+                              widgetRef: ref, previousScreenIndex: 0),
+                        );
+                      },
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Center(
+                          child: Icon(
+                            Icons.search,
+                            color: Colors.black,
+                            size: 20,
                           ),
                         ),
                       ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          Routes.subscriptions,
+                          arguments: AppInts.subscriptionScreenCourseIndex,
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          const CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Center(
+                              child: Icon(
+                                Icons.shopping_cart_outlined,
+                                color: Colors.black,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                          if (courseRequestsProv.isNotEmpty)
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 18,
+                                width: 18,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                child: Text(
+                                  "${courseRequestsProv.length}",
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          if (examRequestsProv.isNotEmpty)
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 18,
+                                width: 18,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                child: Text(
+                                  "${examRequestsProv.length}",
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 4.0),
-            child: SizedBox(
-              height: 40,
-              width: MediaQuery.sizeOf(context).width,
-              child: userState.when(
-                error: (error, stack) {
-                  return Text(error.toString());
-                },
-                loading: () => const Text("Loading User..."),
-                data: (user) {
-                  String name = user.name.replaceAll("\"", "");
-                  return Row(
-                    spacing: 8,
-                    children: [
-                      Text(
-                        "👋 Hello,",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: name.length < 20 ? 18 : 15,
-                        ),
-                      ),
-                      NameTextContainer(
-                        name: name,
-                        textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: name.length < 20 ? 18 : 15,
-                        ),
-                        maxWidth: MediaQuery.sizeOf(context).width * 0.6,
-                      ),
-                    ],
-                  );
-                },
-              ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          )
+        : Container(
+            height: 115,
+            padding: const EdgeInsetsDirectional.symmetric(
+                horizontal: 12, vertical: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 12,
+              children: [
+                Row(
+                  spacing: 5,
+                  children: [
+                    SizedBox(
+                      width: 47,
+                      child: GestureDetector(
+                        onTap: () {
+                          AppKeys.drawerKey.currentState!.openDrawer();
+                        },
+                        child: SvgPicture.asset(
+                          "assets/svgs/hamburger_menu.svg",
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        ref
+                            .refresh(notificationApiProvider.notifier)
+                            .fetchNotifs(page: 1);
+                        Navigator.of(context).pushNamed(Routes.notifications);
+                      },
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Center(
+                          child: Icon(
+                            Icons.notifications_outlined,
+                            color: Colors.black,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        showSearch(
+                          context: context,
+                          delegate: CourseSearchDelegate(
+                              widgetRef: ref, previousScreenIndex: 0),
+                        );
+                      },
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Center(
+                          child: Icon(
+                            Icons.search,
+                            color: Colors.black,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          Routes.subscriptions,
+                          arguments: AppInts.subscriptionScreenCourseIndex,
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          const CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Center(
+                              child: Icon(
+                                Icons.shopping_cart_outlined,
+                                color: Colors.black,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                          if (courseRequestsProv.isNotEmpty)
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 18,
+                                width: 18,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                child: Text(
+                                  "${courseRequestsProv.length}",
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          if (examRequestsProv.isNotEmpty)
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 18,
+                                width: 18,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                child: Text(
+                                  "${examRequestsProv.length}",
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 4.0),
+                  child: SizedBox(
+                    height: 40,
+                    width: MediaQuery.sizeOf(context).width,
+                    child: userState.when(
+                      error: (error, stack) {
+                        return Text(error.toString());
+                      },
+                      loading: () => const Text("Loading User..."),
+                      data: (user) {
+                        String name = user.name.replaceAll("\"", "");
+                        return Row(
+                          spacing: 5,
+                          children: [
+                            Text(
+                              "👋 Hello,",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: name.length < 20 ? 18 : 15,
+                              ),
+                            ),
+                            NameTextContainer(
+                              name: name,
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: name.length < 20 ? 18 : 15,
+                              ),
+                              maxWidth: MediaQuery.sizeOf(context).width * 0.6,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 }
 

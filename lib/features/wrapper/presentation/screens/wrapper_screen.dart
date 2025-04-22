@@ -18,7 +18,6 @@ import 'package:lms_system/features/notification/provider/notification_provider.
 import 'package:lms_system/features/paid_courses_exams/presentation/screens/paid_screen.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
-import 'package:lms_system/features/paid_courses_exams/provider/paid_screen_tab_index_prov.dart';
 import 'package:lms_system/features/subscription/provider/bank_info_provider.dart';
 import 'package:lms_system/features/subscription/provider/requests/course_requests_provider.dart';
 import 'package:lms_system/features/wrapper/presentation/widgets/nav_item.dart';
@@ -29,26 +28,28 @@ import '../../provider/wrapper_provider.dart';
 import '../widgets/drawer_widget.dart';
 
 class WrapperScreen extends ConsumerWidget {
-  const WrapperScreen({super.key});
+  const WrapperScreen({
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pageNavData = ref.watch(pageNavigationProvider);
     final pageController = ref.read(pageNavigationProvider.notifier);
-    final paidScreenTabIndexProvider = ref.watch(paidScreenTabIndexProv);
     var size = MediaQuery.of(context).size;
     final currentCategory = ref.watch(currentCategoryProvider);
     final List<Widget> pages = [
       const HomePage(), // 0
       const CoursePage(), // 1
-      PaidScreen(tabIndex: paidScreenTabIndexProvider), // 2
-      const ExamsScreen(), // 3
+      const ExamsScreen(), // 2
+      const PaidScreen(), // 3
       const CoursesFilterScreen(), // 4
       const CourseChaptersScreen(), // 5
       const ExamQuestionsPage(), // 6
       const ExamCoursesFiltersScreen(), // 7
       const ExamGradeFilterScreen(), // 8
     ];
-    if (pageNavData.currentPage == 0) {
+    if (pageNavData.currentPage == AppInts.homePageIndex) {
       ref.read(carouselApiProvider.notifier).build();
       ref.read(homeScreenApiProvider.notifier).build();
       ref.read(currentUserProvider.notifier).build();
@@ -57,10 +58,10 @@ class WrapperScreen extends ConsumerWidget {
       }
       ref.read(notificationApiProvider.notifier).build();
     }
-    if (pageNavData.currentPage == 1) {
+    if (pageNavData.currentPage == AppInts.coursePageIndex) {
       ref.read(allCoursesApiProvider.notifier).build();
     }
-    if (pageNavData.currentPage == 2) {
+    if (pageNavData.currentPage == AppInts.paidPageIndex) {
       ref.read(bankInfoApiProvider.notifier).build();
       ref.read(paidCoursesApiProvider.notifier).build();
       ref.read(paidExamsApiProvider.notifier).build();
@@ -68,8 +69,12 @@ class WrapperScreen extends ConsumerWidget {
     // if (currentPage == 3) {
     //   ref.read(examYearFilterApiProvider.notifier).build();
     // }
+    int currentScreensOnStack = pageNavData.screensTrack.length;
+    bool checkPopCondition =
+        (currentScreensOnStack == 0 || currentScreensOnStack == 1);
 
     return PopScope(
+      //canPop: checkPopCondition,
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         pageController.navigateBack();
@@ -104,6 +109,10 @@ class WrapperScreen extends ConsumerWidget {
                               NavItem(
                                 icon: Icons.home_outlined,
                                 onTap: () {
+                                  // showScreensSnackBar(
+                                  //   context,
+                                  //   pageNavData.screensTrack,
+                                  // );
                                   pageController.navigateTo(
                                     nextScreen: AppInts.homePageIndex,
                                   );
@@ -115,9 +124,15 @@ class WrapperScreen extends ConsumerWidget {
                               ),
                               NavItem(
                                 icon: Icons.school_outlined,
-                                onTap: () => pageController.navigateTo(
-                                  nextScreen: AppInts.coursePageIndex,
-                                ),
+                                onTap: () {
+                                  // showScreensSnackBar(
+                                  //   context,
+                                  //   pageNavData.screensTrack,
+                                  // );
+                                  pageController.navigateTo(
+                                    nextScreen: AppInts.coursePageIndex,
+                                  );
+                                },
                                 label: "Courses",
                                 isCurr: [
                                   AppInts.coursePageIndex,
@@ -127,18 +142,12 @@ class WrapperScreen extends ConsumerWidget {
                                 ref: ref,
                               ),
                               NavItem(
-                                icon: Icons.workspace_premium,
-                                onTap: () => pageController.navigateTo(
-                                  nextScreen: AppInts.paidPageIndex,
-                                ),
-                                label: "Paid",
-                                isCurr: pageNavData.currentPage ==
-                                    AppInts.paidPageIndex,
-                                ref: ref,
-                              ),
-                              NavItem(
                                 icon: Icons.quiz,
                                 onTap: () {
+                                  // showScreensSnackBar(
+                                  //   context,
+                                  //   pageNavData.screensTrack,
+                                  // );
                                   if (ref
                                           .read(pageNavigationProvider)
                                           .currentPage ==
@@ -187,6 +196,22 @@ class WrapperScreen extends ConsumerWidget {
                                 ].contains(pageNavData.currentPage),
                                 ref: ref,
                               ),
+                              NavItem(
+                                icon: Icons.workspace_premium,
+                                onTap: () {
+                                  // showScreensSnackBar(
+                                  //   context,
+                                  //   pageNavData.screensTrack,
+                                  // );
+                                  pageController.navigateTo(
+                                    nextScreen: AppInts.paidPageIndex,
+                                  );
+                                },
+                                label: "Paid",
+                                isCurr: pageNavData.currentPage ==
+                                    AppInts.paidPageIndex,
+                                ref: ref,
+                              ),
                             ],
                           ),
                         ),
@@ -199,5 +224,11 @@ class WrapperScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  void showScreensSnackBar(BuildContext ctx, List<int> screensOnStack) {
+    ScaffoldMessenger.of(ctx).removeCurrentSnackBar();
+    ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+        content: Text("Current screens: [ ${screensOnStack.join(", ")} ]")));
   }
 }

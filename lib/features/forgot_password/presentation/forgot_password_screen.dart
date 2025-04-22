@@ -80,7 +80,10 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                             horizontal: 50,
                             vertical: 15,
                           ),
-                    fixedSize: Size(size.width - 80, 50),
+                    fixedSize: Size(
+                      size.width - 80,
+                      size.width > size.height ? 65 : 50,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -129,18 +132,16 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                       : state.apiStatus == ApiState.error
                           ? Text(
                               'Retry',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: size.width * 0.04,
+                              style: textTh.titleLarge!.copyWith(
                                 fontWeight: FontWeight.w600,
+                                color: Colors.white,
                               ),
                             )
                           : Text(
                               'Reset Password',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: size.width * 0.04,
+                              style: textTh.titleLarge!.copyWith(
                                 fontWeight: FontWeight.w600,
+                                color: Colors.white,
                               ),
                             ),
                 ),

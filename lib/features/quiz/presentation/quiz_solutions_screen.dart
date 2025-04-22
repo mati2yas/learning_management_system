@@ -30,7 +30,7 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
     final size = MediaQuery.sizeOf(context);
     var textTh = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: CommonAppBar(titleText: "Exam Solutions"),
+      appBar: CommonAppBar(titleText: "Quiz Solutions"),
       body: Stack(
         children: [
           SizedBox(

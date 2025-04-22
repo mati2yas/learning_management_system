@@ -55,12 +55,14 @@ class LoginDataSource {
           await _dio.download(avatar, savePath);
         }
 
+        int loginCount = response.data["data"]["user"]["login_count"] ?? 0;
         final user = User(
           id: response.data["data"]["user"]["id"],
           name: response.data["data"]["user"]["name"],
           email: email,
           password: password,
           bio: response.data["data"]["user"]["bio"] ?? "",
+          loginCount: loginCount,
           image: savePath,
           token: token,
         );
@@ -84,7 +86,6 @@ class LoginDataSource {
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
       throw Exception(errorMessage);
     } catch (e, stackTrace) {
-      // Log unexpected errors too
       await FirebaseCrashlytics.instance.recordError(
         e,
         stackTrace,

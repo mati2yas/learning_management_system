@@ -8,6 +8,7 @@ import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
+import 'package:lms_system/features/shared/model/shared_user.dart';
 
 import '../../../../core/constants/app_colors.dart';
 
@@ -34,207 +35,241 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
     Size size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            spacing: 12,
-            children: [
-              Text(
-                'Welcome $name',
-                style: textTh.headlineMedium!.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              Text(
-                "Let's complete your profile",
-                style: textTh.titleLarge!.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(
-                height: size.height * .45,
-                width: size.width - 80,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 12,
-                  children: [
-                    Text(
-                      'Bio',
-                      style: textTh.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    TextField(
-                      controller: _bioController,
-                      maxLines: 3,
-                      maxLength: 250,
-                      decoration: InputDecoration(
-                        labelText: 'Tell us about yourself',
-                        errorText: _errorMessageBio, // Show error message
-                        border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            width: 2,
-                            color: AppColors.mainBlue,
-                          ),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                      onChanged: (value) {
-                        // Validate on change
-                        _validateInput();
-                        if (_errorMessageBio == null) {
-                          // if error message is null then _transactionIdController.text will not
-                          // be null or empty.
-                          editProfileController.updateBio(
-                            _bioController.text,
-                          );
-                        }
-                      },
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        bool success = await pickAvatarImage();
-
-                        if (success) {
-                          editProfileController.updateImage(avatarImage);
-                          setState(() {
-                            imagePicked = true;
-                            //listViewSize = size.height * 0.35;
-                          });
-                        }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.mainBlue.withAlpha(100),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        height: 40,
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              "Choose Profile Image",
-                              style: TextStyle(
-                                color: _errorMessageImagePath != null
-                                    ? Colors.red
-                                    : Colors.black,
-                              ),
-                            ),
-                            const Icon(
-                              Icons.image,
-                              color: Colors.black,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    if (imagePicked &&
-                        avatarImage != null &&
-                        _errorMessageImagePath == null)
-                      Image.file(
-                        File(avatarImage!.path),
-                        width: 60,
-                        height: 60,
-                      )
-                    else if (_errorMessageImagePath != null)
-                      Text(
-                        _errorMessageImagePath!,
-                        style: textTh.labelMedium!.copyWith(color: Colors.red),
-                      ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushReplacementNamed(Routes.wrapper);
-                      },
-                      child: Text(
-                        "Skip",
-                        style: textTh.bodyLarge!.copyWith(
-                          color: AppColors.mainBlue,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        //backgroundColor: Colors.black,
-                        backgroundColor: AppColors.mainBlue,
-                        padding: editState.apiState == ApiState.busy
-                            ? null
-                            : const EdgeInsets.symmetric(
-                                horizontal: 50,
-                                vertical: 15,
-                              ),
-
-                        fixedSize: const Size(140, 50),
-                        minimumSize: const Size(100, 40),
-                        maximumSize: const Size(180, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      onPressed: () async {
-                        _validateInput(); // Validate when button is pressed
-                        _validateImagePath();
-                        if (_errorMessageBio != null) {
-                          return;
-                        } else if (_errorMessageBio == null) {
-                          final result =
-                              await editProfileController.editProfile();
-                          if (result.responseStatus) {
-                            resetImagePicked();
-                            _bioController.clear();
-                            authStatusController.checkAuthStatus();
-                          }
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(result.message),
-                                backgroundColor: result.responseStatus
-                                    ? Colors.green
-                                    : Colors.red,
-                              ),
-                            );
-                          }
-                        }
-                        if (context.mounted) {
-                          Navigator.of(context)
-                              .pushReplacementNamed(Routes.home);
-                        }
-                      },
-                      child: editState.apiState == ApiState.busy
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                              ),
-                            )
-                          : Text(
-                              'Submit',
-                              style: textTh.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+        title: Text(
+          'Welcome $name',
+          style: const TextStyle(
+            color: AppColors.mainBlue,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
+      body: LayoutBuilder(builder: (context, constraints) {
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
+              ),
+              child: SingleChildScrollView(
+                child: IntrinsicHeight(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    spacing:
+                        constraints.maxWidth < constraints.maxHeight ? 30 : 20,
+                    children: [
+                      // Text(
+                      //   'Welcome $name',
+                      //   style: textTh.headlineMedium!.copyWith(
+                      //     fontWeight: FontWeight.w800,
+                      //   ),
+                      // ),
+                      Text(
+                        "Let's complete your profile",
+                        style: textTh.titleLarge!.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        'Bio',
+                        style: textTh.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextField(
+                        controller: _bioController,
+                        maxLines: 3,
+                        maxLength: 250,
+                        decoration: InputDecoration(
+                          labelText: 'Tell us about yourself',
+                          errorText: _errorMessageBio, // Show error message
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 2,
+                              color: AppColors.mainBlue,
+                            ),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          // Validate on change
+                          _validateInput();
+                          if (_errorMessageBio == null) {
+                            // if error message is null then _transactionIdController.text will not
+                            // be null or empty.
+                            editProfileController.updateBio(
+                              _bioController.text,
+                            );
+                          }
+                        },
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          bool success = await pickAvatarImage();
+
+                          if (success) {
+                            editProfileController.updateImage(avatarImage);
+                            setState(() {
+                              imagePicked = true;
+                              //listViewSize = size.height * 0.35;
+                            });
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.mainBlue.withAlpha(100),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          height: 40,
+                          width: double.infinity,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                "Choose Profile Image",
+                                style: TextStyle(
+                                  color: _errorMessageImagePath != null
+                                      ? Colors.red
+                                      : Colors.black,
+                                ),
+                              ),
+                              const Icon(
+                                Icons.image,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (imagePicked &&
+                          avatarImage != null &&
+                          _errorMessageImagePath == null)
+                        Image.file(
+                          File(avatarImage!.path),
+                          width: 60,
+                          height: 60,
+                        )
+                      else if (_errorMessageImagePath != null)
+                        Text(
+                          _errorMessageImagePath!,
+                          style:
+                              textTh.labelMedium!.copyWith(color: Colors.red),
+                        ),
+                      // SizedBox(
+                      //   height: size.height * .45,
+                      //   width: size.width - 80,
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     spacing: 12,
+                      //     children: [
+
+                      //     ],
+                      //   ),
+                      // ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: TextButton(
+                                onPressed: () async {
+                                  User? user = await SecureStorageService()
+                                      .getUserFromStorage();
+                                  if (context.mounted) {
+                                    Navigator.of(context).pushReplacementNamed(
+                                      Routes.wrapper,
+                                    );
+                                  }
+                                },
+                                child: Text(
+                                  "Skip",
+                                  style: textTh.bodyLarge!.copyWith(
+                                    color: AppColors.mainBlue,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 7,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  //backgroundColor: Colors.black,
+                                  backgroundColor: AppColors.mainBlue,
+                                  padding: editState.apiState == ApiState.busy
+                                      ? null
+                                      : const EdgeInsets.symmetric(
+                                          horizontal: 50,
+                                          vertical: 10,
+                                        ),
+
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  _validateInput(); // Validate when button is pressed
+                                  _validateImagePath();
+                                  if (_errorMessageBio != null) {
+                                    return;
+                                  } else if (_errorMessageBio == null) {
+                                    final result = await editProfileController
+                                        .editProfile();
+                                    if (result.responseStatus) {
+                                      resetImagePicked();
+                                      _bioController.clear();
+                                      authStatusController.checkAuthStatus();
+                                    }
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(result.message),
+                                          backgroundColor: result.responseStatus
+                                              ? Colors.green
+                                              : Colors.red,
+                                        ),
+                                      );
+                                    }
+                                  }
+                                  if (context.mounted) {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed(Routes.home);
+                                  }
+                                },
+                                child: editState.apiState == ApiState.busy
+                                    ? const Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Text(
+                                        'Submit',
+                                        style: textTh.bodyLarge!.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      }),
     );
   }
 

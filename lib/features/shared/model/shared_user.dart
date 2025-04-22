@@ -4,9 +4,11 @@ class User {
   final String name, email, password;
   String bio, image, token;
   final int id;
+  final int loginCount;
 
   User({
     this.id = -1,
+    this.loginCount = 0,
     required this.name,
     required this.email,
     required this.password,
@@ -17,6 +19,7 @@ class User {
   User.fromMap(Map<String, dynamic> map)
       : id = map['id'] as int,
         name = map['name'] as String,
+        loginCount = (map['loginCount'] ?? 0) as int,
         email = map['email'] as String,
         password = map['password'] as String,
         bio = map['bio'] as String,
@@ -75,6 +78,7 @@ class User {
       "token": token,
       "bio": bio,
       "image": image,
+      "loginCount": loginCount,
     };
   }
 

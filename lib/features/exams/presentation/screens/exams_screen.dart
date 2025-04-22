@@ -20,6 +20,10 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     final pageNavController = ref.read(pageNavigationProvider.notifier);
+
+    bool isWideScreen = MediaQuery.sizeOf(context).width > 600;
+    double wideScreenHeight = 165 * 4 + 4 * 100;
+    double narrowScreenHeight = 125 * 4 + 4 * 100;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -30,6 +34,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
             color: Colors.black,
           ),
         ),
+        automaticallyImplyLeading: false,
         centerTitle: true,
         elevation: 5,
         shadowColor: Colors.black87,
@@ -38,7 +43,8 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
       ),
       body: OrientationBuilder(builder: (context, orientation) {
         return SizedBox(
-          height: 125 * 4 + 16 * 4 + 100,
+          //height: 125 * 4 + 16 * 4 + 100,
+          height: isWideScreen ? wideScreenHeight : narrowScreenHeight,
           width: double.infinity,
           child: GridView(
             padding: const EdgeInsets.only(
@@ -47,8 +53,8 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
               right: 15,
               left: 15,
             ),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisExtent: 125,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              mainAxisExtent: isWideScreen ? 165 : 125,
               crossAxisCount: 2,
               mainAxisSpacing: 16,
               crossAxisSpacing: 15,
