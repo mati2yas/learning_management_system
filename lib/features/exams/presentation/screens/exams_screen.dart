@@ -201,7 +201,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                   );
                 },
                 categoryImage: "other_exams",
-                categoryName: "Exam",
+                categoryName: "Other Exams",
               ),
             ],
           ),

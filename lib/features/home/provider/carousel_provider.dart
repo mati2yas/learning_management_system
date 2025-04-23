@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/home/data_source/carousel_datasource.dart';
 import 'package:lms_system/features/home/repository/carousel_repository.dart';
-
-final carouselNotifierProvider =
-    Provider((ref) => CarouselNotifier(ref.read(carouselRepositoryProvider)));
 
 final carouselApiProvider =
     AsyncNotifierProvider<CarouselNotifier, List<CarouselContent>>(
   () {
     final container = ProviderContainer(
-      overrides: [
-        carouselRepositoryProvider
-      ],
+      overrides: [carouselRepositoryProvider],
     );
     return container.read(carouselNotifierProvider);
   },
 );
+
+final carouselNotifierProvider =
+    Provider((ref) => CarouselNotifier(ref.read(carouselRepositoryProvider)));
 
 class CarouselNotifier extends AsyncNotifier<List<CarouselContent>> {
   final CarouselRepository _repository;
@@ -26,6 +25,8 @@ class CarouselNotifier extends AsyncNotifier<List<CarouselContent>> {
   @override
   Future<List<CarouselContent>> build() async {
     // Fetch and return the initial data
+    var usr = await SecureStorageService().getUserFromStorage();
+    debugPrint("token: ${usr?.token}");
     return fetchCarouselData();
   }
 
@@ -40,6 +41,4 @@ class CarouselNotifier extends AsyncNotifier<List<CarouselContent>> {
       rethrow;
     }
   }
-
-
 }

@@ -173,15 +173,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                       "user loginCount: ${user?.loginCount}");
 
                                   if (context.mounted) {
-                                    // if ((user?.loginCount ?? 0) > 0) {
-                                    //   Navigator.of(context)
-                                    //       .pushReplacementNamed(Routes.wrapper,
-                                    //           arguments: user?.token ??
-                                    //               "invalidtoken");
-                                    // } else {
-                                    Navigator.of(context).pushReplacementNamed(
-                                        Routes.profileAdd);
-                                    //}
+                                    if ((user?.loginCount ?? 0) > 0) {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(Routes.wrapper,
+                                              arguments: user?.token ??
+                                                  "invalidtoken");
+                                    } else {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              Routes.profileAdd);
+                                    }
                                   }
                                 }
                               } catch (e) {

@@ -6,7 +6,7 @@
     <application
         android:label="Excelet Academy"
         android:name="${applicationName}" 
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
          <meta-data
             android:name="io.flutter.embedding.android.DisableSurfaceControl"
             android:value="true" />

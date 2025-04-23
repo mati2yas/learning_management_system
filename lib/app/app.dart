@@ -107,7 +107,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
                 useMaterial3: true,
               ),
               onGenerateRoute: Approuter.generateRoute,
-              initialRoute: Routes.wrapper,
+              initialRoute: routesData.firstRoute, 
               // onGenerateInitialRoutes: (initialRouteName) {
               //   if (initialRouteName == Routes.wrapper) {
               //     const token =
