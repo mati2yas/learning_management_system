@@ -1,13 +1,19 @@
-part of 'search_courses_screen.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/features/courses/provider/courses_provider.dart';
+import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
 final searchCoursesProvider =
-    AsyncNotifierProvider<SearchCoursesNotifier, List<Course>>(SearchCoursesNotifier.new);
+    AsyncNotifierProvider<SearchCoursesNotifier, List<Course>>(
+        SearchCoursesNotifier.new);
 
 class SearchCoursesNotifier extends AsyncNotifier<List<Course>> {
   @override
   Future<List<Course>> build() async {
     return [];
+  }
+
+  void clearSearch() {
+    state = const AsyncData([]);
   }
 
   Future<void> searchCourses(String query) async {

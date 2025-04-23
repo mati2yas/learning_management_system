@@ -5,16 +5,12 @@ import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
-import 'package:lms_system/features/courses/provider/courses_provider.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
-import 'package:lms_system/features/shared/model/shared_course_model.dart';
+import 'package:lms_system/features/courses/provider/search_field_provider.dart';
+import 'package:lms_system/features/courses/provider/search_prov.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_search_bar.dart';
 import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
-
-part 'search_prov.dart';
-
-final searchFieldProvider = StateProvider<String>((ref) => '');
 
 class SearchCoursesScreen extends ConsumerWidget {
   const SearchCoursesScreen({super.key});
@@ -26,8 +22,20 @@ class SearchCoursesScreen extends ConsumerWidget {
     var size = MediaQuery.sizeOf(context);
     var textTh = Theme.of(context).textTheme;
 
+    var searchQueryState = ref.watch(searchFieldProvider);
+
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            searchNotifier.clearSearch();
+            ref.read(searchFieldProvider.notifier).changeFieldText("");
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+          ),
+        ),
         title: Text(
           "Search Courses",
           style: textTh.titleLarge!.copyWith(
@@ -57,7 +65,9 @@ class SearchCoursesScreen extends ConsumerWidget {
                   searchNotifier.searchCourses(query);
                 },
                 onChangedCallback: (value) {
-                  ref.read(searchFieldProvider.notifier).state = value!;
+                  ref
+                      .read(searchFieldProvider.notifier)
+                      .changeFieldText(value!);
                 },
               ),
             ),
@@ -68,7 +78,7 @@ class SearchCoursesScreen extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
         child: searchedCourses.when(
           data: (courses) {
-            if (courses.isEmpty) {
+            if (searchQueryState.isNotEmpty && courses.isEmpty) {
               return Center(
                 child: Text(
                   "No courses found for this query.",
