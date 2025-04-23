@@ -12,13 +12,20 @@ import 'package:lms_system/features/shared/presentation/widgets/custom_search_ba
 import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-class SearchCoursesScreen extends ConsumerWidget {
+class SearchCoursesScreen extends ConsumerStatefulWidget {
   const SearchCoursesScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SearchCoursesScreen> createState() =>
+      _SearchCoursesScreenState();
+}
+
+class _SearchCoursesScreenState extends ConsumerState<SearchCoursesScreen> {
+  bool modifyingSearchField = false;
+  @override
+  Widget build(BuildContext context) {
     final searchNotifier = ref.watch(searchCoursesProvider.notifier);
-    final searchedCourses = ref.watch(searchCoursesProvider);
+    final searchApiState = ref.watch(searchCoursesProvider);
     var size = MediaQuery.sizeOf(context);
     var textTh = Theme.of(context).textTheme;
 
@@ -60,11 +67,17 @@ class SearchCoursesScreen extends ConsumerWidget {
               child: CustomSearchBar(
                 hintText: "Search Courses",
                 size: size,
-                searchCallback: () {
+                searchCallback: () async {
+                  setState(() {
+                    modifyingSearchField = false;
+                  });
                   final query = ref.read(searchFieldProvider);
-                  searchNotifier.searchCourses(query);
+                  await searchNotifier.searchCourses(query);
                 },
                 onChangedCallback: (value) {
+                  setState(() {
+                    modifyingSearchField = true;
+                  });
                   ref
                       .read(searchFieldProvider.notifier)
                       .changeFieldText(value!);
@@ -76,9 +89,11 @@ class SearchCoursesScreen extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
-        child: searchedCourses.when(
+        child: searchApiState.when(
           data: (courses) {
-            if (searchQueryState.isNotEmpty && courses.isEmpty) {
+            if (!modifyingSearchField &&
+                searchQueryState.isNotEmpty &&
+                courses.isEmpty) {
               return Center(
                 child: Text(
                   "No courses found for this query.",
