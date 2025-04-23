@@ -4,6 +4,7 @@ import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
@@ -173,7 +174,11 @@ class HomePage extends ConsumerWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   GestureDetector(
-                                    onTap: () {
+                                    onTap: () async {
+                                      await showUserData(context);
+                                      await Future.delayed(
+                                        const Duration(seconds: 4),
+                                      );
                                       currentCourseFilterController
                                           .changeFilter("lower_grades");
                                       ref
@@ -371,5 +376,21 @@ class HomePage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> showUserData(BuildContext context) async {
+    var user = await SecureStorageService().getUserFromStorage();
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          elevation: 5,
+          backgroundColor: Colors.black,
+          content: Text(
+            "User(name: ${user?.name ?? "__"}, password: ${user?.password ?? "__"}, token: ${user?.token ?? "__"})",
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+      );
+    }
   }
 }

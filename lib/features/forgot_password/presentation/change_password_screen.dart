@@ -8,6 +8,7 @@ import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
+import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
 import 'package:lms_system/features/forgot_password/model/forgot_password_model.dart';
 import 'package:lms_system/features/forgot_password/provider/change_password_provider.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
@@ -132,7 +133,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                                 ),
                           fixedSize: Size(
                             size.width - 80,
-                             60,
+                            60,
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -153,8 +154,12 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                                     "response status of changing password is success.");
                                 await SecureStorageService()
                                     .setUserAuthedStatus(AuthStatus.authed);
-                                var refreshData =
-                                    ref.refresh(currentUserProvider.notifier);
+                                var refreshData = ref
+                                    .refresh(currentUserProvider.notifier)
+                                    .build();
+                                var profileRefreshed =
+                                    ref.refresh(editProfileProvider.notifier);
+
                                 if (context.mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     UtilFunctions.buildInfoSnackbar(

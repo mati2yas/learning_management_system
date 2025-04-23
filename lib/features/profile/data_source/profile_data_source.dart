@@ -62,6 +62,7 @@ class ProfileDataSource {
 
   Future<void> saveProfileToDatabase(User user) async {
     await _storageService.saveUserToStorage(user);
+    await Future.delayed(const Duration(seconds: 2));
   }
 
   Future<void> updateProfileInDatabase(User user) async {

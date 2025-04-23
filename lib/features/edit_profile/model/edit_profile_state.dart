@@ -95,7 +95,7 @@ class UserWrapper extends User {
     );
   }
 
-  static Future<UserWrapper> fromDb() async {
+  static Future<UserWrapper> fromStorage() async {
     final storServ = SecureStorageService();
     final user = await storServ.getUserFromStorage();
     if (user != null) {

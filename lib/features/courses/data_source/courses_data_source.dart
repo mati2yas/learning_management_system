@@ -44,7 +44,9 @@ class CourseDataSource {
     List<Course> courses = [];
     try {
       final response = await _dio.get(AppUrls.courseSearch,
-          queryParameters: {"course-name": searchQuery});
+          queryParameters: {"course_name": searchQuery});
+      
+      
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         print("response is 200");
@@ -55,6 +57,8 @@ class CourseDataSource {
           Course crs = Course.fromJson(x);
           courses.add(crs);
         }
+        debugPrint(
+            "searched courses: [ ${courses.map((c) => c.title).join(",")} ]");
       }
     } on DioException catch (e) {
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);

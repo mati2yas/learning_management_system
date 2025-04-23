@@ -99,7 +99,7 @@ class EditProfileController extends StateNotifier<UserWrapper> {
   }
 
   Future<void> _loadUser() async {
-    final user = await UserWrapper.fromDb();
+    final user = await UserWrapper.fromStorage();
     state = user;
   }
 }

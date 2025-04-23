@@ -77,7 +77,8 @@ class EditProfileDataSource {
 
       // Save the user data to the database
       await _storageService.saveUserToStorage(user);
-      await _storageService.saveUserToStorage(user);
+      await Future.delayed(const Duration(seconds: 2));
+      //await _storageService.saveUserToStorage(user);
       return response;
     } on DioException catch (e) {
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);

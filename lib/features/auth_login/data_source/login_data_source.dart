@@ -70,6 +70,7 @@ class LoginDataSource {
 
         // Save the user data to the database
         await _storageService.saveUserToStorage(user);
+        await Future.delayed(const Duration(seconds: 2));
       } else if (response.statusCode == 403) {
         var msg = response.data["message"];
         throw Exception(msg);

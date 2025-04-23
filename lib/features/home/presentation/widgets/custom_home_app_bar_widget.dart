@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
-import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 import 'package:lms_system/features/subscription/provider/requests/exam_requests_provider.dart';
@@ -104,11 +103,12 @@ class CustomHomeAppBar extends ConsumerWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        showSearch(
-                          context: context,
-                          delegate: CourseSearchDelegate(
-                              widgetRef: ref, previousScreenIndex: 0),
-                        );
+                        Navigator.of(context).pushNamed(Routes.searchScreen);
+                        // showSearch(
+                        //   context: context,
+                        //   delegate: CourseSearchDelegate(
+                        //       widgetRef: ref, previousScreenIndex: 0),
+                        // );
                       },
                       child: const CircleAvatar(
                         backgroundColor: Colors.white,
@@ -235,11 +235,12 @@ class CustomHomeAppBar extends ConsumerWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        showSearch(
-                          context: context,
-                          delegate: CourseSearchDelegate(
-                              widgetRef: ref, previousScreenIndex: 0),
-                        );
+                        // showSearch(
+                        //   context: context,
+                        //   delegate: CourseSearchDelegate(
+                        //       widgetRef: ref, previousScreenIndex: 0),
+                        // );
+                        Navigator.of(context).pushNamed(Routes.searchScreen);
                       },
                       child: const CircleAvatar(
                         backgroundColor: Colors.white,

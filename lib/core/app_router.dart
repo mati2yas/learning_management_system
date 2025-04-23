@@ -5,6 +5,7 @@ import 'package:lms_system/features/auth_sign_up/presentation/screens/register_s
 import 'package:lms_system/features/auth_sign_up/presentation/screens/temporary_screen.dart';
 import 'package:lms_system/features/chapter_content/presentation/screens/chapter_content_screen.dart';
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_videos.dart';
+import 'package:lms_system/features/courses/presentation/widgets/search_courses_screen.dart';
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
 import 'package:lms_system/features/edit_profile/presentation/screens/edit_profile_screen.dart';
 import 'package:lms_system/features/edit_profile/presentation/screens/forgot_password_profile_screen.dart';
@@ -44,6 +45,10 @@ class Approuter {
 
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const HomePage());
+      case Routes.searchScreen:
+        return MaterialPageRoute(
+          builder: (_) => const SearchCoursesScreen(),
+        );
       case Routes.contactUs:
         return MaterialPageRoute(builder: (_) => const ContactUsPage());
 
@@ -151,6 +156,7 @@ class Routes {
   static const String wrapper = "wrapper";
   static const String onboarding = "onboarding";
   static const String home = "home";
+  static const String searchScreen = "searchScreen";
   static const String contactUs = "contactUs";
   static const String faq = "faq";
   static const String login = "login";

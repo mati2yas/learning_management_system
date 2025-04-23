@@ -94,9 +94,8 @@ class ForgotPasswordDataSource {
         debugPrint("tokenINResetPass $token");
         debugPrint("token: $token");
 
-        // Save the user data to the database
-        await Future.delayed(const Duration(seconds: 2));
         await _storageService.saveUserToStorage(user);
+        await Future.delayed(const Duration(seconds: 2));
         return response;
       }
     } on DioException catch (e) {

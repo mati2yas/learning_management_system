@@ -72,6 +72,7 @@ class _CheckPasswordState extends State<CheckPassword> {
     final enteredPassword = _passwordController.text.trim();
     debugPrint("entered: $enteredPassword, current: ${widget.password}");
     if (enteredPassword == widget.password) {
+      Navigator.pop(context);
       Navigator.of(context).pushNamed(
         Routes.forgotPasswordProfile,
         arguments: widget.email,

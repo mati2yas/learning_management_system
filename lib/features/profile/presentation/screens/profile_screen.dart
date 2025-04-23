@@ -10,6 +10,7 @@ import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
+import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
@@ -115,6 +116,7 @@ class ProfilePage extends ConsumerWidget {
                 const SizedBox(height: 28),
                 TextButton.icon(
                   onPressed: () async {
+                    ref.refresh(editProfileProvider.notifier);
                     bool? result = await Navigator.of(context)
                         .pushNamed<bool>(Routes.profileEdit);
                     if (result == true) {
