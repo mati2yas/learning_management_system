@@ -42,7 +42,13 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
               itemCount: widget.answerHolders.length,
               itemBuilder: (_, index) {
                 final currentAnswerHolder = widget.answerHolders[index];
-                final currentQuestion = widget.questions[index];
+                final currentQuestion = widget.questions.where((question) {
+                  return question.answers ==
+                          currentAnswerHolder.correctAnswers &&
+                      question.id == currentAnswerHolder.questionId;
+                }).first;
+
+                //widget.questions[index];
 
                 if (currentQuestion.videoExplanationUrl != null) {
                   ytCtrl = YoutubePlayerController(
@@ -88,69 +94,66 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                   height: size.height * 0.7,
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12.0,
+                        horizontal: 16,
+                      ),
                       child: Column(
                         spacing: 12,
                         children: [
                           QuestionTextContainer(
                             question: currentQuestion.questionText,
                             textStyle: textTh.bodyMedium!,
-                            maxWidth: size.width * 0.75,
+                            maxWidth: size.width,
                           ),
-                          Text(
-                            "Your Answer(s):",
-                            style: textTh.bodyMedium!.copyWith(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          ...currentQuestion.options.map((op) {
-                            debugPrint("option: $op, answers: [ ${correctAnswerText.join(",")} ]");
-                            return ListTile(
-                              tileColor: correctAnswerText.contains(op)
-                                  ? Colors.green
-                                  : Colors.red,
-                              title: Text(
-                                op,
-                                style: const TextStyle(
-                                  fontSize: 13,
+                          ...currentQuestion.options.map(
+                            (op) {
+                              debugPrint(
+                                  "option: $op, answers: [ ${correctAnswerText.join(",")} ]");
+                              Color containerColor = Colors.white;
+
+                              if (currentAnswerHolder.correctAnswers
+                                  .contains(op)) {
+                                if (currentAnswerHolder.selectedAnswers
+                                    .contains(op)) {
+                                  containerColor = Colors.greenAccent;
+                                }
+                              } else {
+                                if (currentAnswerHolder.selectedAnswers
+                                    .contains(op)) {
+                                  containerColor = Colors.redAccent;
+                                }
+                              }
+                              return Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: containerColor,
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                              ),
-                            );
-                          }),
-                          // ...selectedAnswerText.map(
-                          //   (ans) => Text(
-                          //     ans,
-                          //     style: TextStyle(
-                          //       color: correctAnswerText.contains(ans)
-                          //           ? Colors.green
-                          //           : Colors.red,
-                          //     ),
-                          //   ),
-                          // ),
+                                child: Text(
+                                  op,
+                                  style: const TextStyle(
+                                    fontSize: 14.5,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                           const SizedBox(height: 12),
-                          Text(
-                            "Correct Answer(s):",
-                            style: textTh.bodyMedium!.copyWith(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          ...correctAnswerText.map(
-                            (ans) => Text(
-                              ans,
-                              style: const TextStyle(
-                                color: AppColors.mainBlue,
-                              ),
-                            ),
-                          ),
-                          if (currentQuestion.explanation != "")
+                          if (currentQuestion.explanation != "") ...[
                             ExplanationContainer(
                               explanation: currentQuestion.explanation,
                               textStyle: textTh.bodyMedium!,
-                              maxWidth: size.width * 0.75,
+                              maxWidth: size.width,
                             ),
-                          if (currentQuestion.imageExplanationUrl != null)
+                            const SizedBox(height: 12),
+                          ],
+                          if (currentQuestion.imageExplanationUrl != null) ...[
                             SizedBox(
-                              width: size.width * 0.8,
+                              width: size.width,
                               height: 150,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
@@ -185,10 +188,12 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                                 ),
                               ),
                             ),
+                            const SizedBox(height: 12),
+                          ],
                           if (currentQuestion.videoExplanationUrl != null &&
                               currentQuestion.videoExplanationUrl != "")
                             YoutubePlayer(
-                              width: size.width * 0.75,
+                              width: size.width,
                               aspectRatio: 16 / 9,
                               bottomActions: [
                                 const CurrentPosition(),

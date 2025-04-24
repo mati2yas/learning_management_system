@@ -7,6 +7,7 @@ import 'package:lms_system/features/chapter_content/presentation/screens/chapter
 import 'package:lms_system/features/courses/presentation/screens/chapter/chapter_videos.dart';
 import 'package:lms_system/features/courses/presentation/widgets/search_courses_screen.dart';
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
+import 'package:lms_system/features/edit_profile/presentation/screens/change_email_screen.dart';
 import 'package:lms_system/features/edit_profile/presentation/screens/edit_profile_screen.dart';
 import 'package:lms_system/features/edit_profile/presentation/screens/forgot_password_profile_screen.dart';
 import 'package:lms_system/features/forgot_password/model/forgot_password_model.dart';
@@ -135,7 +136,10 @@ class Approuter {
         return MaterialPageRoute<bool>(
           builder: (_) => const EditProfileScreen(),
         );
-
+      case Routes.changeEmail:
+        return MaterialPageRoute<bool>(
+          builder: (_) => const ChangeEmailScreen(),
+        );
       case Routes.notifications:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
 
@@ -178,4 +182,5 @@ class Routes {
   static const String forgotPassword = "forgotPassword";
   static const String forgotPasswordProfile = "forgotPasswordProfile";
   static const String changePassword = "changePassword";
+  static const String changeEmail = "changeEmail";
 }

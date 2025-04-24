@@ -161,7 +161,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   if (context.mounted) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       UtilFunctions.buildErrorSnackbar(
-                                        errorMessage: "Registration Failed:",
+                                        errorMessage:
+                                            "Registration Failed: ${exc.toString().replaceAll("Exception:", "")}",
                                         exception: exc,
                                       ),
                                     );

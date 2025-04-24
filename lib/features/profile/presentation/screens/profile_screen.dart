@@ -5,18 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
+import 'package:lms_system/core/common_widgets/flexible_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
-import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
-import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
-import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
-import 'package:lms_system/features/paid_courses_exams/provider/paid_screen_tab_index_prov.dart';
 import 'package:lms_system/features/profile/provider/profile_provider.dart';
-import 'package:lms_system/features/saved/provider/saved_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class ProfilePage extends ConsumerWidget {
@@ -86,8 +82,19 @@ class ProfilePage extends ConsumerWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
-                Center(
+                const SizedBox(height: 26),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    "Name",
+                    style: textTh.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
                     user.name,
                     style: textTh.titleMedium!.copyWith(
@@ -96,7 +103,18 @@ class ProfilePage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                Center(
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    "Email",
+                    style: textTh.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
                     user.email,
                     style: textTh.titleMedium!.copyWith(
@@ -105,23 +123,35 @@ class ProfilePage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                const Divider(),
-                Center(
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
-                    user.bio,
-                    style: textTh.bodyMedium!.copyWith(color: Colors.black),
+                    "Bio",
+                    style: textTh.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
-                const Divider(),
-                const SizedBox(height: 28),
+                BioTextContainer(
+                  bioString: user.bio,
+                  textStyle: textTh.titleMedium!.copyWith(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  maxWidth: size.width,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Divider(),
+                ),
                 TextButton.icon(
                   onPressed: () async {
-                    ref.refresh(editProfileProvider.notifier);
-                    bool? result = await Navigator.of(context)
-                        .pushNamed<bool>(Routes.profileEdit);
-                    if (result == true) {
-                      ref.read(profileProvider.notifier).fetchUserData();
-                    }
+                    var reff = ref.refresh(editProfileProvider.notifier);
+                    debugPrint("ref mounted? ${reff.mounted}");
+                   await Navigator.of(context)
+                        .pushNamed(Routes.profileEdit);
+                   
                   },
                   label: Text(
                     "Edit Profile",
@@ -146,55 +176,30 @@ class ProfilePage extends ConsumerWidget {
                   ),
                   icon: const Icon((Icons.notifications)),
                 ),
-                TextButton.icon(
-                  onPressed: () async {
-                    pageNavController.navigateTo(
-                      nextScreen: AppInts.paidPageIndex,
-                    );
+                // TextButton.icon(
+                //   onPressed: () async {
 
-                    ref.read(paidScreenTabIndexProv.notifier).changeTabIndex(0);
-                    ref
-                        .refresh(savedApiProvider.notifier)
-                        .fetchSavedCoursesData();
+                //   },
+                //   label: Text(
+                //     "Saved Courses",
+                //     style: textTh.titleMedium!.copyWith(
+                //       fontWeight: FontWeight.w600,
+                //     ),
+                //   ),
+                //   icon: const Icon((Icons.pending)),
+                // ),
+                // TextButton.icon(
+                //   onPressed: () async {
 
-                    ref
-                        .refresh(paidCoursesApiProvider.notifier)
-                        .fetchPaidCourses();
-
-                    if (context.mounted) {
-                      Navigator.of(context).pushNamed(Routes.bookmarkedCourses);
-                    }
-                  },
-                  label: Text(
-                    "Saved Courses",
-                    style: textTh.titleMedium!.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  icon: const Icon((Icons.pending)),
-                ),
-                TextButton.icon(
-                  onPressed: () async {
-                    ref.read(paidScreenTabIndexProv.notifier).changeTabIndex(1);
-                    pageNavController.navigateTo(
-                        nextScreen: AppInts.paidPageIndex);
-
-                    ref.refresh(paidExamsApiProvider.notifier).fetchPaidExams();
-
-                    ref.refresh(paidExamsApiProvider.notifier).fetchPaidExams();
-
-                    if (context.mounted) {
-                      Navigator.of(context).pushNamed(Routes.bookmarkedExams);
-                    }
-                  },
-                  label: Text(
-                    "Saved Exams",
-                    style: textTh.titleMedium!.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  icon: const Icon((Icons.school)),
-                ),
+                //   },
+                //   label: Text(
+                //     "Saved Exams",
+                //     style: textTh.titleMedium!.copyWith(
+                //       fontWeight: FontWeight.w600,
+                //     ),
+                //   ),
+                //   icon: const Icon((Icons.school)),
+                // ),
                 TextButton.icon(
                   onPressed: () async {
                     showDialog(

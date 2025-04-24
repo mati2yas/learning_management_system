@@ -4,12 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_screen_tab_index_prov.dart';
 import 'package:lms_system/features/profile/provider/profile_provider.dart';
+import 'package:lms_system/features/saved/provider/saved_provider.dart';
+import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -19,6 +24,7 @@ class CustomDrawer extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     return Consumer(builder: (context, ref, child) {
+      final pageNavController = ref.read(pageNavigationProvider.notifier);
       var userState = ref.watch(currentUserProvider);
       return Drawer(
         width: size.width * 0.65,
@@ -89,6 +95,45 @@ class CustomDrawer extends StatelessWidget {
                 iconData: Icons.person_outline,
                 titleText: "Profile",
               ),
+              ListTileButton(
+                onTap: () {
+                  pageNavController.navigateTo(
+                    nextScreen: AppInts.paidPageIndex,
+                  );
+
+                  ref.read(paidScreenTabIndexProv.notifier).changeTabIndex(0);
+                  ref
+                      .refresh(savedApiProvider.notifier)
+                      .fetchSavedCoursesData();
+
+                  ref
+                      .refresh(paidCoursesApiProvider.notifier)
+                      .fetchPaidCourses();
+
+                  if (context.mounted) {
+                    Navigator.of(context).pushNamed(Routes.bookmarkedCourses);
+                  }
+                },
+                iconData: Icons.school_outlined,
+                titleText: "Saved Courses",
+              ),
+              // ListTileButton(
+              //   onTap: () {
+              //     ref.read(paidScreenTabIndexProv.notifier).changeTabIndex(1);
+              //       pageNavController.navigateTo(
+              //           nextScreen: AppInts.paidPageIndex);
+
+              //       ref.refresh(paidExamsApiProvider.notifier).fetchPaidExams();
+
+              //       ref.refresh(paidExamsApiProvider.notifier).fetchPaidExams();
+
+              //       if (context.mounted) {
+              //         Navigator.of(context).pushNamed(Routes.bookmarkedExams);
+              //       }
+              //   },
+              //   iconData: Icons.person_outline,
+              //   titleText: "Saved Exams",
+              // ),
               ListTileButton(
                 onTap: () {
                   Navigator.pop(context);

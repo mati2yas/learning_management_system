@@ -41,7 +41,12 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
               controller: pageViewController,
               itemCount: widget.questions.length,
               itemBuilder: (_, index) {
-                final currentQuestion = widget.questions[index];
+                final currentAnswerHolder = widget.myAnswers[index];
+                final currentQuestion = widget.questions.where((question) {
+                  return question.answers ==
+                          currentAnswerHolder.correctAnswers &&
+                      question.id == currentAnswerHolder.questionId;
+                }).first;
                 String multipleQuestionsIndicator = "";
                 if (currentQuestion.answers.length > 1) {
                   multipleQuestionsIndicator = "(Select all that apply.)";
@@ -94,29 +99,54 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                             textStyle: textTh.bodyMedium!,
                             maxWidth: size.width * 0.9,
                           ),
-                          Text(
-                            "Your Answer(s):",
-                            style: textTh.bodyMedium!.copyWith(
-                              fontWeight: FontWeight.w500,
-                            ),
+                          ...currentQuestion.options.map(
+                            (op) {
+                              Color containerColor = Colors.grey;
+
+                              if (currentAnswerHolder.correctAnswers
+                                  .contains(op)) {
+                                containerColor = Colors.green;
+                              } else {
+                                if (currentAnswerHolder.selectedAnswers
+                                    .contains(op)) {
+                                  containerColor = Colors.red;
+                                }
+                              }
+                              return Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: containerColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  op,
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              );
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: ListTile(
+                                    tileColor:
+                                        currentQuestion.answers.contains(op)
+                                            ? Colors.green
+                                            : Colors.red,
+                                    title: Text(
+                                      op,
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                          ...myAnswersText.map(
-                            (ans) => Text(
-                              ans,
-                              style: TextStyle(
-                                color: answerText.contains(ans)
-                                    ? Colors.green
-                                    : Colors.red,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            "Correct Answer(s):",
-                            style: textTh.bodyMedium!.copyWith(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          ...answerText.map((ans) => Text(ans)),
                           ExplanationContainer(
                             explanation: currentQuestion.textExplanation,
                             textStyle: textTh.bodyMedium!,

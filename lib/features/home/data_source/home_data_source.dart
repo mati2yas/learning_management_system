@@ -24,6 +24,10 @@ class HomeDataSource {
       debugPrint("HomePageApi Token: ${user?.token}");
       await DioClient.setToken();
       _dio.options.headers['Accept'] = 'application/json';
+
+      if (["", null].contains(user?.token)) {
+
+      }
       final response = await _dio.get(
         AppUrls.homePageCourses,
       );

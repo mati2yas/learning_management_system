@@ -175,10 +175,6 @@ class HomePage extends ConsumerWidget {
                                 children: [
                                   GestureDetector(
                                     onTap: () async {
-                                      await showUserData(context);
-                                      await Future.delayed(
-                                        const Duration(seconds: 4),
-                                      );
                                       currentCourseFilterController
                                           .changeFilter("lower_grades");
                                       ref

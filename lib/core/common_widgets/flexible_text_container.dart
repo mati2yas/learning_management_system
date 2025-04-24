@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 
-class QuestionTextContainer extends StatelessWidget {
-  final String question;
+class BioTextContainer extends StatelessWidget {
+  final String bioString;
   final TextStyle textStyle;
   final double maxWidth;
-
-  const QuestionTextContainer({
+  const BioTextContainer({
     super.key,
-    required this.question,
+    required this.bioString,
     required this.textStyle,
     required this.maxWidth,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Calculate the actual height of the text
     final textPainter = TextPainter(
-      text: TextSpan(text: question, style: textStyle),
+      text: TextSpan(text: bioString, style: textStyle),
       maxLines: null, // Allow unlimited lines
       textDirection: TextDirection.ltr,
     )..layout(maxWidth: maxWidth);
@@ -24,12 +22,12 @@ class QuestionTextContainer extends StatelessWidget {
     final textHeight = textPainter.height;
 
     return Container(
-      alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.all(8),
+      alignment: Alignment.topLeft,
+      padding: const EdgeInsets.only(left: 8),
       width: maxWidth,
       height: textHeight + 20, // Add padding/margins
       child: Text(
-        question,
+        bioString,
         style: textStyle,
         textAlign: TextAlign.center,
       ),

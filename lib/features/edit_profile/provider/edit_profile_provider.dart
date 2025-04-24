@@ -26,6 +26,7 @@ class EditProfileController extends StateNotifier<UserWrapper> {
     bool responseStatus = false;
     int? statusCode;
 
+    state = state.copyWith(apiState: ApiState.busy);
     await DioClient.setToken();
 
     try {
@@ -40,15 +41,17 @@ class EditProfileController extends StateNotifier<UserWrapper> {
       debugPrint("editProfController status code: ${response.statusCode}");
 
       if (response.statusCode == 200) {
-        state = state.copyWith(
-            statusMsg: "Profile edit successful", apiState: ApiState.idle);
-
         (responseMessage, responseStatus) =
             (response.data["message"], response.data["status"]);
 
+        state = state.copyWith(
+            statusMsg: "Profile edit successful", apiState: ApiState.idle);
         debugPrint("user: ${response.data["user"] ?? {"no user": "yes"}}");
       } else {
-        state = state.copyWith(statusMsg: "Profile edit failed");
+        state = state.copyWith(
+          statusMsg: "Profile edit failed",
+          apiState: ApiState.error,
+        );
 
         (responseMessage, responseStatus) =
             (response.data["message"], response.data["status"]);

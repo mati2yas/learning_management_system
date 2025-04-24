@@ -42,7 +42,8 @@ class EditProfileDataSource {
       }
       statusCode = response.statusCode;
       String savePath = "";
-      final token = response.data["token"] ?? "No token";
+      String token = response.data["user"]["token"] ?? "No token";
+
       //debugPrint("login token: $token");
       String? avatar = response.data["data"]["user"]["avatar"];
       if (avatar != null) {

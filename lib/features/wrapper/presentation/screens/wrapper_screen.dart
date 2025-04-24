@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
-import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/course_chapters_screen.dart';
 import 'package:lms_system/features/courses/presentation/screens/course/courses_screen.dart';
 import 'package:lms_system/features/courses/provider/courses_provider.dart';
@@ -52,7 +50,6 @@ class WrapperScreen extends ConsumerWidget {
       const ExamGradeFilterScreen(), // 8
     ];
     if (pageNavData.currentPage == AppInts.homePageIndex) {
-
       ref.read(carouselApiProvider.notifier).build();
       ref.read(homeScreenApiProvider.notifier).build();
       ref.read(currentUserProvider.notifier).build();
@@ -112,10 +109,6 @@ class WrapperScreen extends ConsumerWidget {
                               NavItem(
                                 icon: Icons.home_outlined,
                                 onTap: () {
-                                  // showScreensSnackBar(
-                                  //   context,
-                                  //   pageNavData.screensTrack,
-                                  // );
                                   pageController.navigateTo(
                                     nextScreen: AppInts.homePageIndex,
                                   );
@@ -128,10 +121,6 @@ class WrapperScreen extends ConsumerWidget {
                               NavItem(
                                 icon: Icons.school_outlined,
                                 onTap: () {
-                                  // showScreensSnackBar(
-                                  //   context,
-                                  //   pageNavData.screensTrack,
-                                  // );
                                   pageController.navigateTo(
                                     nextScreen: AppInts.coursePageIndex,
                                   );
@@ -147,10 +136,6 @@ class WrapperScreen extends ConsumerWidget {
                               NavItem(
                                 icon: Icons.quiz,
                                 onTap: () {
-                                  // showScreensSnackBar(
-                                  //   context,
-                                  //   pageNavData.screensTrack,
-                                  // );
                                   if (ref
                                           .read(pageNavigationProvider)
                                           .currentPage ==
@@ -202,10 +187,6 @@ class WrapperScreen extends ConsumerWidget {
                               NavItem(
                                 icon: Icons.workspace_premium,
                                 onTap: () {
-                                  // showScreensSnackBar(
-                                  //   context,
-                                  //   pageNavData.screensTrack,
-                                  // );
                                   pageController.navigateTo(
                                     nextScreen: AppInts.paidPageIndex,
                                   );

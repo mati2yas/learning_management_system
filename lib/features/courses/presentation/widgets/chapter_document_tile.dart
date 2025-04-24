@@ -25,19 +25,6 @@ class ChapterDocumentTile extends ConsumerWidget {
           height: 55,
           child: Row(
             children: <Widget>[
-              ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    bottomLeft: Radius.circular(10.0),
-                  ),
-                  child: SizedBox(
-                    width: 55,
-                    height: 55,
-                    child: Image.asset(
-                      "assets/images/applied_math.png",
-                      fit: BoxFit.cover,
-                    ),
-                  )),
               Expanded(
                   child: Padding(
                 padding: const EdgeInsets.fromLTRB(10.0, 10.0, 15, 8.0),

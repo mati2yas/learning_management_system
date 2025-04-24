@@ -74,7 +74,7 @@ class _SearchCoursesScreenState extends ConsumerState<SearchCoursesScreen> {
                   final query = ref.read(searchFieldProvider);
                   await searchNotifier.searchCourses(query);
                 },
-                onChangedCallback: (value) {
+                onChangedCallback: (value) async {
                   setState(() {
                     modifyingSearchField = true;
                   });

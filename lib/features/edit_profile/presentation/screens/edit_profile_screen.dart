@@ -13,6 +13,7 @@ import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/edit_profile/presentation/widgets/check_password_dialog.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
+import 'package:lms_system/features/profile/provider/profile_provider.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
@@ -47,13 +48,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     debugPrint(
         "editState = User{name: ${editState.name}, email: ${editState.email}, bio: ${editState.bio}, password: ${editState.password}}");
 
+    double maxFormWidth = 400;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CommonAppBar(
         titleText: "Edit Profile",
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context, profileEditSuccess);
+            Navigator.pop(context);
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -61,262 +63,301 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 25.0,
-          vertical: 20,
-        ),
-        child: Form(
-          key: AppKeys.editProfileKey,
+      body: LayoutBuilder(builder: (context, constraints) {
+        return Center(
           child: SingleChildScrollView(
-            child: Column(
-              spacing: 10,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  height: size.height * 0.25,
-                  child: Stack(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 25.0,
+              vertical: 20,
+            ),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
+                maxWidth: maxFormWidth,
+              ),
+              child: IntrinsicHeight(
+                child: Form(
+                  key: AppKeys.editProfileKey,
+                  child: Column(
+                    spacing: 10,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.7),
-                        ),
-                        child: (profilePicPicked &&
-                                profilePic != null &&
-                                _errorMessageImagePath == null)
-                            ? Image.file(
-                                File(profilePic!.path),
-                                width: size.width,
-                                height: size.height * 0.25,
-                                fit: BoxFit.cover,
-                              )
-                            : Image.asset(
-                                "assets/images/pfp-placeholder.jpg",
-                                width: size.width,
-                                height: size.height * 0.25,
-                                fit: BoxFit.cover,
+                      SizedBox(
+                        width: double.infinity,
+                        height: size.height * 0.25,
+                        child: Stack(
+                          children: [
+                            DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.7),
                               ),
+                              child: (profilePicPicked &&
+                                      profilePic != null &&
+                                      _errorMessageImagePath == null)
+                                  ? Image.file(
+                                      File(profilePic!.path),
+                                      width: size.width,
+                                      height: size.height * 0.25,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : (editState.image != "")
+                                      ? Image.file(
+                                          File(editState.image),
+                                          width: size.width,
+                                          height: size.height * 0.25,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          "assets/images/pfp-placeholder.jpg",
+                                          width: size.width,
+                                          height: size.height * 0.25,
+                                          fit: BoxFit.cover,
+                                        ),
+                            ),
+                            Positioned(
+                              top: 10,
+                              right: 10,
+                              child: IconButton(
+                                style: IconButton.styleFrom(
+                                  backgroundColor: AppColors.mainGrey,
+                                  foregroundColor: Colors.black,
+                                  iconSize: 24,
+                                ),
+                                onPressed: () async {
+                                  bool success = await pickProfilePic();
+
+                                  if (success) {
+                                    editProfileController
+                                        .updateImage(profilePic);
+                                    setState(() {
+                                      profilePicPicked = true;
+                                      //listViewSize = size.height * 0.35;
+                                    });
+                                  }
+                                },
+                                icon: const Icon(Icons.edit),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      Positioned(
-                        top: 10,
-                        right: 10,
-                        child: IconButton(
-                          style: IconButton.styleFrom(
-                            backgroundColor: AppColors.mainGrey,
-                            foregroundColor: Colors.black,
-                            iconSize: 24,
+                      _buildInputLabel("Name", textTh),
+                      InputWidget(
+                        onSaved: (value) {
+                          editProfileController.updateName(value!);
+                        },
+                        onChanged: (value) {
+                          if (_errorMessageName == null) {
+                            editProfileController
+                                .updateName(nameController.text);
+                          }
+                        },
+                        hintText: "",
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            setState(() {
+                              _errorMessageName = "Enter Proper Name";
+                            });
+                            return _errorMessageName;
+                          }
+                          setState(() {
+                            _errorMessageName = null;
+                          });
+                          return null;
+                        },
+                        controller: nameController,
+                      ),
+                      _buildInputLabel("Email", textTh),
+                      FilledButton(
+                        style: FilledButton.styleFrom(
+                            fixedSize: Size(size.width, 50),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12))),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(Routes.changeEmail);
+                        },
+                        child: const Text("Edit Email"),
+                      ),
+                      // InputWidget(
+                      //   onSaved: (value) {
+                      //     editProfileController.updateEmail(value!);
+                      //   },
+                      //   onChanged: (value) {
+                      //     if (_errorMessageEmail == null) {
+                      //       editProfileController
+                      //           .updateEmail(emailController.text);
+                      //     }
+                      //   },
+                      //   hintText: "",
+                      //   validator: (value) {
+                      //     if (value.isEmpty) {
+                      //       setState(() {
+                      //         _errorMessageEmail = "Enter Proper Email";
+                      //       });
+                      //       return _errorMessageEmail;
+                      //     }
+                      //     setState(() {
+                      //       _errorMessageEmail = null;
+                      //     });
+                      //     return null;
+                      //   },
+                      //   controller: emailController,
+                      // ),
+                      _buildInputLabel("Password", textTh),
+                      FilledButton(
+                        style: FilledButton.styleFrom(
+                            fixedSize: Size(size.width, 50),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12))),
+                        onPressed: () {
+                          debugPrint("user password: ${editState.password}");
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title:
+                                    const Text("Enter Your Current Password"),
+                                content: CheckPassword(
+                                  password: editState.password,
+                                  email: editState.email,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: const Text("Edit Password"),
+                      ),
+                      _buildInputLabel("Bio", textTh),
+                      InputWidget(
+                        onSaved: (value) {
+                          editProfileController.updateBio(value!);
+                        },
+                        onChanged: (value) {
+                          if (_errorMessageBio == null) {
+                            editProfileController.updateBio(bioController.text);
+                          }
+                        },
+                        maxLines: 2,
+                        maxLength: 250,
+                        hintText: "",
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            setState(() {
+                              _errorMessageBio = "Please input Bio";
+                            });
+                            setState(() {
+                              _errorMessageBio = null;
+                            });
+                            return _errorMessageBio;
+                          }
+
+                          return null;
+                        },
+                        controller: bioController,
+                      ),
+                      const SizedBox(height: 20),
+                      Center(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.mainBlue,
+                            padding: editState.apiState == ApiState.busy
+                                ? null
+                                : const EdgeInsets.symmetric(
+                                    horizontal: 50,
+                                    vertical: 15,
+                                  ),
+                            fixedSize: Size(maxFormWidth, 65),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                           onPressed: () async {
-                            bool success = await pickProfilePic();
-
-                            if (success) {
-                              editProfileController.updateImage(profilePic);
+                            _validateImagePath();
+                            if (_errorMessageImagePath != null &&
+                                user.image == "") {
                               setState(() {
-                                profilePicPicked = true;
-                                //listViewSize = size.height * 0.35;
+                                profileEditSuccess = false;
                               });
+                              return;
+                            }
+                            if (profilePicPicked) {
+                              editProfileController.updateImage(profilePic);
+                            }
+                            if (AppKeys.editProfileKey.currentState
+                                    ?.validate() ==
+                                true) {
+                              AppKeys.editProfileKey.currentState!.save();
+                              try {
+                                final result =
+                                    await editProfileController.editProfile();
+                                if (result.responseStatus) {
+                                  setState(() {
+                                    profileEditSuccess = true;
+                                  });
+
+                                  ref
+                                      .read(profileProvider.notifier)
+                                      .fetchUserData();
+                                  nameController.clear();
+                                  emailController.clear();
+                                  bioController.clear();
+                                  resetImagePicked();
+
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content:
+                                              Text('Profile Edit Successful!')),
+                                    );
+
+                                    Navigator.pop(context);
+                                  }
+                                }
+                              } catch (e) {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    UtilFunctions.buildErrorSnackbar(
+                                      errorMessage:
+                                          'Profile Edit Failed: ${e.toString().replaceAll("Exception:", "")}',
+                                      exception: e,
+                                    ),
+                                  );
+                                }
+                                profileEditSuccess = false;
+                              }
                             }
                           },
-                          icon: const Icon(Icons.edit),
+                          child: editState.apiState == ApiState.busy
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : editState.apiState == ApiState.error
+                                  ? Text(
+                                      'Retry',
+                                      style: textTh.titleLarge!.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : Text(
+                                      'Save',
+                                      style: textTh.titleLarge!.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                _buildInputLabel("Name", textTh),
-                InputWidget(
-                  onSaved: (value) {
-                    editProfileController.updateName(value!);
-                  },
-                  onChanged: (value) {
-                    if (_errorMessageName == null) {
-                      editProfileController.updateName(nameController.text);
-                    }
-                  },
-                  hintText: "",
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      setState(() {
-                        _errorMessageName = "Enter Proper Name";
-                      });
-                      return _errorMessageName;
-                    }
-                    setState(() {
-                      _errorMessageName = null;
-                    });
-                    return null;
-                  },
-                  controller: nameController,
-                ),
-                _buildInputLabel("Email", textTh),
-                InputWidget(
-                  onSaved: (value) {
-                    editProfileController.updateEmail(value!);
-                  },
-                  onChanged: (value) {
-                    if (_errorMessageEmail == null) {
-                      editProfileController.updateEmail(emailController.text);
-                    }
-                  },
-                  hintText: "",
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      setState(() {
-                        _errorMessageEmail = "Enter Proper Email";
-                      });
-                      return _errorMessageEmail;
-                    }
-                    setState(() {
-                      _errorMessageEmail = null;
-                    });
-                    return null;
-                  },
-                  controller: emailController,
-                ),
-                _buildInputLabel("Password", textTh),
-                FilledButton(
-                  style: FilledButton.styleFrom(
-                      fixedSize: Size(size.width, 50),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12))),
-                  onPressed: () {
-                    debugPrint("user password: ${editState.password}");
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text("Enter Your Current Password"),
-                          content: CheckPassword(
-                            password: editState.password,
-                            email: editState.email,
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  child: const Text("Edit Password"),
-                ),
-                _buildInputLabel("Bio", textTh),
-                InputWidget(
-                  onSaved: (value) {
-                    editProfileController.updateBio(value!);
-                  },
-                  onChanged: (value) {
-                    if (_errorMessageBio == null) {
-                      editProfileController.updateBio(bioController.text);
-                    }
-                  },
-                  maxLines: 2,
-                  maxLength: 250,
-                  hintText: "",
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      setState(() {
-                        _errorMessageBio = "Please input Bio";
-                      });
-                      setState(() {
-                        _errorMessageBio = null;
-                      });
-                      return _errorMessageBio;
-                    }
-
-                    return null;
-                  },
-                  controller: bioController,
-                ),
-                const SizedBox(height: 20),
-                Center(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.mainBlue,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 50,
-                        vertical: 15,
-                      ),
-                      fixedSize: Size(size.width, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () async {
-                      _validateImagePath();
-                      if (_errorMessageImagePath != null && user.image == "") {
-                        setState(() {
-                          profileEditSuccess = false;
-                        });
-                        return;
-                      }
-                      if (profilePicPicked) {
-                        editProfileController.updateImage(profilePic);
-                      }
-                      if (AppKeys.editProfileKey.currentState?.validate() ==
-                          true) {
-                        AppKeys.editProfileKey.currentState!.save();
-                        try {
-                          final result =
-                              await editProfileController.editProfile();
-                          if (result.responseStatus) {
-                            setState(() {
-                              profileEditSuccess = true;
-                            });
-                            nameController.clear();
-                            emailController.clear();
-                            bioController.clear();
-                            resetImagePicked();
-
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Profile Edit Successful!')),
-                              );
-
-                              Navigator.pop(context, profileEditSuccess);
-                            }
-                          }
-                        } catch (e) {
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              UtilFunctions.buildErrorSnackbar(
-                                errorMessage: 'Profile Edit Failed:',
-                                exception: e,
-                              ),
-                            );
-                          }
-                          profileEditSuccess = false;
-                        }
-                      }
-                    },
-                    child: editState.apiState == ApiState.busy
-                        ? const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                            ),
-                          )
-                        : editState.apiState == ApiState.error
-                            ? Text(
-                                'Retry',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: size.width * 0.04,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : const Text(
-                                'Save',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
