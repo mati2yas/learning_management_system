@@ -180,8 +180,7 @@ class _ProfileAddScreenState extends ConsumerState<ProfileAddScreen> {
                               flex: 3,
                               child: TextButton(
                                 onPressed: () async {
-                                  User? user = await SecureStorageService()
-                                      .getUserFromStorage();
+
                                   if (context.mounted) {
                                     Navigator.of(context).pushReplacementNamed(
                                       Routes.wrapper,

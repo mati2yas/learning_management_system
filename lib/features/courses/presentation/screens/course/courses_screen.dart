@@ -145,8 +145,13 @@ class CoursePage extends ConsumerWidget {
               },
             ),
             data: (courses) {
+              int coursesLen = courses.length;
+              if (coursesLen == 1) {
+                coursesLen++;
+              }
               double narrowScreenHeight =
-                  230 * (courses.length / 2) + (10 * courses.length / 2);
+                  230 * (coursesLen / 2) + (10 * courses.length / 2);
+
               double wideScreenHeight =
                   230 * (courses.length / 3) + (10 * courses.length / 3);
               return SizedBox(

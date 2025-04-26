@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
@@ -19,9 +20,7 @@ class ProfileDataSource {
   Future<User> fetchProfileFromBackend() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString("userData") != null
-          ? (await getToken()) // Retrieve token from SharedPreferences
-          : null;
+      String? token = await _storageService.getTokenFromStorage(); 
 
       if (token == null) throw Exception("No token found. Please log in.");
 
@@ -50,17 +49,18 @@ class ProfileDataSource {
     return await _storageService.getUserFromStorage();
   }
 
-  Future<String?> getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userData = prefs.getString("userData");
-    if (userData != null) {
-      final decodedData = jsonDecode(userData);
-      return decodedData["token"];
-    }
-    return null;
-  }
+  // Future<String?> getToken() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final userData = prefs.getString("userData");
+  //   if (userData != null) {
+  //     final decodedData = jsonDecode(userData);
+  //     return decodedData["token"];
+  //   }
+  //   return null;
+  // }
 
   Future<void> saveProfileToDatabase(User user) async {
+
     await _storageService.saveUserToStorage(user);
     await Future.delayed(const Duration(seconds: 2));
   }

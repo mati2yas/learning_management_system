@@ -22,9 +22,9 @@ class HomeDataSource {
     User? userr;
     int? statusCode;
     try {
-      var user = await SecureStorageService().getUserFromStorage();
-      userr = user;
-      debugPrint("HomePageApi Token: ${user?.token}");
+      //var user = await SecureStorageService().getUserFromStorage();
+      //userr = user;
+      //debugPrint("HomePageApi Token: ${user?.token}");
 
       await DioClient.setToken();
       debugPrint(
@@ -39,10 +39,10 @@ class HomeDataSource {
 
       _dio.options.headers['Accept'] = 'application/json';
 
-      if (["", null].contains(user?.token)) {
-        statusCode = 00;
-        throw Exception("Token not set yet");
-      }
+      // if (["", null].contains(user?.token)) {
+      //   statusCode = 00;
+      //   throw Exception("Token not set yet");
+      // }
       final response = await _dio.get(
         AppUrls.homePageCourses,
       );

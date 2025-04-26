@@ -121,6 +121,7 @@ class AppStrings {
 
   // storage keys
   static const String userStorageKey = "user";
+  static const String apiTokenKey = "apiToken";
   static const String authStatusKey = "auth_status";
   static const String forgotPassStorageKey = "forgotPassword";
   static const String onboardingStatusStorageKey = "onboarding_status";

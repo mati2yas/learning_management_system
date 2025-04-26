@@ -4,7 +4,6 @@ import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
-import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
@@ -82,9 +81,8 @@ class HomePage extends ConsumerWidget {
                                     controller: pageController,
                                     itemBuilder: (_, index) {
                                       return const CarouselPage(
-                                        tag:
-                                            "What would you like to learn today ?",
-                                        img: "assets/images/online_course1.png",
+                                        tag: "",
+                                        img: "assets/images/excelet_banner.png",
                                       );
                                     },
                                     itemCount: 2,
@@ -125,16 +123,28 @@ class HomePage extends ConsumerWidget {
                                 SizedBox(
                                   height: 165,
                                   width: size.width * 0.9,
-                                  child: PageView.builder(
-                                    controller: pageController,
-                                    itemBuilder: (_, index) {
-                                      return CarouselPageNetwork(
-                                        tag: contents[index].tag,
-                                        imgUrl: contents[index].imageUrl,
-                                      );
-                                    },
-                                    itemCount: contents.length,
-                                  ),
+                                  child: contents.isEmpty
+                                      ? PageView.builder(
+                                          controller: pageController,
+                                          itemBuilder: (_, index) {
+                                            return const CarouselPage(
+                                              tag: "",
+                                              img:
+                                                  "assets/images/excelet_banner.png",
+                                            );
+                                          },
+                                          itemCount: 2,
+                                        )
+                                      : PageView.builder(
+                                          controller: pageController,
+                                          itemBuilder: (_, index) {
+                                            return CarouselPageNetwork(
+                                              tag: contents[index].tag,
+                                              imgUrl: contents[index].imageUrl,
+                                            );
+                                          },
+                                          itemCount: contents.length,
+                                        ),
                                 ),
                                 SmoothPageIndicator(
                                   effect: const WormEffect(
@@ -397,19 +407,19 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  Future<void> showUserData(BuildContext context) async {
-    var user = await SecureStorageService().getUserFromStorage();
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          elevation: 5,
-          backgroundColor: Colors.black,
-          content: Text(
-            "User(name: ${user?.name ?? "__"}, password: ${user?.password ?? "__"}, token: ${user?.token ?? "__"})",
-            style: const TextStyle(color: Colors.white),
-          ),
-        ),
-      );
-    }
-  }
+  // Future<void> showUserData(BuildContext context) async {
+  //   var user = await SecureStorageService().getUserFromStorage();
+  //   if (context.mounted) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         elevation: 5,
+  //         backgroundColor: Colors.black,
+  //         content: Text(
+  //           "User(name: ${user?.name ?? "__"}, password: ${user?.password ?? "__"}, token: ${user?.token ?? "__"})",
+  //           style: const TextStyle(color: Colors.white),
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
 }

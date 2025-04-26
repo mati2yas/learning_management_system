@@ -29,6 +29,7 @@ class DioClient {
         onResponse: (response, handler) {
           debugPrint("✅ Response: ${response.statusCode}");
           debugPrint("✅ Response Time: ${response.extra["duration"]} ms");
+          debugPrint("✅ Response data: ${response.data}");
           return handler.next(response);
         },
         onError: (DioException e, handler) {
@@ -42,8 +43,9 @@ class DioClient {
   }
 
   static Future<void> setToken() async {
-    final user = await SecureStorageService().getUserFromStorage();
-    var token = user?.token;
+    //final user = await SecureStorageService().getUserFromStorage();
+    //var token = user?.token;
+    final token = await SecureStorageService().getTokenFromStorage();
     debugPrint("in set token: user token to be set: $token");
     if (token != null && token.isNotEmpty) {
       _dio.options.headers['Authorization'] = 'Bearer $token';
