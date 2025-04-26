@@ -79,6 +79,7 @@ class ForgotPasswordDataSource {
 
           await _dio.download(avatar, savePath);
         }
+        int loginCount = response.data["data"]["user"]["login_count"] ?? 0;
 
         final user = User(
           id: response.data["data"]["user"]["id"],
@@ -86,13 +87,15 @@ class ForgotPasswordDataSource {
           email: email,
           password: password,
           bio: response.data["data"]["user"]["bio"] ?? "",
+          loginCount: loginCount,
           image: savePath,
           token: response.data["token"] ?? "no token",
         );
+        debugPrint("tokenINResetPass $token");
         debugPrint("token: $token");
 
-        // Save the user data to the database
         await _storageService.saveUserToStorage(user);
+        await Future.delayed(const Duration(seconds: 2));
         return response;
       }
     } on DioException catch (e) {

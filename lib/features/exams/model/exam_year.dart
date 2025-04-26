@@ -90,7 +90,7 @@ class ExamYear {
       parentCourseTitle: json["parent_course_title"],
       examSheetId: json["exam_sheet_id"] ?? 0,
       questionCount: json['exam_questions_count'] ?? 0,
-      duration: json["duration"] ?? 30,
+      duration: json["exam_duration"] ?? 30,
       price: {
         SubscriptionType.oneMonth: priceOneMonth,
         SubscriptionType.threeMonths: priceThreeMonth,

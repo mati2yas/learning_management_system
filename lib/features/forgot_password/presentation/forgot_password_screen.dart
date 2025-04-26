@@ -23,6 +23,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   int currentWidget = 0;
   final TextEditingController emailController = TextEditingController();
 
+  double maxFormWidth = 400;
+
   @override
   Widget build(BuildContext context) {
     final forgotPassController =
@@ -34,121 +36,132 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       backgroundColor: Colors.white,
       appBar: CommonAppBar(titleText: "Forgot Password?"),
       //body: bodyWidgets[currentWidget],
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 28.0, horizontal: 30),
-        child: Form(
-          key: AppKeys.forgotPasswordFormKey,
-          child: Column(
-            children: [
-              Text(
-                'Enter your email below, and an email will be sent to you to verify. After that you can log in with your new password.',
-                style: textTh.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+      body: LayoutBuilder(builder: (context, constraints) {
+        return Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 28.0, horizontal: 30),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
+                maxWidth: maxFormWidth,
               ),
-              const SizedBox(height: 22),
-              InputWidget(
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-
-                  // Regular expression to validate email format
-                  final emailRegex =
-                      RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-                  if (!emailRegex.hasMatch(value)) {
-                    return 'Please enter a valid email address';
-                  }
-
-                  return null; // Return null if the input is valid
-                },
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                hintText: 'Your Email',
-                onSaved: (value) {
-                  forgotPassController.updateEmail(value!);
-                },
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.mainBlue,
-                    padding: state.apiStatus == ApiState.busy
-                        ? null
-                        : const EdgeInsets.symmetric(
-                            horizontal: 50,
-                            vertical: 15,
-                          ),
-                    fixedSize: Size(size.width - 80, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+              child: Form(
+                key: AppKeys.forgotPasswordFormKey,
+                child: Column(
+                  children: [
+                    Text(
+                      'Enter your email below, and an email will be sent to you to verify. After that you can log in with your new password.',
+                      style: textTh.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  onPressed: () async {
-                    if (AppKeys.forgotPasswordFormKey.currentState
-                            ?.validate() ==
-                        true) {
-                      AppKeys.forgotPasswordFormKey.currentState!.save();
-                      try {
-                        final forgotPassData =
-                            await forgotPassController.forgotPassword();
+                    const SizedBox(height: 22),
+                    InputWidget(
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter your email';
+                        }
 
-                        ref.invalidate(currentUserProvider);
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            UtilFunctions.buildInfoSnackbar(
-                              message:
-                                  "Password Reset Successfully. Check Your Email for PIN.",
-                            ),
-                          );
-                          emailController.clear();
-                          Navigator.of(context).pushReplacementNamed(
-                            Routes.changePassword,
-                            arguments: forgotPassData,
-                          );
+                        // Regular expression to validate email format
+                        final emailRegex =
+                            RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                        if (!emailRegex.hasMatch(value)) {
+                          return 'Please enter a valid email address';
                         }
-                      } catch (e) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            UtilFunctions.buildErrorSnackbar(
-                                errorMessage:
-                                    "Forgot Password Failed: ${UtilFunctions.stripExceptionLabel(e)}",
-                                exception: e),
-                          );
-                        }
-                      }
-                    }
-                  },
-                  child: state.apiStatus == ApiState.busy
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
+
+                        return null; // Return null if the input is valid
+                      },
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      hintText: 'Your Email',
+                      onSaved: (value) {
+                        forgotPassController.updateEmail(value!);
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.mainBlue,
+                          padding: state.apiStatus == ApiState.busy
+                              ? null
+                              : const EdgeInsets.symmetric(
+                                  horizontal: 50,
+                                  vertical: 15,
+                                ),
+                          fixedSize: Size(
+                            size.width - 80,
+                            65,
                           ),
-                        )
-                      : state.apiStatus == ApiState.error
-                          ? Text(
-                              'Retry',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: size.width * 0.04,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
-                          : Text(
-                              'Reset Password',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: size.width * 0.04,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: () async {
+                          if (AppKeys.forgotPasswordFormKey.currentState
+                                  ?.validate() ==
+                              true) {
+                            AppKeys.forgotPasswordFormKey.currentState!.save();
+                            try {
+                              final forgotPassData =
+                                  await forgotPassController.forgotPassword();
+
+                              ref.invalidate(currentUserProvider);
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  UtilFunctions.buildInfoSnackbar(
+                                    message:
+                                        "Password Reset Successfully. Check Your Email for PIN.",
+                                  ),
+                                );
+                                emailController.clear();
+                                Navigator.of(context).pushReplacementNamed(
+                                  Routes.changePassword,
+                                  arguments: forgotPassData,
+                                );
+                              }
+                            } catch (e) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  UtilFunctions.buildErrorSnackbar(
+                                      errorMessage:
+                                          "Forgot Password Failed: ${UtilFunctions.stripExceptionLabel(e)}",
+                                      exception: e),
+                                );
+                              }
+                            }
+                          }
+                        },
+                        child: state.apiStatus == ApiState.busy
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                            : state.apiStatus == ApiState.error
+                                ? Text(
+                                    'Retry',
+                                    style: textTh.titleLarge!.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : Text(
+                                    'Reset Password',
+                                    style: textTh.titleLarge!.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 

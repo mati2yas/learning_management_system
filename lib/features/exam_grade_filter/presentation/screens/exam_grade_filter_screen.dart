@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
+import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/current_id_stub_provider.dart';
@@ -34,11 +37,11 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
     final pageNavController = ref.read(pageNavigationProvider.notifier);
     examData = pageNavController.getArgumentsForPage(8);
     var examYearValue;
-    if (examData["exam year"] != null) {
-      if (examData["exam year"] is ExamYear) {
-        examYearValue = (examData["exam year"] as ExamYear).title;
-      } else if (examData["exam year"] is String) {
-        examYearValue = examData["exam year"];
+    if (examData[AppStrings.examYearKey] != null) {
+      if (examData[AppStrings.examYearKey] is ExamYear) {
+        examYearValue = (examData[AppStrings.examYearKey] as ExamYear).title;
+      } else if (examData[AppStrings.examYearKey] is String) {
+        examYearValue = examData[AppStrings.examYearKey];
       }
     } else {
       examYearValue = "";
@@ -60,14 +63,18 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {
-                pageNavController.navigatePage(examData["previous screen"]!);
+                //pageNavController
+                //   .navigatePage(examData[AppStrings.previousScreenKey]!);
+                pageNavController.navigateBack(
+                  //previousScreen: ref.read(pageNavigationProvider).nextScreen,
+                );
               },
               icon: const Icon(
                 Icons.arrow_back,
                 color: Colors.black,
               ),
             ),
-            title: Text("${examData["exam course"]} $examYearValue"),
+            title: Text("${examData[AppStrings.examCourseKey]} $examYearValue"),
             centerTitle: true,
             elevation: 5,
             shadowColor: Colors.black87,
@@ -110,11 +117,13 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                       strokeWidth: 5,
                     ),
                   ),
-              error: (error, stack) => Center(
-                    child: Text(
-                      error.toString(),
-                      style: textTh.titleMedium!.copyWith(color: Colors.red),
-                    ),
+              error: (error, stack) => AsyncErrorWidget(
+                    errorMsg: error.toString(),
+                    callback: () async {
+                      ref
+                          .watch(examGradeFilterApiProvider.notifier)
+                          .fetchExamGrades();
+                    },
                   ),
               data: (grades) {
                 return TabBarView(
@@ -122,7 +131,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                   children: tabsList.map((tabTitle) {
                     // Filter the gradconst es by the current tab
                     debugPrint("current tabTitle: $tabTitle");
-                    print(
+                    debugPrint(
                         "all grades: ${grades.map((gr) => gr.title).join(",")}");
                     final selectedGrade = grades.firstWhere(
                       (grade) => grade.title == tabTitle,
@@ -156,26 +165,33 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                               onPressed: () {
                                 Map<String, dynamic> examDataNext = {
                                   //"exam title": examData["exam title"],
-                                  "exam course": examData["exam course"]!,
-                                  "exam year": examData["exam year"]!,
-                                  "questions": chapters[index].questions,
-                                  "previousScreen": 8,
-                                  "hasTimerOption": false,
+                                  AppStrings.examCourseKey:
+                                      examData[AppStrings.examCourseKey]!,
+                                  AppStrings.examYearKey:
+                                      examData[AppStrings.examYearKey]!,
+                                  AppStrings.questionsKey:
+                                      chapters[index].questions,
+                                  AppStrings.previousScreenKey: 8,
+                                  AppStrings.hasTimerOptionKey: false,
                                 };
                                 ref
                                     .read(currentIdStubProvider.notifier)
                                     .changeStub(
                                   {
-                                    "idType": IdType.all,
-                                    "id": chapters[index].id,
-                                    "courseId": examData["courseId"],
+                                    AppStrings.stubIdType: IdType.filtered,
+                                    AppStrings.stubId: chapters[index].id,
+                                    AppStrings.stubGradeId: selectedGrade.id,
                                   },
                                 );
                                 ref
                                     .refresh(examQuestionsApiProvider.notifier)
                                     .fetchQuestions();
-                                pageNavController.navigatePage(6,
-                                    arguments: examDataNext);
+                                pageNavController.navigateTo(
+                                  nextScreen: AppInts.examQuestionsPageIndex,
+                                  // previousScreen:
+                                  //     AppInts.examGradeFilterPageIndex,
+                                  arguments: examDataNext,
+                                );
                               },
                               child: const Text("Take"),
                             ),

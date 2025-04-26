@@ -4,8 +4,9 @@ import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
+import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
-import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
@@ -14,41 +15,59 @@ import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter
 import 'package:lms_system/features/exam_questions/provider/current_id_stub_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/exam_questions_provider.dart';
 import 'package:lms_system/features/exams/provider/current_exam_course_id.dart';
-import 'package:lms_system/features/exams/provider/timer_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_exam_provider.dart';
+import 'package:lms_system/features/paid_courses_exams/provider/paid_screen_tab_index_prov.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
 class PaidScreen extends ConsumerWidget {
-  final int tabIndex;
   const PaidScreen({
     super.key,
-    required this.tabIndex,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final coursesApiState = ref.watch(paidCoursesApiProvider);
-    final examsApiState = ref.watch(paidExamsApiProvider);
     final coursesApiController = ref.watch(paidCoursesApiProvider.notifier);
     final examsApiController = ref.watch(paidExamsApiProvider.notifier);
+    final examsApiState = ref.watch(paidExamsApiProvider);
+    int tabIndex = ref.watch(paidScreenTabIndexProv);
 
+    bool isWideScreen = MediaQuery.sizeOf(context).width > 600;
     final pageNavController = ref.read(pageNavigationProvider.notifier);
-    var textTh = Theme.of(context).textTheme;
     var size = MediaQuery.of(context).size;
+    var textTh = Theme.of(context).textTheme;
     return DefaultTabController(
       length: 2,
       initialIndex: tabIndex,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Your Courses and Exams"),
+          title: Text(
+            "Your Courses and Exams",
+            style: textTh.titleLarge!.copyWith(
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
+          automaticallyImplyLeading: false,
           centerTitle: true,
           elevation: 5,
           shadowColor: Colors.black87,
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.white,
+          actions: [
+            IconButton(
+              onPressed: () {
+                ref.refresh(paidCoursesApiProvider.notifier).fetchPaidCourses();
+              },
+              icon: const Icon(
+                Icons.refresh,
+                color: AppColors.mainBlue,
+              ),
+            )
+          ],
           bottom: const PreferredSize(
             preferredSize: Size(double.infinity, 30),
             child: CustomTabBar(
@@ -78,12 +97,9 @@ class PaidScreen extends ConsumerWidget {
               error: (error, stack) => AsyncErrorWidget(
                 errorMsg: error.toString(),
                 callback: () async {
-                  Future.wait([
-                    ref
-                        .refresh(paidCoursesApiProvider.notifier)
-                        .fetchPaidCourses(),
-                    ref.refresh(paidExamsApiProvider.notifier).fetchPaidExams(),
-                  ]);
+                  ref
+                      .refresh(paidCoursesApiProvider.notifier)
+                      .fetchPaidCourses();
                 },
               ),
               data: (courses) => SizedBox(
@@ -98,10 +114,10 @@ class PaidScreen extends ConsumerWidget {
                         },
                       )
                     : GridView.builder(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           mainAxisExtent: 210,
-                          crossAxisCount: 2,
+                          crossAxisCount: isWideScreen ? 3 : 2,
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                           childAspectRatio:
@@ -125,8 +141,8 @@ class PaidScreen extends ConsumerWidget {
 
                               debugPrint(
                                   "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
-                              pageNavController.navigatePage(
-                                5,
+                              pageNavController.navigateTo(
+                                nextScreen: AppInts.courseChaptersPageIndex,
                                 arguments: {
                                   "course": courses[index],
                                   "previousScreenIndex": 2,
@@ -158,11 +174,13 @@ class PaidScreen extends ConsumerWidget {
                   strokeWidth: 5,
                 ),
               ),
-              error: (error, stack) => Center(
-                child: Text(
-                  ApiExceptions.getExceptionMessage(error as Exception, 400),
-                  style: textTh.titleMedium!.copyWith(color: Colors.red),
-                ),
+              error: (error, stack) => AsyncErrorWidget(
+                errorMsg: error.toString(),
+                callback: () async {
+                  await ref
+                      .refresh(paidExamsApiProvider.notifier)
+                      .fetchPaidExams();
+                },
               ),
               data: (exams) => exams.isEmpty
                   ? NoDataWidget(
@@ -176,7 +194,7 @@ class PaidScreen extends ConsumerWidget {
                   : SizedBox(
                       width: double.infinity,
                       child: ListView.separated(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
                         separatorBuilder: (_, index) =>
                             const SizedBox(height: 15),
                         itemCount: exams.length,
@@ -219,14 +237,19 @@ class PaidScreen extends ConsumerWidget {
                                                     // shows the exam
                                                     Map<String, dynamic>
                                                         examData = {
-                                                      "exam course": exams[
+                                                      AppStrings
+                                                          .examCourseKey: exams[
                                                               index]
                                                           .parentCourseTitle,
-                                                      "exam year":
+                                                      AppStrings.examYearKey:
                                                           exams[index].examYear,
-                                                      "previousScreen": 2,
-                                                      "hasTimerOption": true,
-                                                      "duration":
+                                                      AppStrings
+                                                          .previousScreenKey: 2,
+                                                      AppStrings
+                                                              .hasTimerOptionKey:
+                                                          true,
+                                                      AppStrings
+                                                              .timerDurationKey:
                                                           exams[index].duration,
                                                     };
                                                     ref
@@ -234,27 +257,26 @@ class PaidScreen extends ConsumerWidget {
                                                             currentIdStubProvider
                                                                 .notifier)
                                                         .changeStub({
-                                                      "idType": IdType.all,
-                                                      "id": exams[index].examId,
-                                                      "courseId": exams[index]
-                                                          .parentCourseId,
+                                                      AppStrings.stubIdType:
+                                                          IdType.all,
+                                                      AppStrings.stubId:
+                                                          exams[index].examId,
+                                                      AppStrings.stubCourseId:
+                                                          exams[index]
+                                                              .parentCourseId,
                                                     });
                                                     ref
                                                         .refresh(
                                                             examQuestionsApiProvider
                                                                 .notifier)
                                                         .fetchQuestions();
-                                                    ref
-                                                        .read(examTimerProvider
-                                                            .notifier)
-                                                        .resetTimer(
-                                                            duration:
-                                                                exams[index]
-                                                                    .duration);
+
                                                     pageNavController
-                                                        .navigatePage(6,
-                                                            arguments:
-                                                                examData);
+                                                        .navigateTo(
+                                                      nextScreen: AppInts
+                                                          .examQuestionsPageIndex,
+                                                      arguments: examData,
+                                                    );
                                                   },
                                                   child: const ListTile(
                                                     leading: Icon(
@@ -290,18 +312,27 @@ class PaidScreen extends ConsumerWidget {
                                                                 .notifier)
                                                         .fetchExamGrades();
                                                     pageNavController
-                                                        .navigatePage(
-                                                      8,
+                                                        .navigateTo(
+                                                      nextScreen: AppInts
+                                                          .examGradeFilterPageIndex,
                                                       arguments: <String,
                                                           dynamic>{
-                                                        "exam course": exams[
+                                                        AppStrings
+                                                            .previousScreenKey: 2,
+                                                        AppStrings
+                                                            .examCourseKey: exams[
                                                                 index]
                                                             .parentCourseTitle,
-                                                        "exam year":
+                                                        AppStrings.examYearKey:
                                                             exams[index]
                                                                 .examYear,
-                                                        "previous screen": 2,
-                                                        //"courseId": course.id,
+                                                        AppStrings
+                                                                .timerDurationKey:
+                                                            exams[index]
+                                                                .duration,
+                                                        AppStrings
+                                                                .hasTimerOptionKey:
+                                                            true,
                                                       },
                                                     );
                                                   },
@@ -332,16 +363,44 @@ class PaidScreen extends ConsumerWidget {
                                                   // questions page
                                                   Map<String, dynamic>
                                                       examData = {
-                                                    "exam course": exams[index]
-                                                        .parentCourseTitle,
-                                                    "exam year":
+                                                    AppStrings.examCourseKey:
+                                                        exams[index]
+                                                            .parentCourseTitle,
+                                                    AppStrings.examYearKey:
                                                         exams[index].examYear,
-                                                    "previousScreen": 2,
-                                                    "hasTimerOption": false,
+                                                    AppStrings
+                                                        .previousScreenKey: 2,
+                                                    AppStrings
+                                                            .hasTimerOptionKey:
+                                                        false,
+                                                    AppStrings.timerDurationKey:
+                                                        exams[index].duration,
                                                   };
-                                                  pageNavController
-                                                      .navigatePage(6,
-                                                          arguments: examData);
+                                                  ref
+                                                      .read(
+                                                          currentIdStubProvider
+                                                              .notifier)
+                                                      .changeStub(
+                                                    {
+                                                      AppStrings.stubIdType:
+                                                          IdType.all,
+                                                      AppStrings.stubId:
+                                                          exams[index].examId,
+                                                      AppStrings.stubCourseId:
+                                                          exams[index]
+                                                              .parentCourseId,
+                                                    },
+                                                  );
+                                                  ref
+                                                      .refresh(
+                                                          examQuestionsApiProvider
+                                                              .notifier)
+                                                      .fetchQuestions();
+                                                  pageNavController.navigateTo(
+                                                    nextScreen: AppInts
+                                                        .examQuestionsPageIndex,
+                                                    arguments: examData,
+                                                  );
                                                 }
                                               },
                                               child: const Text("Take"),

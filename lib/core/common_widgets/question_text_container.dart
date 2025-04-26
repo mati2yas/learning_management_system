@@ -24,8 +24,8 @@ class QuestionTextContainer extends StatelessWidget {
     final textHeight = textPainter.height;
 
     return Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.all(8),
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.symmetric(vertical: 8),
       width: maxWidth,
       height: textHeight + 20, // Add padding/margins
       child: Text(

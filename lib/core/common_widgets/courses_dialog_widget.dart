@@ -54,29 +54,14 @@ class RichTextFormat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 15),
-      child: Text.rich(
+      child: Directionality(
         textDirection: TextDirection.ltr,
-        TextSpan(
-          children: [
-            const TextSpan(
-              text: 'Original: ',
-              style: TextStyle(
-                color: AppColors.mainBlue,
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-              ),
-            ),
-            TextSpan(
-              text: normalPrice,
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-              ),
-            ),
-            if (onsalePrice != null) ...[
+        child: Text.rich(
+          textDirection: TextDirection.ltr,
+          TextSpan(
+            children: [
               const TextSpan(
-                text: "Onsale: ",
+                text: 'Original: ',
                 style: TextStyle(
                   color: AppColors.mainBlue,
                   fontWeight: FontWeight.w500,
@@ -84,15 +69,33 @@ class RichTextFormat extends StatelessWidget {
                 ),
               ),
               TextSpan(
-                text: onsalePrice,
+                text: normalPrice,
                 style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
                 ),
               ),
-            ]
-          ],
+              if (onsalePrice != null) ...[
+                const TextSpan(
+                  text: "Onsale: ",
+                  style: TextStyle(
+                    color: AppColors.mainBlue,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
+                ),
+                TextSpan(
+                  text: onsalePrice,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
+                ),
+              ]
+            ],
+          ),
         ),
       ),
     );

@@ -31,6 +31,8 @@ class ExamCoursesFilterDataSource {
           examCourses.add(exam);
         }
 
+        examCourses.sort((a, b) => a.title.compareTo(b.title));
+
         debugPrint("in exam-course-fetcheer datasource");
         for (var exCourse in examCourses) {
           debugPrint(

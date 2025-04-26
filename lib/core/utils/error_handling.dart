@@ -2,6 +2,11 @@ import 'package:dio/dio.dart';
 
 class ApiExceptions {
   static String getExceptionMessage(Exception exc, int? statusCode) {
+    if (statusCode == 00) {
+      // treat this as a special case, to check the error
+      // for homepage error, where token is empty.
+      return "Not initialized error";
+    }
     if (exc is! DioException) {
       if (exc.toString().contains("No internet connection") ||
           exc.toString().contains("Connection Timeout")) {
@@ -19,6 +24,9 @@ class ApiExceptions {
         final firstKey = errors.keys.first; // Get the first error field
         final errorMessages = errors[firstKey]; // Get error messages list
         if (errorMessages is List && errorMessages.isNotEmpty) {
+          if (errorMessages.contains("is not a subtype of type")) {
+            return "Something Went Wrong";
+          }
           return errorMessages.first; // Return the first error message
         }
       }
@@ -34,6 +42,12 @@ class ApiExceptions {
           return "Unauthorized. invalid credentials or permissions:";
         } else if (statusCode == 404) {
           return "Resource not found.";
+        } else if (statusCode == 403) {
+          String responseStr = "";
+          if (response is Map && response.containsKey("message")) {
+            responseStr = response["message"];
+          }
+          return responseStr;
         } else if (response is Map && response.containsKey("message")) {
           return response["message"]; // Handle generic error messages from API
         } else {

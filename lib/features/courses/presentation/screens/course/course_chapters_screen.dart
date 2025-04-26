@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
@@ -36,7 +37,8 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
       appBar: CommonAppBar(
         leading: IconButton(
           onPressed: () {
-            pageController.navigatePage(previousScreen);
+            //pageController.navigatePage(previousScreen);
+            pageController.navigateBack();
           },
           icon: const Icon(Icons.arrow_back),
         ),
@@ -49,12 +51,16 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
             strokeWidth: 5,
           ),
         ),
-        error: (error, stack) => Center(
-          child: Text(
-            error.toString(),
-            style: textTh.titleMedium!.copyWith(color: Colors.red),
-          ),
-        ),
+        error: (error, stack) {
+          return AsyncErrorWidget(
+            errorMsg: error.toString(),
+            callback: () async {
+              await ref
+                  .refresh(courseChaptersProvider.notifier)
+                  .fetchCourseChapters();
+            },
+          );
+        },
         data: (chapters) => chapters.isEmpty
             ? NoDataWidget(
                 noDataMsg: "No Chapters for this course yet.",

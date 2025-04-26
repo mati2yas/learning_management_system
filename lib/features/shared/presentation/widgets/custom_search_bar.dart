@@ -4,9 +4,13 @@ import 'package:lms_system/core/constants/app_colors.dart';
 class CustomSearchBar extends StatelessWidget {
   final String hintText;
   final Size size;
+  final Function(String?) onChangedCallback;
+  final VoidCallback searchCallback;
   const CustomSearchBar({
     super.key,
     required this.hintText,
+    required this.onChangedCallback,
+    required this.searchCallback,
     required this.size,
   });
 
@@ -21,7 +25,8 @@ class CustomSearchBar extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: AppColors.mainGrey, width: 2)),
-        child: TextFormField(
+        child: TextField(
+          onChanged: onChangedCallback,
           // onSaved: (value) {
           //   onSaved(value!);
           // },
@@ -33,13 +38,12 @@ class CustomSearchBar extends StatelessWidget {
 
           style: const TextStyle(color: AppColors.mainBlue),
           decoration: InputDecoration(
-            prefixIcon: const Icon(
-              Icons.search,
-              color: AppColors.darkerGrey,
-            ),
-            suffixIcon: const Icon(
-              Icons.menu,
-              color: AppColors.darkerGrey,
+            suffixIcon: IconButton(
+              icon: const Icon(
+                Icons.search,
+                color: AppColors.darkerGrey,
+              ),
+              onPressed: searchCallback,
             ),
             border: InputBorder.none,
             contentPadding: const EdgeInsets.symmetric(horizontal: 20),

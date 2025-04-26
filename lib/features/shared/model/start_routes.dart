@@ -9,6 +9,7 @@ class StartRoutes {
 
   StartRoutes copyWith({
     String? firstRoute,
+    String? apiToken,
     String? secondRoute,
   }) {
     return StartRoutes(

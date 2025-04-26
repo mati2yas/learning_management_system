@@ -47,7 +47,7 @@ class AppStrings {
   ];
 
   static const List<String> universityGrades = [
-    "Freshman",
+    "1st Year",
     "2nd Year",
     "3rd Year",
     "4th Year",
@@ -126,6 +126,11 @@ class AppStrings {
   static const String onboardingStatusStorageKey = "onboarding_status";
   static const String subbedCoursesStorageKey = "subbed_courses";
 
+  static const String stubIdType = "idType";
+  static const String stubId = "id";
+  static const String stubCourseId = "courseId";
+  static const String stubGradeId = "stubGradeId";
+
   static const List<String> fourYearDepts = [
     "Accounting and Finance",
     "Afan Oromo, Literature and Communication",
@@ -199,14 +204,23 @@ class AppStrings {
     "Freshman",
     "Pre-Engineering",
   ];
+
+  // examData map keys
+  static const String examCourseKey = "exam course";
+  static const String examYearKey = "exam year";
+  static const String examCourseIdKey = "courseId";
+  static const String previousScreenKey = "previous screen";
+  static const String hasTimerOptionKey = "hasTimerOption";
+  static const String timerDurationKey = "timer duration";
+  static const String questionsKey = "questions";
+
   static String categoryFormatted(String input) {
     return switch (input) {
-      lowerGradesCategory => "Lower Grades",
+      lowerGradesCategory => "Elementary",
       highSchoolCategory => "High School",
       universityCategory => "University",
       otherCoursesCategory => "Courses",
       _ => "Courses",
     };
   }
-  //static const String Key = "user";
 }

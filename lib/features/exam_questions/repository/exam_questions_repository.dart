@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/connectivity/connectivity_service.dart';
 import 'package:lms_system/features/exam_questions/data_source/exam_questions_data_source.dart';
@@ -17,11 +18,13 @@ class ExamQuestionsRepository {
   final ConnectivityService _connectivityService;
   ExamQuestionsRepository(this._dataSource, this._connectivityService);
 
-  Future<List<Question>> fetchQuestionsByChapterId(int chapterId) async {
+  Future<List<Question>> fetchQuestionsByChapterId(
+      {required int chapterId, required int gradeId}) async {
     if (!await _connectivityService.hasConnection()) {
       throw Exception("No internet connection");
     }
-    return await _dataSource.fetchQuestionsByChapterId(chapterId);
+    return await _dataSource.fetchQuestionsByChapterId(
+        chapterId: chapterId, gradeId: gradeId);
   }
 
   Future<List<Question>> fetchQuestionsByGenericId(
@@ -30,11 +33,13 @@ class ExamQuestionsRepository {
     if (!await _connectivityService.hasConnection()) {
       throw Exception("No internet connection");
     }
-    if (idStub["idType"] == IdType.filtered) {
-      return await _dataSource.fetchQuestionsByChapterId(idStub["id"]!);
-    } else if (idStub["idType"] == IdType.all) {
+    if (idStub[AppStrings.stubIdType] == IdType.filtered) {
+      return await _dataSource.fetchQuestionsByChapterId(
+          chapterId: idStub[AppStrings.stubId]!,
+          gradeId: idStub[AppStrings.stubGradeId]!);
+    } else if (idStub[AppStrings.stubIdType] == IdType.all) {
       List<Question> questions = await _dataSource.fetchQuestionsByYearId(
-          idStub["id"]!, idStub["courseId"]!);
+          idStub[AppStrings.stubId]!, idStub[AppStrings.stubCourseId]!);
 
       return questions;
     }

@@ -6,6 +6,7 @@ import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
+import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
 import 'package:lms_system/features/forgot_password/provider/forgot_password_provider.dart';
 
 class ProfileForgotPasswordScreen extends ConsumerStatefulWidget {
@@ -88,6 +89,7 @@ class _ForgotPasswordScreenState
                       await forgotPassController.forgotPassword();
 
                   ref.invalidate(currentUserProvider);
+                  ref.invalidate(editProfileProvider);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       UtilFunctions.buildInfoSnackbar(

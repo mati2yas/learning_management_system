@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 import 'package:lms_system/features/subscription/model/bank_info.dart';
@@ -121,7 +122,14 @@ class SubscriptionScreen extends StatelessWidget {
                                       color: AppColors.mainBlue,
                                     ),
                                   ),
-                                  error: (error, stack) => ErrorWidget(error),
+                                  error: (error, stack) => AsyncErrorWidget(
+                                    errorMsg: error.toString(),
+                                    callback: () async {
+                                      ref
+                                          .refresh(bankInfoApiProvider.notifier)
+                                          .fetchBankInfo();
+                                    },
+                                  ),
                                   data: (infos) =>
                                       BankPricesWidget(infos: infos),
                                 ),

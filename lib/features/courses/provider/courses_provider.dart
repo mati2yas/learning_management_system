@@ -27,10 +27,8 @@ class CourseNotifier extends AsyncNotifier<List<Course>> {
   }
 
   Future<List<Course>> loadCourses() async {
-    state = const AsyncValue.loading();
     try {
       final courses = await _repository.fetchCourses();
-      state = AsyncData(courses);
       return courses;
     } catch (e, stack) {
       state = AsyncError(e, stack);
@@ -39,7 +37,6 @@ class CourseNotifier extends AsyncNotifier<List<Course>> {
   }
 
   Future<List<Course>> searchCourses(String searchQuery) async {
-    await Future.delayed(const Duration(seconds: 2));
     state = const AsyncValue.loading();
     try {
       final courses = await _repository.searchCourses(searchQuery);

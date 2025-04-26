@@ -12,4 +12,6 @@ class AppKeys {
       GlobalKey<FormState>(debugLabel: "forgotPasswordKey");
   static final changePasswordFormKey =
       GlobalKey<FormState>(debugLabel: "changePasswordKey");
+  static final changeEmailFormKey =
+      GlobalKey<FormState>(debugLabel: "changeEmailKey");
 }

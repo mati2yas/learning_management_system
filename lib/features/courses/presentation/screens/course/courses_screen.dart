@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
-import 'package:lms_system/features/courses/presentation/widgets/search_delegate.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
@@ -23,7 +24,10 @@ class CoursePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final courses = ref.watch(allCoursesApiProvider);
-    var size = MediaQuery.of(context).size;
+
+    var size = MediaQuery.sizeOf(context);
+    bool isWideScreen = size.width > 600;
+
     var textTh = Theme.of(context).textTheme;
     final pageController = ref.read(pageNavigationProvider.notifier);
     final categoryController = ref.watch(currentCategoryProvider.notifier);
@@ -36,6 +40,7 @@ class CoursePage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           "Courses",
           style: textTh.titleLarge!.copyWith(
@@ -47,11 +52,12 @@ class CoursePage extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              showSearch(
-                context: context,
-                delegate: CourseSearchDelegate(
-                    widgetRef: ref, previousScreenIndex: 1),
-              );
+              // showSearch(
+              //   context: context,
+              //   delegate: CourseSearchDelegate(
+              //       widgetRef: ref, previousScreenIndex: 1),
+              // );
+              Navigator.of(context).pushNamed(Routes.searchScreen);
             },
           ),
         ],
@@ -67,17 +73,20 @@ class CoursePage extends ConsumerWidget {
           Text(
             "Categories",
             style: textTh.bodyLarge!.copyWith(
+              fontSize: isWideScreen
+                  ? (textTh.bodyLarge!.fontSize! + 4)
+                  : textTh.bodyLarge!.fontSize,
               fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(height: 12),
           SizedBox(
-            height: 276,
+            height: isWideScreen ? 376 : 276,
             width: double.infinity,
             child: GridView(
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisExtent: 130,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisExtent: isWideScreen ? 180 : 130,
                 crossAxisCount: 2,
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 15,
@@ -85,6 +94,7 @@ class CoursePage extends ConsumerWidget {
               children: AppStrings.courseCategories
                   .map(
                     (cat) => CategoryShow(
+                      isWideScreen: isWideScreen,
                       category: AppStrings.categoryFormatted(cat),
                       categoryImage: cat,
                       // onTap: () {
@@ -102,9 +112,10 @@ class CoursePage extends ConsumerWidget {
                           ref
                               .read(coursesFilteredProvider.notifier)
                               .fetchCoursesFiltered(filter: cat);
-                          ref
-                              .read(pageNavigationProvider.notifier)
-                              .navigatePage(4);
+                          ref.read(pageNavigationProvider.notifier).navigateTo(
+                                nextScreen: AppInts.coursesFilterPageIndex,
+                                //previousScreen: AppInts.coursePageIndex,
+                              );
                         });
                       },
                     ),
@@ -128,20 +139,24 @@ class CoursePage extends ConsumerWidget {
               ),
             ),
             error: (error, stack) => AsyncErrorWidget(
-              errorMsg: error.toString().replaceAll("Exception: ", ""),
+              errorMsg: error.toString(),
               callback: () async {
                 await ref.refresh(allCoursesApiProvider.notifier).loadCourses();
               },
             ),
             data: (courses) {
+              double narrowScreenHeight =
+                  230 * (courses.length / 2) + (10 * courses.length / 2);
+              double wideScreenHeight =
+                  230 * (courses.length / 3) + (10 * courses.length / 3);
               return SizedBox(
-                height: 202 * 10 + 100,
+                height: isWideScreen ? wideScreenHeight : narrowScreenHeight,
                 // main-axis extent (202) multiplied by 10 per row, plus 10 times main axis spacing (10)
                 width: double.infinity,
                 child: GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                    crossAxisCount: isWideScreen ? 3 : 2,
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
                     childAspectRatio:
@@ -164,8 +179,9 @@ class CoursePage extends ConsumerWidget {
                         ref
                             .read(courseChaptersProvider.notifier)
                             .fetchCourseChapters();
-                        pageController.navigatePage(
-                          5,
+                        pageController.navigateTo(
+                          nextScreen: AppInts.courseChaptersPageIndex,
+                          //previousScreen: AppInts.coursePageIndex,
                           arguments: {
                             "course": courses[index],
                             "previousScreenIndex": 1,

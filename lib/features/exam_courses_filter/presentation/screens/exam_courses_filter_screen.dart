@@ -40,7 +40,18 @@ class _ExamCoursesFilterScreenState
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            pageNavController.navigatePage(3);
+            // if (ref.read(pageNavigationProvider).previousScreen ==
+            //     AppInts.examGradeFilterPageIndex) {
+            //   debugPrint("second back");
+            //   pageNavController.navigateBack(
+            //       //previousScreen: AppInts.examCoursesFiltersPageIndex
+            //       );
+            // } else {
+            //   pageNavController.navigateBack(
+            //       // previousScreen:
+            //       );
+            // }
+            pageNavController.navigateBack();
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -122,7 +133,7 @@ class _ExamCoursesFilterScreenState
           ),
         ),
         error: (error, _) => AsyncErrorWidget(
-          errorMsg: error.toString().replaceAll("Exception:", ""),
+          errorMsg: error.toString(),
           callback: () async {
             await ref
                 .refresh(examCoursesFilterApiProvider.notifier)

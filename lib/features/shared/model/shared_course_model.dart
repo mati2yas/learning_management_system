@@ -14,6 +14,7 @@ class Course {
   String? category;
   String? grade;
   String? batch;
+  String? subscriptionStatus;
   bool subscribed;
   bool saved, liked;
   final Map<SubscriptionType, double> price;
@@ -34,6 +35,7 @@ class Course {
     required this.chapters,
     required this.price,
     this.onSalePrices = const {},
+    this.subscriptionStatus,
     this.stream,
     this.department,
     this.batch,
@@ -72,15 +74,21 @@ class Course {
     var chapters = json["chapters"] ?? <dynamic>[];
 
     String? grade = json["grade"]?["grade_name"];
-    String? stream = json["grade"]?["stream"];
+    String? stream = json["stream"]; //json["grade"]?["stream"];
+    debugPrint(
+        "stream of course ${json["course_name"]} before nul assignment: $stream");
 
     debugPrint("in course model: grade: $grade, stream: $stream");
     if (grade == AppStrings.grade11 || grade == AppStrings.grade12) {
       //debugPrint("grade 11/12, stream is: $stream");
       stream ??= AppStrings.commonStream;
+      debugPrint("stream: $stream");
       //debugPrint("grade 11/12, after setting stream: $stream");
     }
 
+    if ((json["course_name"] ?? "coursee").contains("Amharic")) {
+      debugPrint("course ${json["course_name"]} is subbed: ${json["is_paid"]}");
+    }
     return Course(
       id: json["id"].toString(),
       title: json["course_name"],
@@ -95,6 +103,7 @@ class Course {
       liked: json["is_liked"] ?? false,
       saved: json["is_saved"] ?? false,
       subscribed: json["is_paid"] ?? false,
+      subscriptionStatus: json["subscription_status"],
       image: json["thumbnail"],
       category: categ,
       price: {
@@ -112,38 +121,10 @@ class Course {
     );
   }
 
-  factory Course.fromJsonLocal(Map<String, dynamic> json) {
-    return Course(
-      title: json['title'],
-      id: json['id'],
-      topics: json['topics'],
-      saves: json['saves'],
-      likes: json['likes'],
-      image: json['image'],
-      price: Map<SubscriptionType, double>.from(json['price']),
-      onSalePrices: Map<SubscriptionType, double?>.from(json['priceOnsale']),
-      chapters: [],
-    );
-  }
-
   double getPriceBySubscriptionType(SubscriptionType subscriptionType) {
     double priceValue =
         onSalePrices[subscriptionType] ?? price[subscriptionType]!;
     return priceValue;
-  }
-
-  Map<String, dynamic> toJsonLocal() {
-    return {
-      'title': title,
-      'id': id,
-      'topics': topics,
-      'saves': saves,
-      'likes': likes,
-      'image': image,
-      'price': price.map((key, value) => MapEntry(key.name, value)),
-      'priceOnsale':
-          onSalePrices.map((key, value) => MapEntry(key.name, value)),
-    };
   }
 
   static Course initial() {

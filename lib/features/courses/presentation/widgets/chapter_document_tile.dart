@@ -15,9 +15,6 @@ class ChapterDocumentTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var textTh = Theme.of(context).textTheme;
     return GestureDetector(
-      onTap: () async {
-        await callBack();
-      },
       child: Card(
         margin: const EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
         elevation: 5,
@@ -28,19 +25,6 @@ class ChapterDocumentTile extends ConsumerWidget {
           height: 55,
           child: Row(
             children: <Widget>[
-              ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    bottomLeft: Radius.circular(10.0),
-                  ),
-                  child: SizedBox(
-                    width: 55,
-                    height: 55,
-                    child: Image.asset(
-                      "assets/images/applied_math.png",
-                      fit: BoxFit.cover,
-                    ),
-                  )),
               Expanded(
                   child: Padding(
                 padding: const EdgeInsets.fromLTRB(10.0, 10.0, 15, 8.0),
@@ -57,7 +41,9 @@ class ChapterDocumentTile extends ConsumerWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await callBack();
+                      },
                       icon: const Icon(
                         Icons.download_outlined,
                         color: Colors.green,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 
-
 class ExamCategoryShow extends StatelessWidget {
   final Function onTap;
   final String categoryImage, categoryName;
@@ -16,14 +15,13 @@ class ExamCategoryShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
+    bool isWideScreen = MediaQuery.sizeOf(context).width > 600;
 
     return GestureDetector(
       onTap: () {
         onTap();
       },
       child: Container(
-        width: double.infinity,
-        height: 100,
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(
@@ -38,11 +36,14 @@ class ExamCategoryShow extends StatelessWidget {
           children: [
             Image.asset(
               "assets/images/$categoryImage.png", // Assuming the image name matches the category ID
-              height: 100,
+              height: isWideScreen ? 125 : 100,
             ),
             Text(
               categoryName,
               style: textTh.bodyMedium!.copyWith(
+                fontSize: isWideScreen
+                    ? (textTh.bodyMedium!.fontSize! + 4)
+                    : textTh.bodyMedium!.fontSize,
                 color: Colors.black,
                 fontWeight: FontWeight.w600,
               ),

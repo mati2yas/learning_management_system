@@ -1,0 +1,339 @@
+Changing current working directory to: /home/dechasa/Dev/Work/Flutter/learning_management_system
+Launching lib/main.dart on SM A155M in debug mode...
+Running Gradle task 'assembleDebug'...                              3.3s
+✓ Built build/app/outputs/flutter-apk/app-debug.apk
+Installing build/app/outputs/flutter-apk/app-debug.apk...           5.8s
+I/flutter ( 3194): [IMPORTANT:flutter/shell/platform/android/android_context_vk_impeller.cc(60)] Using the Impeller rendering backend (Vulkan).
+W/libc    ( 3194): Access denied finding property "persist.vendor.debug.gpud.enable"
+I/gralloc4( 3194): @set_metadata: update dataspace from GM (0x08010000 -> 0x00000000)
+D/BLASTBufferQueue( 3194): [SurfaceView[com.exceletacademy.lms/com.exceletacademy.lms.MainActivity]@0#1](f:0,a:0) onFrameAvailable the first frame is available
+D/BLASTBufferQueue( 3194): [SurfaceView[com.exceletacademy.lms/com.exceletacademy.lms.MainActivity]@0#1](f:0,a:1) acquireNextBufferLocked size=1080x2205 mFrameNumber=1 applyTransaction=true mTimestamp=3056100311182(auto) mPendingTransactions.size=0 graphicBufferId=13718125543438 transform=0
+D/SurfaceView@2582d71( 3194): 39333233 setAlpha: alpha=1.0
+I/SurfaceView( 3194): 39333233 Changes: creating=false format=false size=false visible=false alpha=true hint=false visible=false left=false top=false z=false attached=true lifecycleStrategy=false
+I/SurfaceView@2582d71( 3194): 39333233 Cur surface: Surface(name=null)/@0x5552efd
+I/SurfaceView@2582d71( 3194): updateSurface: mVisible = true mSurface.isValid() = true
+I/SurfaceView@2582d71( 3194): updateSurface: mSurfaceCreated = true surfaceChanged = false visibleChanged = false
+I/SurfaceView( 3194): 39333233 surfaceRedrawNeeded
+I/SurfaceView( 3194): 39333233 finishedDrawing
+V/SurfaceView@2582d71( 3194): Layout: x=0 y=0 w=1080 h=2205, frame=Rect(0, 0 - 1080, 2205)
+I/PlayCore( 3194): UID: [10546]  PID: [3194] AppUpdateService : requestUpdateInfo(com.exceletacademy.lms)
+I/PlayCore( 3194): UID: [10546]  PID: [3194] AppUpdateService : Initiate binding to the service.
+I/ViewRootImpl@46a5e1d[MainActivity]( 3194): Setup new sync=wmsSync-ViewRootImpl@46a5e1d[MainActivity]#2
+I/ViewRootImpl@46a5e1d[MainActivity]( 3194): Creating new active sync group ViewRootImpl@46a5e1d[MainActivity]#3
+I/ViewRootImpl@46a5e1d[MainActivity]( 3194): registerCallbacksForSync syncBuffer=false
+D/SurfaceView( 3194): 39333233 updateSurfacePosition RenderWorker, frameNr = 1, position = [0, 0, 1080, 2205] surfaceSize = 1080x2205
+I/SurfaceView@2582d71( 3194): uSP: rtp = Rect(0, 0 - 1080, 2205) rtsw = 1080 rtsh = 2205
+I/SurfaceView@2582d71( 3194): onSSPAndSRT: pl = 0 pt = 0 sx = 1.0 sy = 1.0
+I/SurfaceView@2582d71( 3194): aOrMT: ViewRootImpl@46a5e1d[MainActivity] t = android.view.SurfaceControl$Transaction@95d82bb fN = 1 android.view.SurfaceView.-$$Nest$mapplyOrMergeTransaction:0 android.view.SurfaceView$SurfaceViewPositionUpdateListener.positionChanged:1666 android.graphics.RenderNode$CompositePositionUpdateListener.positionChanged:369 
+I/ViewRootImpl@46a5e1d[MainActivity]( 3194): mWNT: t=0xb4000076ffe40c80 mBlastBufferQueue=0xb4000078c080bc80 fn= 1 mRenderHdrSdrRatio=1.0 caller= android.view.SurfaceView.applyOrMergeTransaction:1598 android.view.SurfaceView.-$$Nest$mapplyOrMergeTransaction:0 android.view.SurfaceView$SurfaceViewPositionUpdateListener.positionChanged:1666 
+I/ViewRootImpl@46a5e1d[MainActivity]( 3194): Received frameDrawingCallback syncResult=0 frameNum=1.
+I/ViewRootImpl@46a5e1d[MainActivity]( 3194): mWNT: t=0xb4000076fe502600 mBlastBufferQueue=0xb4000078c080bc80 fn= 1 mRenderHdrSdrRatio=1.0 caller= android.view.ViewRootImpl$8.onFrameDraw:13841 android.view.ThreadedRenderer$1.onFrameDraw:792 <bottom of call stack> 
+I/ViewRootImpl@46a5e1d[MainActivity]( 3194): Setting up sync and frameCommitCallback
+D/BLASTBufferQueue( 3194): [ViewRootImpl@46a5e1d[MainActivity]#0](f:0,a:0) onFrameAvailable the first frame is available
+D/BLASTBufferQueue( 3194): [ViewRootImpl@46a5e1d[MainActivity]#0](f:0,a:1) acquireNextBufferLocked size=1080x2340 mFrameNumber=1 applyTransaction=true mTimestamp=3056193349028(auto) mPendingTransactions.size=0 graphicBufferId=13718125543443 transform=0
+I/ViewRootImpl@46a5e1d[MainActivity]( 3194): Received frameCommittedCallback lastAttemptedDrawFrameNum=1 didProduceBuffer=true
+D/OpenGLRenderer( 3194): CFMS:: SetUp Pid : 3194    Tid : 3242
+I/ViewRootImpl@46a5e1d[MainActivity]( 3194): reportDrawFinished seqId=0
+I/gralloc4( 3194): @set_metadata: update dataspace from GM (0x08010000 -> 0x00000000)
+I/InsetsSourceConsumer( 3194): applyRequestedVisibilityToControl: visible=true, type=navigationBars, host=com.exceletacademy.lms/com.exceletacademy.lms.MainActivity
+I/InsetsSourceConsumer( 3194): applyRequestedVisibilityToControl: visible=true, type=statusBars, host=com.exceletacademy.lms/com.exceletacademy.lms.MainActivity
+I/PlayCore( 3194): UID: [10546]  PID: [3194] AppUpdateService : ServiceConnectionImpl.onServiceConnected(ComponentInfo{com.android.vending/com.google.android.finsky.installservice.DevTriggeredUpdateService})
+I/PlayCore( 3194): UID: [10546]  PID: [3194] AppUpdateService : linkToDeath
+I/ViewRootImpl@46a5e1d[MainActivity]( 3194): handleWindowFocusChanged: 1 0 call from android.view.ViewRootImpl.-$$Nest$mhandleWindowFocusChanged:0
+D/ViewRootImpl@46a5e1d[MainActivity]( 3194): mThreadedRenderer.initializeIfNeeded()#2 mSurface={isValid=true 0xb4000076ffae5800}
+D/InputMethodManagerUtils( 3194): startInputInner - Id : 0
+Syncing files to device SM A155M...                             
+I/InputMethodManager( 3194): startInputInner - IInputMethodManagerGlobalInvoker.startInputOrWindowGainedFocus
+I/gralloc4( 3194): @set_metadata: update dataspace from GM (0x08010000 -> 0x00000000)
+D/InputMethodManagerUtils( 3194): startInputInner - Id : 0
+I/PlayCore( 3194): UID: [10546]  PID: [3194] OnRequestInstallCallback : onRequestInfo
+I/PlayCore( 3194): UID: [10546]  PID: [3194] AppUpdateService : Unbind from service.
+E/flutter ( 3194): [ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: PlatformException(TASK_FAILURE, -10: Install Error(-10): The app is not owned by any user on this device. An app is "owned" if it has been acquired from Play. (https://developer.android.com/reference/com/google/android/play/core/install/model/InstallErrorCode#ERROR_APP_NOT_OWNED), null, null)
+E/flutter ( 3194): #0      StandardMethodCodec.decodeEnvelope (package:flutter/src/services/message_codecs.dart:652:7)
+E/flutter ( 3194): #1      MethodChannel._invokeMethod (package:flutter/src/services/platform_channel.dart:370:18)
+E/flutter ( 3194): <asynchronous suspension>
+E/flutter ( 3194): #2      InAppUpdate.checkForUpdate (package:in_app_update/in_app_update.dart:62:20)
+E/flutter ( 3194): <asynchronous suspension>
+E/flutter ( 3194): #3      UpdateNotifier.checkForUpdates (package:lms_system/features/check_update/provider/check_update_provider.dart:27:24)
+E/flutter ( 3194): <asynchronous suspension>
+E/flutter ( 3194): 
+I/InsetsController( 3194): onStateChanged: host=com.exceletacademy.lms/com.exceletacademy.lms.MainActivity, from=android.view.ViewRootImpl$ViewRootHandler.handleMessageImpl:7209, state=InsetsState: {mDisplayFrame=Rect(0, 0 - 1080, 2340), mDisplayCutout=DisplayCutout{insets=Rect(0, 80 - 0, 0) waterfall=Insets{left=0, top=0, right=0, bottom=0} boundingRect={Bounds=[Rect(0, 0 - 0, 0), Rect(472, 0 - 608, 80), Rect(0, 0 - 0, 0), Rect(0, 0 - 0, 0)]} cutoutPathParserInfo={CutoutPathParserInfo{displayWidth=1080 displayHeight=2340 physicalDisplayWidth=1080 physicalDisplayHeight=2340 density={2.8125} cutoutSpec={M 0,0 H -24.177777778 V 28.4444444444 H 24.177777778 V 0 H 0 Z @dp} rotation={0} scale={1.0} physicalPixelDisplaySizeRatio={1.0}}}}, mRoundedCorners=RoundedCorners{[RoundedCorner{position=TopLeft, radius=0, center=Point(0, 0)}, RoundedCorner{position=TopRight, radius=0, center=Point(0, 0)}, RoundedCorner{position=BottomRight, radius=0, center=Point(0, 0)}, RoundedCorner{position=BottomLeft, radius=0, center=Point(0, 0)}]}  mRoundedCornerFrame=Rect(0, 0 - 1080, 2340), mPrivacyIndicatorBounds=PrivacyIndicatorBounds {static bounds=Rect(956, 0 - 1080, 80) rotation=0}, mDisplayShape=DisplayShape{ spec=-311912193 displayWidth=1080 displayHeight=2340 physicalPixelDisplaySizeRatio=1.0 rotation=0 offsetX=0 offsetY=0 scale=1.0}, mSources= { InsetsSource: {a32c0000 mType=statusBars mFrame=[0,0][1080,80] mVisible=true mFlags=[]}, InsetsSource: {a32c0005 mType=mandatorySystemGestures mFrame=[0,0][1080,114] mVisible=true mFlags=[]}, InsetsSource: {a32c0006 mType=tappableElement mFrame=[0,0][1080,80] mVisible=true mFlags=[]}, InsetsSource: {3 mType=ime mFrame=[0,0][0,0] mVisible=false mFlags=[]}, InsetsSource: {27 mType=displayCutout mFrame=[0,0][1080,80] mVisible=true mFlags=[]}, InsetsSource: {4e8d0001 mType=navigationBars mFrame=[0,2205][1080,2340] mVisible=true mFlags=[]}, InsetsSource: {4e8d0004 mType=systemGestures mFrame=[0,0][0,0] mVisible=true mFlags=[]}, InsetsSource: {4e8d0005 mType=mandatorySystemGestures mFrame=[0,2205][1080,2340] mVisible=true mFlags=[]}, InsetsSource: {4e8d0006 mType=tappableElement mFrame=[0,2205][1080,2340] mVisible=true mFlags=[]}, InsetsSource: {4e8d0024 mType=systemGestures mFrame=[0,0][0,0] mVisible=true mFlags=[]} }
+I/InsetsSourceConsumer( 3194): applyRequestedVisibilityToControl: visible=false, type=ime, host=com.exceletacademy.lms/com.exceletacademy.lms.MainActivity
+Syncing files to device SM A155M...                                123ms
+
+Flutter run key commands.
+r Hot reload. 🔥🔥🔥
+R Hot restart.
+h List all available interactive commands.
+d Detach (terminate "flutter run" but leave application running).
+c Clear the screen
+q Quit (terminate the application on the device).
+
+A Dart VM Service on SM A155M is available at: http://127.0.0.1:36869/GV3Vd65HcnE=/
+The Flutter DevTools debugger and profiler on SM A155M is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:36869/GV3Vd65HcnE=/
+I/flutter ( 3194): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3)
+I/flutter ( 3194): called fetchNotifs with current page: 1
+I/flutter ( 3194): called fetchNotifs with current page: 1
+I/flutter ( 3194): ktoolbarheight: 56.0
+I/gralloc4( 3194): @set_metadata: update dataspace from GM (0x08010000 -> 0x00000000)
+I/gralloc4( 3194): @set_metadata: update dataspace from GM (0x08010000 -> 0x00000000)
+I/flutter ( 3194): call fetchUnreadNotifs
+I/flutter ( 3194): notifications fetch url: https://lms.biruklemma.com/api/notifications?page=1
+I/flutter ( 3194): call fetchUnreadNotifs
+I/flutter ( 3194): notifications fetch url: https://lms.biruklemma.com/api/notifications?page=1
+I/flutter ( 3194): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3)
+I/flutter ( 3194): ktoolbarheight: 56.0
+I/flutter ( 3194): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3)
+I/flutter ( 3194): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3)
+I/flutter ( 3194): in set token: user token to be set: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): header: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/carousel-contents-api
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/carousel-contents-api
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/carousel-contents-api
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3)
+I/flutter ( 3194): in set token: user token to be set: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): header: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/carousel-contents-api
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/carousel-contents-api
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/carousel-contents-api
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3)
+I/flutter ( 3194): in set token: user token to be set: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): header: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/homepage/courses
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/homepage/courses
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/homepage/courses
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3)
+I/flutter ( 3194): in set token: user token to be set: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): header: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/homepage/courses
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/homepage/courses
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/homepage/courses
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3)
+I/flutter ( 3194): in set token: user token to be set: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): header: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): carousel content:
+I/flutter ( 3194): id: 2
+I/flutter ( 3194): tag: xc ,jabc,jzsdcv,j
+I/flutter ( 3194): image_url: https://lms.biruklemma.com/storage/carousel-image/HWHRjou6PtHcpcqraImP8koqPR7WbJnJuWT5yjPO.png
+I/flutter ( 3194): status: active
+I/flutter ( 3194): order: 1
+I/flutter ( 3194): carousel content:
+I/flutter ( 3194): id: 4
+I/flutter ( 3194): tag: hellow gang
+I/flutter ( 3194): image_url: https://lms.biruklemma.com/storage/carousel-image/cWnrsmtmWb2DmmBxxQnoTt4lnjot3oX8pvRZvDXo.png
+I/flutter ( 3194): status: active
+I/flutter ( 3194): order: 1000
+I/flutter ( 3194): carousel content:
+I/flutter ( 3194): id: 5
+I/flutter ( 3194): tag: Description
+I/flutter ( 3194): image_url: https://lms.biruklemma.com/storage/carousel-image/MDHm5tWyyXELsQSnlUPcshs5amJQIuXjjuMb4U88.jpg
+I/flutter ( 3194): status: active
+I/flutter ( 3194): order: 0
+I/flutter ( 3194): ktoolbarheight: 56.0
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3)
+I/flutter ( 3194): in set token: user token to be set: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): header: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): carousel content:
+I/flutter ( 3194): id: 2
+I/flutter ( 3194): tag: xc ,jabc,jzsdcv,j
+I/flutter ( 3194): image_url: https://lms.biruklemma.com/storage/carousel-image/HWHRjou6PtHcpcqraImP8koqPR7WbJnJuWT5yjPO.png
+I/flutter ( 3194): status: active
+I/flutter ( 3194): order: 1
+I/flutter ( 3194): carousel content:
+I/flutter ( 3194): id: 4
+I/flutter ( 3194): tag: hellow gang
+I/flutter ( 3194): image_url: https://lms.biruklemma.com/storage/carousel-image/cWnrsmtmWb2DmmBxxQnoTt4lnjot3oX8pvRZvDXo.png
+I/flutter ( 3194): status: active
+I/flutter ( 3194): order: 1000
+I/flutter ( 3194): carousel content:
+I/flutter ( 3194): id: 5
+I/flutter ( 3194): tag: Description
+I/flutter ( 3194): image_url: https://lms.biruklemma.com/storage/carousel-image/MDHm5tWyyXELsQSnlUPcshs5amJQIuXjjuMb4U88.jpg
+I/flutter ( 3194): status: active
+I/flutter ( 3194): order: 0
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): 4 values
+I/flutter ( 3194): image url: https://lms.biruklemma.com/storage/thumbnail/QBYRjT6EiwJhHaXzATzSfI09npdtygbKozV1X8Lk.png
+I/flutter ( 3194): in course model: grade: Grade 12, stream: null
+I/flutter ( 3194): image url: https://lms.biruklemma.com/storage/thumbnail/Sycux1g5gNMy5I8AHzW9YaPLaxBjJcgjWGPuGAPK.jpg
+I/flutter ( 3194): in course model: grade: Grade 11, stream: null
+I/flutter ( 3194): image url: https://lms.biruklemma.com/storage/thumbnail/gkYGujBZeHnvR66Mu8xtKmH65PFQTK1MqqDsv1gJ.jpg
+I/flutter ( 3194): in course model: grade: Grade 9, stream: null
+I/flutter ( 3194): image url: https://lms.biruklemma.com/storage/thumbnail/RW8iMG8afeMcLCd36vIgobRGKQqbDKFb4KDxx78O.png
+I/flutter ( 3194): in course model: grade: null, stream: null
+I/flutter ( 3194): courses length: 
+I/flutter ( 3194):  4
+I/flutter ( 3194): ktoolbarheight: 56.0
+I/flutter ( 3194): width: 384.0
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): 4 values
+I/flutter ( 3194): image url: https://lms.biruklemma.com/storage/thumbnail/QBYRjT6EiwJhHaXzATzSfI09npdtygbKozV1X8Lk.png
+I/flutter ( 3194): in course model: grade: Grade 12, stream: null
+I/flutter ( 3194): image url: https://lms.biruklemma.com/storage/thumbnail/gkYGujBZeHnvR66Mu8xtKmH65PFQTK1MqqDsv1gJ.jpg
+I/flutter ( 3194): in course model: grade: Grade 9, stream: null
+I/flutter ( 3194): image url: https://lms.biruklemma.com/storage/thumbnail/VHBZvRsQMYVfcE6tgav54HDx9eLE3iyZhsXFeoxj.png
+I/flutter ( 3194): in course model: grade: Grade 12, stream: null
+I/flutter ( 3194): image url: https://lms.biruklemma.com/storage/thumbnail/RW8iMG8afeMcLCd36vIgobRGKQqbDKFb4KDxx78O.png
+I/flutter ( 3194): in course model: grade: null, stream: null
+I/flutter ( 3194): courses length: 
+I/flutter ( 3194):  4
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): current_page: 1
+I/flutter ( 3194): data: [{id: 60, user_id: 50, type: subscription, message: Your subscription request has been approved., read: 0, created_at: 2025-04-05T21:15:19.000000Z, updated_at: 2025-04-05T21:15:19.000000Z}]
+I/flutter ( 3194): first_page_url: https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter ( 3194): from: 1
+I/flutter ( 3194): last_page: 21
+I/flutter ( 3194): last_page_url: https://lms.biruklemma.com/api/notifications-new?page=21
+I/flutter ( 3194): links: [{url: null, label: &laquo; Previous, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=1, label: 1, active: true}, {url: https://lms.biruklemma.com/api/notifications-new?page=2, label: 2, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=3, label: 3, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=4, label: 4, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=5, label: 5, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=6, label: 6, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=7, label: 7, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=8, label: 8, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=9, label: 9, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=10, label: 10, active: false}, {url: null, label: ..., active: false}, {url: https://lms.biruklemma.co
+I/flutter ( 3194): next_page_url: https://lms.biruklemma.com/api/notifications-new?page=2
+I/flutter ( 3194): path: https://lms.biruklemma.com/api/notifications-new
+I/flutter ( 3194): per_page: 1
+I/flutter ( 3194): prev_page_url: null
+I/flutter ( 3194): to: 1
+I/flutter ( 3194): total: 21
+I/flutter ( 3194): user from storage: User(name: dechasa, email: dechassa0@gmail.com, password: 12345678, token: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3)
+I/flutter ( 3194): in set token: user token to be set: 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): header: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ➡️ Request: GET https://lms.biruklemma.com/api/paid-courses
+I/flutter ( 3194): 🛜 Headers: {Content-Type: application/json, Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3, Accept: application/json}
+I/flutter ( 3194): 🛜 Authorization: Bearer 266|Td6cyN5XKSdVfxijy78MoNZ8yYXJsIijy2FV3gpU09baa7f3
+I/flutter ( 3194): 🛜 Body: null
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): current_page: 1
+I/flutter ( 3194): data: [{id: 60, user_id: 50, type: subscription, message: Your subscription request has been approved., read: 0, created_at: 2025-04-05T21:15:19.000000Z, updated_at: 2025-04-05T21:15:19.000000Z}]
+I/flutter ( 3194): first_page_url: https://lms.biruklemma.com/api/notifications-new?page=1
+I/flutter ( 3194): from: 1
+I/flutter ( 3194): last_page: 21
+I/flutter ( 3194): last_page_url: https://lms.biruklemma.com/api/notifications-new?page=21
+I/flutter ( 3194): links: [{url: null, label: &laquo; Previous, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=1, label: 1, active: true}, {url: https://lms.biruklemma.com/api/notifications-new?page=2, label: 2, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=3, label: 3, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=4, label: 4, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=5, label: 5, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=6, label: 6, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=7, label: 7, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=8, label: 8, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=9, label: 9, active: false}, {url: https://lms.biruklemma.com/api/notifications-new?page=10, label: 10, active: false}, {url: null, label: ..., active: false}, {url: https://lms.biruklemma.co
+I/flutter ( 3194): next_page_url: https://lms.biruklemma.com/api/notifications-new?page=2
+I/flutter ( 3194): path: https://lms.biruklemma.com/api/notifications-new
+I/flutter ( 3194): per_page: 1
+I/flutter ( 3194): prev_page_url: null
+I/flutter ( 3194): to: 1
+I/flutter ( 3194): total: 21
+D/ProfileInstaller( 3194): Installing profile for com.exceletacademy.lms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): ✅ Response: 200
+I/flutter ( 3194): ✅ Response Time: null ms
+I/flutter ( 3194): response is 200
+I/flutter ( 3194): in course model: grade: Grade 9, stream: null
+I/flutter ( 3194): in course model: grade: Grade 5, stream: null
+I/flutter ( 3194): in course model: grade: Grade 1, stream: null
+I/flutter ( 3194): in course model: grade: Grade 1, stream: null
+Lost connection to device.

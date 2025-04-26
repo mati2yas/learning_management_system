@@ -2,13 +2,13 @@ class Quiz {
   final int id;
   final String title;
   final int numberOfQuestions;
-  final int duration;
+  int? duration;
   final List<QuizQuestion> questions;
 
   Quiz({
     required this.id,
     required this.title,
-    required this.duration,
+    this.duration,
     required this.numberOfQuestions,
     required this.questions,
   });

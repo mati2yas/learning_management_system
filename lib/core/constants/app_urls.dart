@@ -29,4 +29,6 @@ class AppUrls {
   static String courseSubscriptionRequest = "/subscription-request";
   static String examSubscriptionRequest = "/subscription-request";
   static String carouselContents = "/carousel-contents-api";
+
+  static String changeEmail = "/update-email";
 }

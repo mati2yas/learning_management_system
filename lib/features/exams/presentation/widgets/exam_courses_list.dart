@@ -21,7 +21,13 @@ class ExamCoursesList extends StatelessWidget {
       width: parentSize.width,
       height: parentSize.height,
       child: ListView.separated(
+        itemCount: courses.length +
+            1, // +1 for the last widget which is just a sizedbox.
         itemBuilder: (_, index) {
+          if (index == courses.length) {
+            // this will return a sizedbox.
+            return const SizedBox(height: 100);
+          }
           return Card(
             color: Colors.white,
             shape: RoundedRectangleBorder(
@@ -47,7 +53,6 @@ class ExamCoursesList extends StatelessWidget {
           );
         },
         separatorBuilder: (_, index) => const SizedBox(height: 10),
-        itemCount: courses.length,
       ),
     );
   }

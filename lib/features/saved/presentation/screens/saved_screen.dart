@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/saved/provider/saved_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
@@ -34,27 +35,27 @@ class _SavedCoursesPageState extends ConsumerState<SavedCoursesPage> {
           shadowColor: Colors.black87,
           surfaceTintColor: Colors.transparent,
           elevation: 4,
-          
         ),
         body: savedApiState.when(
-            loading: () => const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.mainBlue,
-                    strokeWidth: 5,
-                  ),
-                ),
-            error: (error, stack) => Center(
-                  child: Text(
-                    error.toString(),
-                    style: textTh.titleMedium!.copyWith(color: Colors.red),
-                  ),
-                ),
-            data: (courses) {
-              return CoursesListWidget(
-                courses: courses,
-                textTh: textTh,
-              );
-            }),
+          loading: () => const Center(
+            child: CircularProgressIndicator(
+              color: AppColors.mainBlue,
+              strokeWidth: 5,
+            ),
+          ),
+          error: (error, stack) => AsyncErrorWidget(
+            errorMsg: error.toString(),
+            callback: () async {
+              ref.watch(savedApiProvider.notifier).fetchSavedCoursesData();
+            },
+          ),
+          data: (courses) {
+            return CoursesListWidget(
+              courses: courses,
+              textTh: textTh,
+            );
+          },
+        ),
       ),
     );
   }

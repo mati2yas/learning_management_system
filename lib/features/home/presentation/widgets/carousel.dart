@@ -15,41 +15,47 @@ class CarouselPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Container(
-          height: 100,
-          color: AppColors.mainBlue.withAlpha(100),
-          child: Image.network(
-            fit: BoxFit.fitWidth,
-            img,
-            width: double.infinity,
-            height: double.maxFinite,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            height: 100,
+            decoration: BoxDecoration(
+              color: AppColors.mainBlue.withAlpha(100),
+              //borderRadius: BorderRadius.circular(16),
+            ),
+            child: Image.asset(
+              fit: BoxFit.fitWidth,
+              img,
+              width: double.infinity,
+              height: double.maxFinite,
+            ),
           ),
-        ),
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaY: 0.3, sigmaX: 0.3),
-          child: Container(
-            alignment: Alignment.center,
-            color: Colors.black.withOpacity(0.45),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                tag,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: textTheme.headlineLarge!.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 0.1,
-                    // color: yellowFont,
-                    fontFamily: "Bakbak One"),
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaY: 0.3, sigmaX: 0.3),
+            child: Container(
+              alignment: Alignment.center,
+              color: Colors.black.withOpacity(0.45),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  tag,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.headlineLarge!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.1,
+                      // color: yellowFont,
+                      fontFamily: "Bakbak One"),
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
 
     // return Container(

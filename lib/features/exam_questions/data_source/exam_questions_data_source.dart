@@ -16,13 +16,13 @@ class ExamQuestionsDataSource {
 
   ExamQuestionsDataSource(this._dio);
 
-  Future<List<Question>> fetchQuestionsByChapterId(int chapterId) async {
+  Future<List<Question>> fetchQuestionsByChapterId({required int chapterId, required int gradeId}) async {
     int? statusCode;
     List<Question> questions = [];
     debugPrint("chapter id: $chapterId");
     try {
       final response =
-          await _dio.get("${AppUrls.examChapterQuestions}/$chapterId");
+          await _dio.get("${AppUrls.examChapterQuestions}/$gradeId/$chapterId");
 
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
@@ -48,7 +48,7 @@ class ExamQuestionsDataSource {
       final response =
           await _dio.get("${AppUrls.examYearQuestions}/$courseId/$yearId");
       debugPrint(
-          "the of exam question fetch: ${AppUrls.examYearQuestions}/$courseId/$yearId");
+          "the url of exam question fetch: ${AppUrls.examYearQuestions}/$courseId/$yearId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];

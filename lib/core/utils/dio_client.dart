@@ -7,9 +7,9 @@ class DioClient {
   static final Dio _dio = Dio(
     BaseOptions(
       baseUrl: AppUrls.baseUrl,
-      connectTimeout: const Duration(seconds: 90),
-      receiveTimeout: const Duration(seconds: 90),
-      sendTimeout: const Duration(seconds: 90),
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
+      sendTimeout: const Duration(seconds: 30),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -49,6 +49,7 @@ class DioClient {
       _dio.options.headers['Authorization'] = 'Bearer $token';
       debugPrint("header: ${_dio.options.headers["Authorization"]}");
     } else {
+      debugPrint("diotoken being removed.");
       _dio.options.headers.remove('Authorization');
     }
   }

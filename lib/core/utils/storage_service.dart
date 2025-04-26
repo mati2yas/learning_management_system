@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lms_system/core/constants/enums.dart';
-import 'package:lms_system/features/shared/model/shared_course_model.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
 import '../constants/app_strings.dart';
@@ -11,26 +10,26 @@ import '../constants/app_strings.dart';
 class SecureStorageService {
   static final SecureStorageService _instance =
       SecureStorageService._internal();
-  final _storage = const FlutterSecureStorage();
-
+  late final FlutterSecureStorage _storage;
   factory SecureStorageService() {
     return _instance;
   }
-  SecureStorageService._internal();
-
+  SecureStorageService._internal() {
+    _storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  }
   Future<void> deleteUser() async {
     await _storage.delete(key: AppStrings.userStorageKey);
   }
 
-  Future<List<Course>> getCoursesFromLocal() async {
-    final courseJson =
-        await _storage.read(key: AppStrings.subbedCoursesStorageKey);
-    if (courseJson != null) {
-      final courseList = jsonDecode(courseJson) as List<dynamic>;
-      return courseList.map((json) => Course.fromJsonLocal(json)).toList();
-    }
-    return [];
-  }
+  // Future<List<Course>> getCoursesFromLocal() async {
+  //   final courseJson =
+  //       await _storage.read(key: AppStrings.subbedCoursesStorageKey);
+  //   if (courseJson != null) {
+  //     final courseList = jsonDecode(courseJson) as List<dynamic>;
+  //     return courseList.map((json) => Course.fromJsonLocal(json)).toList();
+  //   }
+  //   return [];
+  // }
 
   Future<bool> getOnboardingStatus() async {
     final status =
@@ -61,13 +60,6 @@ class SecureStorageService {
     return usr;
   }
 
-  // Future<void> saveCoursesToLocal(List<Course> savedCourses) async {
-  //   final savedCoursesJson =
-  //       jsonEncode(savedCourses.map((course) => course.toJsonLocal()).toList());
-  //   await _storage.write(
-  //       key: AppStrings.subbedCoursesStorageKey, value: savedCoursesJson);
-  // }
-
   Future<void> saveUserToStorage(User user) async {
     debugPrint("the user is: User{ name: ${user.name}, email: ${user.email}");
     debugPrint("password: ${user.password}, token: ${user.token}}");
@@ -94,4 +86,8 @@ class SecureStorageService {
   Future<void> updateUserInStorage(User user) async {
     await saveUserToStorage(user);
   }
+
+  AndroidOptions _getAndroidOptions() => const AndroidOptions(
+        encryptedSharedPreferences: true,
+      );
 }

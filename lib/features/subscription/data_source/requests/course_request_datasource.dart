@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
 
 class CourseRequestsDataSource {
@@ -10,7 +9,7 @@ class CourseRequestsDataSource {
   Future<List<Course>> fetchCoursesFromLocal() async {
     List<Course> courses = [];
     try {
-      courses = await SecureStorageService().getCoursesFromLocal();
+      //courses = await SecureStorageService().getCoursesFromLocal();
     } catch (e) {
       debugPrint(e.toString());
     }
