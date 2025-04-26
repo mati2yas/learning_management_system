@@ -49,6 +49,7 @@ class DioClient {
       _dio.options.headers['Authorization'] = 'Bearer $token';
       debugPrint("header: ${_dio.options.headers["Authorization"]}");
     } else {
+      debugPrint("diotoken being removed.");
       _dio.options.headers.remove('Authorization');
     }
   }

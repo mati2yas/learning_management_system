@@ -68,6 +68,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
           onPressed: () {
             //reset timer and the go back to previous screen
             ref.read(examTimerProvider.notifier).resetTimer(duration: 0);
+
             //pageNavController.navigateBack();
             Navigator.pop(context);
           },
@@ -304,6 +305,17 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                     const SizedBox(height: 10),
                                     if (currentQuestionItem.answers.length == 1)
                                       ...currentQuestionItem.options.map((op) {
+                                        String letter = [
+                                          "A",
+                                          "B",
+                                          "C",
+                                          "D",
+                                          "E",
+                                          "F",
+                                          "G",
+                                          "H",
+                                        ][currentQuestionItem.options
+                                            .indexOf(op)];
                                         return SizedBox(
                                           width: size.width * 0.9,
                                           height: 50,
@@ -346,7 +358,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                               },
                                             ),
                                             title: Text(
-                                              op,
+                                              "$letter. $op",
                                               style: const TextStyle(
                                                 fontSize: 13,
                                               ),
@@ -359,41 +371,48 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                         1)
                                       ...currentQuestionItem.options.map(
                                         (op) {
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10, right: 10),
-                                            child: ListTile(
-                                              leading: Checkbox(
-                                                activeColor: AppColors.mainBlue,
-                                                value: scoreManager
-                                                    .answersHolders[index]
-                                                    .selectedAnswers
-                                                    .contains(op),
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    if (value ?? false) {
-                                                      answersController
-                                                          .selectAnswerForQuestion(
-                                                        qn: questions[index],
-                                                        selectedAnswer: op,
-                                                        radioButtonValue: op,
-                                                      );
-                                                    } else {
-                                                      answersController
-                                                          .selectAnswerForQuestion(
-                                                        qn: questions[index],
-                                                        selectedAnswer: null,
-                                                        radioButtonValue: op,
-                                                      );
-                                                    }
-                                                  });
-                                                },
-                                              ),
-                                              title: Text(
-                                                op,
-                                                style: const TextStyle(
-                                                  fontSize: 13,
-                                                ),
+                                          String letter = [
+                                            "A",
+                                            "B",
+                                            "C",
+                                            "D",
+                                            "E",
+                                            "F",
+                                            "G",
+                                            "H",
+                                          ][currentQuestionItem.options
+                                              .indexOf(op)];
+                                          return ListTile(
+                                            leading: Checkbox(
+                                              activeColor: AppColors.mainBlue,
+                                              value: scoreManager
+                                                  .answersHolders[index]
+                                                  .selectedAnswers
+                                                  .contains(op),
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  if (value ?? false) {
+                                                    answersController
+                                                        .selectAnswerForQuestion(
+                                                      qn: questions[index],
+                                                      selectedAnswer: op,
+                                                      radioButtonValue: op,
+                                                    );
+                                                  } else {
+                                                    answersController
+                                                        .selectAnswerForQuestion(
+                                                      qn: questions[index],
+                                                      selectedAnswer: null,
+                                                      radioButtonValue: op,
+                                                    );
+                                                  }
+                                                });
+                                              },
+                                            ),
+                                            title: Text(
+                                              "$letter. $op",
+                                              style: const TextStyle(
+                                                fontSize: 13,
                                               ),
                                             ),
                                           );

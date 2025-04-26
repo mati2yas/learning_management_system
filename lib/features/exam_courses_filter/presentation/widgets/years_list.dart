@@ -32,7 +32,7 @@ class TakeOrFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     final pageController = ref.read(pageNavigationProvider.notifier);
     final examTypeProv = ref.watch(currentExamTypeProvider);
-    return examTypeProv == ExamType.matric
+    return [ExamType.matric, ExamType.ministry8th].contains(examTypeProv)
         ? PopupMenuButton<void>(
             icon: const Icon(
               Icons.more_vert,
@@ -63,7 +63,7 @@ class TakeOrFilter extends StatelessWidget {
                   //     .read(examTimerProvider.notifier)
                   //     .resetTimer(duration: year.duration);
                   pageController.navigateTo(
-                   //previousScreen: AppInts.examCoursesFiltersPageIndex,
+                    //previousScreen: AppInts.examCoursesFiltersPageIndex,
                     nextScreen: AppInts.examQuestionsPageIndex,
                     arguments: examData,
                   );
@@ -91,7 +91,7 @@ class TakeOrFilter extends StatelessWidget {
                       .fetchExamGrades();
                   pageController.navigateTo(
                     nextScreen: AppInts.examGradeFilterPageIndex,
-                   //previousScreen: AppInts.examCoursesFiltersPageIndex,
+                    //previousScreen: AppInts.examCoursesFiltersPageIndex,
                     arguments: <String, dynamic>{
                       AppStrings.previousScreenKey: 7,
                       AppStrings.examCourseKey: course.title,
@@ -115,7 +115,8 @@ class TakeOrFilter extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              if (examTypeProv == ExamType.matric) {
+              if ([ExamType.matric, ExamType.ministry8th]
+                  .contains(examTypeProv)) {
                 ref.read(currentIdStubProvider.notifier).changeStub({
                   AppStrings.stubIdType: IdType.filtered,
                   AppStrings.stubId: year.id,
@@ -135,7 +136,7 @@ class TakeOrFilter extends StatelessWidget {
                 };
                 pageController.navigateTo(
                   nextScreen: AppInts.examQuestionsPageIndex,
-                 //previousScreen: AppInts.examCoursesFiltersPageIndex,
+                  //previousScreen: AppInts.examCoursesFiltersPageIndex,
                   arguments: examData,
                 );
               } else {
@@ -155,11 +156,11 @@ class TakeOrFilter extends StatelessWidget {
                   AppStrings.examYearKey: year.title,
                   AppStrings.timerDurationKey: year.duration,
                   AppStrings.previousScreenKey: 7,
-                  AppStrings.hasTimerOptionKey: false,
+                  AppStrings.hasTimerOptionKey: true,
                 };
                 pageController.navigateTo(
                   nextScreen: AppInts.examQuestionsPageIndex,
-                 //previousScreen: AppInts.examCoursesFiltersPageIndex,
+                  //previousScreen: AppInts.examCoursesFiltersPageIndex,
                   arguments: examData,
                 );
               }

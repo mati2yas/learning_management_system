@@ -317,6 +317,17 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                               const SizedBox(height: 10),
                               if (currentQuestion.answers.length == 1)
                                 ...currentQuestion.options.map((op) {
+                                  String letter = [
+                                    "A",
+                                    "B",
+                                    "C",
+                                    "D",
+                                    "E",
+                                    "F",
+                                    "G",
+                                    "H",
+                                  ][currentQuestion.options.indexOf(op)];
+
                                   return ListTile(
                                     leading: Radio<String>(
                                       activeColor: AppColors.mainBlue,
@@ -357,7 +368,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                       },
                                     ),
                                     title: Text(
-                                      op,
+                                      "$letter. $op",
                                       style: const TextStyle(
                                         fontSize: 13,
                                       ),
@@ -367,41 +378,47 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                               else if (currentQuestion.answers.length > 1)
                                 ...currentQuestion.options.map(
                                   (op) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      child: ListTile(
-                                        leading: Checkbox(
-                                          activeColor: AppColors.mainBlue,
-                                          value: scoreManager
-                                              .answersHolders[index]
-                                              .selectedAnswers
-                                              .contains(op),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              if (value ?? false) {
-                                                answersController
-                                                    .selectAnswerForQuestion(
-                                                  qn: questions[index],
-                                                  selectedAnswer: op,
-                                                  radioButtonValue: op,
-                                                );
-                                              } else {
-                                                answersController
-                                                    .selectAnswerForQuestion(
-                                                  qn: questions[index],
-                                                  selectedAnswer: null,
-                                                  radioButtonValue: op,
-                                                );
-                                              }
-                                            });
-                                          },
-                                        ),
-                                        title: Text(
-                                          op,
-                                          style: const TextStyle(
-                                            fontSize: 13,
-                                          ),
+                                    String letter = [
+                                      "A",
+                                      "B",
+                                      "C",
+                                      "D",
+                                      "E",
+                                      "F",
+                                      "G",
+                                      "H",
+                                    ][currentQuestion.options.indexOf(op)];
+                                    return ListTile(
+                                      leading: Checkbox(
+                                        activeColor: AppColors.mainBlue,
+                                        value: scoreManager
+                                            .answersHolders[index]
+                                            .selectedAnswers
+                                            .contains(op),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            if (value ?? false) {
+                                              answersController
+                                                  .selectAnswerForQuestion(
+                                                qn: questions[index],
+                                                selectedAnswer: op,
+                                                radioButtonValue: op,
+                                              );
+                                            } else {
+                                              answersController
+                                                  .selectAnswerForQuestion(
+                                                qn: questions[index],
+                                                selectedAnswer: null,
+                                                radioButtonValue: op,
+                                              );
+                                            }
+                                          });
+                                        },
+                                      ),
+                                      title: Text(
+                                        "$letter. $op",
+                                        style: const TextStyle(
+                                          fontSize: 13,
                                         ),
                                       ),
                                     );

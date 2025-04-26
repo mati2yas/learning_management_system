@@ -2,6 +2,11 @@ import 'package:dio/dio.dart';
 
 class ApiExceptions {
   static String getExceptionMessage(Exception exc, int? statusCode) {
+    if (statusCode == 00) {
+      // treat this as a special case, to check the error
+      // for homepage error, where token is empty.
+      return "Not initialized error";
+    }
     if (exc is! DioException) {
       if (exc.toString().contains("No internet connection") ||
           exc.toString().contains("Connection Timeout")) {

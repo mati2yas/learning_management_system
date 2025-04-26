@@ -269,18 +269,41 @@ class HomePage extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Popular courses for you",
-                              style: textTh.titleMedium!.copyWith(
-                                fontSize: isWideScreen
-                                    ? (textTh.titleMedium!.fontSize! + 4)
-                                    : textTh.titleMedium!.fontSize,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 0.7,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Align(
+                              //   alignment: Alignment.centerLeft,
+                              //   child: Text(
+                              //     "Popular courses for you",
+                              //     style: textTh.titleMedium!.copyWith(
+                              //       fontSize: isWideScreen
+                              //           ? (textTh.titleMedium!.fontSize! + 4)
+                              //           : textTh.titleMedium!.fontSize,
+                              //       fontWeight: FontWeight.w700,
+                              //       letterSpacing: 0.7,
+                              //     ),
+                              //   ),
+                              // ),
+                              Text(
+                                "Popular courses for you",
+                                style: textTh.titleMedium!.copyWith(
+                                  fontSize: isWideScreen
+                                      ? (textTh.titleMedium!.fontSize! + 4)
+                                      : textTh.titleMedium!.fontSize,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.7,
+                                ),
                               ),
-                            ),
+                              IconButton(
+                                onPressed: () async {
+                                  await ref
+                                      .refresh(homeScreenApiProvider.notifier)
+                                      .build();
+                                },
+                                icon: const Icon(Icons.refresh),
+                              ),
+                            ],
                           ),
                           const SizedBox(
                             height: 5,

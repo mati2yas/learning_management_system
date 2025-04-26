@@ -27,9 +27,20 @@ class AnswersNotifier extends StateNotifier<ScoreManagement> {
           score++;
           continue;
         }
-        bool containsAll = correctListCurrentQuestion
-            .every((ans) => selectedListCurrentQuestion.contains(ans));
-        if (containsAll) {
+        List<String> incorrectAnswers = answerHolder.options
+            .where((op) => !answerHolder.correctAnswers.contains(op))
+            .toList();
+        bool containsSomeWrong = false;
+
+        for (var incorrect in incorrectAnswers) {
+          if (answerHolder.selectedAnswers.contains(incorrect)) {
+            containsSomeWrong = true;
+          }
+        }
+        bool containsAllRight = correctListCurrentQuestion
+                .every((ans) => selectedListCurrentQuestion.contains(ans)) &&
+            !containsSomeWrong;
+        if (containsAllRight) {
           debugPrint(
               "multi answer case, selected answers include all correct answers.");
           score++;
@@ -47,8 +58,13 @@ class AnswersNotifier extends StateNotifier<ScoreManagement> {
 
   void initializeWithQuestionsList(List<QuizQuestion> questionsList) {
     List<AnswersHolder> answerHolders = questionsList
-        .map((question) => AnswersHolder(
-            questionId: question.id, correctAnswers: question.answers))
+        .map(
+          (question) => AnswersHolder(
+            options: question.options,
+            questionId: question.id,
+            correctAnswers: question.answers,
+          ),
+        )
         .toList();
     int totalQuestions = questionsList.length;
     var scrV = ScoreValue(
