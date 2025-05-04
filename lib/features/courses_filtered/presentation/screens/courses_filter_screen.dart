@@ -306,7 +306,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                 mainAxisSpacing: 10,
                                 crossAxisSpacing: 10,
                                 childAspectRatio: 0.8,
-                                mainAxisExtent: 227,
+                                mainAxisExtent: 237,
                               ),
                               itemCount: courses.length,
                               itemBuilder: (_, index) {
@@ -337,7 +337,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                     );
                                   },
                                   child: CourseCardNetworkImage(
-                                    mainAxisExtent: 227,
+                                    mainAxisExtent: 237,
                                     course: courses[index],
                                   ),
                                 );
@@ -475,7 +475,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                                           mainAxisSpacing: 10,
                                                           crossAxisSpacing: 10,
                                                           childAspectRatio: 0.8,
-                                                          mainAxisExtent: 227,
+                                                          mainAxisExtent: 237,
                                                         ),
                                                         itemCount:
                                                             highSchoolListsMap[
@@ -525,7 +525,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                                             child:
                                                                 CourseCardNetworkImage(
                                                               mainAxisExtent:
-                                                                  227,
+                                                                  237,
                                                               course:
                                                                   highSchoolListsMap[
                                                                           grade]![
@@ -558,7 +558,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                                       mainAxisSpacing: 10,
                                                       crossAxisSpacing: 10,
                                                       childAspectRatio: 0.8,
-                                                      mainAxisExtent: 227,
+                                                      mainAxisExtent: 237,
                                                     ),
                                                     itemCount:
                                                         selectedCourses.length,
@@ -604,7 +604,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                                         },
                                                         child:
                                                             CourseCardNetworkImage(
-                                                          mainAxisExtent: 227,
+                                                          mainAxisExtent: 237,
                                                           course:
                                                               selectedCourses[
                                                                   index],

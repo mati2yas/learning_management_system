@@ -30,6 +30,8 @@ class CourseDataSource {
           debugPrint("image url: ${x["thumbnail"] ?? "_"}");
           courses.add(crs);
         }
+        courses
+            .sort((courseA, courseB) => courseA.title.toLowerCase().compareTo(courseB.title.toLowerCase()));
       }
     } on DioException catch (e) {
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
@@ -45,8 +47,7 @@ class CourseDataSource {
     try {
       final response = await _dio.get(AppUrls.courseSearch,
           queryParameters: {"course_name": searchQuery});
-      
-      
+
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         print("response is 200");
@@ -57,6 +58,9 @@ class CourseDataSource {
           Course crs = Course.fromJson(x);
           courses.add(crs);
         }
+
+        courses
+            .sort((courseA, courseB) => courseA.title.toLowerCase().compareTo(courseB.title.toLowerCase()));
         debugPrint(
             "searched courses: [ ${courses.map((c) => c.title).join(",")} ]");
       }

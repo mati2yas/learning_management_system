@@ -111,7 +111,7 @@ class _SearchCoursesScreenState extends ConsumerState<SearchCoursesScreen> {
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                mainAxisExtent: 227,
+                mainAxisExtent: 237,
               ),
               itemCount: courses.length,
               itemBuilder: (_, index) {
@@ -142,7 +142,7 @@ class _SearchCoursesScreenState extends ConsumerState<SearchCoursesScreen> {
                     Navigator.of(context).pop();
                   },
                   child: CourseCardNetworkImage(
-                    mainAxisExtent: 227,
+                    mainAxisExtent: 237,
                     course: course,
                     onLike: () async {},
                     onBookmark: () async {},

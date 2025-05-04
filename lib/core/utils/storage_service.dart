@@ -37,6 +37,7 @@ class SecureStorageService {
     return status == 'true';
   }
 
+
   Future<String?> getTokenFromStorage() async {
     final userToken = await _storage.read(key: AppStrings.apiTokenKey);
     return userToken;

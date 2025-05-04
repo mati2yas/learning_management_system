@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/explanation_container.dart';
+import 'package:lms_system/core/common_widgets/proportional_image.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
@@ -24,7 +27,6 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
   YoutubePlayerController ytCtrl = YoutubePlayerController(initialVideoId: "");
   PageController pageViewController = PageController();
   int questionsIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -89,6 +91,8 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                   child: Column(
                     spacing: 12,
                     children: [
+                      if (currentQuestion.imageUrl != null)
+                        ProportionalImage(imageUrl: currentQuestion.imageUrl),
                       QuestionTextContainer(
                         question: currentQuestion.questionText,
                         textStyle: textTh.bodyLarge!
@@ -150,42 +154,8 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
                         const SizedBox(height: 12),
                       ],
                       if (currentQuestion.imageExplanationUrl != null) ...[
-                        SizedBox(
-                          width: size.width,
-                          height: 150,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.network(
-                              height: 80,
-                              width: double.infinity,
-                              currentQuestion.imageExplanationUrl ?? "",
-                              fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child;
-                                }
-                                return Image.asset(
-                                  fit: BoxFit.cover,
-                                  "assets/images/error-image.png",
-                                  height: 80,
-                                  width: double.infinity,
-                                );
-                              },
-                              errorBuilder: (BuildContext context, Object error,
-                                  StackTrace? stackTrace) {
-                                // Show an error widget if the image failed to load
-
-                                return Image.asset(
-                                    height: 80,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                    "assets/images/error-image.png");
-                              },
-                            ),
-                          ),
-                        ),
+                        ProportionalImage(
+                            imageUrl: currentQuestion.imageExplanationUrl),
                         const SizedBox(height: 12),
                       ],
                       if (currentQuestion.videoExplanationUrl != null &&
@@ -303,5 +273,21 @@ class _ExamSolutionsScreenState extends State<ExamSolutionsScreen> {
       initialVideoId: YoutubePlayer.convertUrlToId(url) ?? "",
     );
     ytCtrl.addListener(() {});
+  }
+
+  Future<double?> _getImageAspectRatio(String url) async {
+    final image = Image.network(url);
+    final completer = Completer<ImageInfo>();
+    image.image.resolve(const ImageConfiguration()).addListener(
+      ImageStreamListener((ImageInfo info, _) {
+        completer.complete(info);
+      }),
+    );
+
+    final info = await completer.future;
+    final width = info.image.width;
+    final height = info.image.height;
+
+    return width / height;
   }
 }

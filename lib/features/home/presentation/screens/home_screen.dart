@@ -155,7 +155,7 @@ class HomePage extends ConsumerWidget {
                                     activeDotColor: AppColors.mainBlue,
                                   ),
                                   controller: pageController,
-                                  count: contents.length,
+                                  count: contents.isEmpty ? 2 : contents.length,
                                 ),
                               ],
                             ),
@@ -341,7 +341,7 @@ class HomePage extends ConsumerWidget {
                                 padding: const EdgeInsets.only(bottom: 30),
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisExtent: 227,
+                                  mainAxisExtent: 237,
                                   crossAxisCount: isWideScreen ? 3 : 2,
                                   mainAxisSpacing: 10,
                                   crossAxisSpacing: 10,
@@ -385,7 +385,7 @@ class HomePage extends ConsumerWidget {
                                             .toggleLiked(courses[index]);
                                       },
                                       course: courses[index],
-                                      mainAxisExtent: 227,
+                                      mainAxisExtent: 237,
                                     ),
                                   );
                                 },

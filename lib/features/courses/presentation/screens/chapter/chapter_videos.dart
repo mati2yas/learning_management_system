@@ -400,6 +400,7 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
@@ -429,7 +430,7 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
 
   late CurrentPlayingVideoTracker videoTracker;
   bool isPressed = false;
-  double videoWidthFactor = 0.8;
+  double videoWidthFactor = 0.9;
 
   @override
   Widget build(BuildContext context) {
@@ -453,8 +454,9 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
                       children: [
                         Center(
                           child: YoutubePlayer(
-                            width: constraints.maxWidth * videoWidthFactor,
-                            aspectRatio: 16 / 9,
+                            width: constraints.maxWidth,
+                            aspectRatio:
+                                constraints.maxWidth / constraints.maxHeight,
                             topActions: const [],
                             bottomActions: [
                               const ProgressBar(isExpanded: false),
@@ -495,22 +497,22 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          right: hidingContainerDistance(constraints.maxWidth),
-                          top: 0,
-                          child: Container(
-                            height: 70,
-                            width: 70,
-                            decoration: const BoxDecoration(
-                              color: Colors.black54,
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  "assets/images/ngat.png",
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Positioned(
+                        //   right: hidingContainerDistance(constraints.maxWidth),
+                        //   top: 0,
+                        //   child: Container(
+                        //     height: 70,
+                        //     width: 70,
+                        //     decoration: const BoxDecoration(
+                        //       color: Colors.black54,
+                        //       image: DecorationImage(
+                        //         image: AssetImage(
+                        //           "assets/logos/logo5.png",
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -518,34 +520,25 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
               )
             : Scaffold(
                 appBar: CommonAppBar(titleText: widget.video.title),
-                body: Padding(
-                  padding: const EdgeInsets.all(12),
+                body: SafeArea(
                   child: LayoutBuilder(
                     builder: (context, constraints) {
-                      return SizedBox(
-                        height: constraints.maxHeight,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            YoutubePlayer(
-                              width: size.width * 0.9,
-                              aspectRatio: 16 / 9,
-                              bottomActions: const [
-                                CurrentPosition(),
-                                ProgressBar(isExpanded: true),
-                                CurrentPosition(),
-                                FullScreenButton(),
-                              ],
-                              controller: ytCtrl,
-                              showVideoProgressIndicator: true,
-                              progressIndicatorColor: AppColors.mainBlue,
-                              progressColors: ProgressBarColors(
-                                playedColor: AppColors.mainBlue,
-                                handleColor:
-                                    AppColors.mainBlue.withValues(alpha: 0.6),
-                              ),
-                            ),
-                          ],
+                      return YoutubePlayer(
+                        width: size.width,
+                        aspectRatio: 16 / 9,
+                        bottomActions: const [
+                          CurrentPosition(),
+                          ProgressBar(isExpanded: true),
+                          CurrentPosition(),
+                          FullScreenButton(),
+                        ],
+                        controller: ytCtrl,
+                        showVideoProgressIndicator: true,
+                        progressIndicatorColor: AppColors.mainBlue,
+                        progressColors: ProgressBarColors(
+                          playedColor: AppColors.mainBlue,
+                          handleColor:
+                              AppColors.mainBlue.withValues(alpha: 0.6),
                         ),
                       );
                     },
@@ -559,11 +552,15 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
   @override
   void dispose() {
     ytCtrl.dispose();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     super.dispose();
   }
 
   double hidingContainerDistance(double maxWidth) {
-    var videoWidth = maxWidth * videoWidthFactor;
+    var videoWidth = maxWidth;
     var leftRightDistance = maxWidth - videoWidth;
     return leftRightDistance / 2;
   }

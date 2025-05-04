@@ -66,7 +66,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
               //  course.image,
               // ),
               child: Image.network(
-                height: 80,
+                height: 90,
                 width: double.infinity,
                 course.image, //?? "",
                 fit: BoxFit.cover,
@@ -78,7 +78,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
                   return Image.asset(
                     fit: BoxFit.cover,
                     "assets/images/applied_math.png",
-                    height: 80,
+                    height: 90,
                     width: double.infinity,
                   );
                 },
@@ -87,7 +87,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
                   // Show an error widget if the image failed to load
 
                   return Image.asset(
-                      height: 80,
+                      height: 90,
                       width: double.infinity,
                       fit: BoxFit.cover,
                       "assets/images/applied_math.png");

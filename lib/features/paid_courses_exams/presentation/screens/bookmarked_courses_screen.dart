@@ -69,7 +69,7 @@ class BookmarkedCoursesScreen extends ConsumerWidget {
                 : GridView.builder(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisExtent: 210,
+                      mainAxisExtent: 220,
                       crossAxisCount: isWideScreen ? 3 : 2,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
@@ -102,7 +102,7 @@ class BookmarkedCoursesScreen extends ConsumerWidget {
                           );
                         },
                         child: CourseCardNetworkImage(
-                          mainAxisExtent: 210,
+                          mainAxisExtent: 220,
                           onBookmark: () {
                             coursesApiController.toggleSaved(courses[index]);
                           },

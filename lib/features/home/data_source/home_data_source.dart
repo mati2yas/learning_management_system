@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
 import '../../shared/model/shared_course_model.dart';
@@ -63,6 +62,8 @@ class HomeDataSource {
           courses.add(crs);
         }
 
+        courses
+            .sort((courseA, courseB) => courseA.title.toLowerCase().compareTo(courseB.title.toLowerCase()));
         debugPrint("courses length: \n ${courses.length}");
       }
     } on DioException catch (e) {

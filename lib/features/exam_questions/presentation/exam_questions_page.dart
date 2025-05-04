@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
+import 'package:lms_system/core/common_widgets/proportional_image.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
@@ -267,47 +268,8 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                           child: ListView(
                             children: [
                               if (currentQuestion.imageUrl != null)
-                                SizedBox(
-                                  width: size.width * 0.9,
-                                  height: 150,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.network(
-                                      height: 80,
-                                      width: double.infinity,
-                                      // UtilFunctions()
-                                      //     .determineProperImageUrl(
-                                      //         currentQuestion.imageUrl ??
-                                      //             ""),
-                                      currentQuestion.imageUrl ?? "",
-                                      fit: BoxFit.cover,
-                                      loadingBuilder: (BuildContext context,
-                                          Widget child,
-                                          ImageChunkEvent? loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        }
-                                        return Image.asset(
-                                          fit: BoxFit.cover,
-                                          "assets/images/error-image.png",
-                                          height: 80,
-                                          width: double.infinity,
-                                        );
-                                      },
-                                      errorBuilder: (BuildContext context,
-                                          Object error,
-                                          StackTrace? stackTrace) {
-                                        // Show an error widget if the image failed to load
-
-                                        return Image.asset(
-                                            height: 80,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
-                                            "assets/images/error-image.png");
-                                      },
-                                    ),
-                                  ),
-                                ),
+                                ProportionalImage(
+                                    imageUrl: currentQuestion.imageUrl),
                               QuestionTextContainer(
                                 question:
                                     "${questions.indexOf(currentQuestion) + 1}. ${currentQuestion.questionText} $multipleQuestionsIndicator",
@@ -328,45 +290,43 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                     "H",
                                   ][currentQuestion.options.indexOf(op)];
 
-                                  return ListTile(
-                                    leading: Radio<String>(
-                                      activeColor: AppColors.mainBlue,
-                                      value: op,
-                                      groupValue: scoreManager
-                                          .answersHolders[index].selectedAnswers
-                                          .elementAtOrNull(0),
-                                      onChanged: (value) {
-                                        debugPrint(
-                                            "in ui page: groupValue: ${scoreManager.answersHolders[index].selectedAnswers.elementAtOrNull(0)}, current option's value: $op  selectedAnswer: $value");
-                                        setState(
-                                          () {
-                                            if (value != null) {
-                                              answersController
-                                                  .selectAnswerForQuestion(
-                                                qn: questions[index],
-                                                selectedAnswer: value,
-                                                radioButtonValue: op,
-                                              );
-                                            } else {
-                                              // this is the logic for tracking the state when an
-                                              // option is unselected.
-                                              // in this one we send selectedAnswer as null
-                                              // intentionally, to track the state where this option is
-                                              // unselected and thus remove it from the state if it
-                                              // previously existed. and that's why we also send
-                                              // radioButtonValue, we check if that value already
-                                              // exists in the state and then remove it.
-                                              answersController
-                                                  .selectAnswerForQuestion(
-                                                qn: questions[index],
-                                                selectedAnswer: null,
-                                                radioButtonValue: op,
-                                              );
-                                            }
-                                          },
-                                        );
-                                      },
-                                    ),
+                                  return RadioListTile(
+                                    activeColor: AppColors.mainBlue,
+                                    value: op,
+                                    groupValue: scoreManager
+                                        .answersHolders[index].selectedAnswers
+                                        .elementAtOrNull(0),
+                                    onChanged: (value) {
+                                      debugPrint(
+                                          "in ui page: groupValue: ${scoreManager.answersHolders[index].selectedAnswers.elementAtOrNull(0)}, current option's value: $op  selectedAnswer: $value");
+                                      setState(
+                                        () {
+                                          if (value != null) {
+                                            answersController
+                                                .selectAnswerForQuestion(
+                                              qn: questions[index],
+                                              selectedAnswer: value,
+                                              radioButtonValue: op,
+                                            );
+                                          } else {
+                                            // this is the logic for tracking the state when an
+                                            // option is unselected.
+                                            // in this one we send selectedAnswer as null
+                                            // intentionally, to track the state where this option is
+                                            // unselected and thus remove it from the state if it
+                                            // previously existed. and that's why we also send
+                                            // radioButtonValue, we check if that value already
+                                            // exists in the state and then remove it.
+                                            answersController
+                                                .selectAnswerForQuestion(
+                                              qn: questions[index],
+                                              selectedAnswer: null,
+                                              radioButtonValue: op,
+                                            );
+                                          }
+                                        },
+                                      );
+                                    },
                                     title: Text(
                                       "$letter. $op",
                                       style: const TextStyle(
@@ -388,33 +348,32 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                       "G",
                                       "H",
                                     ][currentQuestion.options.indexOf(op)];
-                                    return ListTile(
-                                      leading: Checkbox(
-                                        activeColor: AppColors.mainBlue,
-                                        value: scoreManager
-                                            .answersHolders[index]
-                                            .selectedAnswers
-                                            .contains(op),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            if (value ?? false) {
-                                              answersController
-                                                  .selectAnswerForQuestion(
-                                                qn: questions[index],
-                                                selectedAnswer: op,
-                                                radioButtonValue: op,
-                                              );
-                                            } else {
-                                              answersController
-                                                  .selectAnswerForQuestion(
-                                                qn: questions[index],
-                                                selectedAnswer: null,
-                                                radioButtonValue: op,
-                                              );
-                                            }
-                                          });
-                                        },
-                                      ),
+                                    return CheckboxListTile(
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
+                                      activeColor: AppColors.mainBlue,
+                                      value: scoreManager
+                                          .answersHolders[index].selectedAnswers
+                                          .contains(op),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          if (value ?? false) {
+                                            answersController
+                                                .selectAnswerForQuestion(
+                                              qn: questions[index],
+                                              selectedAnswer: op,
+                                              radioButtonValue: op,
+                                            );
+                                          } else {
+                                            answersController
+                                                .selectAnswerForQuestion(
+                                              qn: questions[index],
+                                              selectedAnswer: null,
+                                              radioButtonValue: op,
+                                            );
+                                          }
+                                        });
+                                      },
                                       title: Text(
                                         "$letter. $op",
                                         style: const TextStyle(
@@ -424,7 +383,6 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                     );
                                   },
                                 ),
-                              const Spacer(),
                               const SizedBox(height: 35),
                               SizedBox(
                                 width: size.width,
