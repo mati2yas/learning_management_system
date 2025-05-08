@@ -57,13 +57,13 @@ class HomeDataSource {
           //print(dataVl);
           debugPrint("image url: ${dataVl["thumbnail"] ?? "_"}");
           Course crs = Course.fromJson(dataVl);
-          //print(crs.title);
+            //print(crs.title);
 
-          courses.add(crs);
+            courses.add(crs);
         }
 
-        courses
-            .sort((courseA, courseB) => courseA.title.toLowerCase().compareTo(courseB.title.toLowerCase()));
+        courses.sort((courseA, courseB) =>
+            courseA.title.toLowerCase().compareTo(courseB.title.toLowerCase()));
         debugPrint("courses length: \n ${courses.length}");
       }
     } on DioException catch (e) {

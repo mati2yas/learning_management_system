@@ -150,13 +150,13 @@ class CoursePage extends ConsumerWidget {
                 coursesLen++;
               }
               double narrowScreenHeight =
-                  230 * (coursesLen / 2) + (10 * courses.length / 2);
+                  240 * (coursesLen / 2) + (10 * courses.length / 2);
 
               double wideScreenHeight =
-                  230 * (courses.length / 3) + (10 * courses.length / 3);
+                  240 * (courses.length / 3) + (10 * courses.length / 3);
               return SizedBox(
                 height: isWideScreen ? wideScreenHeight : narrowScreenHeight,
-                // main-axis extent (202) multiplied by 10 per row, plus 10 times main axis spacing (10)
+                // main-axis extent (240) multiplied by 10 per row, plus 10 times main axis spacing (10)
                 width: double.infinity,
                 child: GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),

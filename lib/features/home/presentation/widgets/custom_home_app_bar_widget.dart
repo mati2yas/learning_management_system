@@ -388,7 +388,7 @@ class NameTextContainer extends StatelessWidget {
 
     return Container(
       alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.only(top: 8, bottom: 8, right: 8),
       width: maxWidth,
       height: textHeight + 20, // Add padding/margins
       child: Text(

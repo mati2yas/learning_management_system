@@ -33,33 +33,36 @@ class CourseRequestTile extends ConsumerWidget {
               Radius.circular(6),
             ),
           ),
-          child: Image.network(
-            height: 60,
-            width: double.infinity,
-            "${course.image}.jpg", //?? "",
-            fit: BoxFit.cover,
-            loadingBuilder: (BuildContext context, Widget child,
-                ImageChunkEvent? loadingProgress) {
-              if (loadingProgress == null) {
-                return child;
-              }
-              return Image.asset(
-                fit: BoxFit.cover,
-                "assets/images/applied_math.png",
-                height: 60,
-                width: double.infinity,
-              );
-            },
-            errorBuilder:
-                (BuildContext context, Object error, StackTrace? stackTrace) {
-              // Show an error widget if the image failed to load
-
-              return Image.asset(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(6),
+            child: Image.network(
+              height: 60,
+              width: double.infinity,
+              course.image,
+              fit: BoxFit.cover,
+              loadingBuilder: (BuildContext context, Widget child,
+                  ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return Image.asset(
+                  fit: BoxFit.cover,
+                  "assets/images/applied_math.png",
                   height: 60,
                   width: double.infinity,
-                  fit: BoxFit.cover,
-                  "assets/images/applied_math.png");
-            },
+                );
+              },
+              errorBuilder:
+                  (BuildContext context, Object error, StackTrace? stackTrace) {
+                // Show an error widget if the image failed to load
+
+                return Image.asset(
+                    height: 60,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    "assets/images/applied_math.png");
+              },
+            ),
           ),
         ),
         title: Text(course.title),

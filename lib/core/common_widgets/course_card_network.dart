@@ -68,7 +68,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
               child: Image.network(
                 height: 90,
                 width: double.infinity,
-                course.image, //?? "",
+                course.image, 
                 fit: BoxFit.cover,
                 loadingBuilder: (BuildContext context, Widget child,
                     ImageChunkEvent? loadingProgress) {
