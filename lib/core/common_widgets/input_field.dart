@@ -34,50 +34,42 @@ class _InputWidgetState extends State<InputWidget> {
   bool isObscured = true;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 65,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5.0),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: Colors.grey.shade300,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: TextFormField(
-            onSaved: widget.onSaved,
-            onChanged: widget.onChanged,
-            keyboardType: widget.keyboardType ?? TextInputType.name,
-            obscureText: widget.obscureOption ? isObscured : false,
-            controller: widget.controller,
-            validator: (value) {
-              return widget.validator(value!);
-            },
-            initialValue: widget.initialValue,
-            style: const TextStyle(color: AppColors.mainBlue),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-              hintText: widget.hintText,
-              hintStyle: const TextStyle(
-                color: AppColors.darkerGrey,
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              ),
-              suffix: widget.obscureOption
-                  ? IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isObscured = !isObscured;
-                        });
-                      },
-                      icon: Icon(
-                        isObscured ? Icons.visibility : Icons.visibility_off,
-                      ),
-                    )
-                  : null,
-            ),
-          ),
+    return TextFormField(
+      maxLines: 1,
+      minLines: 1,
+      onSaved: widget.onSaved,
+      onChanged: widget.onChanged,
+      keyboardType: widget.keyboardType ?? TextInputType.name,
+      obscureText: widget.obscureOption ? true : false,
+      controller: widget.controller,
+      validator: (value) {
+        return widget.validator(value!);
+      },
+      initialValue: widget.initialValue,
+      style: const TextStyle(color: AppColors.mainBlue),
+      inputFormatters: [],
+      decoration: InputDecoration(
+        fillColor: Colors.white,
+        filled: true,
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+        hintText: widget.hintText,
+        hintStyle: const TextStyle(
+          color: AppColors.darkerGrey,
+          // fontSize: 16,
+          fontWeight: FontWeight.w400,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderSide: BorderSide(color: primaryColor, width: 1),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderSide: BorderSide(color: primaryColor, width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderSide: BorderSide(color: primaryColor, width: 1),
         ),
       ),
     );
