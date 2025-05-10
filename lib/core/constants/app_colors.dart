@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+const Color mainBackgroundColor = Colors.white;
+const Color primaryColor = Color.fromARGB(255, 13, 14, 54);
+
 class AppColors {
   static const Color mainGrey = Color(0xffB7B7B7);
   static const Color darkerGrey = Color(0xff808080);
