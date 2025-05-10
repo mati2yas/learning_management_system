@@ -86,7 +86,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                     CustomButton(
                       isFilledButton: true,
                       buttonWidget: state.apiStatus == ApiState.busy
-                          ? InsideButtonCustomLoader()
+                          ? InsideButtonCustomCircularLoader()
                           : state.apiStatus == ApiState.error
                               ? Text(
                                   'Retry',

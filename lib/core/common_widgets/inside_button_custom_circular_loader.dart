@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class InsideButtonCustomLoader extends StatelessWidget {
-  const InsideButtonCustomLoader({
+class InsideButtonCustomCircularLoader extends StatelessWidget {
+  const InsideButtonCustomCircularLoader({
     super.key,
   });
 

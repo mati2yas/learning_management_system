@@ -5,6 +5,7 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/custom_button.dart';
 import 'package:lms_system/core/common_widgets/custom_gap.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
+import 'package:lms_system/core/common_widgets/inside_button_custom_circular_loader.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
@@ -125,15 +126,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         CustomButton(
                           isFilledButton: true,
                           buttonWidget: state.apiStatus == ApiState.busy
-                              ? const Center(
-                                  child: SizedBox(
-                                    height: 40,
-                                    width: 40,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                )
+                              ? InsideButtonCustomCircularLoader()
                               : state.apiStatus == ApiState.error
                                   ? Text(
                                       'Retry',
