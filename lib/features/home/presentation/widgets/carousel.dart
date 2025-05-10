@@ -36,21 +36,18 @@ class CarouselPage extends StatelessWidget {
           BackdropFilter(
             filter: ImageFilter.blur(sigmaY: 0.3, sigmaX: 0.3),
             child: Container(
-              alignment: Alignment.center,
+              alignment: Alignment.bottomCenter,
               color: Colors.black.withOpacity(0.45),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  tag,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: textTheme.headlineLarge!.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.1,
-                      // color: yellowFont,
-                      fontFamily: "Bakbak One"),
-                ),
+              child: Text(
+                tag,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.headlineSmall!.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.1,
+                    // color: yellowFont,
+                    fontFamily: "Bakbak One"),
               ),
             ),
           ),
@@ -154,7 +151,7 @@ class CarouselPageNetwork extends StatelessWidget {
           BackdropFilter(
             filter: ImageFilter.blur(sigmaY: 0.3, sigmaX: 0.3),
             child: Container(
-              alignment: Alignment.center,
+              alignment: Alignment.bottomCenter,
               color: Colors.black.withOpacity(0.45),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -162,9 +159,9 @@ class CarouselPageNetwork extends StatelessWidget {
                   tag,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: textTheme.headlineLarge!.copyWith(
+                  style: textTheme.headlineSmall!.copyWith(
                     color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                     letterSpacing: 0.1,
                     fontFamily: "Bakbak One",
                   ),

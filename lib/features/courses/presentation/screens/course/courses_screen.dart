@@ -145,13 +145,18 @@ class CoursePage extends ConsumerWidget {
               },
             ),
             data: (courses) {
+              int coursesLen = courses.length;
+              if (coursesLen == 1) {
+                coursesLen++;
+              }
               double narrowScreenHeight =
-                  230 * (courses.length / 2) + (10 * courses.length / 2);
+                  240 * (coursesLen / 2) + (10 * courses.length / 2);
+
               double wideScreenHeight =
-                  230 * (courses.length / 3) + (10 * courses.length / 3);
+                  240 * (courses.length / 3) + (10 * courses.length / 3);
               return SizedBox(
                 height: isWideScreen ? wideScreenHeight : narrowScreenHeight,
-                // main-axis extent (202) multiplied by 10 per row, plus 10 times main axis spacing (10)
+                // main-axis extent (240) multiplied by 10 per row, plus 10 times main axis spacing (10)
                 width: double.infinity,
                 child: GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
@@ -161,7 +166,7 @@ class CoursePage extends ConsumerWidget {
                     crossAxisSpacing: 10,
                     childAspectRatio:
                         UtilFunctions.getResponsiveChildAspectRatio(size),
-                    mainAxisExtent: 230,
+                    mainAxisExtent: 240,
                   ),
                   itemBuilder: (_, index) {
                     return GestureDetector(
@@ -189,7 +194,7 @@ class CoursePage extends ConsumerWidget {
                         );
                       },
                       child: CourseCardNetworkImage(
-                        mainAxisExtent: 230,
+                        mainAxisExtent: 240,
                         course: courses[index],
                         onLike: () async {
                           ref

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
@@ -232,6 +233,7 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
     input = input.replaceFirst(first, first.toUpperCase());
     return input;
   }
+
 
   @override
   void dispose() {

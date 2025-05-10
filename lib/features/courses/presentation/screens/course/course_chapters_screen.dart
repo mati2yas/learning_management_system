@@ -71,7 +71,7 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
                 },
               )
             : Padding(
-                padding: const EdgeInsets.only(bottom: 60),
+                padding: const EdgeInsets.only(bottom: 70),
                 child: ListView.separated(
                   itemCount: chapters.length,
                   padding:

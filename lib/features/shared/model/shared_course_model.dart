@@ -89,6 +89,10 @@ class Course {
     if ((json["course_name"] ?? "coursee").contains("Amharic")) {
       debugPrint("course ${json["course_name"]} is subbed: ${json["is_paid"]}");
     }
+
+    for (var i = 0; i < 10; i++) {
+      debugPrint("course subbed? ${json["is_paid"]}");
+    }
     return Course(
       id: json["id"].toString(),
       title: json["course_name"],
@@ -123,7 +127,7 @@ class Course {
 
   double getPriceBySubscriptionType(SubscriptionType subscriptionType) {
     double priceValue =
-        onSalePrices[subscriptionType] ?? price[subscriptionType]!;
+        onSalePrices[subscriptionType] ?? price[subscriptionType] ?? 0.0;
     return priceValue;
   }
 

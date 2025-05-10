@@ -94,6 +94,7 @@ class ForgotPasswordDataSource {
         debugPrint("tokenINResetPass $token");
         debugPrint("token: $token");
 
+        await _storageService.setTokenToStorage(token: token);
         await _storageService.saveUserToStorage(user);
         await Future.delayed(const Duration(seconds: 2));
         return response;

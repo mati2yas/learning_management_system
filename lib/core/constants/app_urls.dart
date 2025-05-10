@@ -1,5 +1,7 @@
 class AppUrls {
-  static String baseUrl = "https://lms.biruklemma.com/api";
+  //static String baseUrl = "https://exceletacademy.com/api";
+  static String baseUrl = "https://admin.exceletacademy.com/api";
+  //static String baseUrl = "https://lms.biruklemma.com/api";
   static String baseUrlWithoutApi = "https://lms.biruklemma.com/";
   static String backendStorage = "https://lms.biruklemma.com/storage";
 

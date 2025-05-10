@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
+import 'package:lms_system/core/common_widgets/proportional_image.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_layout.dart';
@@ -252,46 +253,9 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                 child: ListView(
                                   children: [
                                     if (currentQuestionItem.imageUrl != null)
-                                      SizedBox(
-                                        width: size.width * 0.9,
-                                        height: 150,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: Image.network(
-                                            height: 90,
-                                            width: double.infinity,
-                                            currentQuestionItem.imageUrl ?? "",
-                                            fit: BoxFit.cover,
-                                            loadingBuilder:
-                                                (BuildContext context,
-                                                    Widget child,
-                                                    ImageChunkEvent?
-                                                        loadingProgress) {
-                                              if (loadingProgress == null) {
-                                                return child;
-                                              }
-                                              return Image.asset(
-                                                fit: BoxFit.cover,
-                                                "assets/images/error-image.png",
-                                                height: 90,
-                                                width: double.infinity,
-                                              );
-                                            },
-                                            errorBuilder: (BuildContext context,
-                                                Object error,
-                                                StackTrace? stackTrace) {
-                                              // Show an error widget if the image failed to load
-
-                                              return Image.asset(
-                                                  height: 80,
-                                                  width: double.infinity,
-                                                  fit: BoxFit.cover,
-                                                  "assets/images/error-image.png");
-                                            },
-                                          ),
-                                        ),
-                                      ),
+                                      ProportionalImage(
+                                          imageUrl:
+                                              currentQuestionItem.imageUrl),
                                     const SizedBox(width: 5),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),

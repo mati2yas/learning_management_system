@@ -37,6 +37,12 @@ class SecureStorageService {
     return status == 'true';
   }
 
+
+  Future<String?> getTokenFromStorage() async {
+    final userToken = await _storage.read(key: AppStrings.apiTokenKey);
+    return userToken;
+  }
+
   Future<AuthStatus> getUserAuthedStatus() async {
     final authStat = await _storage.read(key: AppStrings.authStatusKey);
     return switch (authStat ?? "notAuthed") {
@@ -71,6 +77,10 @@ class SecureStorageService {
   Future<void> setOnboardingStatus(bool status) async {
     await _storage.write(
         key: AppStrings.onboardingStatusStorageKey, value: status.toString());
+  }
+
+  Future<void> setTokenToStorage({required String token}) async {
+    await _storage.write(key: AppStrings.apiTokenKey, value: token);
   }
 
   Future<void> setUserAuthedStatus(AuthStatus status) async {

@@ -24,14 +24,14 @@ class QuestionTextContainer extends StatelessWidget {
     final textHeight = textPainter.height;
 
     return Container(
-      alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      alignment: Alignment.topLeft,
+      padding: const EdgeInsets.only(top: 8, left: 8),
       width: maxWidth,
-      height: textHeight + 20, // Add padding/margins
+      height: textHeight + 30, // Add padding/margins
       child: Text(
         question,
         style: textStyle,
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.left,
       ),
     );
   }

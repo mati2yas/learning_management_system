@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/explanation_container.dart';
+import 'package:lms_system/core/common_widgets/proportional_image.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/features/quiz/model/quiz_model.dart';
@@ -143,42 +144,8 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                         const SizedBox(height: 12),
                       ],
                       if (currentQuestion.imageExplanationUrl != null) ...[
-                        SizedBox(
-                          width: size.width * 0.9,
-                          height: 150,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.network(
-                              height: 80,
-                              width: double.infinity,
-                              "${currentQuestion.imageExplanationUrl}.jpg", //?? "",
-                              fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child;
-                                }
-                                return Image.asset(
-                                  fit: BoxFit.cover,
-                                  "assets/images/error-image.png",
-                                  height: 80,
-                                  width: double.infinity,
-                                );
-                              },
-                              errorBuilder: (BuildContext context, Object error,
-                                  StackTrace? stackTrace) {
-                                // Show an error widget if the image failed to load
-
-                                return Image.asset(
-                                    height: 80,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                    "assets/images/error-image.png");
-                              },
-                            ),
-                          ),
-                        ),
+                        ProportionalImage(
+                            imageUrl: currentQuestion.imageExplanationUrl),
                         const SizedBox(height: 12),
                       ],
                       if (currentQuestion.videoExplanationUrl != null)

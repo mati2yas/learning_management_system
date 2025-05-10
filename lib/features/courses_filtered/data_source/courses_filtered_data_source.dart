@@ -31,8 +31,8 @@ class CoursesFilteredDataSource {
           //debugPrint("in coures datasource: course stream: ${crs.stream}");
           courses.add(crs);
         }
-        // TODO: check this one ordering
-        courses.sort((a, b) => a.title.compareTo(b.title));
+
+        courses.sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
       }
     } on DioException catch (e) {
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);

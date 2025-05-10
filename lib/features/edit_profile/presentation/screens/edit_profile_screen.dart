@@ -67,7 +67,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         return Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
-              horizontal: 25.0,
+              horizontal: 12.0,
               vertical: 20,
             ),
             child: ConstrainedBox(

@@ -29,6 +29,9 @@ class PaidCoursesDataSource {
           Course crs = Course.fromJson(x);
           courses.add(crs);
         }
+        courses.sort(
+          (a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()),
+        );
       }
     } on DioException catch (e) {
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);

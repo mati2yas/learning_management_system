@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
-import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 
 import '../../shared/model/shared_course_model.dart';
@@ -22,9 +21,9 @@ class HomeDataSource {
     User? userr;
     int? statusCode;
     try {
-      var user = await SecureStorageService().getUserFromStorage();
-      userr = user;
-      debugPrint("HomePageApi Token: ${user?.token}");
+      //var user = await SecureStorageService().getUserFromStorage();
+      //userr = user;
+      //debugPrint("HomePageApi Token: ${user?.token}");
 
       await DioClient.setToken();
       debugPrint(
@@ -39,10 +38,10 @@ class HomeDataSource {
 
       _dio.options.headers['Accept'] = 'application/json';
 
-      if (["", null].contains(user?.token)) {
-        statusCode = 00;
-        throw Exception("Token not set yet");
-      }
+      // if (["", null].contains(user?.token)) {
+      //   statusCode = 00;
+      //   throw Exception("Token not set yet");
+      // }
       final response = await _dio.get(
         AppUrls.homePageCourses,
       );
@@ -58,11 +57,13 @@ class HomeDataSource {
           //print(dataVl);
           debugPrint("image url: ${dataVl["thumbnail"] ?? "_"}");
           Course crs = Course.fromJson(dataVl);
-          //print(crs.title);
+            //print(crs.title);
 
-          courses.add(crs);
+            courses.add(crs);
         }
 
+        courses.sort((courseA, courseB) =>
+            courseA.title.toLowerCase().compareTo(courseB.title.toLowerCase()));
         debugPrint("courses length: \n ${courses.length}");
       }
     } on DioException catch (e) {

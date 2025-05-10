@@ -175,11 +175,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                                     User? user = await SecureStorageService()
                                         .getUserFromStorage();
 
-                                    await Future.delayed(
-                                        const Duration(seconds: 2));
-                                    debugPrint(
-                                        "tokenINChangePass: ${user?.token}");
-
+                                  
                                     if (context.mounted) {
                                       if ((user?.loginCount ?? 0) > 0) {
                                         Navigator.of(context)

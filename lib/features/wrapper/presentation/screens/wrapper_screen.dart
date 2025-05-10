@@ -75,7 +75,7 @@ class WrapperScreen extends ConsumerWidget {
 
     return PopScope(
       //canPop: checkPopCondition,
-      canPop: false,
+      canPop: pageNavData.screensTrack.length == 1,
       onPopInvokedWithResult: (didPop, result) {
         pageController.navigateBack();
       },

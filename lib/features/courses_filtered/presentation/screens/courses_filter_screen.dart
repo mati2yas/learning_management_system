@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
+import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
@@ -299,48 +300,49 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                   //debugPrint("courses len: ${courses.length}");
                   return category == AppStrings.otherCoursesCategory
                       ? GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                            childAspectRatio: 0.8,
-                            mainAxisExtent: 227,
-                          ),
-                          itemCount: courses.length,
-                          itemBuilder: (_, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                courseIdController
-                                    .changeCourseId(courses[index].id);
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                childAspectRatio: 0.8,
+                                mainAxisExtent: 237,
+                              ),
+                              itemCount: courses.length,
+                              itemBuilder: (_, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    courseIdController
+                                        .changeCourseId(courses[index].id);
 
-                                ref
-                                    .read(courseChaptersProvider.notifier)
-                                    .fetchCourseChapters();
+                                    ref
+                                        .read(courseChaptersProvider.notifier)
+                                        .fetchCourseChapters();
 
-                                ref
-                                    .read(courseSubTrackProvider.notifier)
-                                    .changeCurrentCourse(courses[index]);
+                                    ref
+                                        .read(courseSubTrackProvider.notifier)
+                                        .changeCurrentCourse(courses[index]);
 
-                                debugPrint(
-                                    "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
-                                pageNavController.navigateTo(
-                                  nextScreen: AppInts.courseChaptersPageIndex,
-                                  //previousScreen:
-                                  //AppInts.coursesFilterPageIndex,
-                                  arguments: {
-                                    "previousScreenIndex": 4,
-                                    "course": courses[index],
+                                    debugPrint(
+                                        "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
+                                    pageNavController.navigateTo(
+                                      nextScreen:
+                                          AppInts.courseChaptersPageIndex,
+                                      //previousScreen:
+                                      //AppInts.coursesFilterPageIndex,
+                                      arguments: {
+                                        "previousScreenIndex": 4,
+                                        "course": courses[index],
+                                      },
+                                    );
                                   },
+                                  child: CourseCardNetworkImage(
+                                    mainAxisExtent: 237,
+                                    course: courses[index],
+                                  ),
                                 );
                               },
-                              child: CourseCardNetworkImage(
-                                mainAxisExtent: 227,
-                                course: courses[index],
-                              ),
-                            );
-                          },
-                        )
+                            )
                       : TabBarView(
                           controller: tabController,
                           children: tabValues.map(
@@ -467,66 +469,71 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                                         .length *
                                                     10,
                                             child: GridView.builder(
-                                              gridDelegate:
-                                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2,
-                                                mainAxisSpacing: 10,
-                                                crossAxisSpacing: 10,
-                                                childAspectRatio: 0.8,
-                                                mainAxisExtent: 227,
-                                              ),
-                                              itemCount:
-                                                  highSchoolListsMap[grade]!
-                                                      .length,
-                                              itemBuilder: (_, index) {
-                                                return GestureDetector(
-                                                  onTap: () {
-                                                    courseIdController
-                                                        .changeCourseId(
+                                                        gridDelegate:
+                                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                                          crossAxisCount: 2,
+                                                          mainAxisSpacing: 10,
+                                                          crossAxisSpacing: 10,
+                                                          childAspectRatio: 0.8,
+                                                          mainAxisExtent: 237,
+                                                        ),
+                                                        itemCount:
                                                             highSchoolListsMap[
-                                                                        grade]![
-                                                                    index]
-                                                                .id);
+                                                                    grade]!
+                                                                .length,
+                                                        itemBuilder:
+                                                            (_, index) {
+                                                          return GestureDetector(
+                                                            onTap: () {
+                                                              courseIdController
+                                                                  .changeCourseId(
+                                                                      highSchoolListsMap[grade]![
+                                                                              index]
+                                                                          .id);
 
-                                                    ref
-                                                        .read(
-                                                            courseChaptersProvider
-                                                                .notifier)
-                                                        .fetchCourseChapters();
+                                                              ref
+                                                                  .read(courseChaptersProvider
+                                                                      .notifier)
+                                                                  .fetchCourseChapters();
 
-                                                    ref
-                                                        .read(
-                                                            courseSubTrackProvider
-                                                                .notifier)
-                                                        .changeCurrentCourse(
-                                                            highSchoolListsMap[
-                                                                grade]![index]);
+                                                              ref
+                                                                  .read(courseSubTrackProvider
+                                                                      .notifier)
+                                                                  .changeCurrentCourse(
+                                                                      highSchoolListsMap[
+                                                                              grade]![
+                                                                          index]);
 
-                                                    debugPrint(
-                                                        "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
-                                                    pageNavController
-                                                        .navigateTo(
-                                                      nextScreen: AppInts
-                                                          .courseChaptersPageIndex,
-                                                      //previousScreen: AppInts
-                                                      //.coursesFilterPageIndex,
-                                                      arguments: {
-                                                        "previousScreenIndex":
-                                                            4,
-                                                        "course":
-                                                            highSchoolListsMap[
-                                                                grade]![index],
-                                                      },
-                                                    );
-                                                  },
-                                                  child: CourseCardNetworkImage(
-                                                    mainAxisExtent: 227,
-                                                    course: highSchoolListsMap[
-                                                        grade]![index],
-                                                  ),
-                                                );
-                                              },
-                                            ),
+                                                              debugPrint(
+                                                                  "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
+                                                              pageNavController
+                                                                  .navigateTo(
+                                                                nextScreen: AppInts
+                                                                    .courseChaptersPageIndex,
+                                                                //previousScreen: AppInts
+                                                                //.coursesFilterPageIndex,
+                                                                arguments: {
+                                                                  "previousScreenIndex":
+                                                                      4,
+                                                                  "course":
+                                                                      highSchoolListsMap[
+                                                                              grade]![
+                                                                          index],
+                                                                },
+                                                              );
+                                                            },
+                                                            child:
+                                                                CourseCardNetworkImage(
+                                                              mainAxisExtent:
+                                                                  237,
+                                                              course:
+                                                                  highSchoolListsMap[
+                                                                          grade]![
+                                                                      index],
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
                                           ),
                                           const SizedBox(height: 200),
                                         ],
@@ -545,63 +552,66 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                                                 selectedCourses.length * 227 +
                                                     selectedCourses.length * 10,
                                             child: GridView.builder(
-                                              gridDelegate:
-                                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2,
-                                                mainAxisSpacing: 10,
-                                                crossAxisSpacing: 10,
-                                                childAspectRatio: 0.8,
-                                                mainAxisExtent: 227,
-                                              ),
-                                              itemCount: selectedCourses.length,
-                                              itemBuilder: (_, index) {
-                                                return GestureDetector(
-                                                  onTap: () {
-                                                    courseIdController
-                                                        .changeCourseId(
-                                                            selectedCourses[
-                                                                    index]
-                                                                .id);
+                                                    gridDelegate:
+                                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount: 2,
+                                                      mainAxisSpacing: 10,
+                                                      crossAxisSpacing: 10,
+                                                      childAspectRatio: 0.8,
+                                                      mainAxisExtent: 237,
+                                                    ),
+                                                    itemCount:
+                                                        selectedCourses.length,
+                                                    itemBuilder: (_, index) {
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          courseIdController
+                                                              .changeCourseId(
+                                                                  selectedCourses[
+                                                                          index]
+                                                                      .id);
 
-                                                    ref
-                                                        .read(
-                                                            courseChaptersProvider
-                                                                .notifier)
-                                                        .fetchCourseChapters();
+                                                          ref
+                                                              .read(
+                                                                  courseChaptersProvider
+                                                                      .notifier)
+                                                              .fetchCourseChapters();
 
-                                                    ref
-                                                        .read(
-                                                            courseSubTrackProvider
-                                                                .notifier)
-                                                        .changeCurrentCourse(
-                                                            selectedCourses[
-                                                                index]);
+                                                          ref
+                                                              .read(
+                                                                  courseSubTrackProvider
+                                                                      .notifier)
+                                                              .changeCurrentCourse(
+                                                                  selectedCourses[
+                                                                      index]);
 
-                                                    debugPrint(
-                                                        "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
-                                                    pageNavController
-                                                        .navigateTo(
-                                                      nextScreen: AppInts
-                                                          .courseChaptersPageIndex,
-                                                      //previousScreen: AppInts
-                                                      //.coursesFilterPageIndex,
-                                                      arguments: {
-                                                        "previousScreenIndex":
-                                                            4,
-                                                        "course":
-                                                            selectedCourses[
-                                                                index],
-                                                      },
-                                                    );
-                                                  },
-                                                  child: CourseCardNetworkImage(
-                                                    mainAxisExtent: 227,
-                                                    course:
-                                                        selectedCourses[index],
+                                                          debugPrint(
+                                                              "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
+                                                          pageNavController
+                                                              .navigateTo(
+                                                            nextScreen: AppInts
+                                                                .courseChaptersPageIndex,
+                                                            //previousScreen: AppInts
+                                                            //.coursesFilterPageIndex,
+                                                            arguments: {
+                                                              "previousScreenIndex":
+                                                                  4,
+                                                              "course":
+                                                                  selectedCourses[
+                                                                      index],
+                                                            },
+                                                          );
+                                                        },
+                                                        child:
+                                                            CourseCardNetworkImage(
+                                                          mainAxisExtent: 237,
+                                                          course:
+                                                              selectedCourses[
+                                                                  index],
+                                                        ),
+                                                      );
+                                                    },
                                                   ),
-                                                );
-                                              },
-                                            ),
                                           ),
                                           const SizedBox(height: 200),
                                         ],

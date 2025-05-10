@@ -12,7 +12,8 @@ class PageNavigationController extends StateNotifier<ScreenData> {
   Map<int, dynamic> pageArguments = {};
 
   PageNavigationController()
-      : super(ScreenData(currentPage: 0, screensTrack: [0]));
+      : super(
+            ScreenData(currentPage: 0, screensTrack: [AppInts.homePageIndex]));
 
   dynamic getArgumentsForPage(int index) {
     if (index == AppInts.examsPageIndex) {
@@ -39,7 +40,7 @@ class PageNavigationController extends StateNotifier<ScreenData> {
 
   void navigateBack() {
     List<int> newScreens = List.from(state.screensTrack);
-    if (newScreens.isNotEmpty) {
+    if (newScreens.length > 1) {
       newScreens.removeLast();
     }
     debugPrint("screens: [${newScreens.map((s) => "back $s").join(",")}]");
@@ -51,14 +52,18 @@ class PageNavigationController extends StateNotifier<ScreenData> {
       pageArguments[nextScreen] = arguments;
     }
     List<int> newScreens = List.from(state.screensTrack);
+    if (state.homeScreensData.contains(nextScreen)) {
+      newScreens = [nextScreen];
 
-    // if (newScreens.isNotEmpty && newScreens.last == nextScreen) {
-    //   return;
-    // }
-    // if (newScreens.length == 2) {
-    //   newScreens.removeAt(0);
-    // }
-    newScreens.add(nextScreen);
+      // this should ensure the list always starts with
+      // one of the home screens.
+      // in one of the cases we allow 2 of the home screens
+      // to be visible
+    }
+
+    if (!newScreens.contains(nextScreen)) {
+      newScreens.add(nextScreen);
+    }
     debugPrint("screens: [${newScreens.map((s) => "forward $s").join(",")}]");
     state = state.copyWith(scrs: newScreens, currentScreen: nextScreen);
   }
@@ -66,9 +71,16 @@ class PageNavigationController extends StateNotifier<ScreenData> {
 
 class ScreenData {
   final List<int> screensTrack;
+  List<int> homeScreensData;
   final int currentPage;
   ScreenData({
     this.screensTrack = const [],
+    this.homeScreensData = const [
+      AppInts.homePageIndex,
+      AppInts.coursePageIndex,
+      AppInts.examsPageIndex,
+      AppInts.paidPageIndex,
+    ],
     required this.currentPage,
   });
 

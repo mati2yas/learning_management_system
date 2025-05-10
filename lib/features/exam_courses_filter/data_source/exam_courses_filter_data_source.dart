@@ -31,7 +31,12 @@ class ExamCoursesFilterDataSource {
           examCourses.add(exam);
         }
 
-        examCourses.sort((a, b) => a.title.compareTo(b.title));
+        examCourses.sort(
+            (a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+        for (var course in examCourses) {
+          course.years.sort(
+              (a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+        }
 
         debugPrint("in exam-course-fetcheer datasource");
         for (var exCourse in examCourses) {

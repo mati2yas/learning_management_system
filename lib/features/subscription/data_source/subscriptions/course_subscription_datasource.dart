@@ -29,7 +29,9 @@ class CourseSubscriptionDataSource {
       return response;
     } on DioException catch (e) {
       //String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
-      throw Exception(e.response!.data["message"]);
+      throw Exception(e.response?.data["mess:ge"] ??
+          e.response?.statusMessage ??
+          "Unknown Error");
     }
   }
 }

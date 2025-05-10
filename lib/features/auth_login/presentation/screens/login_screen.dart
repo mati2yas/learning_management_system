@@ -166,8 +166,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   User? user = await SecureStorageService()
                                       .getUserFromStorage();
 
-                                  // await Future.delayed(
-                                  //     const Duration(seconds: 2));
+                                  await Future.delayed(
+                                      const Duration(seconds: 2));
 
                                   debugPrint(
                                       "user loginCount: ${user?.loginCount}");
