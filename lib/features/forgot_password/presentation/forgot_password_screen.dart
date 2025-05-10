@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
+import 'package:lms_system/core/common_widgets/custom_button.dart';
+import 'package:lms_system/core/common_widgets/custom_gap.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
+import 'package:lms_system/core/common_widgets/inside_button_custom_circular_loader.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 import 'package:lms_system/features/forgot_password/provider/forgot_password_provider.dart';
@@ -34,7 +38,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     final textTh = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CommonAppBar(titleText: "Forgot Password?"),
+      appBar: CommonAppBar(titleText: ""),
       //body: bodyWidgets[currentWidget],
       body: LayoutBuilder(builder: (context, constraints) {
         return Center(
@@ -50,10 +54,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                 child: Column(
                   children: [
                     Text(
-                      'Enter your email below, and an email will be sent to you to verify. After that you can log in with your new password.',
-                      style: textTh.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      'Please enter your email address below. A verification email will be sent to you to confirm your identity. Once verified, you will be able to reset your password.',
+                      style: textTh.bodyLarge!.copyWith(),
                     ),
                     const SizedBox(height: 22),
                     InputWidget(
@@ -78,82 +80,65 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                         forgotPassController.updateEmail(value!);
                       },
                     ),
-                    const SizedBox(height: 20),
-                    Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.mainBlue,
-                          padding: state.apiStatus == ApiState.busy
-                              ? null
-                              : const EdgeInsets.symmetric(
-                                  horizontal: 50,
-                                  vertical: 15,
+                    Gap(
+                      height: 20,
+                    ),
+                    CustomButton(
+                      isFilledButton: true,
+                      buttonWidget: state.apiStatus == ApiState.busy
+                          ? InsideButtonCustomLoader()
+                          : state.apiStatus == ApiState.error
+                              ? Text(
+                                  'Retry',
+                                  style: textTheme.labelLarge!.copyWith(
+                                      letterSpacing: 0.5,
+                                      fontFamily: "Inter",
+                                      color: Colors.white,
+                                      overflow: TextOverflow.ellipsis),
+                                )
+                              : Text(
+                                  'Reset Password',
+                                  style: textTheme.labelLarge!.copyWith(
+                                      letterSpacing: 0.5,
+                                      fontFamily: "Inter",
+                                      color: Colors.white,
+                                      overflow: TextOverflow.ellipsis),
                                 ),
-                          fixedSize: Size(
-                            size.width - 80,
-                            65,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onPressed: () async {
-                          if (AppKeys.forgotPasswordFormKey.currentState
-                                  ?.validate() ==
-                              true) {
-                            AppKeys.forgotPasswordFormKey.currentState!.save();
-                            try {
-                              final forgotPassData =
-                                  await forgotPassController.forgotPassword();
+                      buttonAction: () async {
+                        if (AppKeys.forgotPasswordFormKey.currentState
+                                ?.validate() ==
+                            true) {
+                          AppKeys.forgotPasswordFormKey.currentState!.save();
+                          try {
+                            final forgotPassData =
+                                await forgotPassController.forgotPassword();
 
-                              ref.invalidate(currentUserProvider);
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  UtilFunctions.buildInfoSnackbar(
-                                    message:
-                                        "Password Reset Successfully. Check Your Email for PIN.",
-                                  ),
-                                );
-                                emailController.clear();
-                                Navigator.of(context).pushReplacementNamed(
-                                  Routes.changePassword,
-                                  arguments: forgotPassData,
-                                );
-                              }
-                            } catch (e) {
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  UtilFunctions.buildErrorSnackbar(
-                                      errorMessage:
-                                          "Forgot Password Failed: ${UtilFunctions.stripExceptionLabel(e)}",
-                                      exception: e),
-                                );
-                              }
+                            ref.invalidate(currentUserProvider);
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                UtilFunctions.buildInfoSnackbar(
+                                  message:
+                                      "Password Reset Successfully. Check Your Email for PIN.",
+                                ),
+                              );
+                              emailController.clear();
+                              Navigator.of(context).pushReplacementNamed(
+                                Routes.changePassword,
+                                arguments: forgotPassData,
+                              );
+                            }
+                          } catch (e) {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                UtilFunctions.buildErrorSnackbar(
+                                    errorMessage:
+                                        "Forgot Password Failed: ${UtilFunctions.stripExceptionLabel(e)}",
+                                    exception: e),
+                              );
                             }
                           }
-                        },
-                        child: state.apiStatus == ApiState.busy
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                              )
-                            : state.apiStatus == ApiState.error
-                                ? Text(
-                                    'Retry',
-                                    style: textTh.titleLarge!.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                : Text(
-                                    'Reset Password',
-                                    style: textTh.titleLarge!.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                      ),
+                        }
+                      },
                     ),
                   ],
                 ),
