@@ -28,6 +28,14 @@ class ExamChapter {
     required this.questions,
     required this.questionsCount,
   });
+  factory ExamChapter.fromJson(Map<String, dynamic> json) {
+    return ExamChapter(
+      id: json["id"],
+      title: json["title"],
+      questions: [],
+      questionsCount: "0",
+    );
+  }
 }
 
 class ExamCourse {
@@ -118,7 +126,6 @@ class Question {
     List<String> answersString =
         answersJson.map((ans) => ans.toString()).toList();
     debugPrint("question img url: ${json["question_image_url"]}");
-    
 
     return Question(
       id: json["id"],

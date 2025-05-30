@@ -35,6 +35,10 @@ class PageNavigationController extends StateNotifier<ScreenData> {
       debugPrint("index argument is 8");
       return pageArguments[index] as Map<String, dynamic>;
     }
+    if (index == AppInts.examChapterFilterPageIndex) {
+      debugPrint("index argument is 9");
+      return pageArguments[index] as Map<String, dynamic>;
+    }
     return null;
   }
 

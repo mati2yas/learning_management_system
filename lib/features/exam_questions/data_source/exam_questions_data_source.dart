@@ -63,4 +63,27 @@ class ExamQuestionsDataSource {
     }
     return questions;
   }
+
+  Future<List<Question>> fetchQuestionsByChapterIdNoGrade({required int chapterId}) async{
+     int? statusCode;
+    List<Question> questions = [];
+    try {
+      final response =
+          await _dio.get("${AppUrls.examChapterQuestionsNoGrades}/$chapterId");
+      debugPrint(
+          "the url of exam question fetch: ${AppUrls.examChapterQuestionsNoGrades}/$chapterId");
+      statusCode = response.statusCode;
+      if (response.statusCode == 200) {
+        var data = response.data["data"];
+        for (var d in data) {
+          var question = Question.fromJson(d);
+          questions.add(question);
+        }
+      }
+    } on DioException catch (e) {
+      final errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
+      throw Exception(errorMessage);
+    }
+    return questions;
+  }
 }

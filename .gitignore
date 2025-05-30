@@ -48,7 +48,7 @@ android/key.properties
 android/my-release-key.jks
 android/mykeystore.jks
 
-android/app/.cxx/Debug/*
+android/app/.cxx/Debug/** 
 android/app/.cxx/RelWithDebInfo/*
 android/app/.cxx/Debug/e6r53i6s/arm64-v8a/configure_fingerprint.bin
 android/app/.cxx/Debug/e6r53i6s/armeabi-v7a/configure_fingerprint.bin

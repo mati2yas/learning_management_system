@@ -69,7 +69,6 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
         shadowColor: Colors.black87,
         surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
-      
       ),
       body: apiState.when(
           loading: () => const Center(
@@ -153,7 +152,8 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                                         .read(currentIdStubProvider.notifier)
                                         .changeStub(
                                       {
-                                        AppStrings.stubIdType: IdType.filtered,
+                                        AppStrings.stubIdType:
+                                            IdType.filteredForGrade,
                                         AppStrings.stubId: chapters[index].id,
                                         AppStrings.stubGradeId:
                                             selectedGrade.id,

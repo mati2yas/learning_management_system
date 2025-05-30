@@ -16,8 +16,11 @@ class AppUrls {
   static String getCourses = "/random-courses";
   static String editProfile = "/user-update";
   static String examGradeFilter = "/exams/exam-grades";
+  static String examChapterFilter = "/exams/exam-chapters";
   static String examChapterQuestions = "/exams/exam-questions-chapter";
   static String examYearQuestions = "/exams/exam-questions-year";
+  static String examChapterQuestionsNoGrades =
+      "/exams/exit-questions-no-grades/";
   static String examCourses = "/exams/exam-courses-years";
   static String homePageCourses = "/homepage/courses";
   static String unreadNotifications = "/notifications-new";
