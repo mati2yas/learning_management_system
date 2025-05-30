@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class ApiExceptions {
   static String getExceptionMessage(Exception exc, int? statusCode) {
+    debugPrint("the error is: \n ${exc.toString()}, \n the status code is: $statusCode");
     if (statusCode == 00) {
       // treat this as a special case, to check the error
       // for homepage error, where token is empty.

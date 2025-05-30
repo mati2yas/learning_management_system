@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
+import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
@@ -333,65 +334,82 @@ class HomePage extends ConsumerWidget {
                                     .build();
                               },
                             ),
-                            data: (courses) => SizedBox(
-                              width: double.infinity,
-                              child: GridView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                padding: const EdgeInsets.only(bottom: 30),
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisExtent: 237,
-                                  crossAxisCount: isWideScreen ? 3 : 2,
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10,
-                                  childAspectRatio: UtilFunctions
-                                      .getResponsiveChildAspectRatio(size),
-                                ),
-                                itemBuilder: (_, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      final courseIdController = ref.watch(
-                                          currentCourseIdProvider.notifier);
-                                      courseIdController
-                                          .changeCourseId(courses[index].id);
-
-                                      ref
-                                          .read(courseChaptersProvider.notifier)
-                                          .fetchCourseChapters();
-
-                                      ref
-                                          .read(courseSubTrackProvider.notifier)
-                                          .changeCurrentCourse(courses[index]);
-
-                                      debugPrint(
-                                          "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
-                                      pageNavController.navigateTo(
-                                        nextScreen:
-                                            AppInts.courseChaptersPageIndex,
-                                        arguments: {
-                                          "course": courses[index],
-                                          "previousScreenIndex": 0,
-                                        },
-                                      );
+                            data: (courses) => courses.isEmpty
+                                ? NoDataWidget(
+                                    noDataMsg: "No Courses for homepage yet.",
+                                    callback: () async {
+                                      await ref
+                                          .refresh(
+                                              homeScreenApiProvider.notifier)
+                                          .build();
                                     },
-                                    child: CourseCardNetworkImage(
-                                      onBookmark: () {
-                                        homeApiController
-                                            .toggleSaved(courses[index]);
+                                  )
+                                : SizedBox(
+                                    width: double.infinity,
+                                    child: GridView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 30),
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        mainAxisExtent: 237,
+                                        crossAxisCount: isWideScreen ? 3 : 2,
+                                        mainAxisSpacing: 10,
+                                        crossAxisSpacing: 10,
+                                        childAspectRatio: UtilFunctions
+                                            .getResponsiveChildAspectRatio(
+                                                size),
+                                      ),
+                                      itemBuilder: (_, index) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            final courseIdController = ref
+                                                .watch(currentCourseIdProvider
+                                                    .notifier);
+                                            courseIdController.changeCourseId(
+                                                courses[index].id);
+
+                                            ref
+                                                .read(courseChaptersProvider
+                                                    .notifier)
+                                                .fetchCourseChapters();
+
+                                            ref
+                                                .read(courseSubTrackProvider
+                                                    .notifier)
+                                                .changeCurrentCourse(
+                                                    courses[index]);
+
+                                            debugPrint(
+                                                "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
+                                            pageNavController.navigateTo(
+                                              nextScreen: AppInts
+                                                  .courseChaptersPageIndex,
+                                              arguments: {
+                                                "course": courses[index],
+                                                "previousScreenIndex": 0,
+                                              },
+                                            );
+                                          },
+                                          child: CourseCardNetworkImage(
+                                            onBookmark: () {
+                                              homeApiController
+                                                  .toggleSaved(courses[index]);
+                                            },
+                                            onLike: () {
+                                              homeApiController
+                                                  .toggleLiked(courses[index]);
+                                            },
+                                            course: courses[index],
+                                            mainAxisExtent: 237,
+                                          ),
+                                        );
                                       },
-                                      onLike: () {
-                                        homeApiController
-                                            .toggleLiked(courses[index]);
-                                      },
-                                      course: courses[index],
-                                      mainAxisExtent: 237,
+                                      itemCount: courses.length,
                                     ),
-                                  );
-                                },
-                                itemCount: courses.length,
-                              ),
-                            ),
+                                  ),
                           ),
                           const SizedBox(height: 80),
                         ],

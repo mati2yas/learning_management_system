@@ -32,7 +32,10 @@ class TakeOrFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     final pageController = ref.read(pageNavigationProvider.notifier);
     final examTypeProv = ref.watch(currentExamTypeProvider);
-    return [ExamType.matric, ExamType.ministry8th].contains(examTypeProv)
+    debugPrint("exam type: ${examTypeProv.name}");
+
+    return [ExamType.matric, ExamType.ministry8th, ExamType.exitexam]
+            .contains(examTypeProv)
         ? PopupMenuButton<void>(
             icon: const Icon(
               Icons.more_vert,
@@ -115,8 +118,12 @@ class TakeOrFilter extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              if ([ExamType.matric, ExamType.ministry8th]
-                  .contains(examTypeProv)) {
+              if ([
+                ExamType.matric,
+                ExamType.ministry8th,
+                ExamType.exitexam,
+                ExamType.sat
+              ].contains(examTypeProv)) {
                 ref.read(currentIdStubProvider.notifier).changeStub({
                   AppStrings.stubIdType: IdType.filtered,
                   AppStrings.stubId: year.id,
