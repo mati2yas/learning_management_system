@@ -32,6 +32,7 @@ class _SearchCoursesScreenState extends ConsumerState<SearchCoursesScreen> {
     var searchQueryState = ref.watch(searchFieldProvider);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -88,7 +89,7 @@ class _SearchCoursesScreenState extends ConsumerState<SearchCoursesScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+        padding: const EdgeInsets.only(left: 4, right: 4, top: 8),
         child: searchApiState.when(
           data: (courses) {
             if (!modifyingSearchField &&
@@ -96,21 +97,22 @@ class _SearchCoursesScreenState extends ConsumerState<SearchCoursesScreen> {
                 courses.isEmpty) {
               return Center(
                 child: Text(
-                  "No courses found for this query.",
+                  "Sorry, no courses match your search. Try different keywords!",
+                  textAlign: TextAlign.center,
                   style: textTh.bodyLarge!.copyWith(
                     color: AppColors.mainBlue,
-                    fontWeight: FontWeight.w600,
+                    // fontWeight: FontWeight.w600,
                   ),
                 ),
               );
             }
 
             return GridView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5,
                 mainAxisExtent: 237,
               ),
               itemCount: courses.length,
