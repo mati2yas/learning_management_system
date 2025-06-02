@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+// import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
@@ -79,21 +79,21 @@ class LoginDataSource {
         throw Exception('Failed to login: Unknown error');
       }
     } on DioException catch (e) {
-      await FirebaseCrashlytics.instance.recordError(
-        e,
-        e.stackTrace,
-        reason: "Login failed with DioException",
-        fatal: false,
-      );
+      // await FirebaseCrashlytics.instance.recordError(
+      //   e,
+      //   e.stackTrace,
+      //   reason: "Login failed with DioException",
+      //   fatal: false,
+      // );
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
       throw Exception(errorMessage);
     } catch (e, stackTrace) {
-      await FirebaseCrashlytics.instance.recordError(
-        e,
-        stackTrace,
-        reason: "Unexpected error during login",
-        fatal: false,
-      );
+      // await FirebaseCrashlytics.instance.recordError(
+      //   e,
+      //   stackTrace,
+      //   reason: "Unexpected error during login",
+      //   fatal: false,
+      // );
 
       throw Exception("An unexpected error occurred: ${e.toString()}");
     }
