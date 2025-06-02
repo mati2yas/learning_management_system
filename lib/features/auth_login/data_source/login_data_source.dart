@@ -38,12 +38,12 @@ class LoginDataSource {
 
         String savePath = "";
         final token = response.data["token"];
-        debugPrint("login token: $token");
+        //debugPrint("login token: $token");
         String? avatar = response.data["data"]["user"]["avatar"];
         if (avatar != null) {
           avatar.replaceAll("\\", "");
           //avatar = "${AppUrls.backendStorage}/$avatar";
-          debugPrint("avatar from response: $avatar");
+          //debugPrint("avatar from response: $avatar");
 
           final directory = await getApplicationDocumentsDirectory();
           final imageExtension = avatar.split(".").last;
@@ -66,7 +66,7 @@ class LoginDataSource {
           image: savePath,
           token: token,
         );
-        debugPrint("token: $token");
+        //debugPrint("token: $token");
 
         // Save the user data to the database
         await _storageService.setTokenToStorage(token: token);

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final quizTimerProvider =
@@ -22,13 +21,13 @@ class FinalExamTimerNotifier extends StateNotifier<AsyncValue<int>> {
   void resetTimer({required int duration}) {
     _timer?.cancel();
     state = AsyncValue.data(const Duration(minutes: 0).inSeconds);
-    debugPrint("reset timer.");
+    //debugPrint("reset timer.");
     //startTimer(duration: duration);
   }
 
   void startTimer({required int duration}) {
     final endTime = DateTime.now().add(Duration(minutes: duration));
-    debugPrint("started timer.");
+    //debugPrint("started timer.");
     resetTimer(duration: 0);
     _timer = Timer.periodic(
       const Duration(seconds: 1),

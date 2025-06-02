@@ -27,7 +27,7 @@ class DocumentNotifier extends StateNotifier<DocumentViewState> {
           "secure_doc_$identifier");
 
       if (encryptedFilePath != null && await File(encryptedFilePath).exists()) {
-        debugPrint("encrypted file existsss");
+        //debugPrint("encrypted file existsss");
         debugPrint(encryptedFilePath);
         state = state.copyWith(
             status: DocumentStatus.encrypting,

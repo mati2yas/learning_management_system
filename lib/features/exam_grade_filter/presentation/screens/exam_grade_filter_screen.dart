@@ -34,8 +34,8 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
   @override
   Widget build(BuildContext context) {
     final apiState = ref.watch(examGradeFilterApiProvider);
-    debugPrint("Current Tab: $currentTab");
-    debugPrint("exam titleee: ${examData["exam title"]}");
+    //debugPrint("Current Tab: $currentTab");
+    //debugPrint("exam titleee: ${examData["exam title"]}");
     final pageNavController = ref.read(pageNavigationProvider.notifier);
     examData = pageNavController.getArgumentsForPage(8);
     var examYearValue;
@@ -52,81 +52,83 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
     var textTh = Theme.of(context).textTheme;
     return DefaultTabController(
       length: tabsList.length,
-      child: Builder(builder: (context) {
-        final tabController = DefaultTabController.of(context);
-        tabController.addListener(() {
-          if (!tabController.indexIsChanging) {
-            setState(() {
-              currentTabIndex = tabController.index;
-            });
-          }
-        });
-        return Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                //pageNavController
-                //   .navigatePage(examData[AppStrings.previousScreenKey]!);
-                pageNavController.navigateBack(
-                    //previousScreen: ref.read(pageNavigationProvider).nextScreen,
-                    );
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.black,
+      child: Builder(
+        builder: (context) {
+          final tabController = DefaultTabController.of(context);
+          tabController.addListener(() {
+            if (!tabController.indexIsChanging) {
+              setState(() {
+                currentTabIndex = tabController.index;
+              });
+            }
+          });
+          return Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                onPressed: () {
+                  //pageNavController
+                  //   .navigatePage(examData[AppStrings.previousScreenKey]!);
+                  pageNavController.navigateBack(
+                      //previousScreen: ref.read(pageNavigationProvider).nextScreen,
+                      );
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
               ),
-            ),
-            title: Text("${examData[AppStrings.examCourseKey]} $examYearValue"),
-            centerTitle: true,
-            elevation: 5,
-            shadowColor: Colors.black87,
-            surfaceTintColor: Colors.transparent,
-            backgroundColor: Colors.white,
-            bottom: PreferredSize(
-              preferredSize: Size(size.width, 56),
-              child: Container(
-                width: size.width,
-                color: Colors.white,
-                height: 36,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 10),
-                      CustomTabBar(
-                        alignment: TabAlignment.start,
-                        isScrollable: true,
-                        tabs: tabsList
-                            .map(
-                              (tab) => Tab(
-                                height: 24,
-                                text: tab,
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ],
+              title:
+                  Text("${examData[AppStrings.examCourseKey]} $examYearValue"),
+              centerTitle: true,
+              elevation: 5,
+              shadowColor: Colors.black87,
+              surfaceTintColor: Colors.transparent,
+              backgroundColor: Colors.white,
+              bottom: PreferredSize(
+                preferredSize: Size(size.width, 56),
+                child: Container(
+                  width: size.width,
+                  color: Colors.white,
+                  height: 36,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 10),
+                        CustomTabBar(
+                          alignment: TabAlignment.start,
+                          isScrollable: true,
+                          tabs: tabsList
+                              .map(
+                                (tab) => Tab(
+                                  height: 24,
+                                  text: tab,
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          body: apiState.when(
+            body: apiState.when(
               loading: () => const Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.mainBlue,
-                      strokeWidth: 5,
-                    ),
-                  ),
+                child: CircularProgressIndicator(
+                  color: AppColors.mainBlue,
+                  strokeWidth: 5,
+                ),
+              ),
               error: (error, stack) => AsyncErrorWidget(
-                    errorMsg: error.toString(),
-                    callback: () async {
-                      ref
-                          .watch(examGradeFilterApiProvider.notifier)
-                          .fetchExamGrades();
-                    },
-                  ),
+                errorMsg: error.toString(),
+                callback: () async {
+                  ref
+                      .watch(examGradeFilterApiProvider.notifier)
+                      .fetchExamGrades();
+                },
+              ),
               data: (grades) {
                 return TabBarView(
                   controller: tabController,
@@ -141,7 +143,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                     );
                     debugPrint("selected Grade: ${selectedGrade.title}");
 
-                        final chapters = selectedGrade.chapters;
+                    final chapters = selectedGrade.chapters;
 
                     return ListView.builder(
                       itemCount: chapters.length,
@@ -185,7 +187,8 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                                     .read(currentIdStubProvider.notifier)
                                     .changeStub(
                                   {
-                                    AppStrings.stubIdType: IdType.filtered,
+                                    AppStrings.stubIdType:
+                                        IdType.filteredForGrade,
                                     AppStrings.stubId: chapters[index].id,
                                     AppStrings.stubGradeId: selectedGrade.id,
                                   },
@@ -207,9 +210,11 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                     );
                   }).toList(),
                 );
-              }),
-        );
-      }),
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 

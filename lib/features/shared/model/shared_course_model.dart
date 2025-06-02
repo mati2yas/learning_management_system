@@ -78,20 +78,20 @@ class Course {
     debugPrint(
         "stream of course ${json["course_name"]} before nul assignment: $stream");
 
-    debugPrint("in course model: grade: $grade, stream: $stream");
+    //debugPrint("in course model: grade: $grade, stream: $stream");
     if (grade == AppStrings.grade11 || grade == AppStrings.grade12) {
-      //debugPrint("grade 11/12, stream is: $stream");
+      ////debugPrint("grade 11/12, stream is: $stream");
       stream ??= AppStrings.commonStream;
-      debugPrint("stream: $stream");
-      //debugPrint("grade 11/12, after setting stream: $stream");
+      //debugPrint("stream: $stream");
+      ////debugPrint("grade 11/12, after setting stream: $stream");
     }
 
     if ((json["course_name"] ?? "coursee").contains("Amharic")) {
-      debugPrint("course ${json["course_name"]} is subbed: ${json["is_paid"]}");
+      //debugPrint("course ${json["course_name"]} is subbed: ${json["is_paid"]}");
     }
 
     for (var i = 0; i < 10; i++) {
-      debugPrint("course subbed? ${json["is_paid"]}");
+      //debugPrint("course subbed? ${json["is_paid"]}");
     }
     return Course(
       id: json["id"].toString(),

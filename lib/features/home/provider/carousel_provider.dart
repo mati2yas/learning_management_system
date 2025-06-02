@@ -26,7 +26,7 @@ class CarouselNotifier extends AsyncNotifier<List<CarouselContent>> {
   Future<List<CarouselContent>> build() async {
     // Fetch and return the initial data
     var usr = await SecureStorageService().getUserFromStorage();
-    debugPrint("token: ${usr?.token}");
+    //debugPrint("token: ${usr?.token}");
     return fetchCarouselData();
   }
 

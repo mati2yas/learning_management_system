@@ -29,7 +29,7 @@ class _ExamChapterFilterState extends ConsumerState<ExamChapterFilterScreen>
     final apiState = ref.watch(examChapterFilterApiProvider);
     final pageNavController = ref.read(pageNavigationProvider.notifier);
     examData = pageNavController.getArgumentsForPage(9);
-    var examYearValue;
+    String examYearValue = "";
     if (examData[AppStrings.examYearKey] != null) {
       if (examData[AppStrings.examYearKey] is ExamYear) {
         examYearValue = (examData[AppStrings.examYearKey] as ExamYear).title;
@@ -105,16 +105,15 @@ class _ExamChapterFilterState extends ConsumerState<ExamChapterFilterScreen>
                           //"exam title": examData["exam title"],
                           AppStrings.examCourseKey:
                               examData[AppStrings.examCourseKey]!,
-                          AppStrings.examYearKey:
-                              examData[AppStrings.examYearKey]!,
-                          AppStrings.questionsKey: chapters[index].questions,
-                          AppStrings.previousScreenKey: 8,
+                          AppStrings.examYearKey: examYearValue,
+                          AppStrings.previousScreenKey: 9,
                           AppStrings.hasTimerOptionKey: false,
                         };
                         ref.read(currentIdStubProvider.notifier).changeStub(
                           {
                             AppStrings.stubIdType: IdType.filteredForChapter,
                             AppStrings.stubChapterId: chapters[index].id,
+                            AppStrings.stubId: chapters[index].id,
                           },
                         );
                         ref

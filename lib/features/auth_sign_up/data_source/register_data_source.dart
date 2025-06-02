@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
@@ -53,8 +52,8 @@ class RegisterDataSource {
         },
         options: Options(headers: {"Content-Type": "application/json"}),
       );
-      debugPrint("register status code: ${response.statusCode}");
-      debugPrint("register response data: ${response.data}");
+      //debugPrint("register status code: ${response.statusCode}");
+      //debugPrint("register response data: ${response.data}");
       statusCode = response.statusCode;
       if ([200, 201].contains(response.statusCode)) {
         // Parse and store the token and user data in SharedPreferences

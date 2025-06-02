@@ -120,14 +120,17 @@ class BookmarkedExamsScreen extends ConsumerWidget {
                                               ref
                                                   .read(currentIdStubProvider
                                                       .notifier)
-                                                  .changeStub({
-                                                AppStrings.stubIdType:
-                                                    IdType.all,
-                                                AppStrings.stubId:
-                                                    exams[index].examId,
-                                                AppStrings.stubCourseId:
-                                                    exams[index].parentCourseId,
-                                              });
+                                                  .changeStub(
+                                                {
+                                                  AppStrings.stubIdType:
+                                                      IdType.all,
+                                                  AppStrings.stubId:
+                                                      exams[index].examId,
+                                                  AppStrings.stubCourseId:
+                                                      exams[index]
+                                                          .parentCourseId,
+                                                },
+                                              );
                                               ref
                                                   .refresh(
                                                       examQuestionsApiProvider

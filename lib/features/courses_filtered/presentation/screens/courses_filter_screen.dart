@@ -848,9 +848,9 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
         stream?.toLowerCase() == AppStrings.socialStream.toLowerCase();
 
     bool finalMatch = false;
-    debugPrint("does it match common? $matchesCommonStream");
-    debugPrint("does it match natural? $matchesNaturalStream");
-    debugPrint("does it match social? $matchesSocialStream");
+    //debugPrint("does it match common? $matchesCommonStream");
+    //debugPrint("does it match natural? $matchesNaturalStream");
+    //debugPrint("does it match social? $matchesSocialStream");
 
     if (dropDownValue == AppStrings.naturalStream) {
       finalMatch = matchesNaturalStream || matchesCommonStream;

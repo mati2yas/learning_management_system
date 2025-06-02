@@ -21,7 +21,7 @@ class SubscriptionController extends StateNotifier<CourseSubscriptionModel> {
   SubscriptionController(this._repository) : super(CourseSubscriptionModel());
 
   Future<ApiResponse> subscribe() async {
-    debugPrint("course subscribe");
+    //debugPrint("course subscribe");
     String statusMsg = "";
     bool statusBool = false;
     Response? response;
@@ -36,14 +36,14 @@ class SubscriptionController extends StateNotifier<CourseSubscriptionModel> {
         statusSuccess: response.data["status"] ?? false,
       );
       if (response.statusCode == 201) {
-        debugPrint("status 201 case");
+        //debugPrint("status 201 case");
         state = state.copyWith(
           statusMsg: response.data["message"],
           statusSuccess: response.data["status"],
           apiState: ApiState.idle,
         );
       } else if (response.statusCode == 400) {
-        debugPrint("status 400 case");
+        //debugPrint("status 400 case");
         state = state.copyWith(
           statusMsg: response.data["message"],
           statusSuccess: response.data["status"],
@@ -51,7 +51,7 @@ class SubscriptionController extends StateNotifier<CourseSubscriptionModel> {
         );
       }
     } catch (e) {
-      debugPrint("exception case");
+      //debugPrint("exception case");
 
       state = state.copyWith(
         statusMsg: e.toString().replaceAll("Exception:", ""),
@@ -65,7 +65,7 @@ class SubscriptionController extends StateNotifier<CourseSubscriptionModel> {
 
   void updateCourses(List<Course> newCourses) {
     for (var c in newCourses) {
-      debugPrint("in updateCourse, course id: ${c.id}");
+      //debugPrint("in updateCourse, course id: ${c.id}");
     }
     state = state.copyWith(newCourses: newCourses);
   }
@@ -79,7 +79,7 @@ class SubscriptionController extends StateNotifier<CourseSubscriptionModel> {
   }
 
   void updateTransactionId(String newTransactionId) {
-    debugPrint("Updating transaction ID: $newTransactionId");
+    //debugPrint("Updating transaction ID: $newTransactionId");
     state = state.copyWith(newTransactionId: newTransactionId);
   }
 }

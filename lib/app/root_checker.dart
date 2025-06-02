@@ -60,7 +60,7 @@ import 'package:flutter/material.dart';
 //         _isRooted = result;
 //       });
 //     } on PlatformException catch (e) {
-//       debugPrint("Error checking root status: '${e.message}'");
+//       //debugPrint("Error checking root status: '${e.message}'");
 //       setState(() {
 //         _isRooted = null;
 //       });

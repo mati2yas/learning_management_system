@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
@@ -25,7 +24,7 @@ class QuizDataSource {
     await DioClient.setToken();
     try {
       final response = await _dio.get("${AppUrls.quizzes}/$quizId");
-      debugPrint("quiz url: ${AppUrls.baseUrl}/${AppUrls.quizzes}/$quizId");
+      //debugPrint("quiz url: ${AppUrls.baseUrl}/${AppUrls.quizzes}/$quizId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         quiz = Quiz.fromJson(response.data["data"]);

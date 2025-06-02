@@ -54,8 +54,8 @@ class _SecurePDFViewerState extends ConsumerState<SecurePDFViewer> {
           swipeHorizontal: false,
           autoSpacing: true,
           pageFling: true,
-          onRender: (pages) => debugPrint("Rendered $pages pages"),
-          onError: (error) => debugPrint("PDFView Error: $error"),
+          onRender: (pages) {}, //debugPrint("Rendered $pages pages"),
+          onError: (error) {} //debugPrint("PDFView Error: $error"),
         );
 
       case DocumentStatus.error:

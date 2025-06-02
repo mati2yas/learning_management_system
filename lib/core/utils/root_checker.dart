@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class RootCheckerService {
@@ -9,7 +8,7 @@ class RootCheckerService {
       final bool result = await platform.invokeMethod('isDeviceRooted');
       isRooted = result;
     } on PlatformException catch (e) {
-      debugPrint("Error checking root status: '${e.message}'");
+      //debugPrint("Error checking root status: '${e.message}'");
       isRooted = null;
     }
     return isRooted ?? false;

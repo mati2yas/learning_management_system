@@ -30,8 +30,8 @@ class NotificationsDataSource {
   //     );
 
   //     statusCode = response.statusCode;
-  //     debugPrint("Dio response status code: $statusCode");
-  //     debugPrint("Dio response headers: ${response.headers}");
+  //     //debugPrint("Dio response status code: $statusCode");
+  //     //debugPrint("Dio response headers: ${response.headers}");
   //     debugPrint(
   //         "Dio response data: ${response.data}"); // Log the entire response data
 
@@ -44,8 +44,8 @@ class NotificationsDataSource {
   //     }
   //   } on DioException catch (e) {
   //     if (e.response != null) {
-  //       debugPrint("Dio error response status: ${e.response!.statusCode}");
-  //       debugPrint("Dio error response data: ${e.response!.data}");
+  //       //debugPrint("Dio error response status: ${e.response!.statusCode}");
+  //       //debugPrint("Dio error response data: ${e.response!.data}");
   //     }
   //     final errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
   //     throw Exception(errorMessage);
@@ -70,15 +70,15 @@ class NotificationsDataSource {
       );
 
       statusCode = response.statusCode;
-      // debugPrint("Dio response status code: $statusCode");
-      // debugPrint("Dio response headers: ${response.headers}");
+      // //debugPrint("Dio response status code: $statusCode");
+      // //debugPrint("Dio response headers: ${response.headers}");
       // debugPrint(
       //     "Dio response data: ${response.data}"); // Log the entire response data
 
       if (response.statusCode == 200) {
         var dataMap = response.data as Map<String, dynamic>;
         for (var entry in response.data.entries) {
-          debugPrint("${entry.key}: ${entry.value}");
+          //debugPrint("${entry.key}: ${entry.value}");
         }
         var notifModel = NotificationModel.fromJson(
           json: response.data,
@@ -88,8 +88,8 @@ class NotificationsDataSource {
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        debugPrint("Dio error response status: ${e.response!.statusCode}");
-        debugPrint("Dio error response data: ${e.response!.data}");
+        //debugPrint("Dio error response status: ${e.response!.statusCode}");
+        //debugPrint("Dio error response data: ${e.response!.data}");
       }
       final errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
       throw Exception(errorMessage);

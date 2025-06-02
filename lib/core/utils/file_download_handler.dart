@@ -18,7 +18,7 @@ class SecureFileHandler {
   //     String encryptedFilePath, String outputFilename) async {
   //   final directory = await getApplicationDocumentsDirectory();
   //   final outputPath = '${directory.path}/$outputFilename.pdf';
-  //   debugPrint("output path: $outputPath");
+  //   //debugPrint("output path: $outputPath");
 
   //   final file = File(encryptedFilePath);
   //   final encryptedBytes = await file.readAsBytes();
@@ -48,8 +48,8 @@ class SecureFileHandler {
     final encryptedData =
         encrypt.Encrypted(Uint8List.fromList(encryptedBytes.sublist(16)));
 
-    debugPrint("Extracted IV: ${iv.base16}");
-    debugPrint("Decryption started...");
+    //debugPrint("Extracted IV: ${iv.base16}");
+    //debugPrint("Decryption started...");
 
     // Decrypt using extracted IV
     final decryptedBytes = _encrypter.decryptBytes(encryptedData, iv: iv);
@@ -59,7 +59,7 @@ class SecureFileHandler {
 
     // Validate that the file starts with %PDF-
     final firstBytes = String.fromCharCodes(decryptedBytes.take(5));
-    debugPrint("Decrypted file header: $firstBytes");
+    //debugPrint("Decrypted file header: $firstBytes");
 
     if (!firstBytes.startsWith("%PDF-")) {
       throw Exception("Decryption failed: File is not a valid PDF");
