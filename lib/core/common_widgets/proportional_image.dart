@@ -43,7 +43,7 @@ class _ProportionalImageState extends State<ProportionalImage> {
 
               // While loading: show placeholder
               return Image.asset(
-                "assets/images/loading-placeholder.jpg",
+                "assets/images/placeholder_16.png",
                 fit: BoxFit.cover,
               );
             },
@@ -70,7 +70,7 @@ class _ProportionalImageState extends State<ProportionalImage> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Image.asset(
-          "assets/images/error-image.png",
+          "assets/images/placeholder_16.png",
           fit: BoxFit.cover,
         ),
       ),

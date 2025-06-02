@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 
 class ExplanationContainer extends StatelessWidget {
   final String explanation;
@@ -25,20 +26,24 @@ class ExplanationContainer extends StatelessWidget {
 
     return Container(
       alignment: Alignment.center,
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       width: maxWidth,
-      height: textHeight + 20, // Add padding/margins
+      // height: textHeight + 20, // Add padding/margins
       decoration: BoxDecoration(
-        border: Border.all(
-          width: 2,
-          color: Colors.black,
-        ),
+        // border: Border.all(
+        //   width: 2,
+        //   color: Colors.black,
+        // ),
         borderRadius: BorderRadius.circular(18),
       ),
       child: Text(
         explanation,
-        style: textStyle,
-        textAlign: TextAlign.center,
+        style: textTheme.bodyLarge!.copyWith(
+          letterSpacing: 0.5,
+          fontFamily: "Inter",
+          color: Colors.black,
+        ),
+        // textAlign: TextAlign.center,
       ),
     );
   }

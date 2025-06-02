@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 
 class BioTextContainer extends StatelessWidget {
   final String bioString;
@@ -23,13 +24,17 @@ class BioTextContainer extends StatelessWidget {
 
     return Container(
       alignment: Alignment.topLeft,
-      padding: const EdgeInsets.only(left: 8),
+      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 6),
       width: maxWidth,
-      height: textHeight + 20, // Add padding/margins
+      // Add padding/margins
+      constraints: BoxConstraints(minHeight: 100),
+      decoration: BoxDecoration(
+          border: Border.all(color: primaryColor, width: 1),
+          borderRadius: BorderRadius.circular(4)),
       child: Text(
         bioString,
         style: textStyle,
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.start,
       ),
     );
   }

@@ -12,6 +12,7 @@ class InputWidget extends StatefulWidget {
   String? initialValue;
   bool obscureOption;
   int? maxLines, maxLength;
+  final int minLines;
   InputWidget({
     super.key,
     required this.onSaved,
@@ -22,7 +23,8 @@ class InputWidget extends StatefulWidget {
     this.initialValue,
     this.obscureOption = false,
     this.maxLength,
-    this.maxLines,
+    this.maxLines = 2,
+    this.minLines = 1,
     this.controller,
   });
 
@@ -35,12 +37,12 @@ class _InputWidgetState extends State<InputWidget> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      maxLines: 1,
-      minLines: 1,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
       onSaved: widget.onSaved,
       onChanged: widget.onChanged,
       keyboardType: widget.keyboardType ?? TextInputType.name,
-      obscureText: widget.obscureOption ? true : false,
+      obscureText: widget.obscureOption ? false : false,
       controller: widget.controller,
       validator: (value) {
         return widget.validator(value!);
