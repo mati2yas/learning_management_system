@@ -20,7 +20,7 @@ class ProfileDataSource {
   Future<User> fetchProfileFromBackend() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      String? token = await _storageService.getTokenFromStorage(); 
+      String? token = await _storageService.getTokenFromStorage();
 
       if (token == null) throw Exception("No token found. Please log in.");
 
@@ -35,7 +35,7 @@ class ProfileDataSource {
           email: data["email"],
           bio: data["bio"] ?? "No bio available",
           password: "",
-          image: data["avatar"] ?? "assets/images/profile_pic.png",
+          image: data["avatar"] ?? "assets/images/pfp-placeholder.jpg",
         );
       } else {
         throw Exception("Failed to load profile");
@@ -60,7 +60,6 @@ class ProfileDataSource {
   // }
 
   Future<void> saveProfileToDatabase(User user) async {
-
     await _storageService.saveUserToStorage(user);
     await Future.delayed(const Duration(seconds: 2));
   }

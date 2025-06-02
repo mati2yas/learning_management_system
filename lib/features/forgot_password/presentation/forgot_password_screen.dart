@@ -6,7 +6,6 @@ import 'package:lms_system/core/common_widgets/custom_button.dart';
 import 'package:lms_system/core/common_widgets/custom_gap.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/common_widgets/inside_button_custom_circular_loader.dart';
-import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/constants/fonts.dart';
@@ -118,7 +117,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 UtilFunctions.buildInfoSnackbar(
                                   message:
-                                      "Password Reset Successfully. Check Your Email for PIN.",
+                                      "The password reset PIN has been sent to your email successfully. Please check your inbox for the PIN.",
                                 ),
                               );
                               emailController.clear();
