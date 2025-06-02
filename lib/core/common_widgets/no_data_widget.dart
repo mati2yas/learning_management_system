@@ -28,7 +28,8 @@ class _NoDataWidgetState extends State<NoDataWidget> {
           children: [
             Text(
               widget.noDataMsg,
-              style: textTh.titleMedium!.copyWith(
+              textAlign: TextAlign.center,
+              style: textTh.bodyLarge!.copyWith(
                 color: AppColors.mainBlue,
               ),
             ),
