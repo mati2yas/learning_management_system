@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/common_widgets/custom_gap.dart';
+import 'package:lms_system/core/common_widgets/input_field.dart';
+import 'package:lms_system/core/utils/build_button_label_method.dart';
 
 class CheckPassword extends StatefulWidget {
   final String email, password;
@@ -21,37 +24,62 @@ class _CheckPasswordState extends State<CheckPassword> {
 
   @override
   Widget build(BuildContext context) {
+    final textTh = Theme.of(context).textTheme;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextField(
+        buildInputLabel('Current Password', textTh),
+        Gap(),
+        InputWidget(
+          validator: (value) {
+            if (value.isEmpty) {
+              return "Please Enter Password";
+            }
+            if (value.length < 4) {
+              return "Password must be at least 4 characters long";
+            }
+            return null;
+          },
+
           controller: _passwordController,
-          keyboardType: TextInputType.emailAddress,
-          obscureText: _obscure,
-          decoration: InputDecoration(
-            labelText: 'Your Password',
-            border: const OutlineInputBorder(),
-            errorText: _errorMessage,
-            suffix: IconButton(
-              onPressed: () {
-                setState(() {
-                  _obscure = !_obscure;
-                });
-              },
-              icon: Icon(
-                _obscure ? Icons.visibility : Icons.visibility_off,
-              ),
-            ),
-          ),
+          hintText: 'Current Password',
+          // obscureOption: true,
+          onSaved: (value) {},
         ),
-        const SizedBox(height: 20),
+        Text(
+          _errorMessage ?? "",
+          style: TextStyle(color: Colors.red),
+        ),
+        // TextField(
+        //   controller: _passwordController,
+        //   keyboardType: TextInputType.emailAddress,
+        //   obscureText: _obscure,
+        //   decoration: InputDecoration(
+        //     labelText: 'Your Password',
+        //     border: const OutlineInputBorder(),
+        //     errorText: _errorMessage,
+        //     suffix: IconButton(
+        //       onPressed: () {
+        //         setState(() {
+        //           _obscure = !_obscure;
+        //         });
+        //       },
+        //       icon: Icon(
+        //         _obscure ? Icons.visibility : Icons.visibility_off,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+
         Row(
           children: [
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: const Text("Cancel"),
             ),
+            Spacer(),
             TextButton(
               onPressed: () => _confirmPassword(context),
               child: const Text("Confirm"),

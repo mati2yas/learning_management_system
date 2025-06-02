@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
+import 'package:lms_system/core/common_widgets/custom_button.dart';
+import 'package:lms_system/core/common_widgets/custom_gap.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
@@ -39,7 +42,7 @@ class _ChangeEmailScreenState extends ConsumerState<ChangeEmailScreen> {
       body: LayoutBuilder(builder: (context, constraints) {
         return Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(vertical: 28.0, horizontal: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: constraints.maxHeight,
@@ -49,13 +52,14 @@ class _ChangeEmailScreenState extends ConsumerState<ChangeEmailScreen> {
                 key: AppKeys.changeEmailFormKey,
                 child: Column(
                   children: [
-                    Text(
-                      'Enter your new email address below, and an email will be sent to you to verify. After that you can log in with your new email, and current password.',
-                      style: textTh.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                    Gap(
+                      height: 20,
                     ),
-                    const SizedBox(height: 22),
+                    Text(
+                      "Please enter your new email address below. We'll send you a verification email shortly. Once verified, you can log in with your new email and your current password. Note: Your current email will no longer be recognized by our platform after verification",
+                      style: textTh.bodyLarge!.copyWith(),
+                    ),
+                    const SizedBox(height: 15),
                     InputWidget(
                       validator: (value) {
                         if (value.isEmpty) {
@@ -78,26 +82,33 @@ class _ChangeEmailScreenState extends ConsumerState<ChangeEmailScreen> {
                         editEmailController.updateEmail(value!);
                       },
                     ),
-                    const SizedBox(height: 20),
-                    Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.mainBlue,
-                          padding: state.apiStatus == ApiState.busy
-                              ? null
-                              : const EdgeInsets.symmetric(
-                                  horizontal: 50,
-                                  vertical: 15,
+                    Gap(),
+                    CustomButton(
+                        isFilledButton: true,
+                        buttonWidget: state.apiStatus == ApiState.busy
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
                                 ),
-                          fixedSize: Size(
-                            size.width - 80,
-                            65,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onPressed: () async {
+                              )
+                            : state.apiStatus == ApiState.error
+                                ? Text(
+                                    'Retry',
+                                    style: textTheme.labelLarge!.copyWith(
+                                        letterSpacing: 0.5,
+                                        fontFamily: "Inter",
+                                        color: Colors.white,
+                                        overflow: TextOverflow.ellipsis),
+                                  )
+                                : Text(
+                                    'Change Email',
+                                    style: textTheme.labelLarge!.copyWith(
+                                        letterSpacing: 0.5,
+                                        fontFamily: "Inter",
+                                        color: Colors.white,
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
+                        buttonAction: () async {
                           if (AppKeys.changeEmailFormKey.currentState
                                   ?.validate() ==
                               true) {
@@ -136,30 +147,7 @@ class _ChangeEmailScreenState extends ConsumerState<ChangeEmailScreen> {
                               }
                             }
                           }
-                        },
-                        child: state.apiStatus == ApiState.busy
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                              )
-                            : state.apiStatus == ApiState.error
-                                ? Text(
-                                    'Retry',
-                                    style: textTh.titleLarge!.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                : Text(
-                                    'Change Email',
-                                    style: textTh.titleLarge!.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                      ),
-                    ),
+                        }),
                   ],
                 ),
               ),
