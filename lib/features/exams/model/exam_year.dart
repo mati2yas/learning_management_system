@@ -97,6 +97,7 @@ class ExamYear {
         SubscriptionType.sixMonths: priceSixMonth,
         SubscriptionType.yearly: priceOneYear,
       },
+      onSalePrices: onSalePrices,
       subscribed: json["is_paid"] ?? false,
       pending: json["is_pending"] ?? false,
     );
