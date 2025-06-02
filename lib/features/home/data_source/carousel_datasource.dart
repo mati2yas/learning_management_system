@@ -29,7 +29,7 @@ class CarouselContent {
     }
     return CarouselContent(
       id: json["id"] ?? 0,
-      tag: json["tag"] ?? "Welcome to Excelet Academy",
+      tag: json["tag"] ?? "",
       imageUrl: json["image_url"] ?? "",
       order: json["order"] ?? 0,
     );
