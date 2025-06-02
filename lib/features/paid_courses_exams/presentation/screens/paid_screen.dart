@@ -24,18 +24,24 @@ import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.d
 import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
 import 'package:lms_system/features/wrapper/provider/wrapper_provider.dart';
 
-class PaidScreen extends ConsumerWidget {
+class PaidScreen extends ConsumerStatefulWidget {
   const PaidScreen({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PaidScreen> createState() => _PaidScreenState();
+}
+
+class _PaidScreenState extends ConsumerState<PaidScreen> {
+  @override
+  Widget build(BuildContext context) {
     final coursesApiState = ref.watch(paidCoursesApiProvider);
     final coursesApiController = ref.watch(paidCoursesApiProvider.notifier);
     final examsApiController = ref.watch(paidExamsApiProvider.notifier);
     final examsApiState = ref.watch(paidExamsApiProvider);
     int tabIndex = ref.watch(paidScreenTabIndexProv);
+    int currentTabIndex = tabIndex;
 
     bool isWideScreen = MediaQuery.sizeOf(context).width > 600;
     final pageNavController = ref.read(pageNavigationProvider.notifier);
@@ -44,105 +50,122 @@ class PaidScreen extends ConsumerWidget {
     return DefaultTabController(
       length: 2,
       initialIndex: tabIndex,
-      child: Scaffold(
-        backgroundColor: mainBackgroundColor,
-        appBar: AppBar(
-          title: Text(
-            "Your subscriptions",
-            style: textTh.titleLarge!.copyWith(
-              // fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
-          ),
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          elevation: 5,
-          shadowColor: Colors.black87,
-          surfaceTintColor: Colors.transparent,
-          backgroundColor: Colors.white,
-          actions: [
-            IconButton(
-              onPressed: () {
-                ref.refresh(paidCoursesApiProvider.notifier).fetchPaidCourses();
-              },
-              icon: const Icon(
-                Icons.refresh,
-                color: AppColors.mainBlue,
+      child: Builder(builder: (context) {
+        final tabController = DefaultTabController.of(context);
+        tabController.addListener(() {
+          if (!tabController.indexIsChanging) {
+            setState(() {
+              currentTabIndex = tabController.index;
+            });
+            ref
+                .read(paidScreenTabIndexProv.notifier)
+                .changeTabIndex(tabController.index);
+          }
+        });
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              "Your Courses and Exams",
+              style: textTh.titleLarge!.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
               ),
-            )
-          ],
-          bottom: const PreferredSize(
-            preferredSize: Size(double.infinity, 30),
-            child: CustomTabBar(
-              alignment: TabAlignment.center,
-              tabs: [
-                Tab(
-                  height: 30,
-                  text: "        Courses       ",
-                ),
-                Tab(
-                  height: 30,
-                  text: "        Exams          ",
-                )
-              ],
-              isScrollable: false,
             ),
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            coursesApiState.when(
-              loading: () => const Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.mainBlue,
-                  strokeWidth: 5,
-                ),
-              ),
-              error: (error, stack) => AsyncErrorWidget(
-                errorMsg: error.toString(),
-                callback: () async {
-                  ref
-                      .refresh(paidCoursesApiProvider.notifier)
-                      .fetchPaidCourses();
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            elevation: 5,
+            shadowColor: Colors.black87,
+            surfaceTintColor: Colors.transparent,
+            backgroundColor: Colors.white,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  if (currentTabIndex == 0) {
+                    ref
+                        .refresh(paidCoursesApiProvider.notifier)
+                        .fetchPaidCourses();
+                  } else if (currentTabIndex == 1) {
+                    ref.refresh(paidExamsApiProvider.notifier).fetchPaidExams();
+                  }
                 },
+                icon: const Icon(
+                  Icons.refresh,
+                  color: AppColors.mainBlue,
+                ),
+              )
+            ],
+            bottom: const PreferredSize(
+              preferredSize: Size(double.infinity, 30),
+              child: CustomTabBar(
+                tabs: [
+                  Tab(
+                    height: 30,
+                    text: "Courses",
+                  ),
+                  Tab(
+                    height: 30,
+                    text: "Exams",
+                  )
+                ],
+                isScrollable: false,
               ),
-              data: (courses) => SizedBox(
-                width: double.infinity,
-                child: courses.isEmpty
-                    ? NoDataWidget(
-                        noDataMsg:
-                            "You haven’t purchased any courses yet. Browse our selection and start learning today!",
-                        callback: () async {
-                          await ref
-                              .refresh(paidCoursesApiProvider.notifier)
-                              .fetchPaidCourses();
-                        },
-                      )
-                    : GridView.builder(
-                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          mainAxisExtent: 220,
-                          crossAxisCount: isWideScreen ? 3 : 2,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                          childAspectRatio:
-                              UtilFunctions.getResponsiveChildAspectRatio(size),
-                        ),
-                        itemBuilder: (_, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              final courseIdController =
-                                  ref.watch(currentCourseIdProvider.notifier);
-                              courseIdController
-                                  .changeCourseId(courses[index].id);
+            ),
+          ),
+          body: TabBarView(
+            children: [
+              coursesApiState.when(
+                loading: () => const Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.mainBlue,
+                    strokeWidth: 5,
+                  ),
+                ),
+                error: (error, stack) => AsyncErrorWidget(
+                  errorMsg: error.toString(),
+                  callback: () async {
+                    ref
+                        .refresh(paidCoursesApiProvider.notifier)
+                        .fetchPaidCourses();
+                  },
+                ),
+                data: (courses) => SizedBox(
+                  width: double.infinity,
+                  child: courses.isEmpty
+                      ? NoDataWidget(
+                          noDataMsg: "No Paid Courses Yet.",
+                          callback: () async {
+                            await ref
+                                .refresh(paidCoursesApiProvider.notifier)
+                                .fetchPaidCourses();
+                          },
+                        )
+                      : GridView.builder(
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            mainAxisExtent: 220,
+                            crossAxisCount: isWideScreen ? 3 : 2,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            childAspectRatio:
+                                UtilFunctions.getResponsiveChildAspectRatio(
+                                    size),
+                          ),
+                          itemBuilder: (_, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                final courseIdController =
+                                    ref.watch(currentCourseIdProvider.notifier);
+                                courseIdController
+                                    .changeCourseId(courses[index].id);
 
-                              ref
-                                  .read(courseChaptersProvider.notifier)
-                                  .fetchCourseChapters();
+                                ref
+                                    .read(courseChaptersProvider.notifier)
+                                    .fetchCourseChapters();
 
-                              ref
-                                  .read(courseSubTrackProvider.notifier)
-                                  .changeCurrentCourse(courses[index]);
+                                ref
+                                    .read(courseSubTrackProvider.notifier)
+                                    .changeCurrentCourse(courses[index]);
 
                               debugPrint(
                                   "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
@@ -306,20 +329,20 @@ class PaidScreen extends ConsumerWidget {
                                                     debugPrint(
                                                         "to page 8, exam title: examtitle");
 
-                                                    ref
-                                                        .read(
-                                                            currentExamYearIdProvider
-                                                                .notifier)
-                                                        .changeYearId(
-                                                            exams[index]
-                                                                .examId);
-                                                    ref
-                                                        .read(
-                                                            currentExamCourseIdProvider
-                                                                .notifier)
-                                                        .changeCourseId(exams[
-                                                                index]
-                                                            .parentCourseId);
+                                                      ref
+                                                          .read(
+                                                              currentExamYearIdProvider
+                                                                  .notifier)
+                                                          .changeYearId(
+                                                              exams[index]
+                                                                  .examId);
+                                                      ref
+                                                          .read(
+                                                              currentExamCourseIdProvider
+                                                                  .notifier)
+                                                          .changeCourseId(exams[
+                                                                  index]
+                                                              .parentCourseId);
 
                                                     ref
                                                         .read(
@@ -437,5 +460,25 @@ class PaidScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  bool checkFilterable(String examtype) {
+    UtilFunctions uFunc = UtilFunctions();
+    List<String> filterableTypes = [
+      ExamType.matric,
+      ExamType.exitexam,
+      ExamType.ministry8th
+    ].map((exType) => uFunc.getExamStringValue(exType)).toList();
+    return filterableTypes.contains(examtype);
+  }
+
+  bool checkFilterable(String examtype) {
+    UtilFunctions uFunc = UtilFunctions();
+    List<String> filterableTypes = [
+      ExamType.matric,
+      ExamType.exitexam,
+      ExamType.ministry8th
+    ].map((exType) => uFunc.getExamStringValue(exType)).toList();
+    return filterableTypes.contains(examtype);
   }
 }

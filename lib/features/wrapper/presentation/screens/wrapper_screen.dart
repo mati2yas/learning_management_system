@@ -9,6 +9,7 @@ import 'package:lms_system/features/courses/presentation/screens/course/courses_
 import 'package:lms_system/features/courses/provider/courses_provider.dart';
 import 'package:lms_system/features/courses_filtered/presentation/screens/courses_filter_screen.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
+import 'package:lms_system/features/exam_chapter_filter/presentation/exam_chapter_filter_screen.dart';
 import 'package:lms_system/features/exam_courses_filter/presentation/screens/exam_courses_filter_screen.dart';
 import 'package:lms_system/features/exam_grade_filter/presentation/screens/exam_grade_filter_screen.dart';
 import 'package:lms_system/features/exam_questions/presentation/exam_questions_page.dart';
@@ -49,6 +50,7 @@ class WrapperScreen extends ConsumerWidget {
       const ExamQuestionsPage(), // 6
       const ExamCoursesFiltersScreen(), // 7
       const ExamGradeFilterScreen(), // 8
+      const ExamChapterFilterScreen(), // 9
     ];
     if (pageNavData.currentPage == AppInts.homePageIndex) {
       ref.read(carouselApiProvider.notifier).build();

@@ -141,7 +141,7 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                     );
                     debugPrint("selected Grade: ${selectedGrade.title}");
 
-                    final chapters = selectedGrade.chapters;
+                        final chapters = selectedGrade.chapters;
 
                     return ListView.builder(
                       itemCount: chapters.length,
@@ -216,35 +216,5 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
   @override
   void initState() {
     super.initState();
-    // initializingPage = true;
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   final pageController = ref.read(pageNavigationProvider.notifier);
-    //   examData = pageController.getArgumentsForPage(8) as Map<String, dynamic>;
-
-    //   setState(() {
-    //     var yearVal = examData["exam year"]! as ExamYear;
-    //     year = yearVal;
-    //     var tabsSet = yearVal.grades.map((yr) => yr.title).toSet();
-    //     tabsList = List.from(tabsSet);
-
-    //     gradesDropDown = yearVal.grades.map((grade) => grade.title).toList();
-    //     gradeDropDownValue = gradesDropDown.first;
-
-    //     tabController = TabController(
-    //       length: tabsList.length,
-    //       vsync: this,
-    //     );
-
-    //     currentTab = tabsList[0];
-
-    //     tabController.addListener(() {
-    //       setState(() {
-    //         currentTab = tabsList[tabController.index];
-    //       });
-    //     });
-    //     initializingPage = false;
-    //   });
-    // });
   }
 }
