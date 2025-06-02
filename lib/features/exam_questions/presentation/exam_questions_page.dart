@@ -695,10 +695,25 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
           pageNavController.getArgumentsForPage(6) as Map<String, dynamic>;
       debugPrint(
           "does it have timer option? ${examData[AppStrings.hasTimerOptionKey]}");
+      // debugPrint("type: ${examData[AppStrings.examYearKey].runtimeType}");
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     backgroundColor: Colors.white,
+      //     content: Text(
+      //       "type: ${examData[AppStrings.examYearKey].runtimeType}",
+      //       style: TextStyle(
+      //         color: Colors.black,
+      //       ),
+      //     ),
+      //   ),
+      // );
 
       setState(() {
         examCourse = examData[AppStrings.examCourseKey]! as String;
-        timerDuration = examData[AppStrings.timerDurationKey]! as int;
+        if (examData[AppStrings.hasTimerOptionKey] == true) {
+          // we do "== true" to avoid null case. so we will avoid having to do map[key] ?? <somefallback>
+          timerDuration = examData[AppStrings.timerDurationKey]! as int;
+        }
         examYear = examData[AppStrings.examYearKey]! as String;
         previousScreen = examData[AppStrings.previousScreenKey]! as int;
         hasTimerOption = examData[AppStrings.hasTimerOptionKey]! as bool;
