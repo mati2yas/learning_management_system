@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
+import 'package:lms_system/core/common_widgets/custom_button.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/current_id_stub_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/exam_questions_provider.dart';
@@ -66,8 +68,8 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                 //pageNavController
                 //   .navigatePage(examData[AppStrings.previousScreenKey]!);
                 pageNavController.navigateBack(
-                  //previousScreen: ref.read(pageNavigationProvider).nextScreen,
-                );
+                    //previousScreen: ref.read(pageNavigationProvider).nextScreen,
+                    );
               },
               icon: const Icon(
                 Icons.arrow_back,
@@ -155,14 +157,19 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                             subtitle: Text(
                               "${chapters[index].questionsCount} questions",
                             ),
-                            trailing: FilledButton(
-                              style: FilledButton.styleFrom(
-                                backgroundColor: AppColors.mainBlue,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
+                            trailing: CustomButton(
+                              isFilledButton: true,
+                              buttonWidth: 40,
+                              buttonHeight: 35,
+                              buttonWidget: Text(
+                                'Take',
+                                style: textTheme.labelMedium!.copyWith(
+                                    letterSpacing: 0.5,
+                                    fontFamily: "Inter",
+                                    color: Colors.white,
+                                    overflow: TextOverflow.ellipsis),
                               ),
-                              onPressed: () {
+                              buttonAction: () {
                                 Map<String, dynamic> examDataNext = {
                                   //"exam title": examData["exam title"],
                                   AppStrings.examCourseKey:
@@ -193,7 +200,6 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
                                   arguments: examDataNext,
                                 );
                               },
-                              child: const Text("Take"),
                             ),
                           ),
                         );

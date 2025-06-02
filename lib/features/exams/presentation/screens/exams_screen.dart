@@ -117,7 +117,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                 onTap: () {
                   ref
                       .read(currentExamTypeProvider.notifier)
-                      .changeExamType(ExamType.exitexam);
+                      .changeExamType(ExamType.ngat);
                   ref
                       .read(examCoursesFilterApiProvider.notifier)
                       .fetchExamCourses();
@@ -179,7 +179,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                   pageNavController.navigateTo(
                     nextScreen: AppInts.examCoursesFiltersPageIndex,
                     //previousScreen: AppInts.examsPageIndex,
-                    arguments: "SAT",
+                    arguments: "Standardized Tests",
                   );
                 },
                 categoryImage: "sat_exam",
@@ -197,7 +197,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
                   pageNavController.navigateTo(
                     nextScreen: AppInts.examCoursesFiltersPageIndex,
                     //previousScreen: AppInts.examsPageIndex,
-                    arguments: "Exam",
+                    arguments: "Other Exams",
                   );
                 },
                 categoryImage: "other_exams",
