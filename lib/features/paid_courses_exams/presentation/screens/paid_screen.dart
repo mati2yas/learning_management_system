@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
+import 'package:lms_system/core/common_widgets/custom_button.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
@@ -43,11 +45,12 @@ class PaidScreen extends ConsumerWidget {
       length: 2,
       initialIndex: tabIndex,
       child: Scaffold(
+        backgroundColor: mainBackgroundColor,
         appBar: AppBar(
           title: Text(
-            "Your Courses and Exams",
+            "Your subscriptions",
             style: textTh.titleLarge!.copyWith(
-              fontWeight: FontWeight.w600,
+              // fontWeight: FontWeight.w600,
               color: Colors.black,
             ),
           ),
@@ -71,14 +74,15 @@ class PaidScreen extends ConsumerWidget {
           bottom: const PreferredSize(
             preferredSize: Size(double.infinity, 30),
             child: CustomTabBar(
+              alignment: TabAlignment.center,
               tabs: [
                 Tab(
                   height: 30,
-                  text: "Courses",
+                  text: "        Courses       ",
                 ),
                 Tab(
                   height: 30,
-                  text: "Exams",
+                  text: "        Exams          ",
                 )
               ],
               isScrollable: false,
@@ -106,7 +110,8 @@ class PaidScreen extends ConsumerWidget {
                 width: double.infinity,
                 child: courses.isEmpty
                     ? NoDataWidget(
-                        noDataMsg: "No Paid Courses Yet.",
+                        noDataMsg:
+                            "You haven’t purchased any courses yet. Browse our selection and start learning today!",
                         callback: () async {
                           await ref
                               .refresh(paidCoursesApiProvider.notifier)
@@ -184,7 +189,8 @@ class PaidScreen extends ConsumerWidget {
               ),
               data: (exams) => exams.isEmpty
                   ? NoDataWidget(
-                      noDataMsg: "No Paid Exams Yet.",
+                      noDataMsg:
+                          "You haven’t purchased any exams yet. Browse our selection and start practicing today!",
                       callback: () async {
                         await ref
                             .refresh(paidExamsApiProvider.notifier)
@@ -220,11 +226,18 @@ class PaidScreen extends ConsumerWidget {
                                       title: Text(exams[index].examYear),
                                       subtitle:
                                           Text(exams[index].parentCourseTitle),
-                                      trailing: exams[index].examType ==
+                                      trailing: (exams[index].examType ==
                                               UtilFunctions()
                                                   .getExamStringValue(
-                                                      ExamType.matric)
+                                                      ExamType.matric))
                                           ? PopupMenuButton<void>(
+                                              color: mainBackgroundColor,
+                                              shape: Border.all(
+                                                  color: primaryColor,
+                                                  width: 0.5),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(5)),
+                                              // Vertical three dots,
                                               icon: const Icon(
                                                 Icons.more_vert,
                                               ), // Vertical three dots
@@ -280,8 +293,10 @@ class PaidScreen extends ConsumerWidget {
                                                   },
                                                   child: const ListTile(
                                                     leading: Icon(
-                                                        Icons.question_answer),
-                                                    title: Text('Take All'),
+                                                      Icons.question_answer,
+                                                      color: primaryColor,
+                                                    ),
+                                                    title: Text('Take all'),
                                                   ),
                                                 ),
                                                 PopupMenuItem<void>(
@@ -337,23 +352,31 @@ class PaidScreen extends ConsumerWidget {
                                                     );
                                                   },
                                                   child: const ListTile(
-                                                    leading:
-                                                        Icon(Icons.filter_alt),
-                                                    title: Text('Filter'),
+                                                    leading: Icon(
+                                                      Icons.filter_alt,
+                                                      color: primaryColor,
+                                                    ),
+                                                    title:
+                                                        Text('Take filtered'),
                                                   ),
                                                 ),
                                               ],
                                             )
-                                          : FilledButton(
-                                              style: FilledButton.styleFrom(
-                                                backgroundColor:
-                                                    AppColors.mainBlue,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
+                                          : CustomButton(
+                                              isFilledButton: true,
+                                              buttonWidth: 50,
+                                              buttonHeight: 35,
+                                              buttonWidget: Text(
+                                                'Take',
+                                                style: textTheme.labelMedium!
+                                                    .copyWith(
+                                                        letterSpacing: 0.5,
+                                                        fontFamily: "Inter",
+                                                        color: Colors.white,
+                                                        overflow: TextOverflow
+                                                            .ellipsis),
                                               ),
-                                              onPressed: () {
+                                              buttonAction: () {
                                                 if (exams[index].examType ==
                                                     UtilFunctions()
                                                         .getExamStringValue(
@@ -403,9 +426,7 @@ class PaidScreen extends ConsumerWidget {
                                                   );
                                                 }
                                               },
-                                              child: const Text("Take"),
-                                            ),
-                                    ),
+                                            )),
                             ),
                           );
                         },
