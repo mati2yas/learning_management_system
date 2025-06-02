@@ -96,7 +96,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
 
                       Gap(height: 20),
-                      buildInputLabel('Password', textTh),
+                      buildInputLabel('PassChange Emailword', textTh),
 
                       Gap(),
                       InputWidget(
@@ -170,13 +170,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   UtilFunctions.buildInfoSnackbar(
                                       message: "Login Successful"),
                                 );
-                                emailController.clear();
-                                passwordController.clear();
                                 User? user = await SecureStorageService()
                                     .getUserFromStorage();
 
                                 await Future.delayed(
                                     const Duration(seconds: 2));
+                                emailController.clear();
+                                passwordController.clear();
 
                                 debugPrint(
                                     "user loginCount: ${user?.loginCount}");

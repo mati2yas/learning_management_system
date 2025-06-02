@@ -4,6 +4,7 @@ import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/custom_button.dart';
 import 'package:lms_system/core/common_widgets/custom_gap.dart';
+import 'package:lms_system/core/common_widgets/inside_button_custom_circular_loader.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/constants/fonts.dart';
@@ -28,6 +29,7 @@ class _ForgotPasswordScreenState
     extends ConsumerState<ProfileForgotPasswordScreen> {
   List<Widget> bodyWidgets = [];
   int currentWidget = 0;
+  bool isPerformingReset = false;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,9 @@ class _ForgotPasswordScreenState
             const SizedBox(height: 22),
             CustomButton(
                 isFilledButton: true,
-                buttonWidget: state.apiStatus == ApiState.error
+                buttonWidget: state.apiStatus == ApiState.busy
+                ?  InsideButtonCustomCircularLoader()
+                : state.apiStatus == ApiState.error 
                     ? Text(
                         'Retry',
                         style: textTheme.labelLarge!.copyWith(

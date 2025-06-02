@@ -12,6 +12,7 @@ import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/core/utils/build_button_label_method.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
+import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
 import 'package:lms_system/features/edit_profile/provider/edit_profile_provider.dart';
 import 'package:lms_system/features/forgot_password/model/forgot_password_model.dart';
@@ -162,8 +163,9 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                               if (result.responseSuccess) {
                                 debugPrint(
                                     "response status of changing password is success.");
-                                await SecureStorageService()
-                                    .setUserAuthedStatus(AuthStatus.authed);
+                                ref
+                                    .read(authStatusProvider.notifier)
+                                    .setAuthStatus(AuthStatus.pending);
                                 var refreshData = ref
                                     .refresh(currentUserProvider.notifier)
                                     .build();
@@ -176,10 +178,11 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                                       message: "Password Change Successful",
                                     ),
                                   );
-                                  passwordController.clear();
-                                  pinController.clear();
                                   User? user = await SecureStorageService()
                                       .getUserFromStorage();
+
+                                  passwordController.clear();
+                                  pinController.clear();
 
                                   if (context.mounted) {
                                     if ((user?.loginCount ?? 0) > 0) {

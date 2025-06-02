@@ -169,7 +169,7 @@ class CustomDrawer extends StatelessWidget {
                     content: Text('Are you sure you want to log out?',
                         textAlign: TextAlign.center),
                     onConfirm: () async {
-                      ref.read(authStatusProvider.notifier).clearStatus();
+                      //ref.read(authStatusProvider.notifier).clearStatus();
                       ref
                           .read(authStatusProvider.notifier)
                           .setAuthStatus(AuthStatus.pending);
