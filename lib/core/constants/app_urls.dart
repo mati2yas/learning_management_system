@@ -3,7 +3,7 @@ class AppUrls {
   static String baseUrl = "https://admin.exceletacademy.com/api";
   //static String baseUrl = "https://lms.biruklemma.com/api";
   static String baseUrlWithoutApi = "https://lms.biruklemma.com/";
-  static String backendStorage = "https://lms.biruklemma.com/storage";
+  static String backendStorage = "https://admin.exceletacademy.com/storage";
 
   static String login = "/login";
   static String signUp = "/student-register";
@@ -16,8 +16,11 @@ class AppUrls {
   static String getCourses = "/random-courses";
   static String editProfile = "/user-update";
   static String examGradeFilter = "/exams/exam-grades";
+  static String examChapterFilter = "/exams/exam-chapters";
   static String examChapterQuestions = "/exams/exam-questions-chapter";
   static String examYearQuestions = "/exams/exam-questions-year";
+  static String examChapterQuestionsNoGrades =
+      "/exams/exit-questions-no-grades/";
   static String examCourses = "/exams/exam-courses-years";
   static String homePageCourses = "/homepage/courses";
   static String unreadNotifications = "/notifications-new";

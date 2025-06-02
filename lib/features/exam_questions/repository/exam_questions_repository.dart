@@ -33,10 +33,15 @@ class ExamQuestionsRepository {
     if (!await _connectivityService.hasConnection()) {
       throw Exception("No internet connection");
     }
-    if (idStub[AppStrings.stubIdType] == IdType.filtered) {
+    if (idStub[AppStrings.stubIdType] == IdType.filteredForGrade) {
       return await _dataSource.fetchQuestionsByChapterId(
-          chapterId: idStub[AppStrings.stubId]!,
-          gradeId: idStub[AppStrings.stubGradeId]!);
+        chapterId: idStub[AppStrings.stubId]!,
+        gradeId: idStub[AppStrings.stubGradeId]!,
+      );
+    } else if (idStub[AppStrings.stubIdType] == IdType.filteredForChapter) {
+      return await _dataSource.fetchQuestionsByChapterIdNoGrade(
+        chapterId: idStub[AppStrings.stubChapterId]!
+      );
     } else if (idStub[AppStrings.stubIdType] == IdType.all) {
       List<Question> questions = await _dataSource.fetchQuestionsByYearId(
           idStub[AppStrings.stubId]!, idStub[AppStrings.stubCourseId]!);

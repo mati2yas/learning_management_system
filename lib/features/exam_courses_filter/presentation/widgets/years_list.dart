@@ -5,6 +5,7 @@ import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
+import 'package:lms_system/features/exam_chapter_filter/provider/exam_chapter_filter_provider.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/current_exam_type_provider.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/current_exam_year_provider.dart';
 import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter_provider.dart';
@@ -32,7 +33,10 @@ class TakeOrFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     final pageController = ref.read(pageNavigationProvider.notifier);
     final examTypeProv = ref.watch(currentExamTypeProvider);
-    return [ExamType.matric, ExamType.ministry8th].contains(examTypeProv)
+    debugPrint("exam type: ${examTypeProv.name}");
+
+    return [ExamType.matric, ExamType.ministry8th, ExamType.exitexam]
+            .contains(examTypeProv)
         ? PopupMenuButton<void>(
             icon: const Icon(
               Icons.more_vert,
@@ -77,28 +81,57 @@ class TakeOrFilter extends StatelessWidget {
                 onTap: () {
                   // navigate to the page that
                   // further filter the exams
-                  debugPrint("to page 8, exam title: examtitle");
+                  if ([
+                    ExamType.ministry6th,
+                    ExamType.ministry8th,
+                    ExamType.matric
+                  ].contains(examTypeProv)) {
+                    debugPrint("to page 8, exam title: examtitle");
 
-                  ref
-                      .read(currentExamYearIdProvider.notifier)
-                      .changeYearId(year.id);
-                  ref
-                      .read(currentExamCourseIdProvider.notifier)
-                      .changeCourseId(course.id);
+                    ref
+                        .read(currentExamYearIdProvider.notifier)
+                        .changeYearId(year.id);
+                    ref
+                        .read(currentExamCourseIdProvider.notifier)
+                        .changeCourseId(course.id);
 
-                  ref
-                      .read(examGradeFilterApiProvider.notifier)
-                      .fetchExamGrades();
-                  pageController.navigateTo(
-                    nextScreen: AppInts.examGradeFilterPageIndex,
-                    //previousScreen: AppInts.examCoursesFiltersPageIndex,
-                    arguments: <String, dynamic>{
-                      AppStrings.previousScreenKey: 7,
-                      AppStrings.examCourseKey: course.title,
-                      AppStrings.examYearKey: year,
-                      AppStrings.examCourseIdKey: course.id,
-                    },
-                  );
+                    ref
+                        .read(examGradeFilterApiProvider.notifier)
+                        .fetchExamGrades();
+                    pageController.navigateTo(
+                      nextScreen: AppInts.examGradeFilterPageIndex,
+                      //previousScreen: AppInts.examCoursesFiltersPageIndex,
+                      arguments: <String, dynamic>{
+                        AppStrings.previousScreenKey: 7,
+                        AppStrings.examCourseKey: course.title,
+                        AppStrings.examYearKey: year,
+                        AppStrings.examCourseIdKey: course.id,
+                      },
+                    );
+                  } else if ([ExamType.exitexam].contains(examTypeProv)) {
+                    debugPrint("to page 8, exam title: examtitle");
+
+                    ref
+                        .read(currentExamYearIdProvider.notifier)
+                        .changeYearId(year.id);
+                    ref
+                        .read(currentExamCourseIdProvider.notifier)
+                        .changeCourseId(course.id);
+
+                    ref
+                        .read(examChapterFilterApiProvider.notifier)
+                        .fetchExamChapters();
+                    pageController.navigateTo(
+                      nextScreen: AppInts.examChapterFilterPageIndex,
+                      //previousScreen: AppInts.examCoursesFiltersPageIndex,
+                      arguments: <String, dynamic>{
+                        AppStrings.previousScreenKey: 7,
+                        AppStrings.examCourseKey: course.title,
+                        AppStrings.examYearKey: year,
+                        AppStrings.examCourseIdKey: course.id,
+                      },
+                    );
+                  }
                 },
                 child: const ListTile(
                   leading: Icon(Icons.filter_alt),
@@ -115,13 +148,40 @@ class TakeOrFilter extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              if ([ExamType.matric, ExamType.ministry8th]
-                  .contains(examTypeProv)) {
+              if ([
+                ExamType.matric,
+                ExamType.ministry8th,
+              ].contains(examTypeProv)) {
                 ref.read(currentIdStubProvider.notifier).changeStub({
-                  AppStrings.stubIdType: IdType.filtered,
+                  AppStrings.stubIdType: IdType.filteredForGrade,
                   AppStrings.stubId: year.id,
                   AppStrings.stubCourseId: course.id,
                   //AppStrings.stubGradeId: course
+                });
+                ref
+                    .read(currentExamYearIdProvider.notifier)
+                    .changeYearId(year.id);
+                ref.refresh(examQuestionsApiProvider.notifier).fetchQuestions();
+                Map<String, dynamic> examData = {
+                  AppStrings.examCourseKey: course.title,
+                  AppStrings.examYearKey: year.title,
+                  AppStrings.timerDurationKey: year.duration,
+                  AppStrings.previousScreenKey: 7,
+                  AppStrings.hasTimerOptionKey: false,
+                };
+                pageController.navigateTo(
+                  nextScreen: AppInts.examQuestionsPageIndex,
+                  //previousScreen: AppInts.examCoursesFiltersPageIndex,
+                  arguments: examData,
+                );
+              } else if ([
+                ExamType.exitexam,
+              ].contains(examTypeProv)) {
+                ref.read(currentIdStubProvider.notifier).changeStub({
+                  AppStrings.stubIdType: IdType.filteredForChapter,
+                  AppStrings.stubId: year.id,
+                  AppStrings.stubCourseId: course.id,
+                  //AppStrings.stubChapterId: course
                 });
                 ref
                     .read(currentExamYearIdProvider.notifier)

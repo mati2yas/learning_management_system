@@ -155,7 +155,7 @@ class _ExamCoursesFilterScreenState
                   child: Column(
                     children: [
                       CustomTabBar(
-                        isScrollable: true,
+                        isScrollable: examCourses.length > 3,
                         alignment: TabAlignment.start,
                         tabs: examCourses
                             .map(

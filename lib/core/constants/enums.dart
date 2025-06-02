@@ -21,11 +21,10 @@ enum ExamType {
 
 enum HighschoolClasses { lowerHs, prepHs }
 
-enum IdType { filtered, all }
+enum IdType { filteredForGrade, filteredForChapter, all }
 
 enum NotifType { read, unread }
 
 enum ProfileFetchType { backend, localDb }
 
 enum SubscriptionType { oneMonth, threeMonths, sixMonths, yearly }
-

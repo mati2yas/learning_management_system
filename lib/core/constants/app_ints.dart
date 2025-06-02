@@ -11,4 +11,5 @@ class AppInts {
   static const int examQuestionsPageIndex = 6;
   static const int examCoursesFiltersPageIndex = 7;
   static const int examGradeFilterPageIndex = 8;
+  static const int examChapterFilterPageIndex = 9;
 }

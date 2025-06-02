@@ -131,6 +131,7 @@ class AppStrings {
   static const String stubId = "id";
   static const String stubCourseId = "courseId";
   static const String stubGradeId = "stubGradeId";
+  static const String stubChapterId = "stubChapterId";
 
   static const List<String> fourYearDepts = [
     "Accounting and Finance",
@@ -214,6 +215,7 @@ class AppStrings {
   static const String hasTimerOptionKey = "hasTimerOption";
   static const String timerDurationKey = "timer duration";
   static const String questionsKey = "questions";
+
 
   static String categoryFormatted(String input) {
     return switch (input) {

@@ -31,10 +31,15 @@ class _AsyncErrorWidgetState extends State<AsyncErrorWidget> {
         child: Column(
           spacing: 12,
           children: [
-            Text(
-              widget.errorMsg.replaceAll("Exception:", ""),
-              style: textTh.titleMedium!.copyWith(color: Colors.red),
-            ),
+            widget.errorMsg.contains("is not a subtype of")
+                ? Text(
+                    "Oops, error is from our side, we're working on it.",
+                    style: textTh.titleMedium!.copyWith(color: Colors.red),
+                  )
+                : Text(
+                    widget.errorMsg.replaceAll("Exception:", ""),
+                    style: textTh.titleMedium!.copyWith(color: Colors.red),
+                  ),
             Consumer(
               builder: (context, ref, child) {
                 return FilledButton(
