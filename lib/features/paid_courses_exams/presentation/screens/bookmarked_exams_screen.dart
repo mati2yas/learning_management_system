@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
+import 'package:lms_system/core/common_widgets/custom_button.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/current_exam_year_provider.dart';
 import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter_provider.dart';
@@ -194,15 +196,21 @@ class BookmarkedExamsScreen extends ConsumerWidget {
                                           ),
                                         ],
                                       )
-                                    : FilledButton(
-                                        style: FilledButton.styleFrom(
-                                          backgroundColor: AppColors.mainBlue,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                          ),
+                                    : CustomButton(
+                                        isFilledButton: true,
+                                        buttonWidth: 40,
+                                        buttonHeight: 35,
+                                        buttonWidget: Text(
+                                          'Take',
+                                          style: textTheme.labelMedium!
+                                              .copyWith(
+                                                  letterSpacing: 0.5,
+                                                  fontFamily: "Inter",
+                                                  color: Colors.white,
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
                                         ),
-                                        onPressed: () {
+                                        buttonAction: () {
                                           if (exams[index].examType ==
                                               UtilFunctions()
                                                   .getExamStringValue(
@@ -247,9 +255,7 @@ class BookmarkedExamsScreen extends ConsumerWidget {
                                             );
                                           }
                                         },
-                                        child: const Text("Take"),
-                                      ),
-                              ),
+                                      )),
                       ),
                     );
                   },
