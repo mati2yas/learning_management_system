@@ -34,6 +34,7 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
 
     final currentChapterId = ref.watch(currentChapterIdProvider);
     return Scaffold(
+      backgroundColor: mainBackgroundColor,
       appBar: CommonAppBar(
         leading: IconButton(
           onPressed: () {

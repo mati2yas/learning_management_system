@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
+import 'package:lms_system/features/home/presentation/widgets/top_nav_bar_item.dart';
 import 'package:lms_system/features/notification/provider/notification_provider.dart';
 import 'package:lms_system/features/shared/model/shared_user.dart';
 import 'package:lms_system/features/subscription/provider/requests/exam_requests_provider.dart';
@@ -83,26 +84,19 @@ class CustomHomeAppBar extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
+                    TopNavBarWidget(
+                      buttonAction: () {
                         ref
                             .refresh(notificationApiProvider.notifier)
                             .fetchNotifs(page: 1);
                         Navigator.of(context).pushNamed(Routes.notifications);
                       },
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Center(
-                          child: Icon(
-                            Icons.notifications_outlined,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                        ),
-                      ),
+                      iconColor: Colors.white,
+                      iconName: Icons.notifications_outlined,
+                      backGroundColor: Colors.transparent,
                     ),
-                    GestureDetector(
-                      onTap: () {
+                    TopNavBarWidget(
+                      buttonAction: () {
                         Navigator.of(context).pushNamed(Routes.searchScreen);
                         // showSearch(
                         //   context: context,
@@ -110,16 +104,9 @@ class CustomHomeAppBar extends ConsumerWidget {
                         //       widgetRef: ref, previousScreenIndex: 0),
                         // );
                       },
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Center(
-                          child: Icon(
-                            Icons.search,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                        ),
-                      ),
+                      iconColor: Colors.white,
+                      iconName: Icons.search,
+                      backGroundColor: Colors.transparent,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -130,15 +117,17 @@ class CustomHomeAppBar extends ConsumerWidget {
                       },
                       child: Stack(
                         children: [
-                          const CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: Center(
-                              child: Icon(
-                                Icons.shopping_cart_outlined,
-                                color: Colors.black,
-                                size: 20,
-                              ),
-                            ),
+                          TopNavBarWidget(
+                            buttonAction: () {
+                              Navigator.of(context).pushNamed(
+                                Routes.subscriptions,
+                                arguments:
+                                    AppInts.subscriptionScreenCourseIndex,
+                              );
+                            },
+                            iconColor: Colors.white,
+                            iconName: Icons.shopping_cart_outlined,
+                            backGroundColor: Colors.transparent,
                           ),
                           if (courseRequestsProv.isNotEmpty)
                             Positioned(
@@ -215,62 +204,40 @@ class CustomHomeAppBar extends ConsumerWidget {
                       ),
                     ),
                     const Spacer(),
-                    GestureDetector(
-                      onTap: () {
+                    TopNavBarWidget(
+                      buttonAction: () {
                         ref
                             .refresh(notificationApiProvider.notifier)
                             .fetchNotifs(page: 1);
                         Navigator.of(context).pushNamed(Routes.notifications);
                       },
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Center(
-                          child: Icon(
-                            Icons.notifications_outlined,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                        ),
-                      ),
+                      iconColor: Colors.white,
+                      iconName: Icons.notifications_outlined,
+                      backGroundColor: Colors.transparent,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        // showSearch(
-                        //   context: context,
-                        //   delegate: CourseSearchDelegate(
-                        //       widgetRef: ref, previousScreenIndex: 0),
-                        // );
+                    TopNavBarWidget(
+                      buttonAction: () {
                         Navigator.of(context).pushNamed(Routes.searchScreen);
                       },
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Center(
-                          child: Icon(
-                            Icons.search,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                        ),
-                      ),
+                      iconColor: Colors.white,
+                      iconName: Icons.search,
+                      backGroundColor: Colors.transparent,
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          Routes.subscriptions,
-                          arguments: AppInts.subscriptionScreenCourseIndex,
-                        );
-                      },
+                      onTap: () {},
                       child: Stack(
                         children: [
-                          const CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: Center(
-                              child: Icon(
-                                Icons.shopping_cart_outlined,
-                                color: Colors.black,
-                                size: 20,
-                              ),
-                            ),
+                          TopNavBarWidget(
+                            buttonAction: () {
+                              Navigator.of(context).pushNamed(
+                                Routes.subscriptions,
+                                arguments:
+                                    AppInts.subscriptionScreenCourseIndex,
+                              );
+                            },
+                            iconColor: Colors.white,
+                            iconName: Icons.shopping_cart_outlined,
+                            backGroundColor: Colors.transparent,
                           ),
                           if (courseRequestsProv.isNotEmpty)
                             Positioned(

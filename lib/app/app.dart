@@ -106,8 +106,9 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
                     ColorScheme.fromSeed(seedColor: AppColors.mainBlue),
                 useMaterial3: true,
               ),
+              debugShowCheckedModeBanner: false,
               onGenerateRoute: Approuter.generateRoute,
-              initialRoute: routesData.firstRoute, 
+              initialRoute: routesData.firstRoute,
               // onGenerateInitialRoutes: (initialRouteName) {
               //   if (initialRouteName == Routes.wrapper) {
               //     const token =

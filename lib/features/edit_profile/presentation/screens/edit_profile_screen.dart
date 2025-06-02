@@ -5,10 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
+import 'package:lms_system/core/common_widgets/custom_button.dart';
+import 'package:lms_system/core/common_widgets/custom_dialog.dart';
+import 'package:lms_system/core/common_widgets/custom_gap.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/edit_profile/presentation/widgets/check_password_dialog.dart';
@@ -79,8 +83,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 child: Form(
                   key: AppKeys.editProfileKey,
                   child: Column(
-                    spacing: 10,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         width: double.infinity,
@@ -119,8 +122,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                               right: 10,
                               child: IconButton(
                                 style: IconButton.styleFrom(
-                                  backgroundColor: AppColors.mainGrey,
-                                  foregroundColor: Colors.black,
+                                  backgroundColor: AppColors.mainBlue2,
+                                  foregroundColor: AppColors.mainBlue2,
                                   iconSize: 24,
                                 ),
                                 onPressed: () async {
@@ -135,13 +138,23 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                     });
                                   }
                                 },
-                                icon: const Icon(Icons.edit),
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      _buildInputLabel("Name", textTh),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 0.0),
+                        child: Text(
+                          "Name",
+                          style: textTh.bodyMedium!.copyWith(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                       InputWidget(
                         onSaved: (value) {
                           editProfileController.updateName(value!);
@@ -167,17 +180,23 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         },
                         controller: nameController,
                       ),
+                      Gap(),
                       _buildInputLabel("Email", textTh),
-                      FilledButton(
-                        style: FilledButton.styleFrom(
-                            fixedSize: Size(size.width, 50),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12))),
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(Routes.changeEmail);
-                        },
-                        child: const Text("Edit Email"),
-                      ),
+
+                      CustomButton(
+                          isFilledButton: false,
+                          buttonWidget: Text(
+                            "Change your email",
+                            style: textTheme.labelLarge!.copyWith(
+                                letterSpacing: 0.5,
+                                fontFamily: "Inter",
+                                color: AppColors.mainBlue2,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                          buttonAction: () {
+                            Navigator.of(context).pushNamed(Routes.changeEmail);
+                          }),
+
                       // InputWidget(
                       //   onSaved: (value) {
                       //     editProfileController.updateEmail(value!);
@@ -203,30 +222,48 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       //   },
                       //   controller: emailController,
                       // ),
+
+                      Gap(),
                       _buildInputLabel("Password", textTh),
-                      FilledButton(
-                        style: FilledButton.styleFrom(
-                            fixedSize: Size(size.width, 50),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12))),
-                        onPressed: () {
-                          debugPrint("user password: ${editState.password}");
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title:
-                                    const Text("Enter Your Current Password"),
-                                content: CheckPassword(
-                                  password: editState.password,
-                                  email: editState.email,
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: const Text("Edit Password"),
-                      ),
+                      CustomButton(
+                          isFilledButton: false,
+                          buttonWidget: Text(
+                            "Change Password",
+                            style: textTheme.labelLarge!.copyWith(
+                                letterSpacing: 0.5,
+                                fontFamily: "Inter",
+                                color: AppColors.mainBlue2,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                          buttonAction: () {
+                            debugPrint("user password: ${editState.password}");
+
+                            showCustomDialog(
+                              context: context,
+                              title: 'Change Password',
+                              content: CheckPassword(
+                                password: editState.password,
+                                email: editState.email,
+                              ),
+                              icon: Icons.password,
+                              iconColor: Colors.red,
+                              confirmText: 'Logout',
+                              cancelText: 'Cancel',
+                            );
+                            // showDialog(
+                            //   context: context,
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       content: CheckPassword(
+                            //         password: editState.password,
+                            //         email: editState.email,
+                            //       ),
+                            //     );
+                            //   },
+                            // );
+                          }),
+
+                      Gap(),
                       _buildInputLabel("Bio", textTh),
                       InputWidget(
                         onSaved: (value) {
@@ -237,7 +274,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             editProfileController.updateBio(bioController.text);
                           }
                         },
-                        maxLines: 2,
+                        maxLines: 5,
+                        minLines: 3,
                         maxLength: 250,
                         hintText: "",
                         validator: (value) {
@@ -256,22 +294,33 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         controller: bioController,
                       ),
                       const SizedBox(height: 20),
-                      Center(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.mainBlue,
-                            padding: editState.apiState == ApiState.busy
-                                ? null
-                                : const EdgeInsets.symmetric(
-                                    horizontal: 50,
-                                    vertical: 15,
+
+                      CustomButton(
+                          isFilledButton: true,
+                          buttonWidget: editState.apiState == ApiState.busy
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
                                   ),
-                            fixedSize: Size(maxFormWidth, 65),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          onPressed: () async {
+                                )
+                              : editState.apiState == ApiState.error
+                                  ? Text(
+                                      'Retry',
+                                      style: textTheme.labelLarge!.copyWith(
+                                          letterSpacing: 0.5,
+                                          fontFamily: "Inter",
+                                          color: Colors.white,
+                                          overflow: TextOverflow.ellipsis),
+                                    )
+                                  : Text(
+                                      'Save',
+                                      style: textTheme.labelLarge!.copyWith(
+                                          letterSpacing: 0.5,
+                                          fontFamily: "Inter",
+                                          color: Colors.white,
+                                          overflow: TextOverflow.ellipsis),
+                                    ),
+                          buttonAction: () async {
                             _validateImagePath();
                             if (_errorMessageImagePath != null &&
                                 user.image == "") {
@@ -326,30 +375,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                 profileEditSuccess = false;
                               }
                             }
-                          },
-                          child: editState.apiState == ApiState.busy
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : editState.apiState == ApiState.error
-                                  ? Text(
-                                      'Retry',
-                                      style: textTh.titleLarge!.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  : Text(
-                                      'Save',
-                                      style: textTh.titleLarge!.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                        ),
-                      ),
+                          }),
                     ],
                   ),
                 ),

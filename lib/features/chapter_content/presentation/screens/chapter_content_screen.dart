@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/features/chapter_content/presentation/screens/widgets/empty_content_widget.dart';
+import 'package:lms_system/features/chapter_content/presentation/screens/widgets/prohobit_course_access.dart';
 import 'package:lms_system/features/chapter_content/presentation/screens/widgets/quizzes_listview.dart';
 import 'package:lms_system/features/chapter_content/presentation/screens/widgets/vids_listview.dart';
 import 'package:lms_system/features/chapter_content/provider/chapter_content_provider.dart';
@@ -45,6 +47,7 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
         return DefaultTabController(
           length: 3,
           child: Scaffold(
+            backgroundColor: mainBackgroundColor,
             appBar: AppBar(
               title: Text(
                 chapter.name,
@@ -61,16 +64,16 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
               bottom: const PreferredSize(
                 preferredSize: Size(double.infinity, 45),
                 child: CustomTabBar(
-                  isScrollable: false,
-                  alignment: TabAlignment.fill,
+                  isScrollable: true,
+                  alignment: TabAlignment.center,
                   tabs: [
                     Tab(
                       height: 30,
-                      text: "Video",
+                      text: "Videos",
                     ),
                     Tab(
                       height: 30,
-                      text: "Document",
+                      text: "Documents",
                     ),
                     Tab(
                       height: 30,
@@ -101,26 +104,18 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                     TabBarView(
                       children: [
                         chapterContent.videos.isEmpty
-                            ? const Center(
-                                child: Text(
-                                  "No Documents For This Chapter Yet.",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            ? EmptyContentWidget(
+                                message:
+                                    "Videos for this chapter will be added soon. Stay tuned!",
                               )
                             : VideosListView(
                                 chapterOrder: chapterContent.order,
                                 videos: chapterContent.videos,
                               ),
                         chapterContent.documents.isEmpty
-                            ? const Center(
-                                child: Text(
-                                  "No Documents For This Chapter Yet.",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            ? EmptyContentWidget(
+                                message:
+                                    "Documents for this chapter will be added soon. Stay tuned!",
                               )
                             : ListView.builder(
                                 padding: const EdgeInsets.all(12),
@@ -150,35 +145,15 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                                         );
                                       }
                                     } else {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          title: const Text(
-                                              'Cannot access contents'),
-                                          content: const Text(
-                                            "You need to buy this course to access contents",
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              child: const Text('OK'),
-                                            ),
-                                          ],
-                                        ),
-                                      );
+                                      showContentInaccessibleMessage(context);
                                     }
                                   },
                                 ),
                               ),
                         chapterContent.quizzes.isEmpty
-                            ? const Center(
-                                child: Text(
-                                  "No Quizzes For This Chapter Yet.",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            ? EmptyContentWidget(
+                                message:
+                                    "Quizzes for this chapter will be added soon. Stay tuned!",
                               )
                             : QuizzesListView(
                                 chapterOrder: chapterContent.order,
@@ -233,7 +208,6 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
     input = input.replaceFirst(first, first.toUpperCase());
     return input;
   }
-
 
   @override
   void dispose() {

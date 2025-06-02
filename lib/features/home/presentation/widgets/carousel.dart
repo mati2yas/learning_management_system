@@ -132,7 +132,7 @@ class CarouselPageNetwork extends StatelessWidget {
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) return child;
                 return Image.asset(
-                  "assets/images/online_course1.png",
+                  "assets/images/excelet_banner.png",
                   fit: BoxFit.cover,
                   height: 90,
                   width: double.infinity,
@@ -140,7 +140,7 @@ class CarouselPageNetwork extends StatelessWidget {
               },
               errorBuilder: (context, error, stackTrace) {
                 return Image.asset(
-                  "assets/images/online_course1.png",
+                  "assets/images/excelet_banner.png",
                   fit: BoxFit.cover,
                   height: 90,
                   width: double.infinity,
@@ -157,7 +157,7 @@ class CarouselPageNetwork extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
                   tag,
-                  maxLines: 2,
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.headlineSmall!.copyWith(
                     color: Colors.white,

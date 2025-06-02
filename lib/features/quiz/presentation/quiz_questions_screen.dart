@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
+import 'package:lms_system/core/common_widgets/custom_button.dart';
+import 'package:lms_system/core/common_widgets/custom_dialog.dart';
+import 'package:lms_system/core/common_widgets/custom_gap.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/common_widgets/proportional_image.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_layout.dart';
 import 'package:lms_system/features/exams/provider/exam_timer_provider.dart';
 import 'package:lms_system/features/quiz/presentation/quiz_solutions_screen.dart';
@@ -91,108 +95,144 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
         ),
         bottom: hasTimerOption
             ? PreferredSize(
-                preferredSize: Size(size.width, 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 8,
-                  children: [
-                    _timerStarted
-                        ? timerAsyncValue.when(
-                            data: (remainingSeconds) {
-                              final minutes = remainingSeconds ~/ 60;
-                              final seconds = remainingSeconds % 60;
-                              final minutesString = remainingSeconds == 0
-                                  ? widget.quiz.duration
-                                  : minutes.toString().padLeft(2, '0');
-                              final secondsString =
-                                  seconds.toString().padLeft(2, '0');
+                preferredSize: Size(size.width, 25),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 8,
+                    children: [
+                      _timerStarted
+                          ? timerAsyncValue.when(
+                              data: (remainingSeconds) {
+                                final minutes = remainingSeconds ~/ 60;
+                                final seconds = remainingSeconds % 60;
+                                final minutesString = remainingSeconds == 0
+                                    ? widget.quiz.duration
+                                    : minutes.toString().padLeft(2, '0');
+                                final secondsString =
+                                    seconds.toString().padLeft(2, '0');
 
-                              if (remainingSeconds == 0 &&
-                                  !_dialogShown &&
-                                  !_timerInitializing) {
-                                WidgetsBinding.instance.addPostFrameCallback(
-                                  (_) {
-                                    if (!mounted) return;
-                                    showDialog(
-                                      context: context,
-                                      builder: (_) => AlertDialog(
-                                        content: const Text("Time's up buddy."),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text("Ok"),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              submitExam(answersController);
-                                            },
-                                            child: const Text("Submit Exam"),
-                                          ),
-                                        ],
+                                if (remainingSeconds == 0 &&
+                                    !_dialogShown &&
+                                    !_timerInitializing) {
+                                  WidgetsBinding.instance.addPostFrameCallback(
+                                    (_) {
+                                      if (!mounted) return;
+                                      showCustomDialog(
+                                        context: context,
+                                        title: 'Time is up!',
+                                        content: Text(
+                                            "Time is up. Please submit your exam.",
+                                            textAlign: TextAlign.center),
+                                        onConfirm: () {
+                                          Navigator.of(context).pop();
+                                          submitExam(answersController);
+                                        },
+                                        onCancel: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        icon: Icons.timer,
+                                        iconColor: Colors.red,
+                                        confirmText: "Submit Exam",
+                                        cancelText: 'Back',
+                                      );
+
+                                      //     showDialog(
+                                      //       context: context,
+                                      //       builder: (_) => AlertDialog(
+                                      //         content: const Text(
+                                      //             "Time is up. Please submit your exam."),
+                                      //         actions: [
+                                      //           TextButton(
+                                      //             onPressed: () {
+                                      //               Navigator.of(context).pop();
+                                      //             },
+                                      //             child: const Text("Back to Quiz"),
+                                      //           ),
+                                      //           TextButton(
+                                      //             onPressed: () {
+                                      //               Navigator.of(context).pop();
+                                      //               submitExam(answersController);
+                                      //             },
+                                      //             child: const Text("Submit Exam"),
+                                      //           ),
+                                      //         ],
+                                      //       ),
+                                      //     );
+                                    },
+                                  );
+                                }
+
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.watch_later_outlined),
+                                    Gap(),
+                                    Text(
+                                      "Time Left: $minutesString:$secondsString",
+                                      style: textTh.titleMedium!.copyWith(
+                                        color: remainingSeconds < 300
+                                            ? Colors.red
+                                            : Colors.green,
+                                        fontWeight: FontWeight.w600,
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  ],
                                 );
-                              }
-
-                              return Text(
-                                "Time Left: $minutesString:$secondsString",
-                                style: textTh.bodyMedium!.copyWith(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.w600,
+                              },
+                              loading: () => const Text("Calculating time..."),
+                              error: (e, _) => const Text("Error with timer"),
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.watch_later_outlined),
+                                Gap(
+                                  width: 5,
                                 ),
-                              );
-                            },
-                            loading: () => const Text("Calculating time..."),
-                            error: (e, _) => const Text("Error with timer"),
-                          )
-                        : Text(
-                            "${widget.quiz.duration}:00",
-                            style:
-                                textTh.bodySmall!.copyWith(color: Colors.green),
-                          ),
-                    Visibility(
-                      visible: !_timerStarted,
-                      child: FilledButton(
-                        style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.mainBlue,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ),
-                        onPressed: () {
-                          Future.delayed((const Duration(seconds: 2)), () {
+                                Text(
+                                  "${widget.quiz.duration}:00",
+                                  style: textTh.titleMedium!
+                                      .copyWith(color: Colors.green),
+                                ),
+                              ],
+                            ),
+                      Gap(),
+                      Visibility(
+                        visible: !_timerStarted,
+                        child: CustomButton(
+                          isFilledButton: true,
+                          buttonWidth: 50,
+                          buttonHeight: 20,
+                          buttonWidget: Text("Start",
+                              style: textTheme.labelMedium!.copyWith(
+                                letterSpacing: 0.5,
+                                fontFamily: "Inter",
+                                color: Colors.white,
+                              )),
+                          buttonAction: () {
+                            Future.delayed((const Duration(seconds: 2)), () {
+                              if (mounted) {
+                                setState(() {
+                                  _timerInitializing = false;
+                                });
+                              }
+                            });
+                            ref
+                                .read(quizTimerProvider.notifier)
+                                .startTimer(duration: widget.quiz.duration!);
+                            _dialogShown = false;
                             if (mounted) {
                               setState(() {
-                                _timerInitializing = false;
+                                _timerStarted = true;
                               });
                             }
-                          });
-                          ref
-                              .read(quizTimerProvider.notifier)
-                              .startTimer(duration: widget.quiz.duration!);
-                          _dialogShown = false;
-                          if (mounted) {
-                            setState(() {
-                              _timerStarted = true;
-                            });
-                          }
-                        },
-                        child: Text(
-                          "Start",
-                          style: textTh.bodyMedium!.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          },
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             : null,
@@ -216,7 +256,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
         data: (quiz) {
           return (quiz.questions.isEmpty)
               ? NoDataWidget(
-                  noDataMsg: "There are no questions for this quiz.",
+                  noDataMsg: "No questions have been added to this quiz yet.",
                   callback: () async {
                     await ref.refresh(quizProvider.notifier).fetchQuizData();
                   },
@@ -236,6 +276,7 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                           height: size.height,
                           child: PageView.builder(
                             scrollDirection: Axis.horizontal,
+                            physics: NeverScrollableScrollPhysics(),
                             controller: pageViewController,
                             itemCount: questions.length,
                             itemBuilder: (_, index) {
@@ -260,8 +301,9 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: QuestionTextContainer(
+                                        questionNumber: index + 1,
                                         question:
-                                            "${index + 1}. ${currentQuestionItem.text} $multipleQuestionsIndicator",
+                                            "${currentQuestionItem.text} $multipleQuestionsIndicator",
                                         textStyle: textTh.bodyMedium!,
                                         maxWidth: size.width * 0.9,
                                       ),
@@ -280,7 +322,9 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                           "H",
                                         ][currentQuestionItem.options
                                             .indexOf(op)];
-                                        return SizedBox(
+                                        return Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 24),
                                           width: size.width * 0.9,
                                           height: 50,
                                           child: ListTile(
@@ -346,37 +390,41 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                             "H",
                                           ][currentQuestionItem.options
                                               .indexOf(op)];
-                                          return ListTile(
-                                            leading: Checkbox(
-                                              activeColor: AppColors.mainBlue,
-                                              value: scoreManager
-                                                  .answersHolders[index]
-                                                  .selectedAnswers
-                                                  .contains(op),
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  if (value ?? false) {
-                                                    answersController
-                                                        .selectAnswerForQuestion(
-                                                      qn: questions[index],
-                                                      selectedAnswer: op,
-                                                      radioButtonValue: op,
-                                                    );
-                                                  } else {
-                                                    answersController
-                                                        .selectAnswerForQuestion(
-                                                      qn: questions[index],
-                                                      selectedAnswer: null,
-                                                      radioButtonValue: op,
-                                                    );
-                                                  }
-                                                });
-                                              },
-                                            ),
-                                            title: Text(
-                                              "$letter. $op",
-                                              style: const TextStyle(
-                                                fontSize: 13,
+                                          return Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 24),
+                                            child: ListTile(
+                                              leading: Checkbox(
+                                                activeColor: AppColors.mainBlue,
+                                                value: scoreManager
+                                                    .answersHolders[index]
+                                                    .selectedAnswers
+                                                    .contains(op),
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    if (value ?? false) {
+                                                      answersController
+                                                          .selectAnswerForQuestion(
+                                                        qn: questions[index],
+                                                        selectedAnswer: op,
+                                                        radioButtonValue: op,
+                                                      );
+                                                    } else {
+                                                      answersController
+                                                          .selectAnswerForQuestion(
+                                                        qn: questions[index],
+                                                        selectedAnswer: null,
+                                                        radioButtonValue: op,
+                                                      );
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                              title: Text(
+                                                "$letter. $op",
+                                                style: const TextStyle(
+                                                  fontSize: 13,
+                                                ),
                                               ),
                                             ),
                                           );
@@ -406,6 +454,10 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                             onPressed: () {
                                               if (hasTimerOption &&
                                                   !_timerStarted) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            "You need to start the quiz first")));
                                                 return;
                                               }
                                               if (currentQuestionImageTrack >
@@ -440,79 +492,136 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
 
                                               if (hasTimerOption &&
                                                   !_timerStarted) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            "You need to start the quiz first")));
                                                 return;
                                               }
                                               answersController.getScore();
 
-                                              showDialog(
+                                              showCustomDialog(
                                                 context: context,
-                                                builder: (context) =>
-                                                    AlertDialog(
-                                                  title: const Text(
-                                                      'Exam Results'),
-                                                  content: SizedBox(
-                                                    height: 80,
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      spacing: 12,
-                                                      children: [
-                                                        Text(
-                                                          "Attempted Questions: ${scoreManager.scoreValue.attemptedQuestions}",
-                                                          style: textTh
-                                                              .bodyMedium!
-                                                              .copyWith(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: AppColors
-                                                                .mainBlue,
-                                                          ),
+                                                title: 'Exam Result !',
+                                                content: SizedBox(
+                                                  height: 80,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    spacing: 12,
+                                                    children: [
+                                                      Text(
+                                                        "Attempted Questions: ${scoreManager.scoreValue.attemptedQuestions}",
+                                                        style: textTh.bodyLarge!
+                                                            .copyWith(
+                                                          color: AppColors
+                                                              .mainBlue,
                                                         ),
-                                                        Text(
-                                                          "Score: ${scoreManager.scoreValue.score} / ${scoreManager.scoreValue.totalQuestions}",
-                                                          style: textTh
-                                                              .bodyMedium!
-                                                              .copyWith(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: AppColors
-                                                                .mainBlue,
-                                                          ),
+                                                      ),
+                                                      Text(
+                                                        "Score: ${scoreManager.scoreValue.score} / ${scoreManager.scoreValue.totalQuestions}",
+                                                        style: textTh.bodyLarge!
+                                                            .copyWith(
+                                                          color: AppColors
+                                                              .mainBlue,
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                        Navigator.of(context)
-                                                            .push(
-                                                          MaterialPageRoute(
-                                                            builder: (ctx) =>
-                                                                QuizSolutionsScreen(
-                                                              myAnswers:
-                                                                  scoreManager
-                                                                      .answersHolders,
-                                                              questions:
-                                                                  questions,
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                      child: const Text(
-                                                          "See Solutions"),
-                                                    ),
-                                                    TextButton(
-                                                      onPressed: () =>
-                                                          Navigator.of(context)
-                                                              .pop(),
-                                                      child: const Text('OK'),
-                                                    ),
-                                                  ],
                                                 ),
+                                                onConfirm: () {
+                                                  Navigator.pop(context);
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (ctx) =>
+                                                          QuizSolutionsScreen(
+                                                        myAnswers: scoreManager
+                                                            .answersHolders,
+                                                        questions: questions,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                // onCancel: () {
+                                                //   timerController.stopTimer();
+                                                //   Navigator.of(context).pop();
+                                                // },
+                                                icon: Icons.done,
+                                                iconColor: Colors.green,
+                                                confirmText: "See Solutions",
+                                                cancelText: 'back',
                                               );
+
+                                              // showDialog(
+                                              //   context: context,
+                                              //   builder: (context) =>
+                                              //       AlertDialog(
+                                              //     title:
+                                              //         const Text('Exam Result'),
+                                              //     content: SizedBox(
+                                              //       height: 80,
+                                              //       child: Column(
+                                              //         crossAxisAlignment:
+                                              //             CrossAxisAlignment
+                                              //                 .start,
+                                              //         spacing: 12,
+                                              //         children: [
+                                              //           Text(
+                                              //             "Attempted Questions: ${scoreManager.scoreValue.attemptedQuestions}",
+                                              //             style: textTh
+                                              //                 .bodyMedium!
+                                              //                 .copyWith(
+                                              //               fontWeight:
+                                              //                   FontWeight.w600,
+                                              //               color: AppColors
+                                              //                   .mainBlue,
+                                              //             ),
+                                              //           ),
+                                              //           Text(
+                                              //             "Score: ${scoreManager.scoreValue.score} / ${scoreManager.scoreValue.totalQuestions}",
+                                              //             style: textTh
+                                              //                 .bodyMedium!
+                                              //                 .copyWith(
+                                              //               fontWeight:
+                                              //                   FontWeight.w600,
+                                              //               color: AppColors
+                                              //                   .mainBlue,
+                                              //             ),
+                                              //           ),
+                                              //         ],
+                                              //       ),
+                                              //     ),
+                                              //     actions: [
+                                              //       TextButton(
+                                              //         onPressed: () {
+                                              //           Navigator.pop(context);
+                                              //           Navigator.of(context)
+                                              //               .push(
+                                              //             MaterialPageRoute(
+                                              //               builder: (ctx) =>
+                                              //                   QuizSolutionsScreen(
+                                              //                 myAnswers:
+                                              //                     scoreManager
+                                              //                         .answersHolders,
+                                              //                 questions:
+                                              //                     questions,
+                                              //               ),
+                                              //             ),
+                                              //           );
+                                              //         },
+                                              //         child: const Text(
+                                              //             "See Solutions"),
+                                              //       ),
+                                              //       TextButton(
+                                              //         onPressed: () =>
+                                              //             Navigator.of(context)
+                                              //                 .pop(),
+                                              //         child: const Text('OK'),
+                                              //       ),
+                                              //     ],
+                                              //   ),
+                                              // );
                                             },
                                             child: const Text(
                                               'Submit',
@@ -536,6 +645,10 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
                                             onPressed: () {
                                               if (hasTimerOption &&
                                                   !_timerStarted) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            "You need to start the quiz first")));
                                                 return;
                                               }
                                               if (currentQuestionImageTrack <

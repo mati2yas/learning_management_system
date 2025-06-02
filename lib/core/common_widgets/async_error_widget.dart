@@ -24,54 +24,66 @@ class _AsyncErrorWidgetState extends State<AsyncErrorWidget> {
   @override
   Widget build(BuildContext context) {
     final textTh = Theme.of(context).textTheme;
+    final size = MediaQuery.of(context).size;
     return Center(
-      child: SizedBox(
-        height: 140,
-        width: 300,
-        child: Column(
-          spacing: 12,
-          children: [
-            widget.errorMsg.contains("is not a subtype of")
-                ? Text(
-                    "Oops, error is from our side, we're working on it.",
-                    style: textTh.titleMedium!.copyWith(color: Colors.red),
-                  )
-                : Text(
-                    widget.errorMsg.replaceAll("Exception:", ""),
-                    style: textTh.titleMedium!.copyWith(color: Colors.red),
-                  ),
-            Consumer(
-              builder: (context, ref, child) {
-                return FilledButton(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.mainBlue,
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: () async {
-                    if (isUnathenticated) {
-                      var authStatCtrl = ref.read(authStatusProvider.notifier);
-                      authStatCtrl.clearStatus();
-                      authStatCtrl.setAuthStatus(AuthStatus.notAuthed);
-                      Navigator.of(context).pushReplacementNamed(Routes.signup);
-                      return;
-                    }
-                    setState(() {
-                      isLoading = true;
-                    });
-                    await widget.callback();
-                    setState(() {
-                      isLoading = false;
-                    });
-                  },
-                  child: isLoading
-                      ? const CircularProgressIndicator(
-                          color: Colors.white,
-                        )
-                      : const Text("Try Again"),
-                );
-              },
-            ),
-          ],
+      child: Container(
+        width: size.width * 0.8,
+        constraints: BoxConstraints(maxWidth: 500, maxHeight: 150),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+              color: primaryColor,
+              width: 1,
+            )),
+        child: SingleChildScrollView(
+          child: Column(
+            spacing: 12,
+            children: [
+              Text(
+                widget.errorMsg.replaceAll('Exception:', ""),
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                style: textTh.titleMedium!.copyWith(
+                    fontWeight: FontWeight.normal,
+                    overflow: TextOverflow.ellipsis),
+              ),
+              Consumer(
+                builder: (context, ref, child) {
+                  return FilledButton(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.mainBlue,
+                      foregroundColor: Colors.white,
+                    ),
+                    onPressed: () async {
+                      if (isUnathenticated) {
+                        var authStatCtrl =
+                            ref.read(authStatusProvider.notifier);
+                        authStatCtrl.clearStatus();
+                        authStatCtrl.setAuthStatus(AuthStatus.notAuthed);
+                        Navigator.of(context)
+                            .pushReplacementNamed(Routes.signup);
+                        return;
+                      }
+                      setState(() {
+                        isLoading = true;
+                      });
+                      await widget.callback();
+                      setState(() {
+                        isLoading = false;
+                      });
+                    },
+                    child: isLoading
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          )
+                        : const Text("Try Again"),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

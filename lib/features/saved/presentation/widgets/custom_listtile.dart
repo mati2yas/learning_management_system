@@ -57,7 +57,7 @@ class ListTilewidget extends ConsumerWidget {
                   }
                   return Image.asset(
                     fit: BoxFit.cover,
-                    "assets/images/applied_math.png",
+                    "assets/images/placeholder_16.png",
                     height: 60,
                     width: double.infinity,
                   );
@@ -69,7 +69,7 @@ class ListTilewidget extends ConsumerWidget {
                       height: 80,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      "assets/images/applied_math.png");
+                      "assets/images/placeholder_16.png");
                 },
               ),
             ),

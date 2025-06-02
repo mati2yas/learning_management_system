@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/common_widgets/custom_button.dart';
+import 'package:lms_system/core/common_widgets/custom_gap.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
+import 'package:lms_system/core/common_widgets/inside_button_custom_circular_loader.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
+import 'package:lms_system/core/utils/build_button_label_method.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
@@ -58,33 +63,50 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                 child: Form(
                   key: AppKeys.changePasswordFormKey,
                   child: Column(
-                    spacing: 12,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Gap(
+                        height: 50,
+                      ),
                       Text(
-                        'Change Your New Password',
+                        'Configure your new Password',
                         style: textTh.headlineSmall!.copyWith(
-                          fontWeight: FontWeight.w800,
-                        ),
+                            // fontWeight: FontWeight.w800,
+                            ),
                       ),
-                      Text(
-                        'Get your PIN from email.',
-                        style: textTh.titleMedium!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text:
+                                "Get your reset PIN that has been sent your email : ",
+                            style: textTh.bodyLarge!.copyWith()),
+                        TextSpan(
+                            text: "${widget.forgotPasswordModel.email}",
+                            style: textTh.bodyLarge!.copyWith(
+                                color: AppColors.mainBlue2,
+                                fontWeight: FontWeight.bold))
+                      ])),
+                      Gap(height: 20),
+                      buildInputLabel('PIN 6 digits', textTh),
+                      Gap(height: 5),
+                      InputWidget(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "Please Enter Your Pin";
+                          }
+
+                          return null;
+                        },
+                        controller: pinController,
+                        hintText: 'reset pin from email',
+                        obscureOption: true,
+                        onSaved: (value) {
+                          changePassController.updateToken(value!);
+                        },
                       ),
-                      Text(
-                        'Your Email: ${widget.forgotPasswordModel.email}',
-                        style: textTh.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        'Password (at least 4 characters)',
-                        style: textTh.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      Gap(height: 20),
+                      buildInputLabel('New password', textTh),
+                      Gap(height: 5),
                       InputWidget(
                         validator: (value) {
                           if (value.isEmpty) {
@@ -102,137 +124,98 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                           changePassController.updatePassword(value!);
                         },
                       ),
-                      Text(
-                        "PIN 6 digits",
-                        style: textTh.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                      Gap(height: 10),
+                      Gap(
+                        height: 20,
                       ),
-                      InputWidget(
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return "Please Enter Your Pin";
-                          }
-
-                          return null;
-                        },
-                        controller: pinController,
-                        hintText: 'PIN',
-                        obscureOption: true,
-                        onSaved: (value) {
-                          changePassController.updateToken(value!);
-                        },
-                      ),
-                      const SizedBox(height: 15),
-                      Center(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.mainBlue,
-                            padding: state.apiStatus == ApiState.busy
-                                ? null
-                                : const EdgeInsets.symmetric(
-                                    horizontal: 50,
-                                    vertical: 10,
+                      CustomButton(
+                        isFilledButton: true,
+                        buttonWidget: state.apiStatus == ApiState.busy
+                            ? InsideButtonCustomCircularLoader()
+                            : state.apiStatus == ApiState.error
+                                ? Text(
+                                    'Retry',
+                                    style: textTheme.labelLarge!.copyWith(
+                                        letterSpacing: 0.5,
+                                        fontFamily: "Inter",
+                                        color: Colors.white,
+                                        overflow: TextOverflow.ellipsis),
+                                  )
+                                : Text(
+                                    'Login with new Password',
+                                    style: textTheme.labelLarge!.copyWith(
+                                        letterSpacing: 0.5,
+                                        fontFamily: "Inter",
+                                        color: Colors.white,
+                                        overflow: TextOverflow.ellipsis),
                                   ),
-                            fixedSize: Size(
-                              size.width - 80,
-                              60,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          onPressed: () async {
-                            if (AppKeys.changePasswordFormKey.currentState
-                                    ?.validate() ==
-                                true) {
-                              AppKeys.changePasswordFormKey.currentState!
-                                  .save();
-                              try {
-                                changePassController.updateEmail(
-                                    widget.forgotPasswordModel.email);
-                                ForgotPasswordState result =
-                                    await changePassController.changePassword();
-                                if (result.responseSuccess) {
-                                  debugPrint(
-                                      "response status of changing password is success.");
-                                  await SecureStorageService()
-                                      .setUserAuthedStatus(AuthStatus.authed);
-                                  var refreshData = ref
-                                      .refresh(currentUserProvider.notifier)
-                                      .build();
-                                  var profileRefreshed =
-                                      ref.refresh(editProfileProvider.notifier);
+                        buttonAction: () async {
+                          if (AppKeys.changePasswordFormKey.currentState
+                                  ?.validate() ==
+                              true) {
+                            AppKeys.changePasswordFormKey.currentState!.save();
+                            try {
+                              changePassController.updateEmail(
+                                  widget.forgotPasswordModel.email);
+                              ForgotPasswordState result =
+                                  await changePassController.changePassword();
+                              if (result.responseSuccess) {
+                                debugPrint(
+                                    "response status of changing password is success.");
+                                await SecureStorageService()
+                                    .setUserAuthedStatus(AuthStatus.authed);
+                                var refreshData = ref
+                                    .refresh(currentUserProvider.notifier)
+                                    .build();
+                                var profileRefreshed =
+                                    ref.refresh(editProfileProvider.notifier);
+
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    UtilFunctions.buildInfoSnackbar(
+                                      message: "Password Change Successful",
+                                    ),
+                                  );
+                                  passwordController.clear();
+                                  pinController.clear();
+                                  User? user = await SecureStorageService()
+                                      .getUserFromStorage();
 
                                   if (context.mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      UtilFunctions.buildInfoSnackbar(
-                                        message: "Password Change Successful",
-                                      ),
-                                    );
-                                    passwordController.clear();
-                                    pinController.clear();
-                                    User? user = await SecureStorageService()
-                                        .getUserFromStorage();
-
-                                  
-                                    if (context.mounted) {
-                                      if ((user?.loginCount ?? 0) > 0) {
-                                        Navigator.of(context)
-                                            .pushReplacementNamed(
-                                          Routes.wrapper,
-                                        );
-                                      } else {
-                                        Navigator.of(context)
-                                            .pushReplacementNamed(
-                                                Routes.profileAdd);
-                                      }
+                                    if ((user?.loginCount ?? 0) > 0) {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                        Routes.wrapper,
+                                      );
+                                    } else {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              Routes.profileAdd);
                                     }
                                   }
                                 }
-                              } catch (e) {
-                                if (context.mounted) {
-                                  if (e.toString() == "Email not verified") {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      UtilFunctions.buildErrorSnackbar(
-                                        errorMessage: "Change Password Failed:",
-                                        exception: e,
-                                      ),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      UtilFunctions.buildErrorSnackbar(
-                                        errorMessage: "Login Failed:",
-                                        exception: e,
-                                      ),
-                                    );
-                                  }
+                              }
+                            } catch (e) {
+                              if (context.mounted) {
+                                if (e.toString() == "Email not verified") {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    UtilFunctions.buildErrorSnackbar(
+                                      errorMessage: "Change Password Failed:",
+                                      exception: e,
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    UtilFunctions.buildErrorSnackbar(
+                                      errorMessage: "Login Failed:",
+                                      exception: e,
+                                    ),
+                                  );
                                 }
                               }
                             }
-                          },
-                          child: state.apiStatus == ApiState.busy
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : state.apiStatus == ApiState.error
-                                  ? Text(
-                                      'Retry',
-                                      style: textTh.titleLarge!.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  : Text(
-                                      'Login',
-                                      style: textTh.titleLarge!.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                        ),
+                          }
+                        },
                       ),
                     ],
                   ),

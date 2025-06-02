@@ -14,9 +14,9 @@ class BankInfo {
   factory BankInfo.fromJson(Map<String, dynamic> json) {
     return BankInfo(
       id: json["id"] ?? 0,
-      bankName: json["bank_name"] ?? "N/A",
-      accountName: json["acount_name"] ?? "N/A",
-      accountNumber: json["bank_account_number"] ?? "N/A",
+      bankName: json["bank_name"] ?? "-",
+      accountName: json["account_name"] ?? "-",
+      accountNumber: json["bank_account_number"] ?? "-",
     );
   }
 }

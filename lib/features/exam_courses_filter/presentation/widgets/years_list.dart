@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/custom_button.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exam_chapter_filter/provider/exam_chapter_filter_provider.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/current_exam_type_provider.dart';
@@ -38,6 +40,9 @@ class TakeOrFilter extends StatelessWidget {
     return [ExamType.matric, ExamType.ministry8th, ExamType.exitexam]
             .contains(examTypeProv)
         ? PopupMenuButton<void>(
+            color: mainBackgroundColor,
+            shape: Border.all(color: primaryColor, width: 0.5),
+            borderRadius: BorderRadius.all(Radius.circular(5)),
             icon: const Icon(
               Icons.more_vert,
             ), // Vertical three dots
@@ -73,8 +78,11 @@ class TakeOrFilter extends StatelessWidget {
                   );
                 },
                 child: const ListTile(
-                  leading: Icon(Icons.question_answer),
-                  title: Text('Take All'),
+                  leading: Icon(
+                    Icons.question_answer,
+                    color: primaryColor,
+                  ),
+                  title: Text('Take all'),
                 ),
               ),
               PopupMenuItem<void>(
@@ -134,24 +142,30 @@ class TakeOrFilter extends StatelessWidget {
                   }
                 },
                 child: const ListTile(
-                  leading: Icon(Icons.filter_alt),
-                  title: Text('Filter'),
+                  leading: Icon(
+                    Icons.filter_alt,
+                    color: primaryColor,
+                  ),
+                  title: Text('Take filtered'),
                 ),
               ),
             ],
           )
-        : FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: AppColors.mainBlue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
+        : CustomButton(
+            isFilledButton: true,
+            buttonWidth: 40,
+            buttonHeight: 35,
+            buttonWidget: Text(
+              'Take',
+              style: textTheme.labelMedium!.copyWith(
+                  letterSpacing: 0.5,
+                  fontFamily: "Inter",
+                  color: Colors.white,
+                  overflow: TextOverflow.ellipsis),
             ),
-            onPressed: () {
-              if ([
-                ExamType.matric,
-                ExamType.ministry8th,
-              ].contains(examTypeProv)) {
+            buttonAction: () {
+              if ([ExamType.matric, ExamType.ministry8th]
+                  .contains(examTypeProv)) {
                 ref.read(currentIdStubProvider.notifier).changeStub({
                   AppStrings.stubIdType: IdType.filteredForGrade,
                   AppStrings.stubId: year.id,
@@ -225,7 +239,6 @@ class TakeOrFilter extends StatelessWidget {
                 );
               }
             },
-            child: const Text("Take"),
           );
   }
 }
@@ -241,6 +254,7 @@ class YearsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final size = MediaQuery.of(context).size;
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       itemCount: course.years.length,
@@ -263,26 +277,33 @@ class YearsList extends ConsumerWidget {
                     year: year,
                   )
                 : year.pending
-                    ? FilledButton(
-                        style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.mainBlue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                    ? CustomButton(
+                        isFilledButton: false,
+                        buttonWidth: 70,
+                        buttonHeight: 35,
+                        buttonWidget: Text(
+                          'Pending',
+                          style: textTheme.labelMedium!.copyWith(
+                              letterSpacing: 0.5,
+                              fontFamily: "Inter",
+                              color: primaryColor,
+                              overflow: TextOverflow.ellipsis),
                         ),
-                        onLongPress: () {},
-                        onPressed: () {},
-                        child: const Text("Pending"),
+                        buttonAction: () {},
                       )
-                    : FilledButton(
-                        style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.mainBlue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                    : CustomButton(
+                        isFilledButton: true,
+                        buttonWidth: 70,
+                        buttonHeight: 35,
+                        buttonWidget: Text(
+                          'Add to Cart',
+                          style: textTheme.labelMedium!.copyWith(
+                              letterSpacing: 0.5,
+                              fontFamily: "Inter",
+                              color: Colors.white,
+                              overflow: TextOverflow.ellipsis),
                         ),
-                        onLongPress: () {},
-                        onPressed: () {
+                        buttonAction: () {
                           debugPrint("add to requestsProv function start");
                           var requestsProv = ref.watch(examRequestsProvider);
                           debugPrint(
@@ -303,7 +324,6 @@ class YearsList extends ConsumerWidget {
                             ),
                           );
                         },
-                        child: const Text("Add To Cart"),
                       ),
           ),
         );

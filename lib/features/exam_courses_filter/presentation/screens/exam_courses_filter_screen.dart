@@ -113,17 +113,17 @@ class _ExamCoursesFilterScreenState
         shadowColor: Colors.black87,
         surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
-        bottom: PreferredSize(
-          preferredSize: Size(size.width, 26),
-          child: Container(
-            width: size.width,
-            color: Colors.white,
-            height: 24,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
-            ),
-          ),
-        ),
+        // bottom: PreferredSize(
+        //   preferredSize: Size(size.width, 26),
+        //   child: Container(
+        //     width: size.width,
+        //     color: Colors.red,
+        //     height: 24,
+        //     child: const Padding(
+        //       padding: EdgeInsets.symmetric(horizontal: 10.0),
+        //     ),
+        //   ),
+        // ),
       ),
       body: apiState.when(
         loading: () => const Center(
@@ -143,7 +143,7 @@ class _ExamCoursesFilterScreenState
         data: (examCourses) {
           return examCourses.isEmpty
               ? NoDataWidget(
-                  noDataMsg: "No Data For This Exam Type Yet.",
+                  noDataMsg: "No records available for this exam type.",
                   callback: () async {
                     await ref
                         .refresh(examCoursesFilterApiProvider.notifier)

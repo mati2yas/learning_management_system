@@ -3,13 +3,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lms_system/core/common_widgets/custom_button.dart';
+import 'package:lms_system/core/common_widgets/custom_gap.dart';
+import 'package:lms_system/core/common_widgets/input_field.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/home/provider/home_api_provider.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/requests/presentation/widgets/course_request_tile.dart';
 import 'package:lms_system/features/requests/presentation/widgets/subscription_widget.dart';
+import 'package:lms_system/features/subscription/presentation/widgets/bank_info_dialog_widget.dart';
+import 'package:lms_system/features/subscription/presentation/widgets/empty_cart_widget.dart';
 import 'package:lms_system/features/subscription/provider/subscriptions/course_subscription_provider.dart';
 
 import '../../provider/requests/course_requests_provider.dart';
@@ -50,300 +56,347 @@ class _CourseSubscribePageState extends ConsumerState<CoursesSubscribePage> {
       child: Center(
         child: SizedBox(
           height: size.height * 0.8,
-          width: size.width * 0.85,
-          child: ListView(
-            children: [
-              if (requestsProv.isEmpty)
-                Align(
-                  alignment: Alignment.center,
-                  child: SizedBox(
-                    height: 100,
-                    child: Text(
-                      "No Courses In Cart",
-                      style: textTh.bodyLarge!
-                          .copyWith(fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                )
-              else
-                for (int index = 0; index < requestsProv.length; index++)
-                  CourseRequestTile(
-                    onTap: () async {
-                      if (requestsProv.isNotEmpty) {
-                        var (status, courses) = await ref
-                            .read(courseRequestsProvider.notifier)
-                            .addOrRemoveCourse(requestsProv[index]);
+          width: size.width * 0.9,
+          child: requestsProv.isEmpty
+              ? EmptyCartWidget(textTh: textTh)
+              : ListView(
+                  children: [
+                    Gap(),
+                    for (int index = 0; index < requestsProv.length; index++)
+                      CourseRequestTile(
+                        onTap: () async {
+                          if (requestsProv.isNotEmpty) {
+                            var (status, courses) = await ref
+                                .read(courseRequestsProvider.notifier)
+                                .addOrRemoveCourse(requestsProv[index]);
 
-                        subscriptionController.updateCourses(requestsProv);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          UtilFunctions.buildInfoSnackbar(
-                              message: "Course has been $status"),
-                        );
-                      } else {
-                        // If the list is empty, you can handle this case here
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          UtilFunctions.buildErrorSnackbar(
-                            errorMessage: "Your cart is empty",
-                          ),
-                        );
-                      }
-                    },
-                    selectedPriceType: requestsProv[index]
-                        .getPriceBySubscriptionType(subscriptionType),
-                    course: requestsProv[index],
-                    textTh: textTh,
-                  ),
-              const SizedBox(height: 20),
-              Center(
-                child: SizedBox(
-                  height: 100,
-                  width: size.width * 0.8,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SubscriptionWidget(
-                        isActive: subscriptionType == SubscriptionType.oneMonth,
-                        onPress: () {
-                          setState(() {
-                            subscriptionType = SubscriptionType.oneMonth;
-                          });
-
-                          subscriptionController.updateSubscriptionType(
-                              SubscriptionType.oneMonth);
-                        },
-                        duration: 1,
-                      ),
-                      SubscriptionWidget(
-                        isActive:
-                            subscriptionType == SubscriptionType.threeMonths,
-                        onPress: () {
-                          subscriptionController.updateSubscriptionType(
-                              SubscriptionType.threeMonths);
-                          setState(() {
-                            subscriptionType = SubscriptionType.threeMonths;
-                          });
-                        },
-                        duration: 3,
-                      ),
-                      SubscriptionWidget(
-                        isActive:
-                            subscriptionType == SubscriptionType.sixMonths,
-                        onPress: () {
-                          subscriptionController.updateSubscriptionType(
-                              SubscriptionType.sixMonths);
-                          setState(() {
-                            subscriptionType = SubscriptionType.sixMonths;
-                          });
-                        },
-                        duration: 6,
-                      ),
-                      SubscriptionWidget(
-                        isActive: subscriptionType == SubscriptionType.yearly,
-                        onPress: () {
-                          subscriptionController
-                              .updateSubscriptionType(SubscriptionType.yearly);
-                          setState(() {
-                            subscriptionType = SubscriptionType.yearly;
-                          });
-                        },
-                        duration: 12,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SizedBox(
-                    width: size.width * 0.8,
-                    child: Column(
-                      spacing: 5,
-                      children: [
-                        Text(
-                          "${requestsProv.length} courses requested.",
-                          style: textTh.bodyLarge!.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          "Total price: ${price.toStringAsFixed(2)}",
-                          style: textTh.bodyLarge!.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        TextField(
-                          controller: _transactionIdController,
-                          decoration: InputDecoration(
-                            labelText: 'Enter Transaction ID',
-                            errorText:
-                                _errorMessageTransactionId, // Show error message
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                width: 2,
-                                color: AppColors.mainBlue,
+                            subscriptionController.updateCourses(requestsProv);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              UtilFunctions.buildInfoSnackbar(
+                                  message: "Course has been $status"),
+                            );
+                          } else {
+                            // If the list is empty, you can handle this case here
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              UtilFunctions.buildErrorSnackbar(
+                                errorMessage: "Your cart is empty",
                               ),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                          ),
-                          onChanged: (value) {
-                            // Validate on change
-                            _validateInput();
-                            if (_errorMessageTransactionId == null) {
-                              // if error message is null then _transactionIdController.text will not
-                              // be null or empty.
-                              subscriptionController.updateTransactionId(
-                                  _transactionIdController.text);
-                            }
-                          },
-                        ),
-                        const SizedBox(height: 5),
-                        GestureDetector(
-                          onTap: () async {
-                            bool success = await pickTransactionImage();
+                            );
+                          }
+                        },
+                        selectedPriceType: requestsProv[index]
+                            .getPriceBySubscriptionType(subscriptionType),
+                        course: requestsProv[index],
+                        textTh: textTh,
+                      ),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: SizedBox(
+                        height: 100,
+                        child: Row(
+                          children: [
+                            SubscriptionTypeWidget(
+                              isActive:
+                                  subscriptionType == SubscriptionType.oneMonth,
+                              onPress: () {
+                                setState(() {
+                                  subscriptionType = SubscriptionType.oneMonth;
+                                });
 
-                            if (success) {
-                              subscriptionController.updateScreenshotPath(
-                                  transactionImage?.path ?? "");
-                              setState(() {
-                                imagePicked = true;
-                              });
-                            }
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.mainBlue.withAlpha(100),
-                              borderRadius: BorderRadius.circular(4),
+                                subscriptionController.updateSubscriptionType(
+                                    SubscriptionType.oneMonth);
+                              },
+                              duration: 1,
                             ),
-                            height: 40,
-                            width: size.width * 0.6,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  "Choose Image",
-                                  style: TextStyle(
-                                    color: _errorMessageImagePath != null
-                                        ? Colors.red
-                                        : Colors.black,
-                                  ),
-                                ),
-                                const Icon(
-                                  Icons.image,
-                                  color: Colors.black,
-                                ),
-                              ],
+                            SubscriptionTypeWidget(
+                              isActive: subscriptionType ==
+                                  SubscriptionType.threeMonths,
+                              onPress: () {
+                                subscriptionController.updateSubscriptionType(
+                                    SubscriptionType.threeMonths);
+                                setState(() {
+                                  subscriptionType =
+                                      SubscriptionType.threeMonths;
+                                });
+                              },
+                              duration: 3,
                             ),
-                          ),
+                            SubscriptionTypeWidget(
+                              isActive: subscriptionType ==
+                                  SubscriptionType.sixMonths,
+                              onPress: () {
+                                subscriptionController.updateSubscriptionType(
+                                    SubscriptionType.sixMonths);
+                                setState(() {
+                                  subscriptionType = SubscriptionType.sixMonths;
+                                });
+                              },
+                              duration: 6,
+                            ),
+                            SubscriptionTypeWidget(
+                              isActive:
+                                  subscriptionType == SubscriptionType.yearly,
+                              onPress: () {
+                                subscriptionController.updateSubscriptionType(
+                                    SubscriptionType.yearly);
+                                setState(() {
+                                  subscriptionType = SubscriptionType.yearly;
+                                });
+                              },
+                              duration: 12,
+                            ),
+                          ],
                         ),
-                        if (imagePicked &&
-                            transactionImage != null &&
-                            _errorMessageImagePath == null)
-                          Image.file(
-                            File(transactionImage!.path),
-                            width: 60,
-                            height: 60,
-                          )
-                        else if (_errorMessageImagePath != null)
-                          Text(
-                            _errorMessageImagePath!,
-                            style:
-                                textTh.labelMedium!.copyWith(color: Colors.red),
-                          ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.mainBlue,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 25,
-                              vertical: 7,
-                            ),
-                            fixedSize: Size(size.width * 0.6, 50),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          onPressed: () async {
-                            _validateInput(); // Validate when button is pressed
-                            await _validateImagePath();
-                            if (_errorMessageTransactionId != null ||
-                                _errorMessageImagePath != null) {
-                              return;
-                            } else if (_errorMessageTransactionId == null &&
-                                _errorMessageImagePath == null) {
-                              final result =
-                                  await subscriptionController.subscribe();
-                              debugPrint(
-                                  "api response: ApiResponse{ status: ${result.responseStatus}, message: ${result.message}}");
-                              if (result.responseStatus) {
-                                ref
-                                    .read(courseRequestsProvider.notifier)
-                                    .removeAll();
-                                resetImagePicked();
-                                _transactionIdController.clear();
-                                await ref
-                                    .refresh(homeScreenApiProvider.notifier)
-                                    .fetchHomeScreenData();
-                                await ref
-                                    .refresh(paidCoursesApiProvider.notifier)
-                                    .fetchPaidCourses();
-                                // we need this so that next time home page fetches
-                                // courses that are not bought.
-                              }
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context)
-                                    .removeCurrentSnackBar();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    behavior: SnackBarBehavior.floating,
-                                    content: Text(
-                                      result.message,
-                                      style: TextStyle(
-                                        color: result.responseStatus
-                                            ? Colors.green
-                                            : Colors.red,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }
-                            }
-                          },
-                          child: subscriptionProv.apiState == ApiState.busy
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : subscriptionProv.apiState == ApiState.idle
-                                  ? Text(
-                                      'Submit',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: size.width * 0.04,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    )
-                                  : Text(
-                                      'Retry',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: size.width * 0.04,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Gap(height: 20),
+                    Card(
+                      elevation: 4,
+                      color: mainBackgroundColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: SizedBox(
+                          width: size.width * 0.8,
+                          child: Column(
+                            spacing: 5,
+                            children: [
+                              Text(
+                                "${requestsProv.length} courses requested.",
+                                style: textTh.bodyLarge!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                "Total price: ${price.toStringAsFixed(2)}",
+                                style: textTh.bodyLarge!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              GestureDetector(
+                                onTap: () {
+                                  showBankInfo(context);
+                                },
+                                child: Container(
+                                  width: size.width * 0.5,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 4),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: AppColors.mainBlue2, width: 1),
+                                      borderRadius: BorderRadius.circular(24)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.account_balance_outlined,
+                                        color: AppColors.mainBlue2,
+                                        size: 30,
+                                      ),
+                                      Gap(),
+                                      Text(
+                                        "Payment options",
+                                        style: textTheme.labelLarge!.copyWith(
+                                            letterSpacing: 0.5,
+                                            fontFamily: "Inter",
+                                            // fontWeight: FontWeight.normal,
+                                            color: AppColors.mainBlue2,
+                                            overflow: TextOverflow.ellipsis),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Gap(height: 5),
+                              InputWidget(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter transation ID';
+                                  }
+
+                                  // Regular expression to validate email format
+                                  // final emailRegex = RegExp(
+                                  //     r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                                  // if (!emailRegex.hasMatch(value)) {
+                                  //   return 'Please enter a valid email address';
+                                  // }
+
+                                  return null; // Return null if the input is valid
+                                },
+                                controller: _transactionIdController,
+                                hintText: 'Enter transaction ID',
+                                onSaved: (value) {
+                                  _validateInput();
+                                  if (_errorMessageTransactionId == null) {
+                                    // if error message is null then _transactionIdController.text will not
+                                    // be null or empty.
+                                    subscriptionController.updateTransactionId(
+                                        _transactionIdController.text);
+                                  }
+                                },
+                                onChanged: (value) {
+                                  // Validate on change
+                                  _validateInput();
+                                  if (_errorMessageTransactionId == null) {
+                                    // if error message is null then _transactionIdController.text will not
+                                    // be null or empty.
+                                    subscriptionController.updateTransactionId(
+                                        _transactionIdController.text);
+                                  }
+                                },
+                              ),
+                              const SizedBox(height: 5),
+                              GestureDetector(
+                                onTap: () async {
+                                  bool success = await pickTransactionImage();
+
+                                  if (success) {
+                                    subscriptionController.updateScreenshotPath(
+                                        transactionImage?.path ?? "");
+                                    setState(() {
+                                      imagePicked = true;
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    // color: AppColors.mainBlue.withAlpha(100),
+                                    border: Border.all(
+                                        color: primaryColor, width: 2),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  height: 50,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(
+                                        "Upload Payment Proof",
+                                        style: textTheme.labelLarge!.copyWith(
+                                            letterSpacing: 0.5,
+                                            fontFamily: "Inter",
+                                            // fontWeight: FontWeight.normal,
+                                            color:
+                                                _errorMessageImagePath != null
+                                                    ? Colors.red
+                                                    : Colors.black,
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                      const Icon(
+                                        Icons.image_outlined,
+                                        color: Colors.black,
+                                        size: 30,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              if (imagePicked &&
+                                  transactionImage != null &&
+                                  _errorMessageImagePath == null)
+                                Image.file(
+                                  File(transactionImage!.path),
+                                  width: 60,
+                                  height: 60,
+                                )
+                              else if (_errorMessageImagePath != null)
+                                Text(
+                                  _errorMessageImagePath!,
+                                  style: textTh.labelMedium!
+                                      .copyWith(color: Colors.red),
+                                ),
+                              Gap(),
+                              CustomButton(
+                                isFilledButton: true,
+                                buttonWidget: subscriptionProv.apiState ==
+                                        ApiState.busy
+                                    ? const Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : subscriptionProv.apiState == ApiState.idle
+                                        ? Text(
+                                            'Submit',
+                                            style: textTheme.labelLarge!
+                                                .copyWith(
+                                                    letterSpacing: 0.5,
+                                                    fontFamily: "Inter",
+                                                    color: Colors.white,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
+                                          )
+                                        : Text(
+                                            'Retry',
+                                            style: textTheme.labelLarge!
+                                                .copyWith(
+                                                    letterSpacing: 0.5,
+                                                    fontFamily: "Inter",
+                                                    color: Colors.white,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
+                                          ),
+                                buttonAction: () async {
+                                  _validateInput(); // Validate when button is pressed
+                                  await _validateImagePath();
+                                  if (_errorMessageTransactionId != null ||
+                                      _errorMessageImagePath != null) {
+                                    return;
+                                  } else if (_errorMessageTransactionId ==
+                                          null &&
+                                      _errorMessageImagePath == null) {
+                                    final result = await subscriptionController
+                                        .subscribe();
+                                    debugPrint(
+                                        "api response: ApiResponse{ status: ${result.responseStatus}, message: ${result.message}}");
+                                    if (result.responseStatus) {
+                                      ref
+                                          .read(courseRequestsProvider.notifier)
+                                          .removeAll();
+                                      resetImagePicked();
+                                      _transactionIdController.clear();
+                                      await ref
+                                          .refresh(
+                                              homeScreenApiProvider.notifier)
+                                          .fetchHomeScreenData();
+                                      await ref
+                                          .refresh(
+                                              paidCoursesApiProvider.notifier)
+                                          .fetchPaidCourses();
+                                      // we need this so that next time home page fetches
+                                      // courses that are not bought.
+                                    }
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(context)
+                                          .removeCurrentSnackBar();
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          behavior: SnackBarBehavior.floating,
+                                          content: Text(
+                                            result.message,
+                                            style: TextStyle(
+                                              color: result.responseStatus
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       ),
     );

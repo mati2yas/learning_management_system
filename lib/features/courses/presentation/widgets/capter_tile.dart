@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/features/chapter_content/provider/chapter_content_provider.dart';
 import 'package:lms_system/features/chapter_content/provider/current_chapter_id_provider.dart';
 
@@ -28,23 +30,26 @@ class ChapterTile extends ConsumerWidget {
             .pushNamed(Routes.chapterContent, arguments: chapter);
       },
       child: Card(
-        margin: const EdgeInsets.only(top: 3, left: 3, right: 2.6),
-        elevation: 5,
+        color: mainBackgroundColor,
+        margin: const EdgeInsets.only(top: 1, left: 3, right: 2.6),
+        elevation: 2,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5.5)),
+          borderRadius: BorderRadius.all(Radius.circular(4)),
         ),
         child: ListTile(
           title: Text(
             "Chapter ${chapter.order}",
-            style: textTh.labelMedium!.copyWith(
+            style: textTh.labelLarge!.copyWith(
               fontWeight: FontWeight.w600,
             ),
           ),
           subtitle: Text(
             chapter.title,
-            overflow: TextOverflow.ellipsis,
-            style: textTh.labelSmall!.copyWith(
-              fontWeight: FontWeight.w500,
+            // overflow: TextOverflow.ellipsis,
+            maxLines: 3,
+            style: textTheme.titleMedium!.copyWith(
+              overflow: TextOverflow.ellipsis,
+              color: Colors.black,
             ),
           ),
         ),

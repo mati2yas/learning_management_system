@@ -2,10 +2,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/common_widgets/custom_button.dart';
+import 'package:lms_system/core/common_widgets/custom_gap.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
+import 'package:lms_system/core/common_widgets/inside_button_custom_circular_loader.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
+import 'package:lms_system/core/utils/build_button_label_method.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_login/provider/login_controller.dart';
@@ -35,11 +40,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-      ),
       body: LayoutBuilder(builder: (context, constraints) {
         return Center(
           child: SingleChildScrollView(
@@ -53,22 +53,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 child: Form(
                   key: AppKeys.loginFormKey,
                   child: Column(
-                    spacing: 12,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Gap(
+                        height: 150,
+                      ),
                       Text(
                         'Welcome back, Sign In',
                         style: textTh.headlineSmall!.copyWith(
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'Email',
-                        style: textTh.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+
+                      Gap(
+                        height: 30,
                       ),
+
+                      buildInputLabel('Email', textTh),
+
+                      Gap(),
                       InputWidget(
                         validator: (value) {
                           if (value.isEmpty) {
@@ -91,12 +94,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           loginController.updateEmail(value!);
                         },
                       ),
-                      Text(
-                        'Password (at least 4 characters)',
-                        style: textTh.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+
+                      Gap(height: 20),
+                      buildInputLabel('Password', textTh),
+
+                      Gap(),
                       InputWidget(
                         validator: (value) {
                           if (value.isEmpty) {
@@ -109,7 +111,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         },
                         controller: passwordController,
                         hintText: 'Password',
-                        obscureOption: true,
+                        // obscureOption: true,
                         onSaved: (value) {
                           loginController.updatePassword(value!);
                         },
@@ -131,96 +133,81 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ),
                       //const SizedBox(height: 15),
-                      Center(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.mainBlue,
-                            padding: state.apiStatus == ApiState.busy
-                                ? null
-                                : const EdgeInsets.symmetric(
-                                    horizontal: 50,
-                                    vertical: 10,
+
+                      CustomButton(
+                        isFilledButton: true,
+                        buttonWidget: state.apiStatus == ApiState.busy
+                            ? InsideButtonCustomCircularLoader()
+                            : state.apiStatus == ApiState.error
+                                ? Text(
+                                    'Retry',
+                                    style: textTheme.labelLarge!.copyWith(
+                                        letterSpacing: 0.5,
+                                        fontFamily: "Inter",
+                                        color: Colors.white,
+                                        overflow: TextOverflow.ellipsis),
+                                  )
+                                : Text(
+                                    'Login',
+                                    style: textTheme.labelLarge!.copyWith(
+                                        letterSpacing: 0.5,
+                                        fontFamily: "Inter",
+                                        color: Colors.white,
+                                        overflow: TextOverflow.ellipsis),
                                   ),
-                            fixedSize: Size(size.width - 80, 60),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          onPressed: () async {
-                            if (AppKeys.loginFormKey.currentState?.validate() ==
-                                true) {
-                              AppKeys.loginFormKey.currentState!.save();
-                              try {
-                                await loginController.loginUser();
-                                await SecureStorageService()
-                                    .setUserAuthedStatus(AuthStatus.authed);
-                                var refreshData =
-                                    ref.refresh(currentUserProvider.notifier);
+                        buttonAction: () async {
+                          if (AppKeys.loginFormKey.currentState?.validate() ==
+                              true) {
+                            AppKeys.loginFormKey.currentState!.save();
+                            try {
+                              await loginController.loginUser();
+                              await SecureStorageService()
+                                  .setUserAuthedStatus(AuthStatus.authed);
+                              var refreshData =
+                                  ref.refresh(currentUserProvider.notifier);
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  UtilFunctions.buildInfoSnackbar(
+                                      message: "Login Successful"),
+                                );
+                                emailController.clear();
+                                passwordController.clear();
+                                User? user = await SecureStorageService()
+                                    .getUserFromStorage();
+
+                                await Future.delayed(
+                                    const Duration(seconds: 2));
+
+                                debugPrint(
+                                    "user loginCount: ${user?.loginCount}");
+
                                 if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    UtilFunctions.buildInfoSnackbar(
-                                        message: "Login Successful"),
-                                  );
-                                  emailController.clear();
-                                  passwordController.clear();
-                                  User? user = await SecureStorageService()
-                                      .getUserFromStorage();
-
-                                  await Future.delayed(
-                                      const Duration(seconds: 2));
-
-                                  debugPrint(
-                                      "user loginCount: ${user?.loginCount}");
-
-                                  if (context.mounted) {
-                                    if ((user?.loginCount ?? 0) > 0) {
-                                      Navigator.of(context)
-                                          .pushReplacementNamed(Routes.wrapper,
-                                              arguments: user?.token ??
-                                                  "invalidtoken");
-                                    } else {
-                                      Navigator.of(context)
-                                          .pushReplacementNamed(
-                                              Routes.profileAdd);
-                                    }
+                                  if ((user?.loginCount ?? 0) > 0) {
+                                    Navigator.of(context).pushReplacementNamed(
+                                        Routes.wrapper,
+                                        arguments:
+                                            user?.token ?? "invalidtoken");
+                                  } else {
+                                    Navigator.of(context).pushReplacementNamed(
+                                        Routes.profileAdd);
                                   }
                                 }
-                              } catch (e) {
-                                if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    UtilFunctions.buildErrorSnackbar(
-                                      errorMessage:
-                                          "Login Failed: ${e.toString().replaceAll("Exception:", "")}",
-                                      exception: e,
-                                    ),
-                                  );
-                                }
+                              }
+                            } catch (e) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  UtilFunctions.buildErrorSnackbar(
+                                    errorMessage:
+                                        "Login Failed: ${e.toString().replaceAll("Exception:", "")}",
+                                    exception: e,
+                                  ),
+                                );
                               }
                             }
-                          },
-                          child: state.apiStatus == ApiState.busy
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : state.apiStatus == ApiState.error
-                                  ? Text(
-                                      'Retry',
-                                      style: textTh.titleLarge!.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  : Text(
-                                      'Login',
-                                      style: textTh.titleLarge!.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                        ),
+                          }
+                        },
                       ),
+
                       const SizedBox(height: 30),
                       Align(
                         alignment: Alignment.center,

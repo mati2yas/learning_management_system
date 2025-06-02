@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/common_widgets/custom_dialog.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
@@ -81,12 +82,12 @@ class WrapperScreen extends ConsumerWidget {
       onPopInvokedWithResult: (didPop, result) {
         pageController.navigateBack();
       },
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          key: AppKeys.drawerKey,
-          drawer: const CustomDrawer(),
-          body: Stack(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        key: AppKeys.drawerKey,
+        drawer: const CustomDrawer(),
+        body: SafeArea(
+          child: Stack(
             children: [
               pages[pageNavData.currentPage],
               if (pageNavData.currentPage != 6)
@@ -142,37 +143,60 @@ class WrapperScreen extends ConsumerWidget {
                                           .read(pageNavigationProvider)
                                           .currentPage ==
                                       AppInts.examQuestionsPageIndex) {
-                                    showDialog(
+                                    showCustomDialog(
                                       context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: const Text("Confirmation"),
-                                          content: const Text(
-                                              "Are you sure to leave the current page?"),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context)
-                                                    .pop(); // Dismiss the dialog
-                                              },
-                                              child: const Text("Cancel"),
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context)
-                                                    .pop(); // Dismiss the dialog
+                                      title: 'Confirm Leave',
+                                      content: Text(
+                                          "Do you really want to leave this page?",
+                                          textAlign: TextAlign.center),
+                                      onConfirm: () async {
+                                        Navigator.of(context)
+                                            .pop(); // Dismiss the dialog
 
-                                                pageController.navigateTo(
-                                                  nextScreen:
-                                                      AppInts.examsPageIndex,
-                                                );
-                                              },
-                                              child: const Text("Yes"),
-                                            ),
-                                          ],
+                                        pageController.navigateTo(
+                                          nextScreen: AppInts.examsPageIndex,
                                         );
                                       },
+                                      onCancel: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icons.cancel,
+                                      iconColor: Colors.red,
+                                      confirmText: 'Leave Page',
+                                      cancelText: 'Cancel',
                                     );
+
+                                    // showDialog(
+                                    //   context: context,
+                                    //   builder: (context) {
+                                    //     return AlertDialog(
+                                    //       title: const Text("Confirmation"),
+                                    //       content: const Text(
+                                    //           "Are you sure to leave the current page?"),
+                                    //       actions: [
+                                    //         TextButton(
+                                    //           onPressed: () {
+                                    //             Navigator.of(context)
+                                    //                 .pop(); // Dismiss the dialog
+                                    //           },
+                                    //           child: const Text("Cancel"),
+                                    //         ),
+                                    //         TextButton(
+                                    //           onPressed: () {
+                                    //             Navigator.of(context)
+                                    //                 .pop(); // Dismiss the dialog
+
+                                    //             pageController.navigateTo(
+                                    //               nextScreen:
+                                    //                   AppInts.examsPageIndex,
+                                    //             );
+                                    //           },
+                                    //           child: const Text("Yes"),
+                                    //         ),
+                                    //       ],
+                                    //     );
+                                    //   },
+                                    // );
                                   } else {
                                     pageController.navigateTo(
                                       nextScreen: AppInts.examsPageIndex,

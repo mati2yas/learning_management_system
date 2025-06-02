@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/common_widgets/custom_dialog.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_status_registration/provider/auth_status_controller.dart';
 import 'package:lms_system/features/current_user/provider/current_user_provider.dart';
@@ -28,14 +30,10 @@ class CustomDrawer extends StatelessWidget {
       var userState = ref.watch(currentUserProvider);
       return Drawer(
         width: size.width * 0.65,
-        backgroundColor: AppColors.mainBlue,
+        backgroundColor: primaryColor,
         elevation: 3,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(8),
-            bottomRight: Radius.circular(8),
-          ),
-        ),
+        shape: Border(),
+        clipBehavior: Clip.none,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
@@ -165,52 +163,38 @@ class CustomDrawer extends StatelessWidget {
                   //   ),
                   // );
 
-                  showDialog(
+                  showCustomDialog(
                     context: context,
-                    builder: (ctx) => AlertDialog(
-                      title: const Text("Are You Sure?"),
-                      content: const Text(
-                          "Are You Certain That You Want To Log Out?"),
-                      actions: [
-                        TextButton(
-                          onPressed: () async {
-                            ref.read(authStatusProvider.notifier).clearStatus();
-                            ref
-                                .read(authStatusProvider.notifier)
-                                .setAuthStatus(AuthStatus.pending);
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                UtilFunctions.buildInfoSnackbar(
-                                    message: "Logged Out Successfully."),
-                              );
+                    title: 'Confirm Logout',
+                    content: Text('Are you sure you want to log out?',
+                        textAlign: TextAlign.center),
+                    onConfirm: () async {
+                      ref.read(authStatusProvider.notifier).clearStatus();
+                      ref
+                          .read(authStatusProvider.notifier)
+                          .setAuthStatus(AuthStatus.pending);
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          UtilFunctions.buildInfoSnackbar(
+                              message: "Logged Out Successfully."),
+                        );
 
-                              Navigator.pop(context);
-                              Navigator.of(context)
-                                  .pushReplacementNamed(Routes.login);
-                            }
-                          },
-                          child: const Text(
-                            "Logout",
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text(
-                            "Cancel",
-                            style: TextStyle(
-                              color: AppColors.mainBlue,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                        Navigator.pop(context);
+                        Navigator.of(context)
+                            .pushReplacementNamed(Routes.login);
+                      }
+                    },
+                    onCancel: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icons.logout,
+                    iconColor: Colors.red,
+                    confirmText: 'Logout',
+                    cancelText: 'Cancel',
                   );
                 },
                 iconData: Icons.logout_outlined,
-                titleText: "logout",
+                titleText: "Logout",
               ),
             ],
           ),
@@ -242,20 +226,20 @@ class ListTileButton extends StatelessWidget {
         width: 28,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.transparent,
           borderRadius: BorderRadius.circular(26),
         ),
         child: Icon(
           iconData,
-          color: AppColors.mainBlue,
+          color: Colors.white,
         ),
       ),
       title: Text(
         titleText,
-        style: Theme.of(context).textTheme.labelLarge!.copyWith(
-              fontWeight: FontWeight.w500,
-              color: Colors.white,
-            ),
+        style: textTheme.bodyMedium!.copyWith(
+          // fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
       ),
     );
   }

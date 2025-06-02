@@ -51,6 +51,7 @@ class OnboardingScreen extends ConsumerWidget {
                 .map(
                   (page) => CurrentPage(
                     image: page.imagePath,
+                    title: page.title,
                     description: page.description,
                   ),
                 )

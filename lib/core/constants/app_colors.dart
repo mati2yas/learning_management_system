@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+const Color mainBackgroundColor = Colors.white;
+const Color primaryColor = Color.fromARGB(255, 13, 14, 54);
+const Color lightPrimaryColor = Color.fromARGB(189, 13, 14, 54);
+const Color correctAnswerColor = Color.fromARGB(151, 79, 253, 131);
+const Color wrongAnswerColor = const Color.fromARGB(95, 255, 82, 82);
+
 class AppColors {
   static const Color mainGrey = Color(0xffB7B7B7);
   static const Color darkerGrey = Color(0xff808080);

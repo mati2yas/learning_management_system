@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
+import 'package:lms_system/core/common_widgets/custom_dialog.dart';
+import 'package:lms_system/core/common_widgets/dialog_based_list_item_navigator.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/common_widgets/proportional_image.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/features/exam_questions/presentation/exam_solutions_screen.dart';
 import 'package:lms_system/features/exam_questions/provider/exam_answers_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/exam_questions_provider.dart';
@@ -92,122 +95,146 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
         bottom: hasTimerOption
             ? PreferredSize(
                 preferredSize: Size(size.width, 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 8,
-                  children: [
-                    _timerStarted
-                        ? timerAsyncValue.when(
-                            data: (remainingSeconds) {
-                              final minutes = remainingSeconds ~/ 60;
-                              final seconds = remainingSeconds % 60;
-                              String minutesString = "";
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 8,
+                    children: [
+                      _timerStarted
+                          ? timerAsyncValue.when(
+                              data: (remainingSeconds) {
+                                final minutes = remainingSeconds ~/ 60;
+                                final seconds = remainingSeconds % 60;
+                                String minutesString = "";
 
-                              if (remainingSeconds == 0) {
-                                if (!_timerEnded) {
-                                  minutesString = "$timerDuration";
+                                if (remainingSeconds == 0) {
+                                  if (!_timerEnded) {
+                                    minutesString = "$timerDuration";
+                                  } else {
+                                    minutesString = "00";
+                                  }
                                 } else {
-                                  minutesString = "00";
+                                  minutesString =
+                                      minutes.toString().padLeft(2, '0');
                                 }
-                              } else {
-                                minutesString =
-                                    minutes.toString().padLeft(2, '0');
-                              }
 
-                              final secondsString =
-                                  seconds.toString().padLeft(2, '0');
-                              debugPrint(
-                                  "minutes: $minutesString, seconds: $secondsString");
+                                final secondsString =
+                                    seconds.toString().padLeft(2, '0');
+                                debugPrint(
+                                    "minutes: $minutesString, seconds: $secondsString");
 
-                              if (remainingSeconds == 0 &&
-                                  !_dialogShown &&
-                                  !_timerInitializing) {
-                                WidgetsBinding.instance.addPostFrameCallback(
-                                  (_) {
-                                    if (!mounted) return;
+                                if (remainingSeconds == 0 &&
+                                    !_dialogShown &&
+                                    !_timerInitializing) {
+                                  WidgetsBinding.instance.addPostFrameCallback(
+                                    (_) {
+                                      if (!mounted) return;
 
-                                    showDialog(
-                                      context: context,
-                                      builder: (_) => AlertDialog(
-                                        content:
-                                            const Text("Exam Time is over."),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              timerController.stopTimer();
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text("Ok"),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              submitExam(answersController);
-                                            },
-                                            child: const Text("Submit Exam"),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
+                                      showCustomDialog(
+                                        context: context,
+                                        title: 'Time is up!',
+                                        content: Text(
+                                            "Time is up. Please submit your exam.",
+                                            textAlign: TextAlign.center),
+                                        onConfirm: () {
+                                          Navigator.of(context).pop();
+                                          submitExam(answersController);
+                                        },
+                                        // onCancel: () {
+                                        //   timerController.stopTimer();
+                                        //   Navigator.of(context).pop();
+                                        // },
+                                        icon: Icons.timer,
+                                        iconColor: Colors.red,
+                                        confirmText: "Submit Exam",
+                                        cancelText: 'Back',
+                                      );
+
+                                      // showDialog(
+                                      //   context: context,
+                                      //   builder: (_) => AlertDialog(
+                                      //     content: const Text(
+                                      //         "Time is up. Please submit your exam."),
+                                      //     actions: [
+                                      //       TextButton(
+                                      //         onPressed: () {
+                                      //           timerController.stopTimer();
+                                      //           Navigator.of(context).pop();
+                                      //         },
+                                      //         child: const Text("Back to Exam"),
+                                      //       ),
+                                      //       TextButton(
+                                      //         onPressed: () {
+                                      //           Navigator.of(context).pop();
+                                      //           submitExam(answersController);
+                                      //         },
+                                      //         child: const Text("Submit Exam"),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // );
+                                    },
+                                  );
+                                }
+
+                                return Text(
+                                  "Time Left: $minutesString:$secondsString",
+                                  style: textTh.titleMedium!.copyWith(
+                                    color: remainingSeconds < 300
+                                        ? Colors.red
+                                        : Colors.green,
+                                  ),
                                 );
+                              },
+                              loading: () => const Text("Calculating time..."),
+                              error: (e, _) => const Text("Error with timer"),
+                            )
+                          : Text(
+                              "$timerDuration:00",
+                              style: textTh.bodySmall!
+                                  .copyWith(color: Colors.green),
+                            ),
+                      Visibility(
+                        visible: !_timerStarted,
+                        child: FilledButton(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: AppColors.mainBlue,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                          ),
+                          onPressed: () {
+                            Future.delayed((const Duration(seconds: 2)), () {
+                              if (mounted) {
+                                setState(() {
+                                  _timerInitializing = false;
+                                });
                               }
-
-                              return Text(
-                                "Time Left: $minutesString:$secondsString",
-                                style: textTh.bodyMedium!.copyWith(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              );
-                            },
-                            loading: () => const Text("Calculating time..."),
-                            error: (e, _) => const Text("Error with timer"),
-                          )
-                        : Text(
-                            "$timerDuration:00",
-                            style:
-                                textTh.bodySmall!.copyWith(color: Colors.green),
-                          ),
-                    Visibility(
-                      visible: !_timerStarted,
-                      child: FilledButton(
-                        style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.mainBlue,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ),
-                        onPressed: () {
-                          Future.delayed((const Duration(seconds: 2)), () {
+                            });
+                            ref
+                                .read(examTimerProvider.notifier)
+                                .startTimer(duration: timerDuration);
+                            _dialogShown = false;
                             if (mounted) {
                               setState(() {
-                                _timerInitializing = false;
+                                _timerStarted = true;
                               });
                             }
-                          });
-                          ref
-                              .read(examTimerProvider.notifier)
-                              .startTimer(duration: timerDuration);
-                          _dialogShown = false;
-                          if (mounted) {
-                            setState(() {
-                              _timerStarted = true;
-                            });
-                          }
-                        },
-                        child: Text(
-                          "Start",
-                          style: textTh.bodyMedium!.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                          },
+                          child: Text(
+                            "Start",
+                            style: textTh.bodyMedium!.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             : null,
@@ -238,245 +265,272 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                         .fetchQuestions();
                   },
                 )
-              : Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 18.0,
-                    horizontal: 6,
-                  ),
-                  child: SizedBox(
-                    width: size.width,
-                    height: size.height - 60, // 60 height of bottom navbar
-                    child: PageView.builder(
-                      allowImplicitScrolling: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      controller: pageViewController,
-                      itemCount: questions.length,
-                      itemBuilder: (_, index) {
-                        var currentQuestion = questions[index];
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 18.0,
+                      horizontal: 6,
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: size.width,
+                          height:
+                              size.height - 60, // 60 height of bottom navbar
+                          child: PageView.builder(
+                            allowImplicitScrolling: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            controller: pageViewController,
+                            itemCount: questions.length,
+                            itemBuilder: (_, index) {
+                              var currentQuestion = questions[index];
 
-                        debugPrint(
-                            "current image url: ${currentQuestion.imageUrl}");
-                        String multipleQuestionsIndicator = "";
-                        if (currentQuestion.answers.length > 1) {
-                          multipleQuestionsIndicator =
-                              "(Select all that apply)";
-                        }
+                              debugPrint(
+                                  "current image url: ${currentQuestion.imageUrl}");
+                              String multipleQuestionsIndicator = "";
+                              if (currentQuestion.answers.length > 1) {
+                                multipleQuestionsIndicator =
+                                    "(Select all that apply)";
+                              }
 
-                        return SizedBox(
-                          height: size.height * 0.7,
-                          child: ListView(
-                            children: [
-                              if (currentQuestion.imageUrl != null)
-                                ProportionalImage(
-                                    imageUrl: currentQuestion.imageUrl),
-                              QuestionTextContainer(
-                                question:
-                                    "${questions.indexOf(currentQuestion) + 1}. ${currentQuestion.questionText} $multipleQuestionsIndicator",
-                                textStyle: textTh.bodyMedium!,
-                                maxWidth: size.width,
-                              ),
-                              const SizedBox(height: 10),
-                              if (currentQuestion.answers.length == 1)
-                                ...currentQuestion.options.map((op) {
-                                  String letter = [
-                                    "A",
-                                    "B",
-                                    "C",
-                                    "D",
-                                    "E",
-                                    "F",
-                                    "G",
-                                    "H",
-                                  ][currentQuestion.options.indexOf(op)];
-
-                                  return RadioListTile(
-                                    activeColor: AppColors.mainBlue,
-                                    value: op,
-                                    groupValue: scoreManager
-                                        .answersHolders[index].selectedAnswers
-                                        .elementAtOrNull(0),
-                                    onChanged: (value) {
-                                      debugPrint(
-                                          "in ui page: groupValue: ${scoreManager.answersHolders[index].selectedAnswers.elementAtOrNull(0)}, current option's value: $op  selectedAnswer: $value");
-                                      setState(
-                                        () {
-                                          if (value != null) {
-                                            answersController
-                                                .selectAnswerForQuestion(
-                                              qn: questions[index],
-                                              selectedAnswer: value,
-                                              radioButtonValue: op,
-                                            );
-                                          } else {
-                                            // this is the logic for tracking the state when an
-                                            // option is unselected.
-                                            // in this one we send selectedAnswer as null
-                                            // intentionally, to track the state where this option is
-                                            // unselected and thus remove it from the state if it
-                                            // previously existed. and that's why we also send
-                                            // radioButtonValue, we check if that value already
-                                            // exists in the state and then remove it.
-                                            answersController
-                                                .selectAnswerForQuestion(
-                                              qn: questions[index],
-                                              selectedAnswer: null,
-                                              radioButtonValue: op,
-                                            );
-                                          }
-                                        },
-                                      );
-                                    },
-                                    title: Text(
-                                      "$letter. $op",
-                                      style: const TextStyle(
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  );
-                                })
-                              else if (currentQuestion.answers.length > 1)
-                                ...currentQuestion.options.map(
-                                  (op) {
-                                    String letter = [
-                                      "A",
-                                      "B",
-                                      "C",
-                                      "D",
-                                      "E",
-                                      "F",
-                                      "G",
-                                      "H",
-                                    ][currentQuestion.options.indexOf(op)];
-                                    return CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      activeColor: AppColors.mainBlue,
-                                      value: scoreManager
-                                          .answersHolders[index].selectedAnswers
-                                          .contains(op),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          if (value ?? false) {
-                                            answersController
-                                                .selectAnswerForQuestion(
-                                              qn: questions[index],
-                                              selectedAnswer: op,
-                                              radioButtonValue: op,
-                                            );
-                                          } else {
-                                            answersController
-                                                .selectAnswerForQuestion(
-                                              qn: questions[index],
-                                              selectedAnswer: null,
-                                              radioButtonValue: op,
-                                            );
-                                          }
-                                        });
-                                      },
-                                      title: Text(
-                                        "$letter. $op",
-                                        style: const TextStyle(
-                                          fontSize: 13,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              const SizedBox(height: 35),
-                              SizedBox(
-                                width: size.width,
-                                height: 50,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                              return SizedBox(
+                                height: size.height * 0.7,
+                                child: ListView(
                                   children: [
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        elevation: 4,
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(20),
-                                            bottomLeft: Radius.circular(20),
-                                          ),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        if (hasTimerOption && !_timerStarted) {
-                                          return;
-                                        }
-                                        if (currentQuestionIndexTrack > 0) {
-                                          setState(() {
-                                            currentQuestionIndexTrack--;
-                                          });
-                                          debugPrint(
-                                              "current question index: $currentQuestionIndexTrack, questions length: ${questions.length}");
-                                          pageViewController.previousPage(
-                                            duration: const Duration(
-                                                milliseconds: 700),
-                                            curve: Curves.decelerate,
-                                          );
-                                        }
-                                      },
-                                      child: const Text(
-                                        "Previous",
-                                        style: TextStyle(
-                                            color: AppColors.mainBlue),
-                                      ),
+                                    if (currentQuestion.imageUrl != null)
+                                      ProportionalImage(
+                                          imageUrl: currentQuestion.imageUrl),
+                                    QuestionTextContainer(
+                                      questionNumber:
+                                          questions.indexOf(currentQuestion) +
+                                              1,
+                                      question:
+                                          "${currentQuestion.questionText} $multipleQuestionsIndicator",
+                                      textStyle: textTh.bodyMedium!,
+                                      maxWidth: size.width,
                                     ),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        elevation: 4,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        //submitExam(answersController);
+                                    const SizedBox(height: 10),
+                                    if (currentQuestion.answers.length == 1)
+                                      ...currentQuestion.options.map((op) {
+                                        String letter = [
+                                          "A",
+                                          "B",
+                                          "C",
+                                          "D",
+                                          "E",
+                                          "F",
+                                          "G",
+                                          "H",
+                                        ][currentQuestion.options.indexOf(op)];
 
-                                        if (hasTimerOption && !_timerStarted) {
-                                          return;
-                                        }
-                                        answersController.getScore();
-
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                            title: const Text('Exam Results'),
-                                            content: SizedBox(
-                                              height: 80,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                spacing: 12,
-                                                children: [
-                                                  Text(
-                                                    "Attempted Questions: ${scoreManager.scoreValue.attemptedQuestions}",
-                                                    style: textTh.bodyMedium!
-                                                        .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: AppColors.mainBlue,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "Score: ${scoreManager.scoreValue.score} / ${scoreManager.scoreValue.totalQuestions}",
-                                                    style: textTh.bodyMedium!
-                                                        .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: AppColors.mainBlue,
-                                                    ),
-                                                  ),
-                                                ],
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 24),
+                                          child: RadioListTile(
+                                            activeColor: AppColors.mainBlue,
+                                            value: op,
+                                            visualDensity: VisualDensity(
+                                                horizontal: -4, vertical: -4),
+                                            groupValue: scoreManager
+                                                .answersHolders[index]
+                                                .selectedAnswers
+                                                .elementAtOrNull(0),
+                                            onChanged: (value) {
+                                              debugPrint(
+                                                  "in ui page: groupValue: ${scoreManager.answersHolders[index].selectedAnswers.elementAtOrNull(0)}, current option's value: $op  selectedAnswer: $value");
+                                              setState(
+                                                () {
+                                                  if (value != null) {
+                                                    answersController
+                                                        .selectAnswerForQuestion(
+                                                      qn: questions[index],
+                                                      selectedAnswer: value,
+                                                      radioButtonValue: op,
+                                                    );
+                                                  } else {
+                                                    // this is the logic for tracking the state when an
+                                                    // option is unselected.
+                                                    // in this one we send selectedAnswer as null
+                                                    // intentionally, to track the state where this option is
+                                                    // unselected and thus remove it from the state if it
+                                                    // previously existed. and that's why we also send
+                                                    // radioButtonValue, we check if that value already
+                                                    // exists in the state and then remove it.
+                                                    answersController
+                                                        .selectAnswerForQuestion(
+                                                      qn: questions[index],
+                                                      selectedAnswer: null,
+                                                      radioButtonValue: op,
+                                                    );
+                                                  }
+                                                },
+                                              );
+                                            },
+                                            title: Text(
+                                              "$letter. $op",
+                                              style: textTheme.titleMedium!
+                                                  .copyWith(
+                                                letterSpacing: 0.5,
+                                                // fontFamily: "Inter",
+                                                color: Colors.black,
                                               ),
                                             ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
+                                          ),
+                                        );
+                                      })
+                                    else if (currentQuestion.answers.length > 1)
+                                      ...currentQuestion.options.map(
+                                        (op) {
+                                          String letter = [
+                                            "A",
+                                            "B",
+                                            "C",
+                                            "D",
+                                            "E",
+                                            "F",
+                                            "G",
+                                            "H",
+                                          ][currentQuestion.options
+                                              .indexOf(op)];
+                                          return CheckboxListTile(
+                                            controlAffinity:
+                                                ListTileControlAffinity.leading,
+                                            activeColor: AppColors.mainBlue,
+                                            value: scoreManager
+                                                .answersHolders[index]
+                                                .selectedAnswers
+                                                .contains(op),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                if (value ?? false) {
+                                                  answersController
+                                                      .selectAnswerForQuestion(
+                                                    qn: questions[index],
+                                                    selectedAnswer: op,
+                                                    radioButtonValue: op,
+                                                  );
+                                                } else {
+                                                  answersController
+                                                      .selectAnswerForQuestion(
+                                                    qn: questions[index],
+                                                    selectedAnswer: null,
+                                                    radioButtonValue: op,
+                                                  );
+                                                }
+                                              });
+                                            },
+                                            title: Text(
+                                              "$letter. $op",
+                                              style: textTheme.titleMedium!
+                                                  .copyWith(
+                                                letterSpacing: 0.5,
+                                                // fontFamily: "Inter",
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    const SizedBox(height: 35),
+                                    SizedBox(
+                                      width: size.width,
+                                      height: 50,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          DialogListItemNavigator(
+                                            pageViewController:
+                                                pageViewController,
+                                            itemsCount: questions.length,
+                                          ),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.white,
+                                              elevation: 4,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20),
+                                                  bottomLeft:
+                                                      Radius.circular(20),
+                                                ),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              if (hasTimerOption &&
+                                                  !_timerStarted) {
+                                                return;
+                                              }
+                                              if (currentQuestionIndexTrack >
+                                                  0) {
+                                                setState(() {
+                                                  currentQuestionIndexTrack--;
+                                                });
+                                                debugPrint(
+                                                    "current question index: $currentQuestionIndexTrack, questions length: ${questions.length}");
+                                                pageViewController.previousPage(
+                                                  duration: const Duration(
+                                                      milliseconds: 700),
+                                                  curve: Curves.decelerate,
+                                                );
+                                              }
+                                            },
+                                            child: const Text(
+                                              "Previous",
+                                              style: TextStyle(
+                                                  color: AppColors.mainBlue),
+                                            ),
+                                          ),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.white,
+                                              elevation: 4,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              //submitExam(answersController);
+
+                                              if (hasTimerOption &&
+                                                  !_timerStarted) {
+                                                return;
+                                              }
+                                              answersController.getScore();
+                                              showCustomDialog(
+                                                context: context,
+                                                title: 'Exam Result !',
+                                                content: SizedBox(
+                                                  height: 80,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    spacing: 12,
+                                                    children: [
+                                                      Text(
+                                                        "Attempted Questions: ${scoreManager.scoreValue.attemptedQuestions}",
+                                                        style: textTh.bodyLarge!
+                                                            .copyWith(
+                                                          color: AppColors
+                                                              .mainBlue,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "Score: ${scoreManager.scoreValue.score} / ${scoreManager.scoreValue.totalQuestions}",
+                                                        style: textTh.bodyLarge!
+                                                            .copyWith(
+                                                          color: AppColors
+                                                              .mainBlue,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                onConfirm: () {
                                                   Navigator.pop(context);
                                                   Navigator.of(context).push(
                                                     MaterialPageRoute(
@@ -490,67 +544,140 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
                                                     ),
                                                   );
                                                 },
-                                                child:
-                                                    const Text("See Solutions"),
-                                              ),
-                                              TextButton(
-                                                onPressed: () =>
-                                                    Navigator.of(context).pop(),
-                                                child: const Text('OK'),
-                                              ),
-                                            ],
+                                                // onCancel: () {
+                                                //   timerController.stopTimer();
+                                                //   Navigator.of(context).pop();
+                                                // },
+                                                icon: Icons.done,
+                                                iconColor: Colors.green,
+                                                confirmText: "See Solutions",
+                                                cancelText: 'back',
+                                              );
+                                              // showDialog(
+                                              //   context: context,
+                                              //   builder: (context) =>
+                                              //       AlertDialog(
+                                              //     title:
+                                              //         const Text('Exam Result'),
+                                              //     content: SizedBox(
+                                              //       height: 80,
+                                              //       child: Column(
+                                              //         crossAxisAlignment:
+                                              //             CrossAxisAlignment
+                                              //                 .start,
+                                              //         spacing: 12,
+                                              //         children: [
+                                              //           Text(
+                                              //             "Attempted Questions: ${scoreManager.scoreValue.attemptedQuestions}",
+                                              //             style: textTh
+                                              //                 .bodyMedium!
+                                              //                 .copyWith(
+                                              //               fontWeight:
+                                              //                   FontWeight.w600,
+                                              //               color: AppColors
+                                              //                   .mainBlue,
+                                              //             ),
+                                              //           ),
+                                              //           Text(
+                                              //             "Score: ${scoreManager.scoreValue.score} / ${scoreManager.scoreValue.totalQuestions}",
+                                              //             style: textTh
+                                              //                 .bodyMedium!
+                                              //                 .copyWith(
+                                              //               fontWeight:
+                                              //                   FontWeight.w600,
+                                              //               color: AppColors
+                                              //                   .mainBlue,
+                                              //             ),
+                                              //           ),
+                                              //         ],
+                                              //       ),
+                                              //     ),
+                                              //     actions: [
+                                              //       TextButton(
+                                              //         onPressed: () {
+                                              //           Navigator.pop(context);
+                                              //           Navigator.of(context)
+                                              //               .push(
+                                              //             MaterialPageRoute(
+                                              //               builder: (ctx) =>
+                                              //                   ExamSolutionsScreen(
+                                              //                 answerHolders:
+                                              //                     scoreManager
+                                              //                         .answersHolders,
+                                              //                 questions:
+                                              //                     questions,
+                                              //               ),
+                                              //             ),
+                                              //           );
+                                              //         },
+                                              //         child: const Text(
+                                              //             "See Solutions"),
+                                              //       ),
+                                              //       TextButton(
+                                              //         onPressed: () =>
+                                              //             Navigator.of(context)
+                                              //                 .pop(),
+                                              //         child: const Text('OK'),
+                                              //       ),
+                                              //     ],
+                                              //   ),
+                                              // );
+                                            },
+                                            child: const Text(
+                                              'Submit',
+                                              style: TextStyle(
+                                                  color: AppColors.mainBlue),
+                                            ),
                                           ),
-                                        );
-                                      },
-                                      child: const Text(
-                                        'Submit',
-                                        style: TextStyle(
-                                            color: AppColors.mainBlue),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.white,
+                                              elevation: 4,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                  bottomRight:
+                                                      Radius.circular(20),
+                                                  topRight: Radius.circular(20),
+                                                ),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              if (hasTimerOption &&
+                                                  !_timerStarted) {
+                                                return;
+                                              }
+                                              if (currentQuestionIndexTrack <
+                                                  (questions.length - 1)) {
+                                                setState(() {
+                                                  currentQuestionIndexTrack++;
+                                                });
+                                                debugPrint(
+                                                    "current question index: $currentQuestionIndexTrack, questions length: ${questions.length}");
+                                                pageViewController.nextPage(
+                                                  duration: const Duration(
+                                                      milliseconds: 700),
+                                                  curve: Curves.decelerate,
+                                                );
+                                              }
+                                            },
+                                            child: const Text(
+                                              'Next',
+                                              style: TextStyle(
+                                                  color: AppColors.mainBlue),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        elevation: 4,
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(20),
-                                            topRight: Radius.circular(20),
-                                          ),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        if (hasTimerOption && !_timerStarted) {
-                                          return;
-                                        }
-                                        if (currentQuestionIndexTrack <
-                                            (questions.length - 1)) {
-                                          setState(() {
-                                            currentQuestionIndexTrack++;
-                                          });
-                                          debugPrint(
-                                              "current question index: $currentQuestionIndexTrack, questions length: ${questions.length}");
-                                          pageViewController.nextPage(
-                                            duration: const Duration(
-                                                milliseconds: 700),
-                                            curve: Curves.decelerate,
-                                          );
-                                        }
-                                      },
-                                      child: const Text(
-                                        'Next',
-                                        style: TextStyle(
-                                            color: AppColors.mainBlue),
-                                      ),
-                                    ),
+                                    const SizedBox(height: 100),
                                   ],
                                 ),
-                              ),
-                              const SizedBox(height: 100),
-                            ],
+                              );
+                            },
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
                   ),
                 );

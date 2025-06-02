@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/features/chapter_content/presentation/screens/widgets/prohobit_course_access.dart';
 import 'package:lms_system/features/courses/presentation/widgets/chapter_quiz_tile.dart';
 import 'package:lms_system/features/quiz/model/quiz_model.dart';
 import 'package:lms_system/features/quiz/provider/current_quiz_id_provider.dart';
@@ -26,36 +27,44 @@ class QuizzesListView extends ConsumerWidget {
       itemBuilder: (_, index) => ChapterQuizTile(
         callback: () async {
           if (currentCourse.subscribed) {
+            print('BUTTON CLICKED');
             debugPrint("course subbed");
             ref
                 .read(currentQuizIdProvider.notifier)
                 .changeQuizId(quizzes[index].id.toString());
+            print('GOT HERE 1');
+
             Quiz quize =
                 await ref.refresh(quizProvider.notifier).fetchQuizData();
+
+            print('GOT HERE 2');
+
             // ref
             //     .read(examTimerProvider.notifier)
             //     .resetTimer(duration: quizzes[index].duration);
 
             if (context.mounted) {
+              print("QUIZDATA");
               Navigator.of(context)
                   .pushNamed(Routes.quizQuestions, arguments: quize);
             }
           } else {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: const Text('Cannot access contents'),
-                content: const Text(
-                  "You need to buy this course to access contents",
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('OK'),
-                  ),
-                ],
-              ),
-            );
+            showContentInaccessibleMessage(context);
+            // showDialog(
+            //   context: context,
+            //   builder: (context) => AlertDialog(
+            //     title: const Text('Cannot access contents'),
+            //     content: const Text(
+            //       "You need to buy this course to access contents",
+            //     ),
+            //     actions: [
+            //       TextButton(
+            //         onPressed: () => Navigator.pop(context),
+            //         child: const Text('OK'),
+            //       ),
+            //     ],
+            //   ),
+            // );
           }
         },
         quiz: quizzes[index],

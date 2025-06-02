@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CurrentPage extends StatelessWidget {
-  final String image, description;
+  final String image, description, title;
 
   const CurrentPage({
     super.key,
     required this.image,
+    required this.title,
     required this.description,
   });
 
@@ -34,10 +35,10 @@ class CurrentPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                
                 Text(
-                  "Welcome To Excelet Academy",
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
                 ),
@@ -47,7 +48,7 @@ class CurrentPage extends StatelessWidget {
                   textAlign: TextAlign.center, // Center-align the description
                   style: const TextStyle(
                     color: Colors.black54,
-                    fontSize: 18,
+                    fontSize: 17,
                   ),
                 ),
               ],

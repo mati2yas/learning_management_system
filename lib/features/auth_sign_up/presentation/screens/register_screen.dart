@@ -2,10 +2,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/common_widgets/custom_button.dart';
+import 'package:lms_system/core/common_widgets/custom_gap.dart';
 import 'package:lms_system/core/common_widgets/input_field.dart';
+import 'package:lms_system/core/common_widgets/inside_button_custom_circular_loader.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_keys.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
+import 'package:lms_system/core/utils/build_button_label_method.dart';
 import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/auth_sign_up/provider/register_controller.dart';
@@ -52,16 +57,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   child: Form(
                     key: AppKeys.registerScreenKey,
                     child: Column(
-                      spacing: 12,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        Gap(height: 80),
                         Text(
                           'Welcome Aboard, Sign Up',
                           style: textTh.headlineSmall!.copyWith(
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                        _buildInputLabel('Your Name', textTh),
+                        Gap(height: 25),
+                        buildInputLabel('Your Name', textTh),
+                        Gap(),
                         InputWidget(
                           hintText: 'Your Name',
                           controller: nameController,
@@ -70,7 +77,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             regController.updateName(value!);
                           },
                         ),
-                        _buildInputLabel('Email', textTh),
+                        Gap(height: 15),
+                        buildInputLabel('Email', textTh),
+                        Gap(),
                         InputWidget(
                           hintText: 'Email',
                           controller: emailController,
@@ -93,8 +102,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             regController.updateEmail(value!);
                           },
                         ),
-                        _buildInputLabel(
-                            'Password (at least 4 characters)', textTh),
+                        Gap(height: 15),
+                        buildInputLabel('Password', textTh),
+                        Gap(),
                         InputWidget(
                           hintText: 'Password',
                           validator: (value) {
@@ -112,92 +122,73 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             regController.updatePassword(value!);
                           },
                         ),
-                        const SizedBox(height: 10),
-                        Center(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.mainBlue,
-                              padding: state.apiStatus == ApiState.busy
-                                  ? null
-                                  : const EdgeInsets.symmetric(
-                                      horizontal: 50,
-                                      vertical: 10,
+                        Gap(height: 40),
+                        CustomButton(
+                          isFilledButton: true,
+                          buttonWidget: state.apiStatus == ApiState.busy
+                              ? InsideButtonCustomCircularLoader()
+                              : state.apiStatus == ApiState.error
+                                  ? Text(
+                                      'Retry',
+                                      style: textTheme.labelLarge!.copyWith(
+                                          letterSpacing: 0.5,
+                                          fontFamily: "Inter",
+                                          color: Colors.white,
+                                          overflow: TextOverflow.ellipsis),
+                                    )
+                                  : Text(
+                                      'Register',
+                                      style: textTheme.labelLarge!.copyWith(
+                                          letterSpacing: 0.5,
+                                          fontFamily: "Inter",
+                                          color: Colors.white,
+                                          overflow: TextOverflow.ellipsis),
                                     ),
-                              fixedSize: Size(size.width - 80, 60),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            onPressed: () async {
-                              if (AppKeys.registerScreenKey.currentState
-                                      ?.validate() ==
-                                  true) {
-                                AppKeys.registerScreenKey.currentState!.save();
-                                try {
-                                  await regController.registerUser();
-                                  await SecureStorageService()
-                                      .setUserAuthedStatus(AuthStatus.pending);
-                                  if (context.mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      UtilFunctions.buildInfoSnackbar(
-                                        message:
-                                            "Registration Successful. Check your email for verification",
-                                      ),
-                                    );
+                          buttonAction: () async {
+                            if (AppKeys.registerScreenKey.currentState
+                                    ?.validate() ==
+                                true) {
+                              AppKeys.registerScreenKey.currentState!.save();
+                              try {
+                                await regController.registerUser();
+                                await SecureStorageService()
+                                    .setUserAuthedStatus(AuthStatus.pending);
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    UtilFunctions.buildInfoSnackbar(
+                                      message:
+                                          "Registration Successful. Check your email for verification",
+                                    ),
+                                  );
 
-                                    nameController.clear();
-                                    emailController.clear();
-                                    passwordController.clear();
+                                  nameController.clear();
+                                  emailController.clear();
+                                  passwordController.clear();
 
-                                    //Navigator.of(context)
-                                    //   .pushReplacementNamed(Routes.login);
+                                  //Navigator.of(context)
+                                  //   .pushReplacementNamed(Routes.login);
 
-                                    Navigator.of(context)
-                                        .pushNamed(Routes.login);
-                                  }
-                                } catch (e) {
-                                  String exc =
-                                      e.toString().replaceAll("Exception:", "");
-                                  if (context.mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      UtilFunctions.buildErrorSnackbar(
-                                        errorMessage:
-                                            "Registration Failed: ${exc.toString().replaceAll("Exception:", "")}",
-                                        exception: exc,
-                                      ),
-                                    );
-                                  }
+                                  Navigator.of(context).pushNamed(Routes.login);
+                                }
+                              } catch (e) {
+                                String exc =
+                                    e.toString().replaceAll("Exception:", "");
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    UtilFunctions.buildErrorSnackbar(
+                                      errorMessage:
+                                          "Registration Failed: ${exc.toString().replaceAll("Exception:", "")}",
+                                      exception: exc,
+                                    ),
+                                  );
                                 }
                               }
-                            },
-                            child: state.apiStatus == ApiState.busy
-                                ? const Center(
-                                    child: SizedBox(
-                                      height: 40,
-                                      width: 40,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  )
-                                : state.apiStatus == ApiState.error
-                                    ? Text(
-                                        'Retry',
-                                        style: textTh.titleLarge!.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    : Text(
-                                        'Register',
-                                        style: textTh.titleLarge!.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                          ),
+                            }
+                          },
                         ),
-                        const SizedBox(height: 10),
+                        Gap(
+                          height: 25,
+                        ),
                         Align(
                           alignment: Alignment.center,
                           child: Directionality(
@@ -262,15 +253,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     //   emailController.text = state.email;
     //   passwordController.text = state.password;
     // });
-  }
-
-  Widget _buildInputLabel(String label, TextTheme textTh) {
-    return Text(
-      label,
-      style: textTh.bodyMedium!.copyWith(
-        fontWeight: FontWeight.w600,
-      ),
-    );
   }
 
   String? _validateInput(String value) {
