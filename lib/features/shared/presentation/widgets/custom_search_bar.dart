@@ -16,15 +16,15 @@ class CustomSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: size.width * 0.8,
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8),
       height: 40,
       child: DecoratedBox(
         decoration: BoxDecoration(
             //color: Colors.grey.shade300,
             color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: AppColors.mainGrey, width: 2)),
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: primaryColor, width: 1.5)),
         child: TextField(
           onChanged: onChangedCallback,
           // onSaved: (value) {
@@ -41,7 +41,7 @@ class CustomSearchBar extends StatelessWidget {
             suffixIcon: IconButton(
               icon: const Icon(
                 Icons.search,
-                color: AppColors.darkerGrey,
+                color: primaryColor,
               ),
               onPressed: searchCallback,
             ),
