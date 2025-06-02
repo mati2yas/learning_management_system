@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/features/chapter_content/presentation/screens/widgets/prohobit_course_access.dart';
 import 'package:lms_system/features/courses/presentation/widgets/course_video_tile.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 import 'package:lms_system/features/shared/provider/course_subbed_provider.dart';
@@ -31,21 +32,22 @@ class VideosListView extends ConsumerWidget {
                   .pushNamed(Routes.chapterVideo, arguments: videos[index]);
             } else {
               debugPrint("course not subbed, index not 0");
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Cannot access contents'),
-                  content: const Text(
-                    "You need to buy this course to access more contents",
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('OK'),
-                    ),
-                  ],
-                ),
-              );
+              showContentInaccessibleMessage(context);
+              //   showDialog(
+              //     context: context,
+              //     builder: (context) => AlertDialog(
+              //       title: const Text('Cannot access contents'),
+              //       content: const Text(
+              //         "You need to buy this course to access more contents",
+              //       ),
+              //       actions: [
+              //         TextButton(
+              //           onPressed: () => Navigator.pop(context),
+              //           child: const Text('OK'),
+              //         ),
+              //       ],
+              //     ),
+              //   );
             }
           } else {
             debugPrint("course subbed");
