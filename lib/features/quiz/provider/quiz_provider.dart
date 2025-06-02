@@ -41,6 +41,7 @@ class QuizNotifier extends AsyncNotifier<Quiz> {
       state = AsyncData(quiz);
       return quiz;
     } catch (e, stack) {
+      print( e.toString());
       state = AsyncError(e, stack);
       rethrow;
     }

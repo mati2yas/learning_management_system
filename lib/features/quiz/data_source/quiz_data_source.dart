@@ -33,6 +33,9 @@ class QuizDataSource {
     } on DioException catch (e) {
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
       throw Exception(errorMessage);
+    } catch (e) {
+      print("EXCEPTION" + e.toString());
+      throw e;
     }
     return quiz;
   }

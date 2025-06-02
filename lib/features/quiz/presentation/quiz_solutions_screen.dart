@@ -4,6 +4,7 @@ import 'package:lms_system/core/common_widgets/explanation_container.dart';
 import 'package:lms_system/core/common_widgets/proportional_image.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/features/quiz/model/quiz_model.dart';
 import 'package:lms_system/features/shared/model/exam_and_quiz/answers_holder.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -31,6 +32,7 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
     final size = MediaQuery.sizeOf(context);
     var textTh = Theme.of(context).textTheme;
     return Scaffold(
+      backgroundColor: mainBackgroundColor,
       appBar: CommonAppBar(titleText: "Quiz Solutions"),
       body: SizedBox(
         height: size.height,
@@ -38,13 +40,18 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
         child: PageView.builder(
           scrollDirection: Axis.horizontal,
           controller: pageViewController,
+          physics: NeverScrollableScrollPhysics(),
           itemCount: widget.questions.length,
           itemBuilder: (_, index) {
             final currentAnswerHolder = widget.myAnswers[index];
-            final currentQuestion = widget.questions.where((question) {
-              return question.answers == currentAnswerHolder.correctAnswers &&
-                  question.id == currentAnswerHolder.questionId;
-            }).first;
+            final currentQuestion = widget.questions
+                .where((question) {
+                  return question.answers ==
+                          currentAnswerHolder.correctAnswers &&
+                      question.id == currentAnswerHolder.questionId;
+                })
+                .toList()
+                .first;
             String multipleQuestionsIndicator = "";
             if (currentQuestion.answers.length > 1) {
               multipleQuestionsIndicator = "(Select all that apply.)";
@@ -83,6 +90,7 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                     spacing: 12,
                     children: [
                       QuestionTextContainer(
+                        questionNumber: index + 1,
                         question: currentQuestion.text,
                         textStyle: textTh.bodyLarge!.copyWith(
                           fontWeight: FontWeight.w500,
@@ -91,18 +99,18 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                       ),
                       ...currentQuestion.options.map(
                         (op) {
-                          Color containerColor =
-                              Theme.of(context).colorScheme.surface;
+                          Color containerColor = mainBackgroundColor;
+                          
 
                           if (currentAnswerHolder.correctAnswers.contains(op)) {
                             if (currentAnswerHolder.selectedAnswers
                                 .contains(op)) {
-                              containerColor = Colors.greenAccent;
+                              containerColor = correctAnswerColor;
                             }
                           } else {
                             if (currentAnswerHolder.selectedAnswers
                                 .contains(op)) {
-                              containerColor = Colors.redAccent;
+                              containerColor = wrongAnswerColor;
                             }
                           }
                           String letter = [
@@ -117,7 +125,7 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                           ][currentQuestion.options.indexOf(op)];
                           return Container(
                             width: double.infinity,
-                            padding: const EdgeInsets.all(6),
+                            padding: EdgeInsets.symmetric(horizontal: 24),
                             decoration: BoxDecoration(
                               color: containerColor,
                               borderRadius: BorderRadius.circular(8),
@@ -133,42 +141,67 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
                           );
                         },
                       ),
-                      const SizedBox(height: 12),
-                      if (!<dynamic>[null, ""]
-                          .contains(currentQuestion.textExplanation)) ...[
-                        ExplanationContainer(
-                          explanation: currentQuestion.textExplanation,
-                          textStyle: textTh.bodyMedium!,
-                          maxWidth: size.width,
+                      ExpansionTile(
+                        tilePadding: EdgeInsets.symmetric(horizontal: 3),
+                        title: Text(
+                          "Explanation",
+                          style: textTheme.titleMedium!.copyWith(
+                              letterSpacing: 0.5,
+                              fontFamily: "Inter",
+                              color: AppColors.mainBlue2,
+                              overflow: TextOverflow.ellipsis),
                         ),
-                        const SizedBox(height: 12),
-                      ],
-                      if (currentQuestion.imageExplanationUrl != null) ...[
-                        ProportionalImage(
-                            imageUrl: currentQuestion.imageExplanationUrl),
-                        const SizedBox(height: 12),
-                      ],
-                      if (currentQuestion.videoExplanationUrl != null)
-                        YoutubePlayer(
-                          width: size.width * 0.9,
-                          aspectRatio: 16 / 9,
-                          bottomActions: [
-                            const CurrentPosition(),
-                            const ProgressBar(isExpanded: true),
-                            const CurrentPosition(),
-                            FullScreenButton(
-                              controller: ytCtrl,
+                        collapsedShape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                          side: BorderSide(
+                              color: Colors
+                                  .transparent), // 🔥 Removes collapsed border
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          side: BorderSide(
+                              color: AppColors
+                                  .mainBlue2), // 🔥 Removes expanded border
+                        ),
+                        children: [
+                          if (!<dynamic>[null, ""]
+                              .contains(currentQuestion.textExplanation)) ...[
+                            ExplanationContainer(
+                              explanation: currentQuestion.textExplanation,
+                              textStyle: textTh.bodyMedium!,
+                              maxWidth: size.width,
                             ),
+                            const SizedBox(height: 12),
                           ],
-                          controller: ytCtrl,
-                          showVideoProgressIndicator: true,
-                          progressIndicatorColor: AppColors.mainBlue,
-                          progressColors: ProgressBarColors(
-                            playedColor: AppColors.mainBlue,
-                            handleColor:
-                                AppColors.mainBlue.withValues(alpha: 0.6),
-                          ),
-                        ),
+                          if (currentQuestion.imageExplanationUrl != null) ...[
+                            ProportionalImage(
+                                imageUrl: currentQuestion.imageExplanationUrl),
+                            const SizedBox(height: 12),
+                          ],
+                          if (currentQuestion.videoExplanationUrl != null)
+                            YoutubePlayer(
+                              width: size.width * 0.9,
+                              aspectRatio: 16 / 9,
+                              bottomActions: [
+                                const CurrentPosition(),
+                                const ProgressBar(isExpanded: true),
+                                const CurrentPosition(),
+                                FullScreenButton(
+                                  controller: ytCtrl,
+                                ),
+                              ],
+                              controller: ytCtrl,
+                              showVideoProgressIndicator: true,
+                              progressIndicatorColor: AppColors.mainBlue,
+                              progressColors: ProgressBarColors(
+                                playedColor: AppColors.mainBlue,
+                                handleColor:
+                                    AppColors.mainBlue.withValues(alpha: 0.6),
+                              ),
+                            ),
+                        ],
+                      ),
+                      SizedBox(height: 12),
                       SizedBox(
                         width: size.width,
                         height: 50,
