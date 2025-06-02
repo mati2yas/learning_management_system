@@ -38,7 +38,7 @@ class EditProfileController extends StateNotifier<UserWrapper> {
 
       final response = await _repository.editProfile(user);
       statusCode = response.statusCode;
-      debugPrint("editProfController status code: ${response.statusCode}");
+      //debugPrint("editProfController status code: ${response.statusCode}");
 
       if (response.statusCode == 200) {
         (responseMessage, responseStatus) =
@@ -46,7 +46,7 @@ class EditProfileController extends StateNotifier<UserWrapper> {
 
         state = state.copyWith(
             statusMsg: "Profile edit successful", apiState: ApiState.idle);
-        debugPrint("user: ${response.data["user"] ?? {"no user": "yes"}}");
+        //debugPrint("user: ${response.data["user"] ?? {"no user": "yes"}}");
       } else {
         state = state.copyWith(
           statusMsg: "Profile edit failed",
@@ -68,9 +68,9 @@ class EditProfileController extends StateNotifier<UserWrapper> {
   }
 
   void updateBio(String newBio) {
-    debugPrint("state bio before update: ${state.bio}");
+    //debugPrint("state bio before update: ${state.bio}");
     state = state.copyWith(bio: newBio);
-    debugPrint("state bio before update: ${state.bio}");
+    //debugPrint("state bio before update: ${state.bio}");
   }
 
   void updateEmail(String newEmail) {
@@ -78,7 +78,7 @@ class EditProfileController extends StateNotifier<UserWrapper> {
   }
 
   void updateImage(XFile? image) async {
-    debugPrint("state imagePath before update: ${state.image}");
+    //debugPrint("state imagePath before update: ${state.image}");
     if (image != null) {
       final directory = await getApplicationDocumentsDirectory();
       final imageName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
@@ -86,19 +86,19 @@ class EditProfileController extends StateNotifier<UserWrapper> {
       await File(image.path).copy(imagePath);
       state = state.copyWith(image: imagePath);
     }
-    debugPrint("state imagePath after update: ${state.image}");
+    //debugPrint("state imagePath after update: ${state.image}");
   }
 
   void updateName(String newName) {
-    debugPrint("state name before update: ${state.name}");
+    //debugPrint("state name before update: ${state.name}");
     state = state.copyWith(name: newName);
-    debugPrint("state name before update: ${state.name}");
+    //debugPrint("state name before update: ${state.name}");
   }
 
   void updatePassword(String password) {
-    debugPrint("state pass before update: ${state.password}");
+    //debugPrint("state pass before update: ${state.password}");
     state = state.copyWith(password: password);
-    debugPrint("state pass after update: ${state.password}");
+    //debugPrint("state pass after update: ${state.password}");
   }
 
   Future<void> _loadUser() async {

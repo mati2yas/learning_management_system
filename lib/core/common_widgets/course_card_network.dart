@@ -254,10 +254,10 @@ class CourseCardNetworkImage extends ConsumerWidget {
                       await requestsController.addOrRemoveCourse(course);
                   subscriptionController.updateCourses(courses);
 
-                  debugPrint("after subscController updateCurse, courses:");
+                  //debugPrint("after subscController updateCurse, courses:");
                   var subProv = ref.read(courseSubscriptionControllerProvider);
                   for (var c in subProv.courses) {
-                    debugPrint("subProv.courses.current.id: ${c.id}");
+                    //debugPrint("subProv.courses.current.id: ${c.id}");
                   }
                   if (status == "added") {
                     Navigator.of(context).pushNamed(

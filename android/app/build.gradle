@@ -62,6 +62,10 @@ android {
         
 
         }
+        build{
+            minifyEnabled false 
+            shrinkResources false 
+        }
     }
 }
 

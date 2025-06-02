@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
@@ -22,7 +21,7 @@ class PaidCoursesDataSource {
       final response = await _dio.get(AppUrls.paidCourses);
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
-        debugPrint("response is 200");
+        //debugPrint("response is 200");
         //var data = response.data["data"];
         //print(response.data["data"]);
         for (var x in response.data["data"]) {
@@ -44,7 +43,7 @@ class PaidCoursesDataSource {
     int? statusCode;
     try {
       final response = await _dio.post("/toggle-like/${course.id}");
-      debugPrint("${_dio.options.baseUrl}/toggle-like/${course.id}");
+      //debugPrint("${_dio.options.baseUrl}/toggle-like/${course.id}");
       statusCode = response.statusCode;
       return response;
     } on DioException catch (e) {
@@ -57,7 +56,7 @@ class PaidCoursesDataSource {
     int? statusCode;
     try {
       final response = await _dio.post("/toggle-save/${course.id}");
-      debugPrint("${_dio.options.baseUrl}/toggle-save/${course.id}");
+      //debugPrint("${_dio.options.baseUrl}/toggle-save/${course.id}");
       statusCode = response.statusCode;
       return response;
     } on DioException catch (e) {

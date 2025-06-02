@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lms_system/features/exam_questions/provider/exam_answers_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/current_id_stub_provider.dart';
+import 'package:lms_system/features/exam_questions/provider/exam_answers_provider.dart';
 import 'package:lms_system/features/exam_questions/repository/exam_questions_repository.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 
@@ -32,19 +31,17 @@ class ExamQuestionsNotifier extends AsyncNotifier<List<Question>> {
 
   Future<List<Question>> fetchQuestions() async {
     var currentIdStub = ref.read(currentIdStubProvider);
-    debugPrint("State set to AsyncLoading()");
+    //debugPrint("State set to AsyncLoading()");
     state = const AsyncValue.loading();
     try {
       List<Question> questions =
           await _repository.fetchQuestionsByGenericId(currentIdStub);
-      debugPrint("questions length: ${questions.length}");
-      debugPrint("Fetched questions type: ${questions.runtimeType}");
+      //debugPrint("questions length: ${questions.length}");
+      //debugPrint("Fetched questions type: ${questions.runtimeType}");
 
       final answersController = ref.watch(examAnswersProvider.notifier);
       answersController.initializeWithQuestionsList(questions);
-      state = AsyncValue.data(
-        
-        questions);
+      state = AsyncValue.data(questions);
 
       return questions;
     } catch (e, stack) {

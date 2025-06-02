@@ -41,14 +41,14 @@ class ExamsSubscriptionController extends StateNotifier<ExamSubscriptionModel> {
         statusSuccess: response.data["status"] ?? false,
       );
       if (response.statusCode == 201) {
-        debugPrint("status 201 case");
+        //debugPrint("status 201 case");
         state = state.copyWith(
           statusMsg: response.data["message"],
           statusSuccess: response.data["status"],
           apiState: ApiState.idle,
         );
       } else if (response.statusCode == 400) {
-        debugPrint("status 400 case");
+        //debugPrint("status 400 case");
         state = state.copyWith(
           statusMsg: response.data["message"],
           statusSuccess: response.data["status"],
@@ -56,7 +56,7 @@ class ExamsSubscriptionController extends StateNotifier<ExamSubscriptionModel> {
         );
       }
     } catch (e) {
-      debugPrint("exception case");
+      //debugPrint("exception case");
 
       state = state.copyWith(
         statusMsg:

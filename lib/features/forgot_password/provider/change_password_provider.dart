@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/forgot_password/repository/forgot_password_repository.dart';
@@ -19,7 +18,7 @@ class ForgotPasswordController extends StateNotifier<ForgotPasswordState> {
 
     state = state.copyWith(apiState: ApiState.busy);
     try {
-      debugPrint("PIN: ${state.pinToken}");
+      //debugPrint("PIN: ${state.pinToken}");
       response = await _repository.changePassword(
           email: state.email, password: state.password, token: state.pinToken);
 

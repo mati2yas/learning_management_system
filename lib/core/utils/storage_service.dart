@@ -37,7 +37,6 @@ class SecureStorageService {
     return status == 'true';
   }
 
-
   Future<String?> getTokenFromStorage() async {
     final userToken = await _storage.read(key: AppStrings.apiTokenKey);
     return userToken;
@@ -67,8 +66,8 @@ class SecureStorageService {
   }
 
   Future<void> saveUserToStorage(User user) async {
-    debugPrint("the user is: User{ name: ${user.name}, email: ${user.email}");
-    debugPrint("password: ${user.password}, token: ${user.token}}");
+    //debugPrint("the user is: User{ name: ${user.name}, email: ${user.email}");
+    //debugPrint("password: ${user.password}, token: ${user.token}}");
     await _storage.write(
         key: AppStrings.userStorageKey, value: jsonEncode(user.toMap()));
     Future.delayed(Duration.zero);

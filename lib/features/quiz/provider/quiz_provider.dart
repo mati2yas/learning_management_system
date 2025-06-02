@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/features/quiz/provider/current_quiz_id_provider.dart';
 import 'package:lms_system/features/quiz/provider/quiz_answers_provider.dart';
@@ -34,7 +33,7 @@ class QuizNotifier extends AsyncNotifier<Quiz> {
     state = const AsyncValue.loading();
 
     try {
-      debugPrint("quiz id: $quizId");
+      //debugPrint("quiz id: $quizId");
       final quiz = await _repository.fetchQuizData(quizId);
       final answersController = ref.watch(quizAnswersProvider.notifier);
       answersController.initializeWithQuestionsList(quiz.questions);

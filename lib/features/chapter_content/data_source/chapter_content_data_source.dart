@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
@@ -19,10 +18,10 @@ class ChapterContentDataSource {
     ChapterContent content =
         ChapterContent(order: -1, videos: [], documents: [], quizzes: []);
     int? statusCode;
-    debugPrint("fetchChapterContent called");
+    //debugPrint("fetchChapterContent called");
     try {
       final response = await _dio.get("${AppUrls.chapterContent}/$chapterId");
-      debugPrint("${AppUrls.baseUrl}/${AppUrls.chapterContent}/$chapterId");
+      //debugPrint("${AppUrls.baseUrl}/${AppUrls.chapterContent}/$chapterId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         content = ChapterContent.fromJson(response.data["data"]);

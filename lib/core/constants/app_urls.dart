@@ -20,7 +20,7 @@ class AppUrls {
   static String examChapterQuestions = "/exams/exam-questions-chapter";
   static String examYearQuestions = "/exams/exam-questions-year";
   static String examChapterQuestionsNoGrades =
-      "/exams/exit-questions-no-grades/";
+      "/exams/exit-questions-no-grades";
   static String examCourses = "/exams/exam-courses-years";
   static String homePageCourses = "/homepage/courses";
   static String unreadNotifications = "/notifications-new";

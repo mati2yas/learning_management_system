@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
@@ -125,7 +124,7 @@ class _ChapterContentScreenState extends ConsumerState<ChapterContentScreen>
                                   document: chapterContent.documents[index],
                                   callBack: () async {
                                     if (currentCourse.subscribed) {
-                                      debugPrint("course subbed");
+                                      //debugPrint("course subbed");
                                       var docProcessor =
                                           ref.read(documentProvider.notifier);
 

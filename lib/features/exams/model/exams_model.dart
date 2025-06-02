@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/features/exams/model/exam_year.dart';
 
@@ -125,7 +124,7 @@ class Question {
     List<dynamic> answersJson = jsonDecode(json["answer"]);
     List<String> answersString =
         answersJson.map((ans) => ans.toString()).toList();
-    debugPrint("question img url: ${json["question_image_url"]}");
+    //debugPrint("question img url: ${json["question_image_url"]}");
 
     return Question(
       id: json["id"],

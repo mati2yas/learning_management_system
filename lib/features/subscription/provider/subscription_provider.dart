@@ -30,14 +30,14 @@
 //         statusSuccess: response.data["status"] ?? false,
 //       );
 //       if (response.statusCode == 201) {
-//         debugPrint("status 201 case");
+//         //debugPrint("status 201 case");
 //         state = state.copyWith(
 //           statusMsg: response.data["message"],
 //           statusSuccess: response.data["status"],
 //           apiStatus: ApiStatus.idle,
 //         );
 //       } else if (response.statusCode == 400) {
-//         debugPrint("status 400 case");
+//         //debugPrint("status 400 case");
 //         state = state.copyWith(
 //           statusMsg: response.data["message"],
 //           statusSuccess: response.data["status"],
@@ -45,7 +45,7 @@
 //         );
 //       }
 //     } catch (e) {
-//       debugPrint("exception case");
+//       //debugPrint("exception case");
 
 //       state = state.copyWith(
 //         statusMsg: e.toString().replaceAll("Exception:", ""),
@@ -59,7 +59,7 @@
 
 //   void updateCourses(List<Course> newCourses) {
 //     for (var c in newCourses) {
-//       debugPrint("in updateCourse, course id: ${c.id}");
+//       //debugPrint("in updateCourse, course id: ${c.id}");
 //     }
 //     state = state.copyWith(newCourses: newCourses);
 //   }

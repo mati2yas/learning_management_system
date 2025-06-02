@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
-import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/constants/enums.dart';
 
 class UtilFunctions {
@@ -78,7 +77,7 @@ class UtilFunctions {
   }
 
   static double getResponsiveChildAspectRatio(Size size) {
-    print("width: ${size.width}");
+    // print("width: ${size.width}");
     if (size.width <= 200) return 0.65;
     if (size.width <= 400) return 0.85;
 

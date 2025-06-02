@@ -22,16 +22,16 @@ class CourseDataSource {
       final response = await _dio.get(AppUrls.getCourses);
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
-        print("response is 200");
+        // print("response is 200");
         //var data = response.data["data"];
         //print(response.data["data"]);
         for (var x in response.data["data"]) {
           Course crs = Course.fromJson(x);
-          debugPrint("image url: ${x["thumbnail"] ?? "_"}");
+          //debugPrint("image url: ${x["thumbnail"] ?? "_"}");
           courses.add(crs);
         }
-        courses
-            .sort((courseA, courseB) => courseA.title.toLowerCase().compareTo(courseB.title.toLowerCase()));
+        courses.sort((courseA, courseB) =>
+            courseA.title.toLowerCase().compareTo(courseB.title.toLowerCase()));
       }
     } on DioException catch (e) {
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
@@ -50,7 +50,7 @@ class CourseDataSource {
 
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
-        print("response is 200");
+        // print("response is 200");
         //var data = response.data["data"];
         //print(response.data["data"]);
         for (var x in response.data["data"]) {
@@ -59,8 +59,8 @@ class CourseDataSource {
           courses.add(crs);
         }
 
-        courses
-            .sort((courseA, courseB) => courseA.title.toLowerCase().compareTo(courseB.title.toLowerCase()));
+        courses.sort((courseA, courseB) =>
+            courseA.title.toLowerCase().compareTo(courseB.title.toLowerCase()));
         debugPrint(
             "searched courses: [ ${courses.map((c) => c.title).join(",")} ]");
       }
