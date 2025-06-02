@@ -96,7 +96,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
 
                       Gap(height: 20),
-                      buildInputLabel('PassChange Emailword', textTh),
+                      buildInputLabel('password', textTh),
 
                       Gap(),
                       InputWidget(
