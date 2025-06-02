@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/utils/file_download_handler.dart';
 import 'package:lms_system/features/shared/model/chapter.dart';
 
@@ -17,12 +18,12 @@ class ChapterDocumentTile extends ConsumerWidget {
     return GestureDetector(
       child: Card(
         margin: const EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
-        elevation: 5,
+        elevation: 1,
+        color: mainBackgroundColor,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
         ),
         child: SizedBox(
-          height: 55,
           child: Row(
             children: <Widget>[
               Expanded(
@@ -35,9 +36,10 @@ class ChapterDocumentTile extends ConsumerWidget {
                       flex: 8,
                       child: Text(
                         document.title,
+                        maxLines: 3,
                         style: textTh.labelMedium!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                            fontWeight: FontWeight.w500,
+                            overflow: TextOverflow.ellipsis),
                       ),
                     ),
                     IconButton(
