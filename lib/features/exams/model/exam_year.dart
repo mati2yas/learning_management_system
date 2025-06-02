@@ -39,15 +39,15 @@ class ExamYear {
     };
     double getDoubleVal(dynamic p1m) {
       double doubleVal = 0.00;
-      debugPrint("the number $p1m");
+      //debugPrint("the number $p1m");
       // if (p1m == null) {
-      //   debugPrint("is null");
+      //   //debugPrint("is null");
       //   doubleVal = 0.00;
       // } else if (p1m is int) {
-      //   debugPrint("is int");
+      //   //debugPrint("is int");
       //   doubleVal = (p1m as num).toDouble();
       // } else if (p1m is double) {
-      //   debugPrint("is double");
+      //   //debugPrint("is double");
       //   doubleVal = p1m;
       // }
       if (p1m == null) {
@@ -83,7 +83,7 @@ class ExamYear {
           double.tryParse(json["on_sale_six_month"]);
     }
 
-    debugPrint("exam duratoin: ${json["duration"]}");
+    //debugPrint("exam duratoin: ${json["duration"]}");
     return ExamYear(
       id: json["id"] ?? 0,
       title: json["year_name"] ?? "year name",

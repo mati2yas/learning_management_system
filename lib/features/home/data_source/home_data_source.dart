@@ -23,7 +23,7 @@ class HomeDataSource {
     try {
       //var user = await SecureStorageService().getUserFromStorage();
       //userr = user;
-      //debugPrint("HomePageApi Token: ${user?.token}");
+      ////debugPrint("HomePageApi Token: ${user?.token}");
 
       await DioClient.setToken();
       debugPrint(
@@ -46,25 +46,25 @@ class HomeDataSource {
         AppUrls.homePageCourses,
       );
       statusCode = response.statusCode;
-      debugPrint("in homepage statuscode: ${response.statusCode}");
+      //debugPrint("in homepage statuscode: ${response.statusCode}");
       if (response.statusCode == 200) {
         //dynamic data1 = [];
 
         List<dynamic> data1 = response.data["data"];
-        //debugPrint("${data1.length} values");
+        ////debugPrint("${data1.length} values");
 
         for (var dataVl in data1) {
           //print(dataVl);
-          debugPrint("image url: ${dataVl["thumbnail"] ?? "_"}");
+          //debugPrint("image url: ${dataVl["thumbnail"] ?? "_"}");
           Course crs = Course.fromJson(dataVl);
-            //print(crs.title);
+          //print(crs.title);
 
-            courses.add(crs);
+          courses.add(crs);
         }
 
         courses.sort((courseA, courseB) =>
             courseA.title.toLowerCase().compareTo(courseB.title.toLowerCase()));
-        debugPrint("courses length: \n ${courses.length}");
+        //debugPrint("courses length: \n ${courses.length}");
       }
     } on DioException catch (e) {
       String errorMsg = e.message ?? "no error message";

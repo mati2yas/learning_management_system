@@ -739,10 +739,10 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
     layoutConfig.imageExists =
         questions[currentIndex].imageExplanationUrl != null;
     layoutConfig.answerRevealed = false;
-    print("current page: $currentIndex");
+    // print("current page: $currentIndex");
     print(
         "layout config=> answer revealed: ${layoutConfig.answerRevealed}, image exists: ${layoutConfig.imageExists}");
-    print("the flex in question $middleExpandedFlex");
+    // print("the flex in question $middleExpandedFlex");
 
     // once setState is called,
     // this will trigger getMiddleExpandedFlex method.

@@ -23,7 +23,7 @@ class EditProfileDataSource {
     int? statusCode;
     FormData formData = await user.toFormData();
 
-    debugPrint("client token: [${_dio.options.headers["Authorization"]}]");
+    //debugPrint("client token: [${_dio.options.headers["Authorization"]}]");
     await DioClient.setToken();
     try {
       _dio.options.headers['Content-Type'] = 'multipart/form-data';
@@ -44,12 +44,12 @@ class EditProfileDataSource {
       String savePath = "";
       String token = response.data["user"]["token"] ?? "No token";
 
-      //debugPrint("login token: $token");
+      ////debugPrint("login token: $token");
       String? avatar = response.data["data"]["user"]["avatar"];
       if (avatar != null) {
         avatar.replaceAll("\\", "");
         //avatar = "${AppUrls.backendStorage}/$avatar";
-        debugPrint("avatar from response: $avatar");
+        //debugPrint("avatar from response: $avatar");
 
         final directory = await getApplicationDocumentsDirectory();
         final imageExtension = avatar.split(".").last;
@@ -74,7 +74,7 @@ class EditProfileDataSource {
         image: savePath,
         token: token,
       );
-      debugPrint("token: $token");
+      //debugPrint("token: $token");
 
       // Save the user data to the database
 

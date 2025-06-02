@@ -108,13 +108,14 @@ class _ExamChapterFilterState extends ConsumerState<ExamChapterFilterScreen>
                           AppStrings.examYearKey:
                               examData[AppStrings.examYearKey]!,
                           AppStrings.questionsKey: chapters[index].questions,
-                          AppStrings.previousScreenKey: 8,
+                          AppStrings.previousScreenKey: 9,
                           AppStrings.hasTimerOptionKey: false,
                         };
                         ref.read(currentIdStubProvider.notifier).changeStub(
                           {
                             AppStrings.stubIdType: IdType.filteredForChapter,
                             AppStrings.stubChapterId: chapters[index].id,
+                            AppStrings.stubId: chapters[index].id,
                           },
                         );
                         ref

@@ -98,7 +98,7 @@ class _CheckPasswordState extends State<CheckPassword> {
 
   void _confirmPassword(BuildContext context) {
     final enteredPassword = _passwordController.text.trim();
-    debugPrint("entered: $enteredPassword, current: ${widget.password}");
+    //debugPrint("entered: $enteredPassword, current: ${widget.password}");
     if (enteredPassword == widget.password) {
       Navigator.pop(context);
       Navigator.of(context).pushNamed(

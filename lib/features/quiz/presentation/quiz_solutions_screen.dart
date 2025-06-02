@@ -73,7 +73,7 @@ class _QuizSolutionsScreenState extends State<QuizSolutionsScreen> {
             }
 
             if (currentQuestion.videoExplanationUrl != null) {
-              debugPrint("video url: ${currentQuestion.videoExplanationUrl}");
+              //debugPrint("video url: ${currentQuestion.videoExplanationUrl}");
               ytCtrl = YoutubePlayerController(
                   initialVideoId: YoutubePlayer.convertUrlToId(
                           currentQuestion.videoExplanationUrl!) ??

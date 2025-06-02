@@ -23,7 +23,7 @@ class AnswersNotifier extends StateNotifier<ScoreManagement> {
             answerHolder.selectedAnswers.toList();
         if (correctListCurrentQuestion.length == 1 &&
             correctListCurrentQuestion[0] == selectedListCurrentQuestion[0]) {
-          debugPrint("sigle answer case, selected answer is correct");
+          //debugPrint("sigle answer case, selected answer is correct");
           score++;
           continue;
         }
@@ -90,7 +90,7 @@ class AnswersNotifier extends StateNotifier<ScoreManagement> {
         Set<String> newSelectedAnswers = {...answerHolder.selectedAnswers};
 
         if (answerHolder.correctAnswers.length == 1) {
-          debugPrint("in provider page, inside single answer case");
+          //debugPrint("in provider page, inside single answer case");
           if (selectedAnswer == null) {
           } else if (newSelectedAnswers.contains(radioButtonValue)) {
             debugPrint(
@@ -102,7 +102,7 @@ class AnswersNotifier extends StateNotifier<ScoreManagement> {
             newSelectedAnswers = {selectedAnswer};
           }
         } else {
-          debugPrint("in provider page, inside multi answer case");
+          //debugPrint("in provider page, inside multi answer case");
 
           debugPrint(
               "set {${answerHolder.selectedAnswers.join(",")}} contains $radioButtonValue?");
@@ -124,7 +124,7 @@ class AnswersNotifier extends StateNotifier<ScoreManagement> {
         }
         answerHolder =
             answerHolder.copyWith(selectedAnswers: newSelectedAnswers);
-        debugPrint("after manipulation: set {${newSelectedAnswers.join(",")}}");
+        //debugPrint("after manipulation: set {${newSelectedAnswers.join(",")}}");
         return answerHolder;
       }
 

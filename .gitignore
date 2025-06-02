@@ -49,9 +49,17 @@ android/my-release-key.jks
 android/mykeystore.jks
 
 android/app/.cxx/Debug/** 
+android/app/.cxx/Debug/
 android/app/.cxx/RelWithDebInfo/*
 android/app/.cxx/Debug/e6r53i6s/arm64-v8a/configure_fingerprint.bin
 android/app/.cxx/Debug/e6r53i6s/armeabi-v7a/configure_fingerprint.bin
 android/app/.cxx/Debug/e6r53i6s/x86/configure_fingerprint.bin
 android/app/.cxx/Debug/e6r53i6s/x86_64/configure_fingerprint.bin
 runn.txt
+.fvmrc
+.fvm/
+run.txt
+
+
+# FVM Version Cache
+.fvm/

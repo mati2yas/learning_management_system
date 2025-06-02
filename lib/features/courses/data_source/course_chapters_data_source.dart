@@ -15,18 +15,18 @@ class CourseChaptersDataSource {
   final Dio _dio;
   CourseChaptersDataSource(this._dio);
   Future<List<Chapter>> fetchCourseChapters(String courseId) async {
-    debugPrint("fetchCourseChapters called");
+    //debugPrint("fetchCourseChapters called");
     List<Chapter> chapters = [];
     int? statusCode;
 
     try {
       final response = await _dio.get("${AppUrls.courseChapters}/$courseId");
-      debugPrint("in fetchCourseChapters:");
-      debugPrint("${AppUrls.baseUrl}/${AppUrls.courseChapters}/$courseId");
+      //debugPrint("in fetchCourseChapters:");
+      //debugPrint("${AppUrls.baseUrl}/${AppUrls.courseChapters}/$courseId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         for (var d in response.data["data"]) {
-          debugPrint("this chapter order: ${d["order"] ?? -1}");
+          //debugPrint("this chapter order: ${d["order"] ?? -1}");
           String theMap = "Value{";
           for (var ent in d.entries) {
             theMap += "${ent.key}: ${ent.value}";

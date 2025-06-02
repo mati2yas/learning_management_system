@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
@@ -23,9 +22,9 @@ class CarouselContent {
   });
 
   factory CarouselContent.fromJson(Map<String, dynamic> json) {
-    debugPrint("carousel content:");
+    //debugPrint("carousel content:");
     for (var entry in json.entries) {
-      debugPrint("${entry.key}: ${entry.value}");
+      //debugPrint("${entry.key}: ${entry.value}");
     }
     return CarouselContent(
       id: json["id"] ?? 0,

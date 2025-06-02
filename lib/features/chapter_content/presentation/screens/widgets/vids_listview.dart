@@ -27,7 +27,7 @@ class VideosListView extends ConsumerWidget {
         onTap: () {
           if (!currentCourse.subscribed) {
             if (index == 0 && chapterOrder == 1) {
-              debugPrint("course not subbed, index 0");
+              //debugPrint("course not subbed, index 0");
               Navigator.of(context)
                   .pushNamed(Routes.chapterVideo, arguments: videos[index]);
             } else {
@@ -50,7 +50,7 @@ class VideosListView extends ConsumerWidget {
               //   );
             }
           } else {
-            debugPrint("course subbed");
+            //debugPrint("course subbed");
             Navigator.of(context)
                 .pushNamed(Routes.chapterVideo, arguments: videos[index]);
           }

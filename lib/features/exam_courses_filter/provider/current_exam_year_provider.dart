@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final currentExamYearIdProvider =
@@ -9,7 +8,7 @@ final currentExamYearIdProvider =
 class CurrentExamYearIdController extends StateNotifier<int> {
   CurrentExamYearIdController() : super(0);
   void changeYearId(int yearId) {
-    debugPrint("change year id to: $yearId");
+    //debugPrint("change year id to: $yearId");
     state = yearId;
   }
 }

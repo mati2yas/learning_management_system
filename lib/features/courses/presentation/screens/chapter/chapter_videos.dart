@@ -434,7 +434,7 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("3. then build method is called");
+    //debugPrint("3. then build method is called");
 
     var textTh = Theme.of(context).textTheme;
 
@@ -573,7 +573,7 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
 
     url = widget.video.url;
 
-    print("2: ytcontrol inits");
+    // print("2: ytcontrol inits");
 
     ytCtrl = YoutubePlayerController(
       flags: const YoutubePlayerFlags(
@@ -588,7 +588,7 @@ class _ChapterVideosWidgetState extends ConsumerState<ChapterVideoWidget> {
 
     ytCtrl.addListener(() {});
 
-    print("1. initstate starts");
+    // print("1. initstate starts");
   }
 }
 

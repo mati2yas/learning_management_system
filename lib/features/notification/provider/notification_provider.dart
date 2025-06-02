@@ -30,7 +30,7 @@ class NotificationApiNotifier extends AsyncNotifier<NotificationModel> {
 
   Future<NotificationModel> fetchNotifs({required int page}) async {
     try {
-      debugPrint("called fetchNotifs with current page: $page");
+      //debugPrint("called fetchNotifs with current page: $page");
       final notifModel = await _repository.getNotifs(page: page);
       return notifModel;
     } catch (e, stack) {

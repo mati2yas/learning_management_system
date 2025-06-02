@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 
@@ -32,11 +31,11 @@ class PageNavigationController extends StateNotifier<ScreenData> {
       return arg;
     }
     if (index == AppInts.examGradeFilterPageIndex) {
-      debugPrint("index argument is 8");
+      //debugPrint("index argument is 8");
       return pageArguments[index] as Map<String, dynamic>;
     }
     if (index == AppInts.examChapterFilterPageIndex) {
-      debugPrint("index argument is 9");
+      //debugPrint("index argument is 9");
       return pageArguments[index] as Map<String, dynamic>;
     }
     return null;
@@ -47,7 +46,7 @@ class PageNavigationController extends StateNotifier<ScreenData> {
     if (newScreens.length > 1) {
       newScreens.removeLast();
     }
-    debugPrint("screens: [${newScreens.map((s) => "back $s").join(",")}]");
+    //debugPrint("screens: [${newScreens.map((s) => "back $s").join(",")}]");
     state = state.copyWith(scrs: newScreens, currentScreen: newScreens.last);
   }
 
@@ -68,7 +67,7 @@ class PageNavigationController extends StateNotifier<ScreenData> {
     if (!newScreens.contains(nextScreen)) {
       newScreens.add(nextScreen);
     }
-    debugPrint("screens: [${newScreens.map((s) => "forward $s").join(",")}]");
+    //debugPrint("screens: [${newScreens.map((s) => "forward $s").join(",")}]");
     state = state.copyWith(scrs: newScreens, currentScreen: nextScreen);
   }
 }

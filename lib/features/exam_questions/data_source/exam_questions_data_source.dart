@@ -16,10 +16,11 @@ class ExamQuestionsDataSource {
 
   ExamQuestionsDataSource(this._dio);
 
-  Future<List<Question>> fetchQuestionsByChapterId({required int chapterId, required int gradeId}) async {
+  Future<List<Question>> fetchQuestionsByChapterId(
+      {required int chapterId, required int gradeId}) async {
     int? statusCode;
     List<Question> questions = [];
-    debugPrint("chapter id: $chapterId");
+    //debugPrint("chapter id: $chapterId");
     try {
       final response =
           await _dio.get("${AppUrls.examChapterQuestions}/$gradeId/$chapterId");
@@ -39,16 +40,15 @@ class ExamQuestionsDataSource {
     return questions;
   }
 
-  Future<List<Question>> fetchQuestionsByYearId(
-      int yearId, int courseId) async {
+  Future<List<Question>> fetchQuestionsByChapterIdNoGrade(
+      {required int chapterId}) async {
     int? statusCode;
     List<Question> questions = [];
-    debugPrint("year id: $yearId");
     try {
       final response =
-          await _dio.get("${AppUrls.examYearQuestions}/$courseId/$yearId");
+          await _dio.get("${AppUrls.examChapterQuestionsNoGrades}/$chapterId");
       debugPrint(
-          "the url of exam question fetch: ${AppUrls.examYearQuestions}/$courseId/$yearId");
+          "the url of exam question fetch: ${AppUrls.examChapterQuestionsNoGrades}/$chapterId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];
@@ -64,14 +64,18 @@ class ExamQuestionsDataSource {
     return questions;
   }
 
-  Future<List<Question>> fetchQuestionsByChapterIdNoGrade({required int chapterId}) async{
-     int? statusCode;
+  Future<List<Question>> fetchQuestionsByYearId({
+    required int yearId,
+    required int courseId,
+  }) async {
+    int? statusCode;
     List<Question> questions = [];
+    //debugPrint("year id: $yearId");
     try {
       final response =
-          await _dio.get("${AppUrls.examChapterQuestionsNoGrades}/$chapterId");
+          await _dio.get("${AppUrls.examYearQuestions}/$courseId/$yearId");
       debugPrint(
-          "the url of exam question fetch: ${AppUrls.examChapterQuestionsNoGrades}/$chapterId");
+          "the url of exam question fetch: ${AppUrls.examYearQuestions}/$courseId/$yearId");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
         var data = response.data["data"];

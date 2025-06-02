@@ -705,7 +705,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
         pageViewController.addListener(trackLayoutConfig);
       });
     });
-    debugPrint("in addPostframe: hasTimerOption: $hasTimerOption");
+    //debugPrint("in addPostframe: hasTimerOption: $hasTimerOption");
   }
 
   void submitExam(AnswersNotifier answersController) {
@@ -728,10 +728,10 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
     int currentIndex = current.toInt();
     layoutConfig.imageExists = questionsList[currentIndex].imageUrl != null;
     layoutConfig.answerRevealed = false;
-    debugPrint("current page: $currentIndex");
+    //debugPrint("current page: $currentIndex");
     // debugPrint(
     //     "layout config=> answer revealed: ${layoutConfig.answerRevealed}, image exists: ${layoutConfig.imageExists}");
-    // debugPrint("the flex in question $middleExpandedFlex");
+    // //debugPrint("the flex in question $middleExpandedFlex");
 
     // once setState is called,
     // this will trigger getMiddleExpandedFlex method.

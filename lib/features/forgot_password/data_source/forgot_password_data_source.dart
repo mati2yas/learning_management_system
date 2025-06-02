@@ -41,15 +41,15 @@ class ForgotPasswordDataSource {
         "password_confirmation": password,
       });
       statusCode = response.statusCode;
-      debugPrint("url: ${AppUrls.baseUrl}/${AppUrls.changePassword}");
-      debugPrint("{email: $email, password: $password, token: $token}");
-      debugPrint("status code: ${response.statusCode}");
+      //debugPrint("url: ${AppUrls.baseUrl}/${AppUrls.changePassword}");
+      //debugPrint("{email: $email, password: $password, token: $token}");
+      //debugPrint("status code: ${response.statusCode}");
 
-      debugPrint("response data:");
+      //debugPrint("response data:");
       for (var entry in response.data.entries ?? {}.entries) {
         if (entry.key == "user") {
           for (var usrData in entry.value.entries ?? {}.entries) {
-            debugPrint("${usrData.key}: ${usrData.value}");
+            //debugPrint("${usrData.key}: ${usrData.value}");
           }
         }
       }
@@ -57,14 +57,14 @@ class ForgotPasswordDataSource {
       if (response.statusCode == 200) {
         String savePath = "";
         final token = response.data["token"];
-        debugPrint("response data:");
+        //debugPrint("response data:");
         for (var entry in response.data["data"]?.entries ?? {}.entries) {
           if (entry.key == "user") {
             for (var usrData in entry.value.entries ?? {}.values) {
-              debugPrint("${usrData.key}: ${usrData.value}");
+              //debugPrint("${usrData.key}: ${usrData.value}");
             }
           } else {
-            debugPrint("${entry.key}: ${entry.value}");
+            //debugPrint("${entry.key}: ${entry.value}");
           }
         }
         String? avatar = response.data["data"]["user"]["avatar"];
@@ -91,8 +91,8 @@ class ForgotPasswordDataSource {
           image: savePath,
           token: response.data["token"] ?? "no token",
         );
-        debugPrint("tokenINResetPass $token");
-        debugPrint("token: $token");
+        //debugPrint("tokenINResetPass $token");
+        //debugPrint("token: $token");
 
         await _storageService.setTokenToStorage(token: token);
         await _storageService.saveUserToStorage(user);
@@ -110,7 +110,7 @@ class ForgotPasswordDataSource {
     int? statusCode;
     ForgotPasswordModel forgotPasswordModel = ForgotPasswordModel(email: email);
     try {
-      debugPrint("forgot password, is email null?");
+      //debugPrint("forgot password, is email null?");
       final response = await _dio.post(
         AppUrls.forgotPassword,
         data: {
@@ -133,7 +133,7 @@ class ForgotPasswordDataSource {
         throw Exception('Failed to reset password: Unknown error');
       }
     } on DioException catch (e) {
-      debugPrint("dio exception at forgot password");
+      //debugPrint("dio exception at forgot password");
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
       throw Exception(errorMessage);
     }

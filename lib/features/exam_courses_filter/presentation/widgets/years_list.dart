@@ -35,7 +35,7 @@ class TakeOrFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     final pageController = ref.read(pageNavigationProvider.notifier);
     final examTypeProv = ref.watch(currentExamTypeProvider);
-    debugPrint("exam type: ${examTypeProv.name}");
+    //debugPrint("exam type: ${examTypeProv.name}");
 
     return [ExamType.matric, ExamType.ministry8th, ExamType.exitexam]
             .contains(examTypeProv)
@@ -94,7 +94,7 @@ class TakeOrFilter extends StatelessWidget {
                     ExamType.ministry8th,
                     ExamType.matric
                   ].contains(examTypeProv)) {
-                    debugPrint("to page 8, exam title: examtitle");
+                    //debugPrint("to page 8, exam title: examtitle");
 
                     ref
                         .read(currentExamYearIdProvider.notifier)
@@ -117,7 +117,7 @@ class TakeOrFilter extends StatelessWidget {
                       },
                     );
                   } else if ([ExamType.exitexam].contains(examTypeProv)) {
-                    debugPrint("to page 8, exam title: examtitle");
+                    //debugPrint("to page 8, exam title: examtitle");
 
                     ref
                         .read(currentExamYearIdProvider.notifier)
@@ -260,7 +260,7 @@ class YearsList extends ConsumerWidget {
       itemCount: course.years.length,
       itemBuilder: (context, index) {
         final year = course.years[index];
-        debugPrint("year ${year.title} is subbed? ${year.subscribed}");
+        //debugPrint("year ${year.title} is subbed? ${year.subscribed}");
         return Card(
           color: Colors.white,
           elevation: 3,

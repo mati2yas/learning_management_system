@@ -40,11 +40,12 @@ class ExamQuestionsRepository {
       );
     } else if (idStub[AppStrings.stubIdType] == IdType.filteredForChapter) {
       return await _dataSource.fetchQuestionsByChapterIdNoGrade(
-        chapterId: idStub[AppStrings.stubChapterId]!
-      );
+          chapterId: idStub[AppStrings.stubChapterId]!);
     } else if (idStub[AppStrings.stubIdType] == IdType.all) {
       List<Question> questions = await _dataSource.fetchQuestionsByYearId(
-          idStub[AppStrings.stubId]!, idStub[AppStrings.stubCourseId]!);
+        yearId: idStub[AppStrings.stubId]!,
+        courseId: idStub[AppStrings.stubCourseId]!,
+      );
 
       return questions;
     }
@@ -56,6 +57,7 @@ class ExamQuestionsRepository {
     if (!await _connectivityService.hasConnection()) {
       throw Exception("No internet connection");
     }
-    return await _dataSource.fetchQuestionsByYearId(yearId, courseId);
+    return await _dataSource.fetchQuestionsByYearId(
+        yearId: yearId, courseId: courseId);
   }
 }

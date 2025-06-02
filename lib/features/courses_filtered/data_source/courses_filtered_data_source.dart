@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
@@ -20,7 +18,7 @@ class CoursesFilteredDataSource {
     List<Course> courses = [];
     int? statusCode;
     try {
-      debugPrint("${AppUrls.baseUrl}/${AppUrls.getCourses}/$filter");
+      //debugPrint("${AppUrls.baseUrl}/${AppUrls.getCourses}/$filter");
       final response = await _dio.get("${AppUrls.getCourses}/$filter");
       statusCode = response.statusCode;
       if (response.statusCode == 200) {
@@ -28,11 +26,12 @@ class CoursesFilteredDataSource {
           dataEntry["category"] = {"name": filter};
           Course crs = Course.fromJson(dataEntry);
 
-          //debugPrint("in coures datasource: course stream: ${crs.stream}");
+          ////debugPrint("in coures datasource: course stream: ${crs.stream}");
           courses.add(crs);
         }
 
-        courses.sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+        courses.sort(
+            (a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
       }
     } on DioException catch (e) {
       String errorMessage = ApiExceptions.getExceptionMessage(e, statusCode);
