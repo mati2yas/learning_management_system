@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lms_system/core/constants/app_colors.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String titleText;
   Widget? leading;
+
   PreferredSizeWidget? bottom;
   CommonAppBar({
     super.key,
@@ -19,6 +21,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       surfaceTintColor: Colors.transparent,
+      backgroundColor: mainBackgroundColor,
       leading: leading,
       title: Text(
         titleText,
