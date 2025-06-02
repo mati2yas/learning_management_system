@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
+import 'package:lms_system/core/common_widgets/custom_gap.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
@@ -67,7 +68,6 @@ class HomePage extends ConsumerWidget {
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Column(
-                        spacing: 8,
                         children: [
                           const SizedBox(height: 8),
                           carouselApiState.when(
@@ -160,7 +160,9 @@ class HomePage extends ConsumerWidget {
                               ],
                             ),
                           ),
+                          Gap(),
                           Align(
+                            // color: Colors.amber,
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "Top Category",
@@ -173,13 +175,13 @@ class HomePage extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 90,
+                          Container(
+                            height: 80,
                             width: double.infinity,
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
-                                spacing: 8,
+                                spacing: 4,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -297,7 +299,7 @@ class HomePage extends ConsumerWidget {
                               // ),
                               Text(
                                 "Popular courses for you",
-                                style: textTh.titleMedium!.copyWith(
+                                style: textTh.headlineMedium!.copyWith(
                                   fontSize: isWideScreen
                                       ? (textTh.titleMedium!.fontSize! + 4)
                                       : textTh.titleMedium!.fontSize,
@@ -311,12 +313,12 @@ class HomePage extends ConsumerWidget {
                                       .refresh(homeScreenApiProvider.notifier)
                                       .build();
                                 },
-                                icon: const Icon(Icons.refresh),
+                                icon: const Icon(
+                                  Icons.refresh,
+                                  size: 30,
+                                ),
                               ),
                             ],
-                          ),
-                          const SizedBox(
-                            height: 5,
                           ),
                           homeApiState.when(
                             loading: () => const Center(
@@ -341,10 +343,10 @@ class HomePage extends ConsumerWidget {
                                 padding: const EdgeInsets.only(bottom: 30),
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisExtent: 237,
+                                  mainAxisExtent: 244,
                                   crossAxisCount: isWideScreen ? 3 : 2,
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 5,
+                                  crossAxisSpacing: 5,
                                   childAspectRatio: UtilFunctions
                                       .getResponsiveChildAspectRatio(size),
                                 ),

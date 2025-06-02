@@ -18,7 +18,7 @@ class CategoryIndicator extends StatelessWidget {
     return Card(
       elevation: 3,
       child: Container(
-        height: isWideScreen ? 80 : 60,
+        height: isWideScreen ? 90 : 70,
         width: isWideScreen ? 150 : 100,
         padding: const EdgeInsets.only(bottom: 6),
         decoration: BoxDecoration(
