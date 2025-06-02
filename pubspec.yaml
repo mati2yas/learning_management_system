@@ -52,13 +52,13 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   flutter_hooks: ^0.20.5
   flutter_riverpod: ^2.6.1
-  collection: ^1.19.1
+  collection: ^1.19.0
   youtube_player_iframe: ^5.2.1
   number_pagination: ^1.1.6
   pager: ^0.0.6
   in_app_update: ^4.2.3
   firebase_core: ^3.13.0
-  firebase_crashlytics: ^4.3.5
+  # firebase_crashlytics: ^4.3.5
   flutter_launcher_icons: ^0.14.3
 
 flutter_launcher_icons:
@@ -75,7 +75,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^4.0.0
+  # flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
