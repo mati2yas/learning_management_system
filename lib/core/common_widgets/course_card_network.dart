@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lms_system/core/app_router.dart';
+import 'package:lms_system/core/common_widgets/custom_gap.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/paid_courses_exams/provider/paid_courses_provider.dart';
 import 'package:lms_system/features/shared/model/shared_course_model.dart';
@@ -50,7 +52,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
             width: 1,
             color: AppColors.mainGrey,
           ),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(4),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,8 +60,8 @@ class CourseCardNetworkImage extends ConsumerWidget {
           children: [
             ClipRRect(
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(6),
-                topRight: Radius.circular(6),
+                topLeft: Radius.circular(4),
+                topRight: Radius.circular(4),
               ),
               // child: fetchImageWithPlaceHolder(
               //   // "${ApiConstants.imageBaseUrl}/${course.image}",
@@ -68,7 +70,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
               child: Image.network(
                 height: 90,
                 width: double.infinity,
-                course.image, 
+                course.image ?? "",
                 fit: BoxFit.cover,
                 loadingBuilder: (BuildContext context, Widget child,
                     ImageChunkEvent? loadingProgress) {
@@ -77,7 +79,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
                   }
                   return Image.asset(
                     fit: BoxFit.cover,
-                    "assets/images/applied_math.png",
+                    "assets/images/placeholder_16.png",
                     height: 90,
                     width: double.infinity,
                   );
@@ -90,13 +92,13 @@ class CourseCardNetworkImage extends ConsumerWidget {
                       height: 90,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      "assets/images/applied_math.png");
+                      "assets/images/placeholder_16.png");
                 },
               ),
             ),
             const SizedBox(height: 5),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: Text(
                 course.title,
                 maxLines: 2,
@@ -109,7 +111,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: Row(
                 children: [
                   SvgPicture.asset(
@@ -123,7 +125,7 @@ class CourseCardNetworkImage extends ConsumerWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    "${course.topics} Topics",
+                    "${course.topics} Chapters",
                     style: const TextStyle(color: AppColors.darkerGrey),
                   ),
                 ],
@@ -170,120 +172,82 @@ class CourseCardNetworkImage extends ConsumerWidget {
                   course.onSalePrices[SubscriptionType.sixMonths] != null ||
                   course.onSalePrices[SubscriptionType.yearly] != null)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: Row(
                     spacing: 6,
                     children: [
-                      Text(
-                        '${course.price[SubscriptionType.oneMonth]} ETB',
-                        style: const TextStyle(
-                          color: AppColors.darkerBlue,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
+                      Expanded(
+                        child: Text(
+                          '${course.price[SubscriptionType.oneMonth]} ETB',
+                          style: const TextStyle(
+                              color: AppColors.darkerBlue,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                              overflow: TextOverflow.ellipsis),
                         ),
                       ),
+                      // Spacer(),
                       GestureDetector(
                         onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Course Prices'),
-                                content: PricesDialogWidget(course: course),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('Back'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
+                          showCourseSubscriptionOffers(context);
                         },
-                        child: const Text(
-                          "Onsale",
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
-                          ),
+                        child: Row(
+                          children: [
+                            const Text(
+                              "Onsale",
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12,
+                                  overflow: TextOverflow.ellipsis),
+                            ),
+                            Gap(width: 5),
+                            const Icon(
+                              Icons.info,
+                              color: AppColors.mainBlue,
+                              size: 24,
+                            ),
+                          ],
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Course Prices'),
-                                content: PricesDialogWidget(course: course),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('Back'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        child: const Icon(
-                          Icons.info,
-                          color: AppColors.mainBlue,
-                          size: 18,
-                        ),
-                      ),
+                      Gap(
+                        width: 4,
+                      )
                     ],
                   ),
                 )
               else
                 GestureDetector(
                   onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Course Prices'),
-                          content: PricesDialogWidget(course: course),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('Back'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
+                    showCourseSubscriptionOffers(context);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: Row(
                       spacing: 6,
                       children: [
-                        Text(
-                          " ${course.price[SubscriptionType.oneMonth]} ETB",
-                          style: const TextStyle(
-                            color: AppColors.mainBlue,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
+                        Expanded(
+                          child: Text(
+                            " ${course.price[SubscriptionType.oneMonth]} ETB",
+                            style: const TextStyle(
+                                color: AppColors.mainBlue,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                overflow: TextOverflow.ellipsis),
                           ),
                         ),
                         const Icon(
                           Icons.info,
                           color: AppColors.mainBlue,
-                          size: 18,
+                          size: 25,
                         ),
+                        Gap(width: 4),
                       ],
                     ),
                   ),
                 ),
               const SizedBox(height: 4),
+              Spacer(),
               GestureDetector(
                 onTap: () async {
                   var (status, courses) =
@@ -321,40 +285,66 @@ class CourseCardNetworkImage extends ConsumerWidget {
                     ),
                   );
                 },
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                  decoration: BoxDecoration(
-                    //color: AppColors.mainBlue,
-                    color: color ? Colors.red : AppColors.mainBlue,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    spacing: 8,
-                    children: [
-                      Text(
-                        color ? "Expired" : "Buy",
-                        style: const TextStyle(
+                child: Center(
+                  child: Container(
+                    width: 120,
+                    height: 35,
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                    decoration: BoxDecoration(
+                      //color: AppColors.mainBlue,
+                      color: color ? Colors.red : AppColors.mainBlue,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 8,
+                      children: [
+                        const Icon(
+                          Icons.lock,
+                          size: 14,
                           color: Colors.white,
                         ),
-                      ),
-                      const Icon(
-                        Icons.lock,
-                        size: 14,
-                        color: Colors.white,
-                      ),
-                    ],
+                        Expanded(
+                          child: Text(
+                            color ? "Expired" : "Buy Now",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              const Spacer(),
+              Gap(
+                height: 7.5,
+              )
             ],
           ],
         ),
       ),
     );
+  }
+
+  Future<dynamic> showCourseSubscriptionOffers(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: FractionallySizedBox(
+              widthFactor: 0.8,
+              heightFactor: 0.5,
+              child: Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                  child: PricesDialogWidget(course: course)),
+            ),
+          );
+        });
   }
 }

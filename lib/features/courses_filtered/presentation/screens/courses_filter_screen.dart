@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
+import 'package:lms_system/core/common_widgets/custom_button.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/fonts.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
@@ -52,7 +54,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
       AppStrings.universityCategory,
       AppStrings.highSchoolCategory
     ].contains(category);
-    double appbarBottomHeight = isHighSchoolOrUni ? 82 : 32;
+    double appbarBottomHeight = isHighSchoolOrUni ? 90 : 40;
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
     final pageNavController = ref.read(pageNavigationProvider.notifier);
@@ -81,6 +83,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
             },
           );
           return Scaffold(
+            backgroundColor: mainBackgroundColor,
             appBar: AppBar(
               leading: IconButton(
                 onPressed: () {
@@ -112,515 +115,720 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                 ),
               ],
               centerTitle: true,
-              elevation: 5,
+              // elevation: 5,
               surfaceTintColor: Colors.transparent,
               shadowColor: Colors.black87,
               backgroundColor: Colors.white,
-              bottom: PreferredSize(
-                preferredSize: Size(size.width, appbarBottomHeight),
-                child: Container(
-                  width: size.width,
-                  color: Colors.white,
-                  height: appbarBottomHeight,
-                  child: Column(
-                    spacing: 5,
-                    children: [
-                      if (isHighSchoolOrUni)
-                        SizedBox(
-                          width: size.width * 0.85,
-                          height: 45,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Spacer(),
-                              if (dropdownItems.isNotEmpty)
-                                DropdownButton<String>(
-                                  dropdownColor: Colors.white,
-                                  value: dropDownValue,
-                                  items: dropdownItems
-                                      .map(
-                                        (item) => DropdownMenuItem<String>(
-                                          value: item,
-                                          child: Text(item),
-                                        ),
-                                      )
-                                      .toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      dropDownValue = value!;
-                                    });
-                                  },
-                                ),
-                              if (category == AppStrings.universityCategory)
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.mainBlue,
-                                    foregroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+              // bottom: PreferredSize(
+              //   preferredSize: Size(size.width, appbarBottomHeight),
+              //   child: Container(
+              //     width: size.width,
+              //     color: Colors.red,
+              //     height: appbarBottomHeight,
+              //     child: Column(
+              //       spacing: 5,
+              //       children: [
+              //         if (isHighSchoolOrUni)
+              //           SizedBox(
+              //             width: size.width * 0.85,
+              //             height: 45,
+              //             child: Row(
+              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //               children: [
+              //                 const Spacer(),
+              //                 if (dropdownItems.isNotEmpty)
+              //                   DropdownButton<String>(
+              //                     dropdownColor: Colors.white,
+              //                     value: dropDownValue,
+              //                     items: dropdownItems
+              //                         .map(
+              //                           (item) => DropdownMenuItem<String>(
+              //                             value: item,
+              //                             child: Text(item),
+              //                           ),
+              //                         )
+              //                         .toList(),
+              //                     onChanged: (value) {
+              //                       setState(() {
+              //                         dropDownValue = value!;
+              //                       });
+              //                     },
+              //                   ),
+              //                 if (category == AppStrings.universityCategory)
+              //                   ElevatedButton(
+              //                     style: ElevatedButton.styleFrom(
+              //                       backgroundColor: AppColors.mainBlue,
+              //                       foregroundColor: Colors.white,
+              //                       shape: RoundedRectangleBorder(
+              //                         borderRadius: BorderRadius.circular(10),
+              //                       ),
+              //                     ),
+              //                     onPressed: () {
+              //                       showBottomSheet(
+              //                         context: context,
+              //                         builder: (context) => SizedBox(
+              //                           width: size.width,
+              //                           height: size.height * 0.6,
+              //                           child: DraggableScrollableSheet(
+              //                             maxChildSize: 1,
+              //                             initialChildSize: 1,
+              //                             minChildSize: 0.4,
+              //                             builder: (context, controller) =>
+              //                                 Column(
+              //                               children: [
+              //                                 Padding(
+              //                                   padding:
+              //                                       const EdgeInsets.all(16.0),
+              //                                   child: Row(
+              //                                     mainAxisAlignment:
+              //                                         MainAxisAlignment
+              //                                             .spaceBetween,
+              //                                     children: [
+              //                                       Text(
+              //                                         "Select Department",
+              //                                         style: textTh.titleMedium!
+              //                                             .copyWith(
+              //                                           fontWeight:
+              //                                               FontWeight.bold,
+              //                                         ),
+              //                                       ),
+              //                                       IconButton(
+              //                                         onPressed: () {
+              //                                           Navigator.pop(context);
+              //                                         },
+              //                                         icon: const Icon(
+              //                                             Icons.close),
+              //                                       ),
+              //                                     ],
+              //                                   ),
+              //                                 ),
+              //                                 Expanded(
+              //                                   child: ListView.separated(
+              //                                     itemCount: AppStrings
+              //                                         .universityDepartments
+              //                                         .length,
+              //                                     itemBuilder: (_, index) =>
+              //                                         ListTile(
+              //                                       tileColor: selectedDepartment ==
+              //                                               AppStrings
+              //                                                       .universityDepartments[
+              //                                                   index]
+              //                                           ? AppColors.mainBlue
+              //                                           : Theme.of(context)
+              //                                               .colorScheme
+              //                                               .surface,
+              //                                       onTap: () {
+              //                                         setState(() {
+              //                                           selectedDepartment =
+              //                                               AppStrings
+              //                                                       .universityDepartments[
+              //                                                   index];
+              //                                         });
+              //                                         Navigator.pop(context);
+              //                                       },
+              //                                       title: Text(
+              //                                         AppStrings
+              //                                                 .universityDepartments[
+              //                                             index],
+              //                                         style: textTh.bodyMedium!
+              //                                             .copyWith(
+              //                                           color: selectedDepartment ==
+              //                                                   AppStrings
+              //                                                           .universityDepartments[
+              //                                                       index]
+              //                                               ? Colors.white
+              //                                               : Colors.black,
+              //                                         ),
+              //                                       ),
+              //                                     ),
+              //                                     separatorBuilder:
+              //                                         (_, index) =>
+              //                                             const Padding(
+              //                                       padding:
+              //                                           EdgeInsets.symmetric(
+              //                                               horizontal: 12.0),
+              //                                       child: Divider(),
+              //                                     ),
+              //                                   ),
+              //                                 )
+              //                               ],
+              //                             ),
+              //                           ),
+              //                         ),
+              //                       );
+              //                     },
+              //                     child: const Text("Select Department"),
+              //                   ),
+              //               ],
+              //             ),
+              //           ),
+              //         if (category != AppStrings.otherCoursesCategory)
+              //           CustomTabBar(
+              //             alignment: TabAlignment.start,
+              //             isScrollable: true,
+              //             tabs: tabValues
+              //                 .map(
+              //                   (grd) => Tab(
+              //                     height: 30,
+              //                     text: grd,
+              //                   ),
+              //                 )
+              //                 .toList(),
+              //             //controller: tabController,
+              //           )
+              //       ],
+              //     ),
+              //   ),
+              // ),
+            ),
+            body: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 0.0),
+              child: Column(
+                children: [
+                  Material(
+                    elevation: 5,
+                    color: mainBackgroundColor,
+                    child: Container(
+                      width: size.width,
+                      // decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(3),
+                      //     border: Border.all(width: 1, color: primaryColor)),
+                      // color: Colors.red,
+                      // height:
+                      //     appbarBottomHeight - (dropdownItems.isEmpty ? 45 : 0),
+                      child: Column(
+                        spacing: 5,
+                        children: [
+                          if (isHighSchoolOrUni)
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 12),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Spacer(),
+                                  if (dropdownItems.isNotEmpty)
+                                    DropdownButton<String>(
+                                      dropdownColor: Colors.white,
+                                      value: dropDownValue,
+                                      items: dropdownItems
+                                          .map(
+                                            (item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(item),
+                                            ),
+                                          )
+                                          .toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          dropDownValue = value!;
+                                        });
+                                      },
                                     ),
-                                  ),
-                                  onPressed: () {
-                                    showBottomSheet(
-                                      context: context,
-                                      builder: (context) => SizedBox(
-                                        width: size.width,
-                                        height: size.height * 0.6,
-                                        child: DraggableScrollableSheet(
-                                          maxChildSize: 1,
-                                          initialChildSize: 1,
-                                          minChildSize: 0.4,
-                                          builder: (context, controller) =>
-                                              Column(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(16.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                  if (category == AppStrings.universityCategory)
+                                    Container(
+                                      child: CustomButton(
+                                        isFilledButton: false,
+                                        buttonWidth: 180,
+                                        buttonHeight: 40,
+                                        buttonWidget: Text(
+                                          'Filter with department',
+                                          style: textTheme.labelLarge!.copyWith(
+                                              letterSpacing: 0.5,
+                                              fontFamily: "Inter",
+                                              color: primaryColor,
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
+                                        buttonAction: () {
+                                          showBottomSheet(
+                                            context: context,
+                                            builder: (context) => SizedBox(
+                                              width: size.width,
+                                              height: size.height * 0.6,
+                                              child: DraggableScrollableSheet(
+                                                maxChildSize: 1,
+                                                initialChildSize: 1,
+                                                minChildSize: 0.4,
+                                                builder:
+                                                    (context, controller) =>
+                                                        Column(
                                                   children: [
-                                                    Text(
-                                                      "Select Department",
-                                                      style: textTh.titleMedium!
-                                                          .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              16.0),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            "Select Department",
+                                                            style: textTh
+                                                                .titleMedium!
+                                                                .copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          IconButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            icon: const Icon(
+                                                                Icons.close),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
-                                                    IconButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      icon: const Icon(
-                                                          Icons.close),
-                                                    ),
+                                                    Expanded(
+                                                      child: ListView.separated(
+                                                        itemCount: AppStrings
+                                                            .universityDepartments
+                                                            .length,
+                                                        itemBuilder:
+                                                            (_, index) =>
+                                                                ListTile(
+                                                          tileColor: selectedDepartment ==
+                                                                  AppStrings
+                                                                          .universityDepartments[
+                                                                      index]
+                                                              ? lightPrimaryColor
+                                                              : Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .surface,
+                                                          onTap: () {
+                                                            setState(() {
+                                                              selectedDepartment =
+                                                                  AppStrings
+                                                                          .universityDepartments[
+                                                                      index];
+                                                            });
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          title: Text(
+                                                            AppStrings
+                                                                    .universityDepartments[
+                                                                index],
+                                                            style: textTh
+                                                                .bodyMedium!
+                                                                .copyWith(
+                                                              color: selectedDepartment ==
+                                                                      AppStrings
+                                                                              .universityDepartments[
+                                                                          index]
+                                                                  ? Colors.white
+                                                                  : Colors
+                                                                      .black,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        separatorBuilder:
+                                                            (_, index) =>
+                                                                const Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      12.0),
+                                                          child: Divider(),
+                                                        ),
+                                                      ),
+                                                    )
                                                   ],
                                                 ),
                                               ),
-                                              Expanded(
-                                                child: ListView.separated(
-                                                  itemCount: AppStrings
-                                                      .universityDepartments
-                                                      .length,
-                                                  itemBuilder: (_, index) =>
-                                                      ListTile(
-                                                    tileColor: selectedDepartment ==
-                                                            AppStrings
-                                                                    .universityDepartments[
-                                                                index]
-                                                        ? AppColors.mainBlue
-                                                        : Theme.of(context)
-                                                            .colorScheme
-                                                            .surface,
-                                                    onTap: () {
-                                                      setState(() {
-                                                        selectedDepartment =
-                                                            AppStrings
-                                                                    .universityDepartments[
-                                                                index];
-                                                      });
-                                                      Navigator.pop(context);
-                                                    },
-                                                    title: Text(
-                                                      AppStrings
-                                                              .universityDepartments[
-                                                          index],
-                                                      style: textTh.bodyMedium!
-                                                          .copyWith(
-                                                        color: selectedDepartment ==
-                                                                AppStrings
-                                                                        .universityDepartments[
-                                                                    index]
-                                                            ? Colors.white
-                                                            : Colors.black,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  separatorBuilder:
-                                                      (_, index) =>
-                                                          const Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 12.0),
-                                                    child: Divider(),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                    );
-                                  },
-                                  child: const Text("Select Department"),
-                                ),
-                            ],
-                          ),
-                        ),
-                      if (category != AppStrings.otherCoursesCategory)
-                        CustomTabBar(
-                          alignment: TabAlignment.start,
-                          isScrollable: true,
-                          tabs: tabValues
-                              .map(
-                                (grd) => Tab(
-                                  height: 30,
-                                  text: grd,
-                                ),
-                              )
-                              .toList(),
-                          //controller: tabController,
-                        )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            body: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: apiState.when(
-                loading: () => const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.mainBlue,
-                    strokeWidth: 5,
-                  ),
-                ),
-                error: (error, stack) => AsyncErrorWidget(
-                  errorMsg: error.toString(),
-                  callback: () async {
-                    await ref
-                        .refresh(coursesFilteredProvider.notifier)
-                        .fetchCoursesFiltered(filter: category);
-                  },
-                ),
-                data: (courses) {
-                  //debugPrint("current category: $category");
-                  //debugPrint("courses len: ${courses.length}");
-                  return category == AppStrings.otherCoursesCategory
-                      ? GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 10,
-                                crossAxisSpacing: 10,
-                                childAspectRatio: 0.8,
-                                mainAxisExtent: 237,
+                                    ),
+                                ],
                               ),
-                              itemCount: courses.length,
-                              itemBuilder: (_, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    courseIdController
-                                        .changeCourseId(courses[index].id);
-
-                                    ref
-                                        .read(courseChaptersProvider.notifier)
-                                        .fetchCourseChapters();
-
-                                    ref
-                                        .read(courseSubTrackProvider.notifier)
-                                        .changeCurrentCourse(courses[index]);
-
-                                    debugPrint(
-                                        "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
-                                    pageNavController.navigateTo(
-                                      nextScreen:
-                                          AppInts.courseChaptersPageIndex,
-                                      //previousScreen:
-                                      //AppInts.coursesFilterPageIndex,
-                                      arguments: {
-                                        "previousScreenIndex": 4,
-                                        "course": courses[index],
-                                      },
-                                    );
-                                  },
-                                  child: CourseCardNetworkImage(
-                                    mainAxisExtent: 237,
-                                    course: courses[index],
-                                  ),
-                                );
-                              },
-                            )
-                      : TabBarView(
-                          controller: tabController,
-                          children: tabValues.map(
-                            (grade) {
-                              //
-                              switch (category) {
-                                case AppStrings.universityCategory:
-                                  selectedCourses = courses;
-                                  if (selectedDepartment != "All") {
-                                    selectedCourses = selectedCourses
-                                        .where((course) =>
-                                            course.department?.trim() ==
-                                            selectedDepartment.trim())
-                                        .toList();
-                                  }
-                                  selectedCourses = selectedCourses
-                                      .where((course) =>
-                                          course.batch ==
-                                          AppStrings.universityGrades[
-                                              currentTabIndex])
-                                      .toList();
-                                  break;
-
-                                case AppStrings.highSchoolCategory:
-                                  debugPrint(
-                                      "highschool grades list: [${AppStrings.highSchoolGrades.join(",")}]");
-                                  debugPrint(
-                                      "currentTabIndex: $currentTabIndex");
-                                  debugPrint("grade: $grade");
-                                  highSchoolListsMap[grade] =
-                                      courses.where((course) {
-                                    if ([AppStrings.grade9, AppStrings.grade10]
-                                        .contains(grade)) {
-                                      debugPrint(
-                                          "grade: $grade, course grade: ${course.grade}");
-                                    }
-                                    return course.grade == grade;
-                                  }).toList();
-                                  if ([AppStrings.grade11, AppStrings.grade12]
-                                      .contains(grade)) {
-                                    highSchoolListsMap[grade] =
-                                        highSchoolListsMap[grade]
-                                                ?.where((course) =>
-                                                    compareStream(course.stream,
-                                                        dropDownValue))
-                                                .toList() ??
-                                            [];
-                                  }
-                                  debugPrint(
-                                      "highschoolLists[grade 9]: ${(highSchoolListsMap[AppStrings.grade9] ?? []).map((crs) => crs.grade).toList().join(",")}");
-                                  debugPrint(
-                                      "highschoolLists[grade 10]: ${(highSchoolListsMap[AppStrings.grade10] ?? []).map((crs) => crs.grade).toList().join(",")}");
-                                  debugPrint(
-                                      "highschoolLists[grade 11]: ${(highSchoolListsMap[AppStrings.grade11] ?? []).map((crs) => crs.grade).toList().join(",")}");
-                                  debugPrint(
-                                      "highschoolLists[grade 12]: ${(highSchoolListsMap[AppStrings.grade12] ?? []).map((crs) => crs.grade).toList().join(",")}");
-
-                                  selectedCourses = [];
-                                  selectedCourses =
-                                      highSchoolListsMap[grade] ?? [];
-                                  // if (grade == AppStrings.grade9 ||
-                                  //     grade == AppStrings.grade10) {
-                                  //   debugPrint(
-                                  //       "original courses list: ${courses.length}");
-                                  //   selectedCourses = courses
-                                  //       .where((course) =>
-                                  //           course.grade ==
-                                  //           AppStrings.highSchoolGrades[
-                                  //               currentTabIndex])
-                                  //       .toList();
-                                  //   debugPrint(
-                                  //       "selected courses length after filter: ${selectedCourses.length}");
-                                  // } else if (grade == AppStrings.grade11 ||
-                                  //     grade == AppStrings.grade12) {
-                                  //   selectedCourses = courses
-                                  //       .where((course) =>
-                                  //           course.grade ==
-                                  //               AppStrings.highSchoolGrades[
-                                  //                   currentTabIndex] &&
-                                  //           compareStream(
-                                  //               course.stream, dropDownValue))
-                                  //       .toList();
-                                  // }
-
-                                  String theList = selectedCourses
-                                      .map((course) =>
-                                          "Course{grade: ${course.grade}, stream: ${course.stream}}")
-                                      .join(",");
-                                  debugPrint(
-                                      "Filtered Highschool Courses: $theList");
-                                  debugPrint(
-                                      "==========================================================================");
-                                  break;
-                                case AppStrings.lowerGradesCategory:
-                                  selectedCourses = courses
-                                      .where((course) =>
-                                          course.grade ==
-                                          AppStrings
-                                              .lowerGrades[currentTabIndex])
-                                      .toList();
-                                  break;
-                                default:
-                                  selectedCourses = courses;
-                                  break;
-                              }
-                              //selectedCourses = [];
-                              //selectedCourses = highSchoolListsMap[grade] ?? [];
-                              debugPrint(
-                                  "final selected courses: ${selectedCourses.map((crs) => "Course(grade: ${crs.grade})").toList().join(",")}");
-                              return category == AppStrings.highSchoolCategory
-                                  ? SizedBox(
-                                      height: size.height -
-                                          (56 +
-                                              82 +
-                                              58), // screen height - (normal appbar height + appbar botom height + navbar height)
-                                      width: size.width,
-                                      child: ListView(
-                                        children: [
-                                          SizedBox(
-                                            height: highSchoolListsMap[grade]!
-                                                        .length *
-                                                    227 +
-                                                highSchoolListsMap[grade]!
-                                                        .length *
-                                                    10,
-                                            child: GridView.builder(
-                                                        gridDelegate:
-                                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                                          crossAxisCount: 2,
-                                                          mainAxisSpacing: 10,
-                                                          crossAxisSpacing: 10,
-                                                          childAspectRatio: 0.8,
-                                                          mainAxisExtent: 237,
-                                                        ),
-                                                        itemCount:
-                                                            highSchoolListsMap[
-                                                                    grade]!
-                                                                .length,
-                                                        itemBuilder:
-                                                            (_, index) {
-                                                          return GestureDetector(
-                                                            onTap: () {
-                                                              courseIdController
-                                                                  .changeCourseId(
-                                                                      highSchoolListsMap[grade]![
-                                                                              index]
-                                                                          .id);
-
-                                                              ref
-                                                                  .read(courseChaptersProvider
-                                                                      .notifier)
-                                                                  .fetchCourseChapters();
-
-                                                              ref
-                                                                  .read(courseSubTrackProvider
-                                                                      .notifier)
-                                                                  .changeCurrentCourse(
-                                                                      highSchoolListsMap[
-                                                                              grade]![
-                                                                          index]);
-
-                                                              debugPrint(
-                                                                  "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
-                                                              pageNavController
-                                                                  .navigateTo(
-                                                                nextScreen: AppInts
-                                                                    .courseChaptersPageIndex,
-                                                                //previousScreen: AppInts
-                                                                //.coursesFilterPageIndex,
-                                                                arguments: {
-                                                                  "previousScreenIndex":
-                                                                      4,
-                                                                  "course":
-                                                                      highSchoolListsMap[
-                                                                              grade]![
-                                                                          index],
-                                                                },
-                                                              );
-                                                            },
-                                                            child:
-                                                                CourseCardNetworkImage(
-                                                              mainAxisExtent:
-                                                                  237,
-                                                              course:
-                                                                  highSchoolListsMap[
-                                                                          grade]![
-                                                                      index],
-                                                            ),
-                                                          );
-                                                        },
-                                                      ),
-                                          ),
-                                          const SizedBox(height: 200),
-                                        ],
+                            ),
+                          if (category != AppStrings.otherCoursesCategory)
+                            Container(
+                              width: 500,
+                              child: CustomTabBar(
+                                alignment: TabAlignment.start,
+                                isScrollable: true,
+                                tabs: tabValues
+                                    .map(
+                                      (grd) => Tab(
+                                        height: 30,
+                                        text: grd,
                                       ),
                                     )
-                                  : SizedBox(
-                                      height: size.height -
-                                          (56 +
-                                              82 +
-                                              58), // screen height - (normal appbar height + appbar botom height + navbar height)
-                                      width: size.width,
-                                      child: ListView(
-                                        children: [
-                                          SizedBox(
-                                            height:
-                                                selectedCourses.length * 227 +
-                                                    selectedCourses.length * 10,
-                                            child: GridView.builder(
-                                                    gridDelegate:
-                                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                                      crossAxisCount: 2,
-                                                      mainAxisSpacing: 10,
-                                                      crossAxisSpacing: 10,
-                                                      childAspectRatio: 0.8,
-                                                      mainAxisExtent: 237,
-                                                    ),
-                                                    itemCount:
-                                                        selectedCourses.length,
-                                                    itemBuilder: (_, index) {
-                                                      return GestureDetector(
-                                                        onTap: () {
-                                                          courseIdController
-                                                              .changeCourseId(
-                                                                  selectedCourses[
-                                                                          index]
-                                                                      .id);
+                                    .toList(),
+                                //controller: tabController,
+                              ),
+                            )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      width: size.width,
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: apiState.when(
+                        loading: () => const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.mainBlue,
+                            strokeWidth: 5,
+                          ),
+                        ),
+                        error: (error, stack) => AsyncErrorWidget(
+                          errorMsg: error.toString(),
+                          callback: () async {
+                            await ref
+                                .refresh(coursesFilteredProvider.notifier)
+                                .fetchCoursesFiltered(filter: category);
+                          },
+                        ),
+                        data: (courses) {
+                          //debugPrint("current category: $category");
+                          //debugPrint("courses len: ${courses.length}");
+                          return category == AppStrings.otherCoursesCategory
+                              ? GridView.builder(
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10,
+                                    childAspectRatio: 0.8,
+                                    mainAxisExtent: 237,
+                                  ),
+                                  itemCount: courses.length,
+                                  itemBuilder: (_, index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        courseIdController
+                                            .changeCourseId(courses[index].id);
 
-                                                          ref
-                                                              .read(
-                                                                  courseChaptersProvider
-                                                                      .notifier)
-                                                              .fetchCourseChapters();
+                                        ref
+                                            .read(
+                                                courseChaptersProvider.notifier)
+                                            .fetchCourseChapters();
 
-                                                          ref
-                                                              .read(
-                                                                  courseSubTrackProvider
-                                                                      .notifier)
-                                                              .changeCurrentCourse(
-                                                                  selectedCourses[
-                                                                      index]);
+                                        ref
+                                            .read(
+                                                courseSubTrackProvider.notifier)
+                                            .changeCurrentCourse(
+                                                courses[index]);
 
-                                                          debugPrint(
-                                                              "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
-                                                          pageNavController
-                                                              .navigateTo(
-                                                            nextScreen: AppInts
-                                                                .courseChaptersPageIndex,
-                                                            //previousScreen: AppInts
-                                                            //.coursesFilterPageIndex,
-                                                            arguments: {
-                                                              "previousScreenIndex":
-                                                                  4,
-                                                              "course":
-                                                                  selectedCourses[
-                                                                      index],
-                                                            },
-                                                          );
-                                                        },
-                                                        child:
-                                                            CourseCardNetworkImage(
-                                                          mainAxisExtent: 237,
-                                                          course:
-                                                              selectedCourses[
-                                                                  index],
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
-                                          ),
-                                          const SizedBox(height: 200),
-                                        ],
+                                        debugPrint(
+                                            "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
+                                        pageNavController.navigateTo(
+                                          nextScreen:
+                                              AppInts.courseChaptersPageIndex,
+                                          //previousScreen:
+                                          //AppInts.coursesFilterPageIndex,
+                                          arguments: {
+                                            "previousScreenIndex": 4,
+                                            "course": courses[index],
+                                          },
+                                        );
+                                      },
+                                      child: CourseCardNetworkImage(
+                                        mainAxisExtent: 237,
+                                        course: courses[index],
                                       ),
                                     );
-                            },
-                          ).toList(),
-                        );
-                },
+                                  },
+                                )
+                              : TabBarView(
+                                  controller: tabController,
+                                  children: tabValues.map(
+                                    (grade) {
+                                      //
+                                      switch (category) {
+                                        case AppStrings.universityCategory:
+                                          selectedCourses = courses;
+                                          if (selectedDepartment != "All") {
+                                            selectedCourses = selectedCourses
+                                                .where((course) =>
+                                                    course.department?.trim() ==
+                                                    selectedDepartment.trim())
+                                                .toList();
+                                          }
+                                          selectedCourses = selectedCourses
+                                              .where((course) =>
+                                                  course.batch ==
+                                                  AppStrings.universityGrades[
+                                                      currentTabIndex])
+                                              .toList();
+                                          break;
+
+                                        case AppStrings.highSchoolCategory:
+                                          debugPrint(
+                                              "highschool grades list: [${AppStrings.highSchoolGrades.join(",")}]");
+                                          debugPrint(
+                                              "currentTabIndex: $currentTabIndex");
+                                          debugPrint("grade: $grade");
+                                          highSchoolListsMap[grade] =
+                                              courses.where((course) {
+                                            if ([
+                                              AppStrings.grade9,
+                                              AppStrings.grade10
+                                            ].contains(grade)) {
+                                              debugPrint(
+                                                  "grade: $grade, course grade: ${course.grade}");
+                                            }
+                                            return course.grade == grade;
+                                          }).toList();
+                                          if ([
+                                            AppStrings.grade11,
+                                            AppStrings.grade12
+                                          ].contains(grade)) {
+                                            highSchoolListsMap[grade] =
+                                                highSchoolListsMap[grade]
+                                                        ?.where((course) =>
+                                                            compareStream(
+                                                                course.stream,
+                                                                dropDownValue))
+                                                        .toList() ??
+                                                    [];
+                                          }
+                                          debugPrint(
+                                              "highschoolLists[grade 9]: ${(highSchoolListsMap[AppStrings.grade9] ?? []).map((crs) => crs.grade).toList().join(",")}");
+                                          debugPrint(
+                                              "highschoolLists[grade 10]: ${(highSchoolListsMap[AppStrings.grade10] ?? []).map((crs) => crs.grade).toList().join(",")}");
+                                          debugPrint(
+                                              "highschoolLists[grade 11]: ${(highSchoolListsMap[AppStrings.grade11] ?? []).map((crs) => crs.grade).toList().join(",")}");
+                                          debugPrint(
+                                              "highschoolLists[grade 12]: ${(highSchoolListsMap[AppStrings.grade12] ?? []).map((crs) => crs.grade).toList().join(",")}");
+
+                                          selectedCourses = [];
+                                          selectedCourses =
+                                              highSchoolListsMap[grade] ?? [];
+                                          // if (grade == AppStrings.grade9 ||
+                                          //     grade == AppStrings.grade10) {
+                                          //   debugPrint(
+                                          //       "original courses list: ${courses.length}");
+                                          //   selectedCourses = courses
+                                          //       .where((course) =>
+                                          //           course.grade ==
+                                          //           AppStrings.highSchoolGrades[
+                                          //               currentTabIndex])
+                                          //       .toList();
+                                          //   debugPrint(
+                                          //       "selected courses length after filter: ${selectedCourses.length}");
+                                          // } else if (grade == AppStrings.grade11 ||
+                                          //     grade == AppStrings.grade12) {
+                                          //   selectedCourses = courses
+                                          //       .where((course) =>
+                                          //           course.grade ==
+                                          //               AppStrings.highSchoolGrades[
+                                          //                   currentTabIndex] &&
+                                          //           compareStream(
+                                          //               course.stream, dropDownValue))
+                                          //       .toList();
+                                          // }
+
+                                          String theList = selectedCourses
+                                              .map((course) =>
+                                                  "Course{grade: ${course.grade}, stream: ${course.stream}}")
+                                              .join(",");
+                                          debugPrint(
+                                              "Filtered Highschool Courses: $theList");
+                                          debugPrint(
+                                              "==========================================================================");
+                                          break;
+                                        case AppStrings.lowerGradesCategory:
+                                          selectedCourses = courses
+                                              .where((course) =>
+                                                  course.grade ==
+                                                  AppStrings.lowerGrades[
+                                                      currentTabIndex])
+                                              .toList();
+                                          break;
+                                        default:
+                                          selectedCourses = courses;
+                                          break;
+                                      }
+                                      //selectedCourses = [];
+                                      //selectedCourses = highSchoolListsMap[grade] ?? [];
+                                      debugPrint(
+                                          "final selected courses: ${selectedCourses.map((crs) => "Course(grade: ${crs.grade})").toList().join(",")}");
+                                      return category ==
+                                              AppStrings.highSchoolCategory
+                                          ? SizedBox(
+                                              height: size.height -
+                                                  (56 +
+                                                      82 +
+                                                      58), // screen height - (normal appbar height + appbar botom height + navbar height)
+                                              width: size.width,
+                                              child: ListView(
+                                                children: [
+                                                  SizedBox(
+                                                    height: highSchoolListsMap[
+                                                                    grade]!
+                                                                .length *
+                                                            227 +
+                                                        highSchoolListsMap[
+                                                                    grade]!
+                                                                .length *
+                                                            10,
+                                                    child: GridView.builder(
+                                                      gridDelegate:
+                                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                                        crossAxisCount: 2,
+                                                        mainAxisSpacing: 10,
+                                                        crossAxisSpacing: 10,
+                                                        childAspectRatio: 0.8,
+                                                        mainAxisExtent: 237,
+                                                      ),
+                                                      itemCount:
+                                                          highSchoolListsMap[
+                                                                  grade]!
+                                                              .length,
+                                                      itemBuilder: (_, index) {
+                                                        return GestureDetector(
+                                                          onTap: () {
+                                                            courseIdController
+                                                                .changeCourseId(
+                                                                    highSchoolListsMap[grade]![
+                                                                            index]
+                                                                        .id);
+
+                                                            ref
+                                                                .read(courseChaptersProvider
+                                                                    .notifier)
+                                                                .fetchCourseChapters();
+
+                                                            ref
+                                                                .read(courseSubTrackProvider
+                                                                    .notifier)
+                                                                .changeCurrentCourse(
+                                                                    highSchoolListsMap[
+                                                                            grade]![
+                                                                        index]);
+
+                                                            debugPrint(
+                                                                "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
+                                                            pageNavController
+                                                                .navigateTo(
+                                                              nextScreen: AppInts
+                                                                  .courseChaptersPageIndex,
+                                                              //previousScreen: AppInts
+                                                              //.coursesFilterPageIndex,
+                                                              arguments: {
+                                                                "previousScreenIndex":
+                                                                    4,
+                                                                "course":
+                                                                    highSchoolListsMap[
+                                                                            grade]![
+                                                                        index],
+                                                              },
+                                                            );
+                                                          },
+                                                          child:
+                                                              CourseCardNetworkImage(
+                                                            mainAxisExtent: 237,
+                                                            course:
+                                                                highSchoolListsMap[
+                                                                        grade]![
+                                                                    index],
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 200),
+                                                ],
+                                              ),
+                                            )
+                                          : SizedBox(
+                                              height: size.height -
+                                                  (56 +
+                                                      82 +
+                                                      58), // screen height - (normal appbar height + appbar botom height + navbar height)
+                                              width: size.width,
+                                              child: ListView(
+                                                children: [
+                                                  SizedBox(
+                                                    height: selectedCourses
+                                                                .length *
+                                                            227 +
+                                                        selectedCourses.length *
+                                                            10,
+                                                    child: GridView.builder(
+                                                      gridDelegate:
+                                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                                        crossAxisCount: 2,
+                                                        mainAxisSpacing: 10,
+                                                        crossAxisSpacing: 10,
+                                                        childAspectRatio: 0.8,
+                                                        mainAxisExtent: 237,
+                                                      ),
+                                                      itemCount: selectedCourses
+                                                          .length,
+                                                      itemBuilder: (_, index) {
+                                                        return GestureDetector(
+                                                          onTap: () {
+                                                            courseIdController
+                                                                .changeCourseId(
+                                                                    selectedCourses[
+                                                                            index]
+                                                                        .id);
+
+                                                            ref
+                                                                .read(courseChaptersProvider
+                                                                    .notifier)
+                                                                .fetchCourseChapters();
+
+                                                            ref
+                                                                .read(courseSubTrackProvider
+                                                                    .notifier)
+                                                                .changeCurrentCourse(
+                                                                    selectedCourses[
+                                                                        index]);
+
+                                                            debugPrint(
+                                                                "current course: Course{ id: ${ref.read(courseSubTrackProvider).id}, title: ${ref.read(courseSubTrackProvider).title} }");
+                                                            pageNavController
+                                                                .navigateTo(
+                                                              nextScreen: AppInts
+                                                                  .courseChaptersPageIndex,
+                                                              //previousScreen: AppInts
+                                                              //.coursesFilterPageIndex,
+                                                              arguments: {
+                                                                "previousScreenIndex":
+                                                                    4,
+                                                                "course":
+                                                                    selectedCourses[
+                                                                        index],
+                                                              },
+                                                            );
+                                                          },
+                                                          child:
+                                                              CourseCardNetworkImage(
+                                                            mainAxisExtent: 237,
+                                                            course:
+                                                                selectedCourses[
+                                                                    index],
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 200),
+                                                ],
+                                              ),
+                                            );
+                                    },
+                                  ).toList(),
+                                );
+                        },
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
           );

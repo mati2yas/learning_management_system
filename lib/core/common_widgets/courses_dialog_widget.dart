@@ -29,9 +29,18 @@ class PriceTypeIndicator extends StatelessWidget {
         onTapCallback();
       },
       child: Row(
-        spacing: 4,
         children: [
-          Text(text),
+          Expanded(
+            child: Text(
+              text,
+              style: textTheme.titleSmall!.copyWith(
+                  letterSpacing: 0.1,
+                  overflow: TextOverflow.ellipsis,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Roboto"),
+            ),
+          ),
           Icon(
             contentRevealed ? Icons.arrow_drop_up : Icons.arrow_drop_down,
           ),
@@ -64,7 +73,7 @@ class RichTextFormat extends StatelessWidget {
                 text: 'Original: ',
                 style: TextStyle(
                   color: AppColors.mainBlue,
-                  fontWeight: FontWeight.w500,
+                  // fontWeight: FontWeight.w500,
                   fontSize: 14,
                 ),
               ),
@@ -80,7 +89,7 @@ class RichTextFormat extends StatelessWidget {
                 const TextSpan(
                   text: "Onsale: ",
                   style: TextStyle(
-                    color: AppColors.mainBlue,
+                    color: Colors.green,
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
                   ),
@@ -88,7 +97,7 @@ class RichTextFormat extends StatelessWidget {
                 TextSpan(
                   text: onsalePrice,
                   style: const TextStyle(
-                    color: Colors.black,
+                    color: Colors.green,
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
                   ),
@@ -110,67 +119,111 @@ class _PricesDialogWidgetState extends State<PricesDialogWidget> {
   @override
   Widget build(BuildContext context) {
     final course = widget.course;
-    return SingleChildScrollView(
-      child: ListBody(
-        children: <Widget>[
-          const Text("Prices: On sale and normal"),
-          PriceTypeIndicator(
-              contentRevealed: oneMonthRevealed,
-              onTapCallback: () {
-                setState(() {
-                  oneMonthRevealed = !oneMonthRevealed;
-                });
-              },
-              text: "One Month"),
-          if (oneMonthRevealed)
-            RichTextFormat(
-              normalPrice: normalToString(SubscriptionType.oneMonth),
-              onsalePrice: onSaleToString(SubscriptionType.oneMonth),
+    return Column(
+      children: [
+        Text(
+          "Course Pricing",
+          style: textTheme.titleLarge!.copyWith(
+              letterSpacing: 0.1,
+              overflow: TextOverflow.ellipsis,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontFamily: "Roboto"),
+        ),
+        Gap(
+          height: 5,
+        ),
+        Divider(
+          thickness: 0.5,
+          color: primaryColor,
+        ),
+        Gap(
+          height: 10,
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "We offer the following subscription types for this course, along with their current sale prices (if applicable).",
+                  style: textTheme.bodyMedium!.copyWith(
+                      letterSpacing: 0.1,
+                      color: Colors.black,
+                      fontFamily: "Roboto"),
+                ),
+                Gap(
+                  height: 16,
+                ),
+                PriceTypeIndicator(
+                    contentRevealed: oneMonthRevealed,
+                    onTapCallback: () {
+                      setState(() {
+                        oneMonthRevealed = !oneMonthRevealed;
+                      });
+                    },
+                    text: "Monthly Subscription"),
+                if (oneMonthRevealed)
+                  RichTextFormat(
+                    normalPrice: normalToString(SubscriptionType.oneMonth),
+                    onsalePrice: onSaleToString(SubscriptionType.oneMonth),
+                  ),
+                Gap(
+                  height: 10,
+                ),
+                PriceTypeIndicator(
+                  text: "Quarterly Subscription (3 months)",
+                  contentRevealed: threeMonthRevealed,
+                  onTapCallback: () {
+                    setState(() {
+                      threeMonthRevealed = !threeMonthRevealed;
+                    });
+                  },
+                ),
+                if (threeMonthRevealed)
+                  RichTextFormat(
+                    normalPrice: normalToString(SubscriptionType.threeMonths),
+                    onsalePrice: onSaleToString(SubscriptionType.threeMonths),
+                  ),
+                Gap(
+                  height: 10,
+                ),
+                PriceTypeIndicator(
+                  text: "Biannual subscriptions (6 months)",
+                  contentRevealed: sixMonthRevealed,
+                  onTapCallback: () {
+                    setState(() {
+                      sixMonthRevealed = !sixMonthRevealed;
+                    });
+                  },
+                ),
+                if (sixMonthRevealed)
+                  RichTextFormat(
+                    normalPrice: normalToString(SubscriptionType.sixMonths),
+                    onsalePrice: onSaleToString(SubscriptionType.sixMonths),
+                  ),
+                Gap(
+                  height: 10,
+                ),
+                PriceTypeIndicator(
+                  text: "Annual Subscription ",
+                  contentRevealed: yearlyRevealed,
+                  onTapCallback: () {
+                    setState(() {
+                      yearlyRevealed = !yearlyRevealed;
+                    });
+                  },
+                ),
+                if (yearlyRevealed)
+                  RichTextFormat(
+                    normalPrice: normalToString(SubscriptionType.yearly),
+                    onsalePrice: onSaleToString(SubscriptionType.yearly),
+                  ),
+              ],
             ),
-          PriceTypeIndicator(
-            text: "Three Months",
-            contentRevealed: threeMonthRevealed,
-            onTapCallback: () {
-              setState(() {
-                threeMonthRevealed = !threeMonthRevealed;
-              });
-            },
           ),
-          if (threeMonthRevealed)
-            RichTextFormat(
-              normalPrice: normalToString(SubscriptionType.threeMonths),
-              onsalePrice: onSaleToString(SubscriptionType.threeMonths),
-            ),
-          PriceTypeIndicator(
-            text: "Six Months",
-            contentRevealed: sixMonthRevealed,
-            onTapCallback: () {
-              setState(() {
-                sixMonthRevealed = !sixMonthRevealed;
-              });
-            },
-          ),
-          if (sixMonthRevealed)
-            RichTextFormat(
-              normalPrice: normalToString(SubscriptionType.sixMonths),
-              onsalePrice: onSaleToString(SubscriptionType.sixMonths),
-            ),
-          PriceTypeIndicator(
-            text: "Yearly",
-            contentRevealed: yearlyRevealed,
-            onTapCallback: () {
-              setState(() {
-                yearlyRevealed = !yearlyRevealed;
-              });
-            },
-          ),
-          if (yearlyRevealed)
-            RichTextFormat(
-              normalPrice: normalToString(SubscriptionType.yearly),
-              onsalePrice: onSaleToString(SubscriptionType.yearly),
-            ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
