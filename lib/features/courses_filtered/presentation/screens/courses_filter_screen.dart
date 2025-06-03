@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/app_router.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/course_card_network.dart';
 import 'package:lms_system/core/common_widgets/custom_button.dart';
-import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/constants/fonts.dart';
+import 'package:lms_system/core/constants/status_bar_styles.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
 import 'package:lms_system/features/courses/provider/current_course_id.dart';
 import 'package:lms_system/features/courses_filtered/providers/courses_filtered_provider.dart';
@@ -67,6 +68,7 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
     } else {
       tabValues = filterGrades(category);
     }
+    SystemChrome.setSystemUIOverlayStyle(darkAppBarSystemOverlayStyle);
     return DefaultTabController(
       length: tabValues.length,
       child: Builder(
@@ -492,6 +494,10 @@ class _CoursesFilterScreenState extends ConsumerState<CoursesFilterScreen> {
                         data: (courses) {
                           //debugPrint("current category: $category");
                           //debugPrint("courses len: ${courses.length}");
+                          for (var c in courses) {
+                            debugPrint(
+                                "Course(name: ${c.title}, grade: ${c.grade}, stream?: |${c.stream}|)");
+                          }
                           return category == AppStrings.otherCoursesCategory
                               ? GridView.builder(
                                   shrinkWrap: true,

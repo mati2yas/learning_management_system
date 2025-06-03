@@ -210,12 +210,12 @@ class AppStrings {
   // examData map keys
   static const String examCourseKey = "exam course";
   static const String examYearKey = "exam year";
+  static const String examChapterKey = "exam chapter";
   static const String examCourseIdKey = "courseId";
   static const String previousScreenKey = "previous screen";
   static const String hasTimerOptionKey = "hasTimerOption";
   static const String timerDurationKey = "timer duration";
   static const String questionsKey = "questions";
-
 
   static String categoryFormatted(String input) {
     return switch (input) {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/status_bar_styles.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/current_exam_type_provider.dart';
 import 'package:lms_system/features/exam_courses_filter/provider/exam_courses_filter_provider.dart';
 import 'package:lms_system/features/exams/presentation/widgets/exam_category.dart';
@@ -24,6 +26,7 @@ class _ExamsScreenState extends ConsumerState<ExamsScreen> {
     bool isWideScreen = MediaQuery.sizeOf(context).width > 600;
     double wideScreenHeight = 165 * 4 + 4 * 100;
     double narrowScreenHeight = 125 * 4 + 4 * 100;
+    SystemChrome.setSystemUIOverlayStyle(darkAppBarSystemOverlayStyle);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

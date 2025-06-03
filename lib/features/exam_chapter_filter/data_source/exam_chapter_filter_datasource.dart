@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/constants/app_urls.dart';
 import 'package:lms_system/core/utils/dio_client.dart';
 import 'package:lms_system/core/utils/error_handling.dart';
+import 'package:lms_system/core/utils/storage_service.dart';
 import 'package:lms_system/core/utils/util_functions.dart';
 import 'package:lms_system/features/exams/model/exams_model.dart';
 
@@ -21,6 +23,9 @@ class ExamChapterFilterDataSource {
     List<ExamChapter> examChapters = [];
     int? statusCode;
     try {
+      final token = await SecureStorageService().getTokenFromStorage();
+      debugPrint("token: $token");
+      debugPrint("${AppUrls.examChapterFilter}/$courseId/$yearId");
       final response =
           await _dio.get("${AppUrls.examChapterFilter}/$courseId/$yearId");
       statusCode = response.statusCode;

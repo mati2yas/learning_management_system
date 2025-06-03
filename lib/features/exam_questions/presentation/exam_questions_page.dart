@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/custom_dialog.dart';
@@ -9,6 +10,7 @@ import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/fonts.dart';
+import 'package:lms_system/core/constants/status_bar_styles.dart';
 import 'package:lms_system/features/exam_questions/presentation/exam_solutions_screen.dart';
 import 'package:lms_system/features/exam_questions/provider/exam_answers_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/exam_questions_provider.dart';
@@ -45,6 +47,7 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
   bool _dialogShown = false;
   bool _timerInitializing = true;
   final bool _timerEnded = false;
+
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
@@ -60,6 +63,8 @@ class _ExamQuestionsPageState extends ConsumerState<ExamQuestionsPage> {
 
     final apiState = ref.watch(examQuestionsApiProvider);
     ("curentquestionindextrack: $currentQuestionIndexTrack");
+
+    SystemChrome.setSystemUIOverlayStyle(darkAppBarSystemOverlayStyle);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

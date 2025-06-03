@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/custom_button.dart';
@@ -9,6 +10,7 @@ import 'package:lms_system/core/common_widgets/proportional_image.dart';
 import 'package:lms_system/core/common_widgets/question_text_container.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/fonts.dart';
+import 'package:lms_system/core/constants/status_bar_styles.dart';
 import 'package:lms_system/features/exams/presentation/screens/exam_questions_layout.dart';
 import 'package:lms_system/features/exams/provider/exam_timer_provider.dart';
 import 'package:lms_system/features/quiz/presentation/quiz_solutions_screen.dart';
@@ -66,6 +68,8 @@ class _QuizQuestionsPageState extends ConsumerState<QuizQuestionsPage> {
     final answersController = ref.watch(quizAnswersProvider.notifier);
 
     final apiState = ref.watch(quizProvider);
+
+    SystemChrome.setSystemUIOverlayStyle(lightAppBarSystemOverlayStyle);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

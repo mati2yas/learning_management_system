@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/status_bar_styles.dart';
 import 'package:lms_system/features/exam_chapter_filter/provider/exam_chapter_filter_provider.dart';
 import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/current_id_stub_provider.dart';
@@ -41,6 +43,8 @@ class _ExamChapterFilterState extends ConsumerState<ExamChapterFilterScreen>
     }
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
+
+    SystemChrome.setSystemUIOverlayStyle(darkAppBarSystemOverlayStyle);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

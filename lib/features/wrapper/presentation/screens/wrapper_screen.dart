@@ -75,13 +75,14 @@ class WrapperScreen extends ConsumerWidget {
     int currentScreensOnStack = pageNavData.screensTrack.length;
     bool checkPopCondition =
         (currentScreensOnStack == 0 || currentScreensOnStack == 1);
-
+    
     return PopScope(
       //canPop: checkPopCondition,
       canPop: pageNavData.screensTrack.length == 1,
       onPopInvokedWithResult: (didPop, result) {
         pageController.navigateBack();
       },
+
       child: Scaffold(
         backgroundColor: Colors.white,
         key: AppKeys.drawerKey,
