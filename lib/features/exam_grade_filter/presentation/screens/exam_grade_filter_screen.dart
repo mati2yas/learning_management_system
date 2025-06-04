@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/custom_button.dart';
@@ -7,6 +8,7 @@ import 'package:lms_system/core/constants/app_ints.dart';
 import 'package:lms_system/core/constants/app_strings.dart';
 import 'package:lms_system/core/constants/enums.dart';
 import 'package:lms_system/core/constants/fonts.dart';
+import 'package:lms_system/core/constants/status_bar_styles.dart';
 import 'package:lms_system/features/exam_grade_filter/provider/exam_grade_filter_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/current_id_stub_provider.dart';
 import 'package:lms_system/features/exam_questions/provider/exam_questions_provider.dart';
@@ -50,6 +52,8 @@ class _ExamGradeFilterState extends ConsumerState<ExamGradeFilterScreen>
     }
     var size = MediaQuery.of(context).size;
     var textTh = Theme.of(context).textTheme;
+
+    SystemChrome.setSystemUIOverlayStyle(darkAppBarSystemOverlayStyle);
     return DefaultTabController(
       length: tabsList.length,
       child: Builder(

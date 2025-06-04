@@ -19,7 +19,7 @@ class ExamChapter {
   final int id;
   final String title;
   final List<Question> questions;
-  final String questionsCount;
+  final int questionsCount;
 
   ExamChapter({
     required this.id,
@@ -28,11 +28,17 @@ class ExamChapter {
     required this.questionsCount,
   });
   factory ExamChapter.fromJson(Map<String, dynamic> json) {
+    int qCount = 0;
+    if (json["number_of_question"] is String) {
+      qCount = int.tryParse(json["number_of_questions"]) ?? 0;
+    } else if (json["number_of_questions"] is int) {
+      qCount = json["number_of_questions"] ?? 0;
+    }
     return ExamChapter(
       id: json["id"],
       title: json["title"],
       questions: [],
-      questionsCount: "0",
+      questionsCount: qCount,
     );
   }
 }
@@ -82,7 +88,7 @@ class ExamGrade {
           ExamChapter(
             id: chap["id"],
             title: chap["title"],
-            questionsCount: (chap["questions_count"] ?? 0).toString(),
+            questionsCount: (chap["questions_count"] ?? 0),
             questions: [],
           ),
         );

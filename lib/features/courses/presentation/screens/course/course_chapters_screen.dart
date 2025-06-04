@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/common_app_bar.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
+import 'package:lms_system/core/constants/status_bar_styles.dart';
 import 'package:lms_system/features/chapter_content/provider/current_chapter_id_provider.dart';
 import 'package:lms_system/features/courses/presentation/widgets/capter_tile.dart';
 import 'package:lms_system/features/courses/provider/course_content_providers.dart';
@@ -33,6 +35,8 @@ class _CourseChaptersScreenState extends ConsumerState<CourseChaptersScreen> {
     final apiState = ref.watch(courseChaptersProvider);
 
     final currentChapterId = ref.watch(currentChapterIdProvider);
+
+    SystemChrome.setSystemUIOverlayStyle(darkAppBarSystemOverlayStyle);
     return Scaffold(
       backgroundColor: mainBackgroundColor,
       appBar: CommonAppBar(

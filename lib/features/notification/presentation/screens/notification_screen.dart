@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lms_system/core/common_widgets/async_error_widget.dart';
 import 'package:lms_system/core/common_widgets/no_data_widget.dart';
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/enums.dart';
+import 'package:lms_system/core/constants/status_bar_styles.dart';
 import 'package:lms_system/features/notification/model/notification_model.dart';
 import 'package:number_pagination/number_pagination.dart';
 
@@ -28,6 +30,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
   int currentPage = 1;
   String increaseStr = "increase", decreaseStr = "decrease";
   String oneStep = "oneStep", jumpStep = "jumpStep", step = "oneStep";
+
   @override
   Widget build(BuildContext context) {
     var textTh = Theme.of(context).textTheme;
@@ -40,6 +43,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
     final notificationData = ref.watch(notificationApiProvider).valueOrNull;
     final totalPages = notificationData?.totalPages ?? 10;
 
+    SystemChrome.setSystemUIOverlayStyle(lightAppBarSystemOverlayStyle);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

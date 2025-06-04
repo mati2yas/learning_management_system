@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:lms_system/core/constants/app_colors.dart';
 import 'package:lms_system/core/constants/fonts.dart';
+import 'package:lms_system/core/constants/status_bar_styles.dart';
 import 'package:lms_system/features/shared/presentation/widgets/custom_tab_bar.dart';
 import 'package:lms_system/features/subscription/model/bank_info.dart';
 import 'package:lms_system/features/subscription/presentation/widgets/courses_subscribe_tab.dart';
@@ -148,6 +149,8 @@ class SubscriptionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setSystemUIOverlayStyle(lightAppBarSystemOverlayStyle);
     return DefaultTabController(
       length: 2,
       initialIndex: initialIndex,

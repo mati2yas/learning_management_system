@@ -80,7 +80,10 @@ class Course {
 
     //debugPrint("in course model: grade: $grade, stream: $stream");
     if (grade == AppStrings.grade11 || grade == AppStrings.grade12) {
-      ////debugPrint("grade 11/12, stream is: $stream");
+      //debugPrint("grade 11/12, stream is: $stream");
+      // debugPrint(
+      //     "grade 11/12, grade is: $grade, course name is: ${json["course_name"]} stream is: $stream");
+
       stream ??= AppStrings.commonStream;
       //debugPrint("stream: $stream");
       ////debugPrint("grade 11/12, after setting stream: $stream");
